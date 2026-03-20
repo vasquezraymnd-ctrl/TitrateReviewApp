@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, Suspense, useRef } from 'react';
@@ -68,7 +69,7 @@ function LibraryContent() {
       storedModules = storedModules.filter(m => m.subject === subjectFilter);
       setSelectedSubject(subjectFilter);
     }
-    setModules(storedModules);
+    setModules(storedModules.sort((a, b) => b.id.localeCompare(a.id)));
 
     const questions = await db.getAll<Question>('questions');
     const counts = new Map<string, number>();
@@ -89,7 +90,7 @@ function LibraryContent() {
         name: 'Future RMT',
         proficiencyRank: 'Laboratory Grade 42',
         examDate: '2025-08-20',
-        totalQuestionsAnswered: 1248,
+        totalQuestionsAnswered: 0,
         currentStreak: 0
       };
       await db.put('profile', defaultProfile);
@@ -318,10 +319,12 @@ function LibraryContent() {
             <div>
               <h3 className="text-3xl font-black italic tracking-tighter uppercase flex items-center gap-3">
                 <Archive className="text-primary" size={28} />
-                {subjectFilter ? `${subjectFilter} Modules` : 'Protocol Inventory'}
+                {subjectFilter ? `${subjectFilter} Archives` : 'Protocol Inventory'}
               </h3>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">
-                Local clinical archives stored on your device. Only PDF protocols accepted.
+                {subjectFilter 
+                  ? `Clinical research files for ${subjectFilter}.` 
+                  : 'Local clinical archives stored on your device. Only PDF protocols accepted.'}
               </p>
             </div>
             <div className="flex gap-4 w-full md:w-auto">
@@ -357,7 +360,7 @@ function LibraryContent() {
           ) : filteredModules.length === 0 ? (
             <div className="text-center py-24 riot-card border border-dashed border-white/10 bg-white/[0.02]">
               <FileText size={64} className="mx-auto text-muted-foreground/30 mb-4" />
-              <h3 className="text-xl font-black italic uppercase">No sub-modules recorded</h3>
+              <h3 className="text-xl font-black italic uppercase">No protocols recorded in this sector</h3>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">
                 Upload your PDF notes or seed a sample to begin device-local study.
               </p>
@@ -386,7 +389,9 @@ function LibraryContent() {
                       <div className="flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
-                          <h4 className="text-2xl font-black italic uppercase">{module.name}</h4>
+                          <h4 className="text-2xl font-black italic uppercase leading-tight">
+                            {module.subject}: <span className="text-white/70">{module.name}</span>
+                          </h4>
                           <div className="flex items-center gap-2 mt-2">
                              <FileText size={12} className="text-primary" />
                              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
@@ -459,30 +464,30 @@ function LibraryContent() {
             <DialogHeader>
               <DialogTitle className="font-black italic uppercase tracking-tighter text-2xl flex items-center gap-2">
                 <Microscope className="text-primary" />
-                Upload Laboratory PDF
+                Titrate New Protocol
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-6 py-4">
               <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-start gap-4 mb-4">
                  <Info className="text-primary shrink-0 mt-1" size={16} />
                  <p className="text-[10px] font-bold text-white uppercase tracking-widest leading-relaxed">
-                   NOTICE: This app automatically synthesizes board-style assays from your files. 
-                   Ensure your PDF has clear, selectable text for optimal mastery generation.
+                   NOTICE: Each protocol must be filed under a specific clinical sector. 
+                   Ensure your PDF has clear text for optimal AI titration.
                  </p>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Module Name</Label>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Protocol Title</Label>
                 <Input 
                   value={newModuleName} 
                   onChange={(e) => setNewModuleName(e.target.value)}
-                  placeholder="e.g. Hematology Staining Guide"
+                  placeholder="e.g. Coagulation Cascade"
                   className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Clinical Sector</Label>
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Clinical Sector (Target Folder)</Label>
                 <Select value={selectedSubject} onValueChange={setSelectedSubject}>
                   <SelectTrigger className="bg-white/5 border-white/10 rounded-none focus:ring-primary text-xs uppercase font-black">
                     <SelectValue placeholder="Select Sector" />

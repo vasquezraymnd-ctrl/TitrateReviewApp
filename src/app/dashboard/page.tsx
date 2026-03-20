@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const [upcomingProtocols, setUpcomingProtocols] = useState<Schedule[]>([]);
   const [subjectMastery, setSubjectMastery] = useState<Record<string, number>>({});
+  const [latestModules, setLatestModules] = useState<Record<string, string>>({});
   const [profile, setProfile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
@@ -54,20 +55,29 @@ export default function Dashboard() {
 
     setUpcomingProtocols(sorted);
 
-    // Calculate mastery per core subject from stored modules
+    // Calculate mastery and find latest module per core subject
     const modules = await db.getAll<LabModule>('modules');
     const masteryMap: Record<string, number> = {};
+    const latestMap: Record<string, string> = {};
     
     CORE_SUBJECTS.forEach(subject => {
       const subjectModules = modules.filter(m => m.subject === subject);
+      
+      // Calculate Mastery
       if (subjectModules.length > 0) {
         const total = subjectModules.reduce((acc, m) => acc + m.mastery, 0);
         masteryMap[subject] = Math.round(total / subjectModules.length);
+        
+        // Find latest based on ID (contains timestamp)
+        const sortedModules = [...subjectModules].sort((a, b) => b.id.localeCompare(a.id));
+        latestMap[subject] = sortedModules[0].name;
       } else {
         masteryMap[subject] = 0;
       }
     });
+    
     setSubjectMastery(masteryMap);
+    setLatestModules(latestMap);
   };
 
   const getSubjectImage = (subject: string) => {
@@ -191,6 +201,7 @@ export default function Dashboard() {
                 const imageKey = getSubjectImage(subject);
                 const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
                 const mastery = subjectMastery[subject] || 0;
+                const latestModule = latestModules[subject];
                 
                 return (
                   <Link key={subject} href={`/library?subject=${encodeURIComponent(subject)}`} className="group">
@@ -207,8 +218,13 @@ export default function Dashboard() {
                       <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                       <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Subject Mastery</p>
-                          <h4 className="text-2xl font-black italic uppercase text-white drop-shadow-lg">{subject}</h4>
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{subject}</p>
+                          <h4 className="text-2xl font-black italic uppercase text-white drop-shadow-lg leading-tight">
+                            {latestModule ? `${latestModule}` : subject}
+                          </h4>
+                          {latestModule && (
+                             <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest">Latest Titration</p>
+                          )}
                         </div>
                         <div className="text-right">
                           <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
