@@ -1,10 +1,9 @@
-
 {
   "placeholderImages": [
     {
       "id": "micro-bacteria",
       "description": "Microbiology - Petri dish with agar culture",
-      "imageUrl": "https://images.unsplash.com/photo-1583912267550-d44d7a125e7e?auto=format&fit=crop&q=80&w=800&h=450",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Agarplate_redbloodcells_edit.jpg/250px-Agarplate_redbloodcells_edit.jpg",
       "imageHint": "agar plate"
     },
     {
