@@ -82,6 +82,7 @@ export default function StudyPage() {
     const data = await db.getAll<Schedule>('schedules');
     setSchedules(data);
     setLoading(false);
+    window.dispatchEvent(new Event('schedule-updated'));
   };
 
   const seedSampleData = async () => {

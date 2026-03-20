@@ -4,34 +4,40 @@ import { Bell, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { db, UserProfile } from '@/lib/db';
+import { db, Schedule } from '@/lib/db';
 
 export function DashboardHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [hasDueSchedules, setHasDueSchedules] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
     
-    const loadProfile = async () => {
-      const userProfile = await db.getById<UserProfile>('profile', 'current-user');
-      if (userProfile) {
-        setProfile(userProfile);
-      }
+    const checkSchedules = async () => {
+      const schedules = await db.getAll<Schedule>('schedules');
+      const todayDate = new Date().toISOString().split('T')[0];
+      const todayDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+
+      const isDue = schedules.some(s => {
+        if (s.type === 'class') return s.dayOfWeek === todayDay;
+        return s.date === todayDate;
+      });
+
+      setHasDueSchedules(isDue);
     };
 
     window.addEventListener('scroll', handleScroll);
-    loadProfile();
+    checkSchedules();
 
-    // Listen for custom event if profile is updated in library
-    window.addEventListener('profile-updated', loadProfile);
+    // Listen for schedule updates to refresh the notification status
+    const handleScheduleUpdate = () => checkSchedules();
+    window.addEventListener('schedule-updated', handleScheduleUpdate);
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('profile-updated', loadProfile);
+      window.removeEventListener('schedule-updated', handleScheduleUpdate);
     };
   }, []);
 
@@ -52,23 +58,12 @@ export function DashboardHeader() {
       </div>
       
       <div className="flex items-center gap-6">
-        <Button variant="ghost" size="icon" className="text-white/40 hover:text-primary transition-colors">
+        <Button variant="ghost" size="icon" className="text-white/40 hover:text-primary transition-colors relative">
           <Bell size={18} />
+          {hasDueSchedules && (
+            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-[#0F1923] animate-pulse" />
+          )}
         </Button>
-        <div className="flex items-center gap-3 pl-6 border-l border-white/10 cursor-pointer group">
-          <div className="text-right hidden md:block">
-            <p className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-primary transition-colors">
-              {profile?.name || 'Future RMT'}
-            </p>
-            <p className="text-[9px] font-bold text-primary uppercase tracking-tighter">
-              {profile?.proficiencyRank || 'Laboratory Grade 42'}
-            </p>
-          </div>
-          <Avatar className="w-8 h-8 rounded-none border border-primary/50 p-0.5">
-            <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=64&h=64&fit=crop" className="grayscale" />
-            <AvatarFallback>RMT</AvatarFallback>
-          </Avatar>
-        </div>
       </div>
     </header>
   );
