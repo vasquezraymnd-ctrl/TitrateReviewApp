@@ -8,13 +8,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { db, Schedule, LabModule } from '@/lib/db';
+import { db, Schedule, LabModule, CORE_SUBJECTS } from '@/lib/db';
 import { format, isAfter, parseISO, startOfDay } from 'date-fns';
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const [upcomingProtocols, setUpcomingProtocols] = useState<Schedule[]>([]);
-  const [modules, setModules] = useState<LabModule[]>([]);
+  const [subjectMastery, setSubjectMastery] = useState<Record<string, number>>({});
 
   useEffect(() => {
     setMounted(true);
@@ -42,23 +42,32 @@ export default function Dashboard() {
 
     setUpcomingProtocols(sorted);
 
-    // Load Lab Modules
-    let storedModules = await db.getAll<LabModule>('modules');
+    // Calculate mastery per core subject from stored modules
+    const modules = await db.getAll<LabModule>('modules');
+    const masteryMap: Record<string, number> = {};
     
-    // Seed default if empty
-    if (storedModules.length === 0) {
-      const defaults: LabModule[] = [
-        { id: 'micro', name: 'Microbiology', imageKey: 'micro-bacteria', mastery: 85 },
-        { id: 'hemato', name: 'Hematology', imageKey: 'blood-cells', mastery: 62 },
-        { id: 'chem', name: 'ClinChem', imageKey: 'chemistry-lab', mastery: 45 },
-        { id: 'immuno', name: 'ImmunoSero', imageKey: 'immunology-test', mastery: 78 },
-        { id: 'clinmicro', name: 'ClinMicro', imageKey: 'clin-microscopy', mastery: 54 },
-        { id: 'htmle', name: 'HTMLE', imageKey: 'histopath', mastery: 39 },
-      ];
-      await db.bulkPut('modules', defaults);
-      storedModules = defaults;
+    CORE_SUBJECTS.forEach(subject => {
+      const subjectModules = modules.filter(m => m.subject === subject);
+      if (subjectModules.length > 0) {
+        const total = subjectModules.reduce((acc, m) => acc + m.mastery, 0);
+        masteryMap[subject] = Math.round(total / subjectModules.length);
+      } else {
+        masteryMap[subject] = 0;
+      }
+    });
+    setSubjectMastery(masteryMap);
+  };
+
+  const getSubjectImage = (subject: string) => {
+    switch (subject) {
+      case 'Microbiology': return 'micro-bacteria';
+      case 'Hematology': return 'blood-cells';
+      case 'Clinical Chemistry': return 'chemistry-lab';
+      case 'Immuno-Serology': return 'immunology-test';
+      case 'Clinical Microscopy': return 'clin-microscopy';
+      case 'HTMLE': return 'histopath';
+      default: return 'med-lab';
     }
-    setModules(storedModules);
   };
 
   if (!mounted) return null;
@@ -160,21 +169,24 @@ export default function Dashboard() {
             <div className="flex items-center justify-between mb-12 border-b border-white/5 pb-6">
               <div>
                 <h3 className="text-3xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Laboratory specialization for review</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Select a laboratory specialization to view sub-modules</p>
               </div>
-              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">Protocol Archives</Link>
+              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">All Archives</Link>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-              {modules.map((module) => {
-                const placeholder = PlaceHolderImages.find(img => img.id === module.imageKey);
+              {CORE_SUBJECTS.map((subject) => {
+                const imageKey = getSubjectImage(subject);
+                const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
+                const mastery = subjectMastery[subject] || 0;
+                
                 return (
-                  <Link key={module.id} href={`/quiz/${module.id}`} className="group">
+                  <Link key={subject} href={`/library?subject=${encodeURIComponent(subject)}`} className="group">
                     <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
                       {placeholder && (
                         <Image 
                           src={placeholder.imageUrl} 
-                          alt={module.name} 
+                          alt={subject} 
                           fill 
                           className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
                           data-ai-hint={placeholder.imageHint}
@@ -183,11 +195,11 @@ export default function Dashboard() {
                       <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                       <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Laboratory Mastery</p>
-                          <h4 className="text-2xl font-black italic uppercase text-white drop-shadow-lg">{module.name}</h4>
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Subject Mastery</p>
+                          <h4 className="text-2xl font-black italic uppercase text-white drop-shadow-lg">{subject}</h4>
                         </div>
                         <div className="text-right">
-                          <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{module.mastery}%</p>
+                          <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
                         </div>
                       </div>
                     </div>

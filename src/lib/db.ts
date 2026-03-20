@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 3; // Incremented for modules store
+const DB_VERSION = 4; // Incremented for subject field in modules
 
 export interface Question {
   id: string;
@@ -45,9 +45,19 @@ export interface Schedule {
 export interface LabModule {
   id: string;
   name: string;
+  subject: string; // The core subject category
   imageKey: string;
   mastery: number;
 }
+
+export const CORE_SUBJECTS = [
+  'Microbiology',
+  'Hematology',
+  'Clinical Chemistry',
+  'Immuno-Serology',
+  'Clinical Microscopy',
+  'HTMLE'
+] as const;
 
 export class TitrateDB {
   private db: IDBDatabase | null = null;

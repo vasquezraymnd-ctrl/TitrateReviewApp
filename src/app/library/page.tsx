@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { db, Question, UserProfile, LabModule } from '@/lib/db';
-import { Archive, Search, Play, User, UserCircle, Plus, Microscope } from 'lucide-react';
+import { db, Question, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
+import { Archive, Search, Play, User, UserCircle, Plus, Microscope, FilterX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {
@@ -16,10 +17,20 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
-export default function ProtocolArchives() {
+function LibraryContent() {
+  const searchParams = useSearchParams();
+  const subjectFilter = searchParams.get('subject');
+
   const [subjects, setSubjects] = useState<Map<string, number>>(new Map());
   const [modules, setModules] = useState<LabModule[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,18 +38,26 @@ export default function ProtocolArchives() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isAddModuleOpen, setIsAddModuleOpen] = useState(false);
   const [newModuleName, setNewModuleName] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState<string>(subjectFilter || 'Microbiology');
   const [selectedImageKey, setSelectedImageKey] = useState('med-lab');
   const { toast } = useToast();
 
   useEffect(() => {
     loadLibrary();
-  }, []);
+  }, [subjectFilter]);
 
   const loadLibrary = async () => {
     setLoading(true);
     
     // Load Modules
-    const storedModules = await db.getAll<LabModule>('modules');
+    let storedModules = await db.getAll<LabModule>('modules');
+    
+    // If filtering by subject
+    if (subjectFilter) {
+      storedModules = storedModules.filter(m => m.subject === subjectFilter);
+      setSelectedSubject(subjectFilter);
+    }
+    
     setModules(storedModules);
 
     // Load Question counts
@@ -77,12 +96,13 @@ export default function ProtocolArchives() {
     const newModule: LabModule = {
       id: `module-${Date.now()}`,
       name: newModuleName,
+      subject: selectedSubject,
       imageKey: selectedImageKey,
       mastery: 0
     };
 
     await db.put('modules', newModule);
-    toast({ title: "Module Created", description: `${newModuleName} has been added to your clinical sectors.` });
+    toast({ title: "Module Created", description: `${newModuleName} has been added to your ${selectedSubject} sector.` });
     setNewModuleName('');
     setIsAddModuleOpen(false);
     loadLibrary();
@@ -136,12 +156,21 @@ export default function ProtocolArchives() {
             <div>
               <h3 className="text-3xl font-black italic tracking-tighter uppercase flex items-center gap-3">
                 <Archive className="text-primary" size={28} />
-                Protocol Inventory
+                {subjectFilter ? `${subjectFilter} Modules` : 'Protocol Inventory'}
               </h3>
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">Calibrated modules for device-local clinical study.</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">
+                {subjectFilter 
+                  ? `Viewing specialized sub-modules for the ${subjectFilter} laboratory.`
+                  : 'Calibrated modules for device-local clinical study.'}
+              </p>
             </div>
             
             <div className="flex gap-4 w-full md:w-auto">
+              {subjectFilter && (
+                <Button asChild variant="outline" className="riot-button h-12 px-6 border-white/10 text-white font-black text-[10px]">
+                  <Link href="/library"><FilterX className="mr-2 h-4 w-4" /> CLEAR FILTER</Link>
+                </Button>
+              )}
               <div className="relative flex-1 md:w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={16} />
                 <input 
@@ -166,10 +195,14 @@ export default function ProtocolArchives() {
           ) : filteredModules.length === 0 ? (
             <div className="text-center py-24 riot-card border border-dashed border-white/10 bg-white/[0.02]">
               <Archive size={64} className="mx-auto text-muted-foreground/30 mb-4" />
-              <h3 className="text-xl font-black italic uppercase">No protocols found</h3>
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">Data titration required to populate archives.</p>
-              <Button asChild className="riot-button h-12 px-8 bg-primary hover:bg-primary/80 text-black">
-                <Link href="/import">INITIATE TITRATION</Link>
+              <h3 className="text-xl font-black italic uppercase">No sub-modules recorded</h3>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">
+                {subjectFilter 
+                  ? `Initiate titration to define new sub-modules for ${subjectFilter}.`
+                  : 'Data titration required to populate archives.'}
+              </p>
+              <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-8 bg-primary hover:bg-primary/80 text-black">
+                DEFINE FIRST MODULE
               </Button>
             </div>
           ) : (
@@ -181,11 +214,14 @@ export default function ProtocolArchives() {
                     <div className="absolute bottom-6 left-6 right-6">
                       <div className="flex justify-between items-end">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Mastery {module.mastery}%</p>
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
                           <h4 className="text-2xl font-black italic uppercase">{module.name}</h4>
-                          <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
-                            {subjects.get(module.name) || 0} Questions
-                          </p>
+                          <div className="flex items-center justify-between gap-4 mt-2">
+                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
+                              {subjects.get(module.name) || 0} Questions
+                            </span>
+                            <span className="text-[10px] font-black text-primary uppercase">Mastery {module.mastery}%</span>
+                          </div>
                         </div>
                         <div className="w-10 h-10 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
                           <Play className="fill-black text-black ml-1" size={16} />
@@ -213,9 +249,25 @@ export default function ProtocolArchives() {
                 <Input 
                   value={newModuleName} 
                   onChange={(e) => setNewModuleName(e.target.value)}
-                  placeholder="e.g. Parasitology Lab"
+                  placeholder="e.g. Gram Staining Protocol"
                   className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Clinical Sector</Label>
+                <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+                  <SelectTrigger className="bg-white/5 border-white/10 rounded-none focus:ring-primary text-xs uppercase font-black">
+                    <SelectValue placeholder="Select Sector" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                    {CORE_SUBJECTS.map((subject) => (
+                      <SelectItem key={subject} value={subject} className="uppercase font-black text-[10px] tracking-widest focus:bg-primary focus:text-black">
+                        {subject}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
@@ -234,7 +286,7 @@ export default function ProtocolArchives() {
               </div>
               
               <p className="text-[9px] font-bold text-muted-foreground uppercase italic leading-tight">
-                Modules are stored locally in your device's clinical archive and are not synced with any external server.
+                Sub-modules are localized to your selected clinical sector and stored in your device's clinical archive.
               </p>
             </div>
             <DialogFooter>
@@ -245,5 +297,13 @@ export default function ProtocolArchives() {
         </Dialog>
       </main>
     </div>
+  );
+}
+
+export default function ProtocolArchives() {
+  return (
+    <Suspense fallback={<div className="bg-[#050a0f] h-screen" />}>
+      <LibraryContent />
+    </Suspense>
   );
 }
