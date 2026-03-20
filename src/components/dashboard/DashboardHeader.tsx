@@ -52,9 +52,6 @@ export function DashboardHeader() {
           <Shield className="text-primary" size={20} />
           <h1 className="text-sm font-black italic tracking-tighter text-white">TITRATE</h1>
         </div>
-        <h2 className="text-[9px] md:text-xs font-black tracking-[0.4em] uppercase text-white/50 hidden sm:block">
-          Clinical Dashboard
-        </h2>
       </div>
       
       <div className="flex items-center gap-4 md:gap-6">
