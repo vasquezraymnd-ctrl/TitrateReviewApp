@@ -1,21 +1,43 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Zap, Sparkles, Trophy, Target, Microscope } from 'lucide-react';
+import { Zap, Sparkles, Trophy, Target, Microscope, AlertCircle, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { db, Schedule } from '@/lib/db';
+import { format, isAfter, parseISO } from 'date-fns';
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
+  const [nextProtocol, setNextProtocol] = useState<Schedule | null>(null);
 
   useEffect(() => {
     setMounted(true);
+    loadUpcomingProtocol();
   }, []);
+
+  const loadUpcomingProtocol = async () => {
+    const schedules = await db.getAll<Schedule>('schedules');
+    const now = new Date();
+    
+    // Sort and find the next upcoming exam or study session (specific dates)
+    const upcomingDated = schedules
+      .filter(s => s.date && isAfter(parseISO(s.date), now))
+      .sort((a, b) => parseISO(a.date!).getTime() - parseISO(b.date!).getTime());
+
+    // If there's an exam or study session coming up, show it
+    if (upcomingDated.length > 0) {
+      setNextProtocol(upcomingDated[0]);
+    } else if (schedules.length > 0) {
+      // Fallback: Just show the first recorded class if no dated events
+      const classes = schedules.filter(s => s.type === 'class');
+      if (classes.length > 0) setNextProtocol(classes[0]);
+    }
+  };
 
   if (!mounted) return null;
 
@@ -58,7 +80,7 @@ export default function Dashboard() {
         <DashboardHeader />
         
         {/* Hero Section */}
-        <section className="relative h-[65vh] min-h-[550px] w-full flex items-end">
+        <section className="relative h-[75vh] min-h-[600px] w-full flex items-end">
           <div className="absolute inset-0 z-0">
             <Image 
               src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&q=80&w=1920&h=1080"
@@ -76,9 +98,34 @@ export default function Dashboard() {
               <Microscope className="text-primary animate-pulse" size={24} />
               <span className="text-primary font-black tracking-[0.4em] uppercase text-xs">Good Day</span>
             </div>
+            
             <h2 className="text-7xl md:text-9xl font-black italic uppercase tracking-tighter leading-none">
               Welcome <br /> <span className="text-primary">Future RMT</span>
             </h2>
+
+            {/* Upcoming Reminder Alert */}
+            {nextProtocol && (
+              <div className="riot-card p-6 bg-primary/10 border-l-4 border-primary max-w-xl animate-in fade-in slide-in-from-left-8 duration-700">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-primary text-black">
+                    <AlertCircle size={20} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-1">Upcoming Protocol</p>
+                    <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">
+                      {nextProtocol.title}
+                    </h3>
+                    <div className="flex items-center gap-3 mt-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                      <Calendar size={12} className="text-primary" />
+                      <span>
+                        {nextProtocol.date ? format(parseISO(nextProtocol.date), 'MMMM dd') : nextProtocol.dayOfWeek} • {nextProtocol.startTime}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="flex gap-4 pt-4">
               <Button asChild className="riot-button h-16 px-12 bg-primary hover:bg-primary/80 text-black rounded-none">
                 <Link href="/quiz">INITIATE ASSESSMENT</Link>
@@ -103,7 +150,7 @@ export default function Dashboard() {
               {subjects.map((subject) => (
                 <Link key={subject.id} href={`/quiz/${subject.id}`} className="group">
                   <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50">
-                    {subject.image ? (
+                    {subject.image && (
                       <Image 
                         src={subject.image} 
                         alt={subject.name} 
@@ -111,10 +158,6 @@ export default function Dashboard() {
                         className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                         data-ai-hint={subject.hint}
                       />
-                    ) : (
-                      <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
-                        <Target className="text-muted-foreground/20" size={48} />
-                      </div>
                     )}
                     <div className="absolute inset-0 bg-black/60 group-hover:bg-primary/10 transition-colors" />
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
