@@ -358,7 +358,7 @@ function LibraryContent() {
                 <Archive className="text-primary" size={22} />
                 {subjectFilter ? `${subjectFilter} Sector` : 'Archives'}
               </h3>
-              <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
                 {subjectFilter 
                   ? `Titrated protocols for ${subjectFilter}.` 
                   : 'Select a clinical sector folder.'}
@@ -397,13 +397,13 @@ function LibraryContent() {
                 
                 return (
                   <Link key={subject} href={`/library?subject=${encodeURIComponent(subject)}`} className="group">
-                    <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
+                    <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black overflow-hidden">
                       {placeholder && (
                         <Image 
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-40 group-hover:opacity-60"
+                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-40 group-hover:opacity-70"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}
@@ -413,11 +413,11 @@ function LibraryContent() {
                       </div>
                       <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 flex justify-between items-end">
                         <div className="space-y-1">
-                          <p className="text-[9px] lg:text-[10px] font-black text-primary uppercase tracking-[0.3em]">Sector</p>
-                          <h4 className="text-lg lg:text-2xl font-black italic uppercase text-white leading-tight">{subject}</h4>
+                          <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Sector Folder</p>
+                          <h4 className="text-lg lg:text-3xl font-black italic uppercase text-white leading-tight">{subject}</h4>
                         </div>
                         <div className="text-right">
-                          <p className="text-xl lg:text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
+                          <p className="text-xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
                           <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Files</p>
                         </div>
                       </div>
@@ -438,7 +438,7 @@ function LibraryContent() {
                 <div className="text-center py-20 riot-card border border-dashed border-white/10 bg-white/[0.02]">
                   <FileText size={48} className="mx-auto text-muted-foreground/30 mb-4" />
                   <h3 className="text-lg font-black italic uppercase">Archive Empty</h3>
-                  <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mb-6 px-6">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-6 px-6">
                     No protocols filed in {subjectFilter}.
                   </p>
                   <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-10 px-8 bg-primary text-black text-[9px]">
