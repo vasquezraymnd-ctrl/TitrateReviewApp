@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Question } from '@/lib/db';
 import { cn } from '@/lib/utils';
-import { ShieldCheck, ShieldAlert, Microscope, Zap } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, Microscope } from 'lucide-react';
 
 interface QuestionCardProps {
   question: Question;
@@ -25,7 +25,6 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6 animate-in fade-in zoom-in duration-500">
       <div className="bg-[#0A1219] border-l-4 border-primary p-10 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
-        {/* Background Accent */}
         <div className="absolute top-0 right-0 p-4 opacity-5">
           <ShieldCheck size={180} className="text-primary" />
         </div>
@@ -88,7 +87,7 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
              <div className="flex items-center gap-3 mb-6">
                {isCorrect ? <ShieldCheck className="text-primary" size={24} /> : <ShieldAlert className="text-red-500" size={24} />}
                <h4 className="font-black italic uppercase tracking-widest text-sm">
-                 {isCorrect ? "Protocol Verified" : "Calibration Required"}
+                 {isCorrect ? "Protocol Verified" : "Review Required"}
                </h4>
              </div>
              

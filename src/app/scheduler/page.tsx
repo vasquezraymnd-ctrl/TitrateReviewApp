@@ -7,14 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Clock, 
-  Sparkles, 
   Plus, 
   Trash2, 
   GraduationCap, 
   BookOpen, 
   AlarmClock,
   CalendarDays,
-  Database
+  Database,
+  Info
 } from 'lucide-react';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
@@ -224,7 +224,7 @@ export default function StudyPage() {
                     <div className="riot-card p-12 bg-white/[0.02] border border-dashed border-white/10 text-center opacity-40">
                       <Clock className="mx-auto mb-4" size={32} />
                       <p className="font-black italic uppercase">No entries recorded in this sector.</p>
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase mt-2">Use the "Seed Samples" button above to see example data.</p>
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase mt-2">Use the "Seed Samples" button above to populate.</p>
                     </div>
                   ) : filteredSchedules.map((s) => (
                     <div key={s.id} className="riot-card bg-white/[0.02] hover:bg-white/[0.04] transition-all p-6 border border-white/5 flex items-center justify-between group">
@@ -253,18 +253,8 @@ export default function StudyPage() {
               </div>
 
               <div className="space-y-8">
-                <div className="riot-card p-8 bg-primary/5 border border-primary/20 relative overflow-hidden">
-                   <div className="relative z-10">
-                     <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4">Analyst Insights</h4>
-                     <p className="text-sm italic text-white/80 leading-relaxed">
-                       AI Assistant suggests prioritizing <span className="text-primary">Microbiology</span> review before your academic rotations.
-                     </p>
-                   </div>
-                   <Sparkles className="absolute -bottom-4 -right-4 text-primary opacity-20" size={80} />
-                </div>
-
-                <div className="riot-card p-8 border border-white/5 bg-white/[0.02]">
-                  <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-6 border-b border-white/5 pb-4">Calibration Log</h4>
+                <div className="riot-card p-8 bg-white/[0.02] border border-white/5">
+                  <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-6 border-b border-white/5 pb-4">Study Metrics</h4>
                   <div className="space-y-4">
                      <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
                        <span className="text-muted-foreground">Class Load</span>
@@ -280,12 +270,23 @@ export default function StudyPage() {
                      </div>
                   </div>
                 </div>
+
+                <div className="riot-card p-8 bg-primary/5 border border-primary/20 relative overflow-hidden">
+                   <div className="relative z-10">
+                     <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4 flex items-center gap-2">
+                       <Info size={14} />
+                       Quick Tip
+                     </h4>
+                     <p className="text-sm italic text-white/80 leading-relaxed">
+                       Consistency in laboratory practice leads to higher proficiency. Keep your schedule balanced between rotations and self-study.
+                     </p>
+                   </div>
+                </div>
               </div>
             </div>
           </Tabs>
         </div>
 
-        {/* Add Dialog */}
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
             <DialogHeader>

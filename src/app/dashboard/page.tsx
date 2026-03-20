@@ -1,10 +1,9 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Zap, Sparkles, Trophy, Target, Microscope, AlertCircle, Calendar, Clock } from 'lucide-react';
+import { Trophy, Target, Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -26,11 +25,10 @@ export default function Dashboard() {
     const now = new Date();
     const today = startOfDay(now);
     
-    // Sort and find upcoming events
     const sorted = schedules
       .filter(s => {
         if (s.date) return isAfter(parseISO(s.date), today);
-        return true; // Keep classes for now (simplified)
+        return true;
       })
       .sort((a, b) => {
         if (a.date && b.date) return parseISO(a.date).getTime() - parseISO(b.date).getTime();
@@ -38,7 +36,7 @@ export default function Dashboard() {
         if (b.date) return 1;
         return 0;
       })
-      .slice(0, 3); // Take top 3
+      .slice(0, 3);
 
     setUpcomingProtocols(sorted);
   };
@@ -83,7 +81,6 @@ export default function Dashboard() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        {/* Hero Section */}
         <section className="relative h-[85vh] min-h-[700px] w-full flex items-center px-8 lg:px-16">
           <div className="absolute inset-0 z-0">
             <Image 
@@ -110,7 +107,7 @@ export default function Dashboard() {
 
               <div className="flex gap-4 pt-4">
                 <Button asChild className="riot-button h-16 px-12 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest">
-                  <Link href="/quiz">INITIATE ASSESSMENT</Link>
+                  <Link href="/quiz">START ASSAY</Link>
                 </Button>
                 <Button asChild variant="outline" className="riot-button h-16 px-12 border-white/10 hover:bg-white/5 rounded-none uppercase font-black tracking-widest">
                   <Link href="/library">PROTOCOL ARCHIVES</Link>
@@ -118,7 +115,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Tactical Briefing Widget */}
             <div className="animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
               <div className="riot-card p-8 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -129,9 +125,9 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between border-b border-white/5 pb-4">
                     <h3 className="text-sm font-black italic uppercase tracking-[0.3em] flex items-center gap-2">
                       <Clock className="text-primary" size={16} />
-                      Tactical Briefing
+                      Clinical Schedule
                     </h3>
-                    <Link href="/scheduler" className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">Manage Schedule</Link>
+                    <Link href="/scheduler" className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">Manage Protocols</Link>
                   </div>
 
                   <div className="space-y-4">
@@ -158,19 +154,10 @@ export default function Dashboard() {
                     ) : (
                       <div className="py-6 text-center space-y-3 opacity-40">
                         <AlertCircle className="mx-auto" size={24} />
-                        <p className="text-[10px] font-black uppercase tracking-widest">No Active Protocols Recorded</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest">No Active Protocols</p>
                       </div>
                     )}
                   </div>
-
-                  {upcomingProtocols.length > 0 && (
-                    <div className="pt-4 border-t border-white/5">
-                      <div className="flex items-center gap-3 text-[10px] font-black text-primary uppercase tracking-widest">
-                        <Zap size={14} className="animate-pulse" />
-                        <span>Analysis: Weakest sector identified in Hematology</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -179,14 +166,13 @@ export default function Dashboard() {
 
         <div className="p-8 lg:p-16 space-y-24">
           
-          {/* Clinical Sectors */}
           <section>
             <div className="flex items-center justify-between mb-12 border-b border-white/5 pb-6">
               <div>
                 <h3 className="text-3xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Select laboratory specialization for calibration</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Select laboratory specialization for review</p>
               </div>
-              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">View Laboratory Map</Link>
+              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">View Full Archive</Link>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
@@ -205,7 +191,7 @@ export default function Dashboard() {
                     <div className="absolute inset-0 bg-black/60 group-hover:bg-primary/10 transition-colors" />
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                       <div className="space-y-1">
-                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Assay Analysis</p>
+                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Laboratory Mastery</p>
                         <h4 className="text-2xl font-black italic uppercase">{subject.name}</h4>
                       </div>
                       <div className="text-right">
@@ -218,22 +204,21 @@ export default function Dashboard() {
             </div>
           </section>
 
-          {/* Student Stats */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="bg-white/[0.02] p-12 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
               <Trophy className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
               <p className="text-6xl font-black italic uppercase tracking-tighter">1,248</p>
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Proficiency Index</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Questions Cleared</p>
             </div>
             <div className="bg-white/[0.02] p-12 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
-              <Zap className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
+              <Activity className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
               <p className="text-6xl font-black italic uppercase tracking-tighter">5 DAYS</p>
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Study Streak</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Current Streak</p>
             </div>
             <div className="bg-primary p-12 flex flex-col items-center text-center space-y-4 shadow-[0_0_50px_rgba(0,255,127,0.2)]">
-              <Sparkles className="text-black" size={36} />
-              <p className="text-6xl font-black italic uppercase tracking-tighter text-black">CALIBRATED</p>
-              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">AI Analyst Assistant</p>
+              <BookOpen className="text-black" size={36} />
+              <p className="text-6xl font-black italic uppercase tracking-tighter text-black">ACTIVE</p>
+              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">Protocol Status</p>
             </div>
           </section>
 
