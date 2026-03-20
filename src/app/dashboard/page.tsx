@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { db, Schedule, LabModule, UserProfile, CORE_SUBJECTS } from '@/lib/db';
 import { format, isAfter, parseISO, startOfDay } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
@@ -152,22 +153,36 @@ export default function Dashboard() {
                     <Link href="/scheduler" className="text-[10px] font-black text-primary/60 hover:text-primary uppercase tracking-widest">Manage Protocols</Link>
                   </div>
 
-                  <div className="space-y-5 lg:space-y-6">
+                  <div className="space-y-0">
                     {upcomingProtocols.length > 0 ? (
-                      upcomingProtocols.map((protocol) => (
-                        <div key={protocol.id} className="flex items-center gap-4 lg:gap-6 group/item">
-                          <div className="w-1.5 bg-primary/20 group-hover/item:bg-primary transition-colors h-12 lg:h-16" />
+                      upcomingProtocols.map((protocol, index) => (
+                        <div 
+                          key={protocol.id} 
+                          className={cn(
+                            "flex items-center gap-4 lg:gap-6 group/item py-5 lg:py-6 border-b border-white/5 last:border-0 transition-all duration-500",
+                            index === 0 && "bg-primary/[0.03] shadow-[0_0_30px_rgba(0,255,127,0.03)] px-3 -mx-3"
+                          )}
+                        >
+                          <div className={cn(
+                            "w-1.5 transition-colors h-12 lg:h-16",
+                            index === 0 ? "bg-primary shadow-[0_0_10px_rgba(0,255,127,0.5)]" : "bg-primary/20 group-hover/item:bg-primary"
+                          )} />
                           <div className="flex-1">
-                            <p className="text-[10px] md:text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-1.5">
-                              {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
-                            </p>
-                            <h4 className="text-base md:text-xl lg:text-2xl font-black italic uppercase tracking-tight text-white/90 truncate max-w-[200px] sm:max-w-none">
+                            <div className="flex items-center justify-between mb-1.5">
+                              <p className="text-[10px] md:text-[12px] font-black text-muted-foreground uppercase tracking-widest">
+                                {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
+                              </p>
+                              {index === 0 && (
+                                <span className="text-[8px] md:text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
+                              )}
+                            </div>
+                            <h4 className="text-lg md:text-2xl lg:text-3xl font-black italic uppercase tracking-tight text-white/90 truncate max-w-[200px] sm:max-w-none">
                               {protocol.title}
                             </h4>
-                            <div className="flex items-center gap-2 mt-1.5">
-                              <Calendar size={12} className="text-primary/60" />
-                              <span className="text-[12px] md:text-base font-bold text-muted-foreground uppercase tracking-tighter">
-                                {protocol.date ? format(parseISO(protocol.date), 'MMM dd') : protocol.dayOfWeek} • {protocol.startTime}
+                            <div className="flex items-center gap-2 mt-2">
+                              <Calendar size={14} className="text-primary/60" />
+                              <span className="text-[13px] md:text-lg font-bold text-muted-foreground uppercase tracking-tighter">
+                                {protocol.date ? format(parseISO(protocol.date), 'MMM dd, yyyy') : protocol.dayOfWeek} • {protocol.startTime} - {protocol.endTime}
                               </span>
                             </div>
                           </div>
