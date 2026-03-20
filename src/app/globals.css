@@ -4,29 +4,29 @@
 
 @layer base {
   :root {
-    --background: 210 13% 12%;
-    --foreground: 210 20% 98%;
-    --card: 210 13% 15%;
-    --card-foreground: 210 20% 98%;
-    --popover: 210 13% 12%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 201 100% 66%;
-    --primary-foreground: 210 20% 10%;
-    --secondary: 240 100% 70%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 210 13% 20%;
-    --muted-foreground: 210 10% 65%;
-    --accent: 240 100% 70%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 30 100% 50%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 210 13% 20%;
-    --input: 210 13% 20%;
-    --ring: 201 100% 66%;
-    --radius: 1rem;
+    --background: 0 0% 8%; /* Netflix Black #141414 */
+    --foreground: 0 0% 98%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 357 78% 47%; /* Netflix Red #E50914 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 357 78% 47%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 357 78% 47%;
+    --radius: 0.25rem;
 
-    --success: 275 92% 58%;
-    --warning: 30 100% 50%;
+    --success: 142 70% 45%;
+    --warning: 48 96% 53%;
   }
 }
 
@@ -35,34 +35,36 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body;
+    @apply bg-background text-foreground font-body antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-headline;
+    @apply font-headline tracking-tight;
   }
 }
 
-.spotify-gradient {
-  background: linear-gradient(180deg, rgba(84, 195, 255, 0.1) 0%, rgba(26, 30, 34, 0) 100%);
+/* Netflix Hover Effect */
+.netflix-card {
+  @apply transition-transform duration-300 ease-out cursor-pointer relative overflow-hidden rounded-sm;
 }
 
-.card-hover-effect {
-  @apply transition-all duration-300 hover:bg-muted/50 hover:scale-[1.02] cursor-pointer;
+.netflix-card:hover {
+  @apply z-10 scale-110 shadow-2xl;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
+.hero-gradient {
+  background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%),
+              linear-gradient(to right, hsl(var(--background)) 0%, transparent 50%);
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+.row-container::-webkit-scrollbar {
+  display: none;
 }
 
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
-  border-radius: 10px;
+.row-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.5);
+.text-shadow-md {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }

@@ -3,93 +3,95 @@
 import { useEffect, useState } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { Card, CardContent } from '@/components/ui/card';
-import { Play, Calendar, Trophy, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Play, Info, Zap, Trophy, Flame } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const subjects = [
-  { name: 'Microbiology', color: 'bg-emerald-500', count: 124 },
-  { name: 'Hematology', color: 'bg-red-500', count: 86 },
-  { name: 'ClinChem', color: 'bg-blue-500', count: 210 },
-  { name: 'ImmunoSero', color: 'bg-purple-500', count: 45 },
-  { name: 'Histopathology', color: 'bg-amber-500', count: 32 },
-  { name: 'ISBB', color: 'bg-pink-500', count: 77 },
+  { name: 'Microbiology', color: 'from-emerald-900', count: 124, id: 'micro' },
+  { name: 'Hematology', color: 'from-red-900', count: 86, id: 'hemato' },
+  { name: 'ClinChem', color: 'from-blue-900', count: 210, id: 'chem' },
+  { name: 'ImmunoSero', color: 'from-purple-900', count: 45, id: 'immuno' },
+  { name: 'Histopathology', color: 'from-amber-900', count: 32, id: 'histo' },
+  { name: 'ISBB', color: 'from-pink-900', count: 77, id: 'isbb' },
 ];
 
 export default function Dashboard() {
-  const [greeting, setGreeting] = useState('');
-
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting('Good Morning');
-    else if (hour < 18) setGreeting('Good Afternoon');
-    else setGreeting('Good Evening');
-  }, []);
-
   return (
-    <div className="flex h-screen bg-black overflow-hidden">
+    <div className="flex h-screen bg-background overflow-hidden">
       <Sidebar />
       
-      <main className="flex-1 bg-[#121212] overflow-y-auto relative spotify-gradient">
+      <main className="flex-1 overflow-y-auto relative scroll-smooth">
         <DashboardHeader />
         
-        <div className="px-8 py-6 max-w-7xl mx-auto">
-          <section className="mb-8">
-            <h2 className="text-3xl font-headline font-bold mb-6">{greeting}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {subjects.slice(0, 6).map((subject) => (
-                <Link key={subject.name} href={`/quiz/${subject.name.toLowerCase()}`}>
-                  <div className="group flex items-center bg-white/10 rounded-md overflow-hidden hover:bg-white/20 transition-all cursor-pointer">
-                    <div className={`w-20 h-20 ${subject.color} flex items-center justify-center shadow-lg`}>
-                      <Zap className="text-white fill-current" size={32} />
-                    </div>
-                    <div className="flex-1 px-4 flex items-center justify-between">
-                      <span className="font-bold">{subject.name}</span>
-                      <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all shadow-xl">
-                        <Play className="fill-black text-black ml-1" size={20} />
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
+        {/* Cinematic Hero Section */}
+        <section className="relative h-[80vh] w-full">
+          <div className="absolute inset-0">
+            <Image 
+              src="https://images.unsplash.com/photo-1579154273821-3a914c818318?auto=format&fit=crop&q=80&w=1920&h=1080"
+              alt="Hero Backdrop"
+              fill
+              className="object-cover opacity-60"
+              priority
+            />
+            <div className="absolute inset-0 hero-gradient" />
+          </div>
 
-          <section className="mb-10">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-headline font-bold">Your Weakest Subjects Mix</h3>
-              <span className="text-xs font-bold text-muted-foreground hover:underline cursor-pointer">SHOW ALL</span>
+          <div className="relative h-full flex flex-col justify-end px-12 pb-24 max-w-4xl">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="bg-primary text-white p-1 rounded-sm">
+                <Flame size={16} fill="white" />
+              </div>
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-white/90">TOP RATED FOR YOU</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="bg-[#181818] p-4 rounded-lg card-hover-effect">
-                  <div className="aspect-square bg-gradient-to-br from-secondary/50 to-primary/50 rounded-md mb-4 flex items-center justify-center shadow-2xl relative group">
-                    <Trophy className="text-white/20" size={64} />
-                    <div className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg scale-90 group-hover:scale-100">
-                      <Play className="fill-black text-black ml-1" size={20} />
-                    </div>
-                  </div>
-                  <h4 className="font-bold text-sm mb-1 truncate">Daily Mix {i}</h4>
-                  <p className="text-xs text-muted-foreground line-clamp-2">Focus on Microbiology and ClinChem today.</p>
-                </div>
-              ))}
+            
+            <h1 className="text-6xl md:text-8xl font-black font-headline mb-4 text-shadow-md">
+              MICROBIOLOGY <br />
+              <span className="text-primary italic">WARFARE</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl line-clamp-3 text-shadow-md">
+              Master the complexities of pathogenic organisms. This week's high-yield session focuses on Gram-positive cocci and antibiotic resistance mechanisms.
+            </p>
+            
+            <div className="flex gap-4">
+              <Button asChild size="lg" className="bg-white text-black hover:bg-white/90 font-bold px-8 py-7 text-xl rounded-sm">
+                <Link href="/quiz/microbiology">
+                  <Play size={24} fill="black" className="mr-2" /> Play
+                </Link>
+              </Button>
+              <Button size="lg" variant="secondary" className="bg-white/20 text-white hover:bg-white/30 font-bold px-8 py-7 text-xl rounded-sm backdrop-blur-md border-none">
+                <Info size={24} className="mr-2" /> More Info
+              </Button>
             </div>
-          </section>
+          </div>
+        </section>
+
+        {/* Rows - Horizontal Scrolling */}
+        <div className="px-12 -mt-20 relative z-20 pb-20 space-y-12">
+          
+          <Row title="Trending Today: Weakest Subjects" items={subjects} />
+          
+          <Row title="Continue Reviewing" items={subjects.slice().reverse()} />
 
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-headline font-bold">Recommended for Board Prep</h3>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <h2 className="text-2xl font-bold mb-4 px-1 text-white/90">Curated Board Prep Collections</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-[#181818] p-4 rounded-lg card-hover-effect">
-                  <div className="aspect-square bg-muted rounded-md mb-4 flex flex-col items-center justify-center p-6 text-center">
-                    <Calendar className="text-primary mb-2" size={32} />
-                    <p className="text-xs font-bold uppercase text-primary">High Yield</p>
-                    <p className="text-xl font-bold font-headline mt-1">Review Session {i}</p>
+                <div key={i} className="group relative aspect-video rounded-md overflow-hidden bg-muted transition-transform hover:scale-[1.02] cursor-pointer">
+                   <Image 
+                    src={`https://picsum.photos/seed/med${i}/800/450`}
+                    alt="Collection"
+                    fill
+                    className="object-cover opacity-50 group-hover:opacity-70 transition-opacity"
+                    data-ai-hint="medical research"
+                  />
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                    <p className="text-primary font-bold text-xs uppercase tracking-widest mb-1">Volume {i}</p>
+                    <h3 className="text-2xl font-black italic">CLINICAL MASTERY</h3>
+                    <p className="text-sm text-white/60">High-yield case studies for Board Exams</p>
                   </div>
-                  <h4 className="font-bold text-sm mb-1">Board Exam Countdown</h4>
-                  <p className="text-xs text-muted-foreground">42 Days remaining. Titrate your efforts.</p>
                 </div>
               ))}
             </div>
@@ -97,5 +99,27 @@ export default function Dashboard() {
         </div>
       </main>
     </div>
+  );
+}
+
+function Row({ title, items }: { title: string, items: any[] }) {
+  return (
+    <section>
+      <h2 className="text-2xl font-bold mb-4 px-1 text-white/90">{title}</h2>
+      <div className="flex gap-2 overflow-x-auto row-container pb-4">
+        {items.map((subject, idx) => (
+          <Link key={subject.id} href={`/quiz/${subject.name.toLowerCase()}`} className="shrink-0 w-[280px] md:w-[320px]">
+            <div className="netflix-card aspect-video bg-[#181818]">
+              <div className={`absolute inset-0 bg-gradient-to-br ${subject.color} to-black/80 flex flex-col justify-center items-center p-6 text-center`}>
+                <Zap size={48} className="text-white mb-2 opacity-50" />
+                <h3 className="text-xl font-bold">{subject.name}</h3>
+                <p className="text-xs text-white/60 mt-2">{subject.count} Questions</p>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }

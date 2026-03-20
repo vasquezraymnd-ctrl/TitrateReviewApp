@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { icon: Home, label: 'Home', href: '/dashboard' },
   { icon: Search, label: 'Search', href: '/search' },
-  { icon: Library, label: 'Your Library', href: '/library' },
+  { icon: Library, label: 'My List', href: '/library' },
 ];
 
 const actionItems = [
@@ -21,12 +21,12 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="w-64 h-full bg-black flex flex-col p-4 gap-6 select-none">
-      <div className="px-4 py-2">
-        <h1 className="text-2xl font-headline font-bold text-primary tracking-tight">TITRATE</h1>
+    <div className="w-20 lg:w-64 h-full bg-black flex flex-col py-6 gap-8 select-none border-r border-white/5 z-50">
+      <div className="px-6 flex justify-center lg:justify-start">
+        <h1 className="text-2xl lg:text-3xl font-black text-primary italic tracking-tighter">TITRATE</h1>
       </div>
 
-      <nav className="flex flex-col gap-1">
+      <nav className="flex flex-col gap-2 px-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
@@ -34,46 +34,46 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-4 px-4 py-3 rounded-md transition-colors font-medium",
-                isActive ? "text-white bg-muted" : "text-muted-foreground hover:text-white"
+                "flex items-center gap-4 px-4 py-3 rounded-sm transition-all duration-200 group",
+                isActive ? "text-white font-bold" : "text-muted-foreground hover:text-white"
               )}
             >
-              <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
-              <span>{item.label}</span>
+              <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} className={cn(isActive && "text-primary")} />
+              <span className="hidden lg:block text-sm">{item.label}</span>
+              {isActive && <div className="absolute left-0 w-1 h-6 bg-primary rounded-r-full" />}
             </Link>
           );
         })}
       </nav>
 
-      <div className="flex flex-col gap-1">
-        <p className="px-4 text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Actions</p>
-        {actionItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              "flex items-center gap-4 px-4 py-3 rounded-md transition-colors font-medium",
-              pathname === item.href ? "text-white bg-muted" : "text-muted-foreground hover:text-white"
-            )}
-          >
-            <div className={cn(
-              "p-1 rounded-sm",
-              item.label === 'Import Anki' ? "bg-primary text-black" : "bg-accent text-white"
-            )}>
-              <item.icon size={16} strokeWidth={2.5} />
-            </div>
-            <span>{item.label}</span>
-          </Link>
-        ))}
+      <div className="flex flex-col gap-2 px-2">
+        <p className="hidden lg:block px-4 text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-2">Activities</p>
+        {actionItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "flex items-center gap-4 px-4 py-3 rounded-sm transition-all duration-200 group",
+                isActive ? "text-white font-bold" : "text-muted-foreground hover:text-white"
+              )}
+            >
+              <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+              <span className="hidden lg:block text-sm">{item.label}</span>
+              {isActive && <div className="absolute left-0 w-1 h-6 bg-primary rounded-r-full" />}
+            </Link>
+          );
+        })}
       </div>
 
-      <div className="mt-auto flex flex-col gap-1">
+      <div className="mt-auto flex flex-col gap-2 px-2">
         <Link
           href="/settings"
-          className="flex items-center gap-4 px-4 py-3 rounded-md text-muted-foreground hover:text-white transition-colors"
+          className="flex items-center gap-4 px-4 py-3 text-muted-foreground hover:text-white transition-colors"
         >
           <Settings size={24} />
-          <span>Settings</span>
+          <span className="hidden lg:block text-sm">Settings</span>
         </Link>
       </div>
     </div>
