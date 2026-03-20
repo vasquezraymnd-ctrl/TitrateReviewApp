@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -96,7 +97,7 @@ export default function Dashboard() {
   if (!mounted) return null;
 
   return (
-    <div className="flex h-screen bg-[#0b111a] overflow-hidden text-white flex-col lg:flex-row">
+    <div className="flex h-screen bg-[#0d141d] overflow-hidden text-white flex-col lg:flex-row">
       <Sidebar />
       
       <main className="flex-1 overflow-y-auto no-scrollbar relative pb-20 lg:pb-0">
@@ -112,7 +113,7 @@ export default function Dashboard() {
               data-ai-hint="medical laboratory"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b111a] via-[#0b111a]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0d141d] via-[#0d141d]/80 to-transparent" />
           </div>
 
           <div className="relative z-10 w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -211,19 +212,19 @@ export default function Dashboard() {
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-70 transition-all duration-700"
+                          className="object-cover grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-80 transition-all duration-700"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                      <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:right-6 flex justify-between items-end">
+                      <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:left-6 flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[9px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">{subject}</p>
-                          <h4 className="text-lg lg:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[200px] sm:max-w-none">
-                            {latestModule ? `${latestModule}` : subject}
+                          <h4 className="text-lg lg:text-xl xl:text-2xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
+                            {latestModule ? `${subject}: ${latestModule}` : subject}
                           </h4>
                         </div>
-                        <div className="text-right">
+                        <div className="text-right shrink-0">
                           <p className="text-xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
                           <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Mastery</p>
                         </div>
