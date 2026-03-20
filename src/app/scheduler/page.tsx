@@ -14,7 +14,9 @@ import {
   AlarmClock,
   CalendarDays,
   Database,
-  Info
+  Info,
+  X,
+  Zap
 } from 'lucide-react';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
@@ -178,13 +180,10 @@ export default function StudyPage() {
                    <p className="text-3xl font-black italic text-white tracking-tighter">{formatTime(timeLeft)}</p>
                  </div>
                  <Button 
-                  onClick={() => setTimerActive(!timerActive)}
-                  className={cn(
-                    "riot-button h-10 px-6 rounded-none font-black text-[10px]",
-                    timerActive ? "bg-red-500 text-white" : "bg-primary text-black"
-                  )}
+                  onClick={() => setTimerActive(true)}
+                  className="riot-button h-10 px-6 rounded-none font-black text-[10px] bg-primary text-black"
                  >
-                   {timerActive ? "ABORT" : "INITIATE"}
+                   INITIATE
                  </Button>
               </div>
             </div>
@@ -286,6 +285,56 @@ export default function StudyPage() {
             </div>
           </Tabs>
         </div>
+
+        {/* Focus Mode Overlay */}
+        {timerActive && (
+          <div className="fixed inset-0 z-[200] bg-[#050a0f] flex flex-col items-center justify-center p-8 animate-in fade-in zoom-in duration-500">
+             <div className="absolute inset-0 opacity-5 pointer-events-none">
+                <Zap size={800} className="text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+             </div>
+
+             <div className="relative z-10 text-center space-y-12 max-w-2xl w-full">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center gap-2">
+                    <Zap className="text-primary animate-pulse" size={24} />
+                    <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">High-Yield Assay in Progress</span>
+                  </div>
+                  <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">Focusing...</h2>
+                </div>
+
+                <div className="riot-card p-12 md:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-md">
+                   <div className="text-8xl md:text-[12rem] font-black italic text-white tracking-tighter tabular-nums leading-none">
+                     {formatTime(timeLeft)}
+                   </div>
+                </div>
+
+                <div className="space-y-8">
+                  <p className="text-muted-foreground font-medium italic text-lg max-w-md mx-auto">
+                    "Laboratory silence is the foundation of precise diagnosis. Stay concentrated on your protocol."
+                  </p>
+                  
+                  <Button 
+                    onClick={() => setTimerActive(false)}
+                    variant="outline"
+                    className="riot-button h-16 px-12 border-red-500/50 text-red-500 hover:bg-red-500/10 rounded-none font-black tracking-widest group"
+                  >
+                    <X className="mr-2 group-hover:rotate-90 transition-transform" /> ABORT PROTOCOL
+                  </Button>
+                </div>
+             </div>
+
+             <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end opacity-20 border-t border-white/10 pt-8">
+                <div>
+                   <p className="text-[10px] font-black uppercase tracking-[0.3em]">Operational Status</p>
+                   <p className="text-sm font-black italic uppercase">Deep Focus Locked</p>
+                </div>
+                <div className="text-right">
+                   <p className="text-[10px] font-black uppercase tracking-[0.3em]">Protocol Code</p>
+                   <p className="text-sm font-black italic uppercase">#HY-ASSAY-30</p>
+                </div>
+             </div>
+          </div>
+        )}
 
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
           <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
