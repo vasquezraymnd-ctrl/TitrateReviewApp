@@ -46,6 +46,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lms.smu.edu.ph',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
