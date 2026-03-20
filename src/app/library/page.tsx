@@ -541,7 +541,7 @@ function LibraryContent() {
                 <Microscope className="text-primary" />
                 Titrate New Protocol
               </DialogTitle>
-            </Header>
+            </DialogHeader>
             <div className="space-y-6 py-4">
               <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-start gap-4 mb-4">
                  <Info className="text-primary shrink-0 mt-1" size={16} />
