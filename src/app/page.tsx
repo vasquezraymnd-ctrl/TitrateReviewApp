@@ -16,7 +16,7 @@ export default function Home() {
 
   useEffect(() => {
     const startupSequence = async () => {
-      // 1. Duration for the Titration Animation
+      // 1. Mandatory 5-second Titration Animation for every app launch
       await new Promise(resolve => setTimeout(resolve, 5000));
       setStage('device-selection');
     };
@@ -26,6 +26,10 @@ export default function Home() {
 
   const handleDeviceSelect = async (type: 'phone' | 'tablet') => {
     setDeviceType(type);
+    
+    // Store device preference in sessionStorage for the current session
+    sessionStorage.setItem('TITRATE_DEVICE_MODE', type);
+    
     const userProfile = await db.getById<UserProfile>('profile', 'current-user');
     const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
 
@@ -37,12 +41,13 @@ export default function Home() {
     }
   };
 
-  // Loading / Titration Stage
+  // Stage 1: Titration Animation (The Loading Screen)
   if (stage === 'animating' || stage === 'redirecting') {
     return (
       <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500] overflow-hidden">
         <div className="relative flex flex-col items-center w-full max-w-lg">
           
+          {/* Beaker Pouring Animation */}
           <div className="absolute -top-48 left-1/2 -translate-x-1/2">
             <div className="relative flex flex-col items-center">
               <svg 
@@ -68,6 +73,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Logo Animation */}
           <div className="relative mt-24">
             <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative">
               TITRATE
@@ -118,7 +124,7 @@ export default function Home() {
     );
   }
 
-  // Device Selection Stage
+  // Stage 2: Device Calibration
   if (stage === 'device-selection') {
     return (
       <div className="fixed inset-0 bg-[#050a0f] flex items-center justify-center z-[500] p-6">
@@ -157,7 +163,7 @@ export default function Home() {
     );
   }
 
-  // Onboarding Stage
+  // Stage 3: Welcome & Onboarding
   if (stage === 'onboarding') {
     return (
       <div className="fixed inset-0 bg-[#050a0f] flex items-center justify-center z-[500] p-4 md:p-6">
