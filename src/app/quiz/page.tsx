@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { db, Question, Progress } from '@/lib/db';
+import { db, Question, Progress, UserProfile } from '@/lib/db';
 import { calculateSM2 } from '@/lib/sm2';
 import { QuestionCard } from '@/components/quiz/QuestionCard';
 import { Button } from '@/components/ui/button';
@@ -31,6 +31,8 @@ export default function QuizPage() {
 
   const handleAnswer = async (quality: number) => {
     const question = questions[currentIndex];
+    
+    // Update Spaced Repetition Progress
     const prevProgress = await db.getById<Progress>('progress', question.id);
     const newProgress = calculateSM2(quality, prevProgress);
     
@@ -38,6 +40,18 @@ export default function QuizPage() {
       questionId: question.id,
       ...newProgress
     });
+
+    // Update User Profile Total Answered (Regardless of quality)
+    const profile = await db.getById<UserProfile>('profile', 'current-user');
+    if (profile) {
+      const updatedProfile = {
+        ...profile,
+        totalQuestionsAnswered: (profile.totalQuestionsAnswered || 0) + 1
+      };
+      await db.put('profile', updatedProfile);
+      // Notify other components (like Sidebar or Dashboard) to refresh stats
+      window.dispatchEvent(new Event('profile-updated'));
+    }
 
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(prev => prev + 1);
