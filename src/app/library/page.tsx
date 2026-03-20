@@ -1,14 +1,32 @@
 
 "use client"
 
-import { useState, useEffect, Suspense, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { db, Question, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
-import { Archive, Search, FileText, User, UserCircle, Plus, Microscope, FilterX, X, ChevronLeft, Trash2, Edit2, Info, Database } from 'lucide-react';
+import { 
+  Archive, 
+  Search, 
+  FileText, 
+  User, 
+  UserCircle, 
+  Plus, 
+  Microscope, 
+  FilterX, 
+  X, 
+  ChevronLeft, 
+  Trash2, 
+  Edit2, 
+  Info, 
+  Database,
+  FolderOpen,
+  ArrowRight
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Dialog,
   DialogContent,
@@ -26,9 +44,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 function LibraryContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const subjectFilter = searchParams.get('subject');
 
   const [subjects, setSubjects] = useState<Map<string, number>>(new Map());
@@ -41,7 +61,6 @@ function LibraryContent() {
   const [isAddModuleOpen, setIsAddModuleOpen] = useState(false);
   const [newModuleName, setNewModuleName] = useState('');
   const [selectedSubject, setSelectedSubject] = useState<string>(subjectFilter || 'Microbiology');
-  const [selectedImageKey, setSelectedImageKey] = useState('med-lab');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   
   // Profile Dialog State
@@ -65,18 +84,19 @@ function LibraryContent() {
   const loadLibrary = async () => {
     setLoading(true);
     let storedModules = await db.getAll<LabModule>('modules');
+    
+    // Calculate counts for folders
+    const counts = new Map<string, number>();
+    storedModules.forEach(m => {
+      counts.set(m.subject, (counts.get(m.subject) || 0) + 1);
+    });
+    setSubjects(counts);
+
     if (subjectFilter) {
       storedModules = storedModules.filter(m => m.subject === subjectFilter);
       setSelectedSubject(subjectFilter);
     }
     setModules(storedModules.sort((a, b) => b.id.localeCompare(a.id)));
-
-    const questions = await db.getAll<Question>('questions');
-    const counts = new Map<string, number>();
-    questions.forEach(q => {
-      counts.set(q.subject, (counts.get(q.subject) || 0) + 1);
-    });
-    setSubjects(counts);
 
     const userProfile = await db.getById<UserProfile>('profile', 'current-user');
     if (userProfile) {
@@ -197,11 +217,20 @@ function LibraryContent() {
         console.warn("Text titration failed, AI will rely on subject defaults.");
     }
 
+    const imageMap: Record<string, string> = {
+      'Microbiology': 'micro-bacteria',
+      'Hematology': 'blood-cells',
+      'Clinical Chemistry': 'chemistry-lab',
+      'Immuno-Serology': 'immunology-test',
+      'Clinical Microscopy': 'clin-microscopy',
+      'HTMLE': 'histopath'
+    };
+
     const newModule: LabModule = {
       id: `module-${Date.now()}`,
       name: newModuleName,
       subject: selectedSubject,
-      imageKey: selectedImageKey,
+      imageKey: imageMap[selectedSubject] || 'med-lab',
       mastery: 0,
       pdfBlob: selectedFile,
       extractedText: extractedText.substring(0, 50000)
@@ -270,6 +299,18 @@ function LibraryContent() {
     return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' }).toUpperCase();
   };
 
+  const getSubjectImage = (subject: string) => {
+    switch (subject) {
+      case 'Microbiology': return 'micro-bacteria';
+      case 'Hematology': return 'blood-cells';
+      case 'Clinical Chemistry': return 'chemistry-lab';
+      case 'Immuno-Serology': return 'immunology-test';
+      case 'Clinical Microscopy': return 'clin-microscopy';
+      case 'HTMLE': return 'histopath';
+      default: return 'med-lab';
+    }
+  };
+
   return (
     <div className="flex h-screen bg-[#050a0f] overflow-hidden text-white">
       <Sidebar />
@@ -319,12 +360,12 @@ function LibraryContent() {
             <div>
               <h3 className="text-3xl font-black italic tracking-tighter uppercase flex items-center gap-3">
                 <Archive className="text-primary" size={28} />
-                {subjectFilter ? `${subjectFilter} Archives` : 'Protocol Inventory'}
+                {subjectFilter ? `${subjectFilter} Sector Archive` : 'Laboratory Archives'}
               </h3>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">
                 {subjectFilter 
-                  ? `Clinical research files for ${subjectFilter}.` 
-                  : 'Local clinical archives stored on your device. Only PDF protocols accepted.'}
+                  ? `Titrated clinical research files for ${subjectFilter}.` 
+                  : 'Select a clinical sector folder to access designated protocol files.'}
               </p>
             </div>
             <div className="flex gap-4 w-full md:w-auto">
@@ -332,81 +373,120 @@ function LibraryContent() {
                 <Database className="mr-2 h-4 w-4" /> SEED SAMPLE
               </Button>
               {subjectFilter && (
-                <Button asChild variant="outline" className="riot-button h-12 px-6 border-white/10 text-white font-black text-[10px]">
-                  <Link href="/library"><FilterX className="mr-2 h-4 w-4" /> CLEAR FILTER</Link>
+                <Button onClick={() => router.push('/library')} variant="outline" className="riot-button h-12 px-6 border-white/10 text-white font-black text-[10px]">
+                  <ChevronLeft className="mr-2 h-4 w-4" /> BACK TO DIRECTORY
                 </Button>
               )}
               <div className="relative flex-1 md:w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={16} />
                 <input 
-                  placeholder="FILTER ARCHIVES..." 
+                  placeholder="SEARCH PROTOCOLS..." 
                   className="w-full bg-white/5 border border-white/10 h-12 pl-10 pr-4 text-[10px] font-black tracking-widest uppercase focus:bg-white/10 focus:ring-1 focus:ring-primary outline-none transition-all"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
               <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-6 bg-primary text-black font-black text-[10px]">
-                <Plus className="mr-2 h-4 w-4" /> UPLOAD PROTOCOL
+                <Plus className="mr-2 h-4 w-4" /> NEW PROTOCOL
               </Button>
             </div>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[1, 2, 3, 4].map(i => (
-                <div key={i} className="aspect-[16/10] bg-white/[0.02] animate-pulse riot-card" />
-              ))}
-            </div>
-          ) : filteredModules.length === 0 ? (
-            <div className="text-center py-24 riot-card border border-dashed border-white/10 bg-white/[0.02]">
-              <FileText size={64} className="mx-auto text-muted-foreground/30 mb-4" />
-              <h3 className="text-xl font-black italic uppercase">No protocols recorded in this sector</h3>
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">
-                Upload your PDF notes or seed a sample to begin device-local study.
-              </p>
-              <div className="flex gap-4 justify-center">
-                <Button onClick={seedSampleProtocol} className="riot-button h-12 px-8 bg-white/10 hover:bg-white/20 text-white">
-                  SEED SAMPLE PROTOCOL
-                </Button>
-                <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-8 bg-primary hover:bg-primary/80 text-black">
-                  UPLOAD FIRST PDF
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
-              {filteredModules.map((module) => (
-                <div key={module.id} className="group cursor-pointer" onClick={() => openPdf(module)}>
-                  <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
-                    <button 
-                      onClick={(e) => deleteModule(e, module.id)}
-                      className="absolute top-4 right-4 z-20 p-2 text-white/20 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div className="flex justify-between items-end">
+          {!subjectFilter ? (
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {CORE_SUBJECTS.map((subject) => {
+                const imageKey = getSubjectImage(subject);
+                const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
+                const count = subjects.get(subject) || 0;
+                
+                return (
+                  <Link key={subject} href={`/library?subject=${encodeURIComponent(subject)}`} className="group">
+                    <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
+                      {placeholder && (
+                        <Image 
+                          src={placeholder.imageUrl} 
+                          alt={subject} 
+                          fill 
+                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-40 group-hover:opacity-60"
+                          data-ai-hint={placeholder.imageHint}
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                      <div className="absolute top-6 left-6">
+                        <FolderOpen size={32} className="text-primary group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
-                          <h4 className="text-2xl font-black italic uppercase leading-tight">
-                            {module.subject}: <span className="text-white/70">{module.name}</span>
-                          </h4>
-                          <div className="flex items-center gap-2 mt-2">
-                             <FileText size={12} className="text-primary" />
-                             <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
-                               {module.pdfBlob ? 'Local PDF Protocol' : 'Titrated Clinical Context'}
-                             </span>
-                          </div>
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Sector Folder</p>
+                          <h4 className="text-2xl font-black italic uppercase text-white leading-tight">{subject}</h4>
                         </div>
-                        <div className="w-10 h-10 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
-                          <FileText className="text-black" size={18} />
+                        <div className="text-right">
+                          <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
+                          <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Files</p>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
+                );
+              })}
+            </section>
+          ) : (
+            <div className="space-y-12">
+               {loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                  {[1, 2, 3, 4].map(i => (
+                    <div key={i} className="aspect-[16/10] bg-white/[0.02] animate-pulse riot-card" />
+                  ))}
                 </div>
-              ))}
+              ) : filteredModules.length === 0 ? (
+                <div className="text-center py-24 riot-card border border-dashed border-white/10 bg-white/[0.02]">
+                  <FileText size={64} className="mx-auto text-muted-foreground/30 mb-4" />
+                  <h3 className="text-xl font-black italic uppercase">Archive Empty</h3>
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">
+                    No protocols filed in the {subjectFilter} sector.
+                  </p>
+                  <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-8 bg-primary text-black">
+                    UPLOAD PROTOCOL
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+                  {filteredModules.map((module) => (
+                    <div key={module.id} className="group cursor-pointer" onClick={() => openPdf(module)}>
+                      <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
+                        
+                        <button 
+                          onClick={(e) => deleteModule(e, module.id)}
+                          className="absolute top-4 right-4 z-20 p-2 text-white/20 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all hover:bg-white/5"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+
+                        <div className="absolute bottom-6 left-6 right-6">
+                          <div className="flex justify-between items-end">
+                            <div className="space-y-1">
+                              <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
+                              <h4 className="text-2xl font-black italic uppercase leading-tight text-white">
+                                {module.subject}: <span className="text-white/70">{module.name}</span>
+                              </h4>
+                              <div className="flex items-center gap-2 mt-2">
+                                 <FileText size={12} className="text-primary" />
+                                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
+                                   PDF Protocol • Local Storage
+                                 </span>
+                              </div>
+                            </div>
+                            <div className="w-10 h-10 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                              <ArrowRight className="text-black" size={18} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
