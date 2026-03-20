@@ -54,11 +54,11 @@ export default function Home() {
   // Stage 1: Titration Animation (The Loading Screen)
   if (stage === 'animating' || stage === 'redirecting') {
     return (
-      <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500] overflow-hidden">
+      <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500] overflow-hidden px-6">
         <div className="relative flex flex-col items-center w-full max-w-lg">
           
           {/* Beaker Pouring Animation */}
-          <div className="absolute -top-48 left-1/2 -translate-x-1/2">
+          <div className="absolute -top-32 md:-top-48 left-1/2 -translate-x-1/2 scale-75 md:scale-100">
             <div className="relative flex flex-col items-center">
               <svg 
                 width="80" 
@@ -79,13 +79,13 @@ export default function Home() {
                   className="text-primary animate-[liquid-drain_5s_infinite]"
                 />
               </svg>
-              <div className="absolute top-[110px] left-1/2 -translate-x-1/2 w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
+              <div className="absolute top-[110px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
             </div>
           </div>
 
           {/* Logo Animation */}
-          <div className="relative mt-24">
-            <h1 className="text-7xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative">
+          <div className="relative mt-20 md:mt-24 text-center">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative">
               TITRATE
               <div 
                 className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo-word_5s_ease-out_forwards]"
@@ -95,12 +95,12 @@ export default function Home() {
               </div>
             </h1>
             
-            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 w-max">
-               <div className="h-[1px] w-12 bg-white/10" />
-               <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">
-                 {stage === 'redirecting' ? 'RESUMING SESSION' : 'INITIALIZING LABORATORY'}
+            <div className="absolute -bottom-8 md:-bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 md:gap-4 w-max">
+               <div className="h-[1px] w-8 md:w-12 bg-white/10" />
+               <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">
+                 {stage === 'redirecting' ? 'RESUMING' : 'INITIALIZING'}
                </span>
-               <div className="h-[1px] w-12 bg-white/10" />
+               <div className="h-[1px] w-8 md:w-12 bg-white/10" />
             </div>
           </div>
         </div>
@@ -138,33 +138,33 @@ export default function Home() {
   if (stage === 'device-selection') {
     return (
       <div className="fixed inset-0 bg-[#050a0f] flex items-center justify-center z-[500] p-6">
-        <div className="riot-card max-w-xl w-full bg-[#0A1219] border border-white/10 p-8 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
-          <div className="relative z-10 space-y-10">
-            <div className="space-y-4">
+        <div className="riot-card max-w-xl w-full bg-[#0A1219] border border-white/10 p-6 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
+          <div className="relative z-10 space-y-8 md:space-y-10">
+            <div className="space-y-3">
               <div className="flex items-center gap-3">
-                 <Shield className="text-primary" size={24} />
-                 <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">Device Calibration</span>
+                 <Shield className="text-primary" size={20} />
+                 <span className="text-primary font-black uppercase tracking-[0.4em] text-[9px]">Calibration</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">
                 Select <br /><span className="text-primary">Interface Mode</span>
               </h2>
-              <p className="text-muted-foreground text-sm italic uppercase tracking-widest">Optimize clinical viewport for your analytical hardware.</p>
+              <p className="text-muted-foreground text-[10px] md:text-xs italic uppercase tracking-widest">Optimize viewport for your hardware.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
               <button 
                 onClick={() => handleDeviceSelect('phone')}
-                className="riot-card p-8 bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all group flex flex-col items-center gap-4"
+                className="riot-card p-6 md:p-8 bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all group flex flex-col items-center gap-3"
               >
-                <Smartphone size={32} className="group-hover:scale-110 transition-transform" />
-                <span className="text-[11px] font-black uppercase tracking-widest">Phone / Mobile</span>
+                <Smartphone size={24} className="group-hover:scale-110 transition-transform md:size-32" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Phone / Mobile</span>
               </button>
               <button 
                 onClick={() => handleDeviceSelect('tablet')}
-                className="riot-card p-8 bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all group flex flex-col items-center gap-4"
+                className="riot-card p-6 md:p-8 bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all group flex flex-col items-center gap-3"
               >
-                <Tablet size={32} className="group-hover:scale-110 transition-transform" />
-                <span className="text-[11px] font-black uppercase tracking-widest">Tablet / Desktop</span>
+                <Tablet size={24} className="group-hover:scale-110 transition-transform md:size-32" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Tablet / Desktop</span>
               </button>
             </div>
           </div>
@@ -180,13 +180,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-50" />
         
         <div className="riot-card max-w-2xl w-full bg-[#0A1219] border border-white/10 p-8 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
-          <div className="relative z-10 space-y-8 md:space-y-10">
-            <div className="space-y-4">
+          <div className="relative z-10 space-y-6 md:space-y-10">
+            <div className="space-y-3 md:space-y-4">
               <div className="flex items-center gap-3">
-                 <Shield className="text-primary" size={24} />
-                 <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">Initialization Required</span>
+                 <Shield className="text-primary" size={20} />
+                 <span className="text-primary font-black uppercase tracking-[0.4em] text-[9px]">Initialization Required</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">
+              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">
                 Welcome, <br /><span className="text-primary">Future RMT</span>
               </h2>
               <p className="text-muted-foreground text-sm md:text-lg italic leading-relaxed max-w-md">
@@ -194,13 +194,13 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-6">
-              <Button asChild className="riot-button h-14 md:h-16 px-8 md:px-10 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest text-[10px] md:text-[11px]">
-                <Link href="/library">
-                  CONFIGURE ANALYST PROFILE <ArrowRight className="ml-2" />
+            <div className="flex flex-col sm:flex-row gap-3 pt-4 md:pt-6">
+              <Button asChild className="riot-button h-12 md:h-16 px-6 md:px-10 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest text-[9px] md:text-[11px]">
+                <Link href="/library" className="flex items-center">
+                  CONFIGURE PROFILE <ArrowRight className="ml-2 h-3 w-3" />
                 </Link>
               </Button>
-              <Button asChild variant="ghost" className="h-14 md:h-16 px-8 md:px-10 border border-white/5 hover:bg-white/5 rounded-none uppercase font-black tracking-widest text-[9px] md:text-[10px]">
+              <Button asChild variant="ghost" className="h-12 md:h-16 px-6 md:px-10 border border-white/5 hover:bg-white/5 rounded-none uppercase font-black tracking-widest text-[9px] md:text-[10px]">
                 <Link href="/dashboard">ENTER LABORATORY</Link>
               </Button>
             </div>

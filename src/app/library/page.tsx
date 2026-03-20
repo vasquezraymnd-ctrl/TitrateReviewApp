@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
@@ -316,36 +317,37 @@ function LibraryContent() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="px-8 lg:px-16 py-32 max-w-7xl mx-auto space-y-16">
-          <section className="riot-card p-10 bg-white/[0.02] border border-white/5 relative overflow-hidden group/card">
+        <div className="px-6 md:px-8 lg:px-16 py-28 lg:py-32 max-w-7xl mx-auto space-y-12 lg:space-y-16">
+          <section className="riot-card p-6 md:p-10 bg-white/[0.02] border border-white/5 relative overflow-hidden group/card">
              <div className="absolute top-0 right-0 p-8 opacity-5">
                <UserCircle className="text-primary" size={200} />
              </div>
              
              <button 
                onClick={() => setIsEditProfileOpen(true)}
-               className="absolute top-6 right-6 p-2 bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all opacity-0 group-hover/card:opacity-100 z-20"
+               className="absolute top-4 right-4 p-2 bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all md:opacity-0 group-hover/card:opacity-100 z-20"
              >
-               <Edit2 size={16} />
+               <Edit2 size={14} />
              </button>
 
-             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10">
-               <div className="flex items-center gap-6">
-                 <div className="w-24 h-24 border-2 border-primary/50 p-1 rounded-none">
+             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+               <div className="flex items-center gap-4 md:gap-6">
+                 <div className="w-16 h-16 md:w-24 md:h-24 border border-primary/50 p-1 rounded-none">
                    <div className="w-full h-full bg-primary/20 flex items-center justify-center">
-                     <User size={48} className="text-primary" />
+                     <User size={32} className="text-primary md:hidden" />
+                     <User size={48} className="text-primary hidden md:block" />
                    </div>
                  </div>
                  <div>
-                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2">Future RMT</p>
-                   <h2 className="text-5xl font-black italic uppercase tracking-tighter mb-1">{profile?.name}</h2>
-                   <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
+                   <p className="text-[9px] font-black text-primary uppercase tracking-[0.4em] mb-1">Future RMT</p>
+                   <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mb-1 leading-none">{profile?.name}</h2>
+                   <p className="text-[10px] md:text-sm font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
                  </div>
                </div>
-               <div className="flex items-center justify-end">
-                 <div className="bg-black/40 p-4 border border-white/5 min-w-[140px]">
-                   <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Academic Target</p>
-                   <p className="text-2xl font-black italic text-white">{profile?.examDate ? formatTargetDate(profile.examDate) : '---'}</p>
+               <div className="flex items-center justify-start md:justify-end">
+                 <div className="bg-black/40 p-3 border border-white/5 min-w-[120px]">
+                   <p className="text-[8px] md:text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Academic Target</p>
+                   <p className="text-xl md:text-2xl font-black italic text-white">{profile?.examDate ? formatTargetDate(profile.examDate) : '---'}</p>
                  </div>
                </div>
              </div>
@@ -353,42 +355,42 @@ function LibraryContent() {
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h3 className="text-3xl font-black italic tracking-tighter uppercase flex items-center gap-3">
-                <Archive className="text-primary" size={28} />
-                {subjectFilter ? `${subjectFilter} Sector Archive` : 'Laboratory Archives'}
+              <h3 className="text-2xl lg:text-3xl font-black italic tracking-tighter uppercase flex items-center gap-2">
+                <Archive className="text-primary" size={22} />
+                {subjectFilter ? `${subjectFilter} Sector` : 'Archives'}
               </h3>
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">
+              <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
                 {subjectFilter 
-                  ? `Titrated clinical research files for ${subjectFilter}.` 
-                  : 'Select a clinical sector folder to access designated protocol files.'}
+                  ? `Titrated protocols for ${subjectFilter}.` 
+                  : 'Select a clinical sector folder.'}
               </p>
             </div>
-            <div className="flex gap-4 w-full md:w-auto">
-              <Button onClick={seedSampleProtocol} variant="outline" className="riot-button h-12 px-6 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[10px]">
-                <Database className="mr-2 h-4 w-4" /> SEED SAMPLE
+            <div className="flex flex-wrap gap-2 lg:gap-4 w-full md:w-auto">
+              <Button onClick={seedSampleProtocol} variant="outline" className="h-10 px-4 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[9px] flex-1 md:flex-none">
+                <Database className="mr-2 h-3 w-3" /> SEED SAMPLE
               </Button>
               {subjectFilter && (
-                <Button onClick={() => router.push('/library')} variant="outline" className="riot-button h-12 px-6 border-white/10 text-white font-black text-[10px]">
-                  <ChevronLeft className="mr-2 h-4 w-4" /> BACK TO DIRECTORY
+                <Button onClick={() => router.push('/library')} variant="outline" className="h-10 px-4 border-white/10 text-white font-black text-[9px] flex-1 md:flex-none">
+                  <ChevronLeft className="mr-2 h-3 w-3" /> DIRECTORY
                 </Button>
               )}
-              <div className="relative flex-1 md:w-80">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={16} />
+              <div className="relative w-full md:w-64 lg:w-80">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
                 <input 
-                  placeholder="SEARCH PROTOCOLS..." 
-                  className="w-full bg-white/5 border border-white/10 h-12 pl-10 pr-4 text-[10px] font-black tracking-widest uppercase focus:bg-white/10 focus:ring-1 focus:ring-primary outline-none transition-all"
+                  placeholder="SEARCH..." 
+                  className="w-full bg-white/5 border border-white/10 h-10 pl-10 pr-4 text-[9px] font-black tracking-widest uppercase focus:bg-white/10 focus:ring-1 focus:ring-primary outline-none transition-all"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
-              <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-6 bg-primary text-black font-black text-[10px]">
-                <Plus className="mr-2 h-4 w-4" /> NEW PROTOCOL
+              <Button onClick={() => setIsAddModuleOpen(true)} className="h-10 px-6 bg-primary text-black font-black text-[9px] w-full md:w-auto">
+                <Plus className="mr-2 h-3 w-3" /> NEW PROTOCOL
               </Button>
             </div>
           </div>
 
           {!subjectFilter ? (
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {CORE_SUBJECTS.map((subject) => {
                 const imageKey = getSubjectImage(subject);
                 const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
@@ -396,7 +398,7 @@ function LibraryContent() {
                 
                 return (
                   <Link key={subject} href={`/library?subject=${encodeURIComponent(subject)}`} className="group">
-                    <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
+                    <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
                       {placeholder && (
                         <Image 
                           src={placeholder.imageUrl} 
@@ -407,16 +409,16 @@ function LibraryContent() {
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                      <div className="absolute top-6 left-6">
-                        <FolderOpen size={32} className="text-primary group-hover:scale-110 transition-transform" />
+                      <div className="absolute top-4 left-4 lg:top-6 lg:left-6">
+                        <FolderOpen size={24} className="text-primary group-hover:scale-110 transition-transform lg:size-8" />
                       </div>
-                      <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                      <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 flex justify-between items-end">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Sector Folder</p>
-                          <h4 className="text-2xl font-black italic uppercase text-white leading-tight">{subject}</h4>
+                          <p className="text-[9px] lg:text-[10px] font-black text-primary uppercase tracking-[0.3em]">Sector</p>
+                          <h4 className="text-lg lg:text-2xl font-black italic uppercase text-white leading-tight">{subject}</h4>
                         </div>
                         <div className="text-right">
-                          <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
+                          <p className="text-xl lg:text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
                           <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Files</p>
                         </div>
                       </div>
@@ -426,54 +428,54 @@ function LibraryContent() {
               })}
             </section>
           ) : (
-            <div className="space-y-12">
+            <div className="space-y-8">
                {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                   {[1, 2, 3, 4].map(i => (
                     <div key={i} className="aspect-[16/10] bg-white/[0.02] animate-pulse riot-card" />
                   ))}
                 </div>
               ) : filteredModules.length === 0 ? (
-                <div className="text-center py-24 riot-card border border-dashed border-white/10 bg-white/[0.02]">
-                  <FileText size={64} className="mx-auto text-muted-foreground/30 mb-4" />
-                  <h3 className="text-xl font-black italic uppercase">Archive Empty</h3>
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">
-                    No protocols filed in the {subjectFilter} sector.
+                <div className="text-center py-20 riot-card border border-dashed border-white/10 bg-white/[0.02]">
+                  <FileText size={48} className="mx-auto text-muted-foreground/30 mb-4" />
+                  <h3 className="text-lg font-black italic uppercase">Archive Empty</h3>
+                  <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mb-6 px-6">
+                    No protocols filed in {subjectFilter}.
                   </p>
-                  <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-8 bg-primary text-black">
+                  <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-10 px-8 bg-primary text-black text-[9px]">
                     UPLOAD PROTOCOL
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
                   {filteredModules.map((module) => (
                     <div key={module.id} className="group cursor-pointer" onClick={() => openPdf(module)}>
-                      <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
+                      <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
                         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
                         
                         <button 
                           onClick={(e) => deleteModule(e, module.id)}
-                          className="absolute top-4 right-4 z-20 p-2 text-white/20 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all hover:bg-white/5"
+                          className="absolute top-3 right-3 z-20 p-2 text-white/20 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all hover:bg-white/5"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={14} />
                         </button>
 
-                        <div className="absolute bottom-6 left-6 right-6">
+                        <div className="absolute bottom-4 left-4 right-4">
                           <div className="flex justify-between items-end">
                             <div className="space-y-1">
-                              <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
-                              <h4 className="text-2xl font-black italic uppercase leading-tight text-white">
+                              <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
+                              <h4 className="text-xl font-black italic uppercase leading-tight text-white truncate max-w-[140px] lg:max-w-none">
                                 {module.name}
                               </h4>
-                              <div className="flex items-center gap-2 mt-2">
-                                 <FileText size={12} className="text-primary" />
-                                 <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
-                                   {module.mastery}% Titrated • Protocol Archive
+                              <div className="flex items-center gap-1.5 mt-1">
+                                 <FileText size={10} className="text-primary" />
+                                 <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">
+                                   {module.mastery}% Titrated
                                  </span>
                               </div>
                             </div>
-                            <div className="w-10 h-10 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
-                              <ArrowRight className="text-black" size={18} />
+                            <div className="w-8 h-8 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                              <ArrowRight className="text-black" size={14} />
                             </div>
                           </div>
                         </div>
@@ -488,88 +490,87 @@ function LibraryContent() {
 
         {/* Profile Edit Dialog */}
         <Dialog open={isEditProfileOpen} onOpenChange={setIsEditProfileOpen}>
-          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none max-w-[95%] sm:max-w-lg">
             <DialogHeader>
-              <DialogTitle className="font-black italic uppercase tracking-tighter text-2xl flex items-center gap-2">
-                <Edit2 className="text-primary" />
-                Edit Clinical Credentials
+              <DialogTitle className="font-black italic uppercase tracking-tighter text-xl flex items-center gap-2">
+                <Edit2 className="text-primary" size={18} />
+                Edit Credentials
               </DialogTitle>
             </DialogHeader>
-            <div className="space-y-6 py-4">
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Analyst Name</Label>
+            <div className="space-y-4 py-2">
+              <div className="space-y-1.5">
+                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Analyst Name</Label>
                 <Input 
                   value={editName} 
                   onChange={(e) => setEditName(e.target.value)}
                   placeholder="e.g. Future RMT"
-                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                  className="bg-white/5 border-white/10 rounded-none h-10 text-sm focus:ring-primary"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Year / Laboratory Grade</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Year / Laboratory Grade</Label>
                 <Input 
                   value={editYear} 
                   onChange={(e) => setEditYear(e.target.value)}
-                  placeholder="e.g. 3rd Year Section A"
-                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                  placeholder="e.g. 3rd Year"
+                  className="bg-white/5 border-white/10 rounded-none h-10 text-sm focus:ring-primary"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Academic Target (Exam Date)</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Academic Target (Date)</Label>
                 <Input 
                   type="date"
                   value={editExamDate} 
                   onChange={(e) => setEditExamDate(e.target.value)}
-                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                  className="bg-white/5 border-white/10 rounded-none h-10 text-sm focus:ring-primary"
                 />
               </div>
             </div>
-            <DialogFooter>
-              <Button variant="ghost" onClick={() => setIsEditProfileOpen(false)} className="uppercase font-black text-[10px] tracking-widest">Cancel</Button>
-              <Button onClick={saveProfile} className="bg-primary text-black rounded-none font-black text-[10px] tracking-widest px-8">SAVE CREDENTIALS</Button>
+            <DialogFooter className="flex-col sm:flex-row gap-2">
+              <Button variant="ghost" onClick={() => setIsEditProfileOpen(false)} className="uppercase font-black text-[9px] tracking-widest w-full sm:w-auto">Cancel</Button>
+              <Button onClick={saveProfile} className="bg-primary text-black rounded-none font-black text-[9px] tracking-widest px-8 w-full sm:w-auto">SAVE</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
         {/* Module Add Dialog */}
         <Dialog open={isAddModuleOpen} onOpenChange={setIsAddModuleOpen}>
-          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none max-w-[95%] sm:max-w-lg">
             <DialogHeader>
-              <DialogTitle className="font-black italic uppercase tracking-tighter text-2xl flex items-center gap-2">
-                <Microscope className="text-primary" />
-                Titrate New Protocol
+              <DialogTitle className="font-black italic uppercase tracking-tighter text-xl flex items-center gap-2">
+                <Microscope className="text-primary" size={18} />
+                Titrate Protocol
               </DialogTitle>
             </DialogHeader>
-            <div className="space-y-6 py-4">
-              <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-start gap-4 mb-4">
-                 <Info className="text-primary shrink-0 mt-1" size={16} />
-                 <p className="text-[10px] font-bold text-white uppercase tracking-widest leading-relaxed">
+            <div className="space-y-4 py-2">
+              <div className="riot-card p-3 bg-primary/5 border border-primary/20 flex items-start gap-3 mb-2">
+                 <Info className="text-primary shrink-0 mt-0.5" size={14} />
+                 <p className="text-[8px] font-bold text-white uppercase tracking-widest leading-relaxed">
                    NOTICE: Each protocol must be filed under a specific clinical sector. 
-                   Ensure your PDF has clear text for optimal AI titration.
                  </p>
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Protocol Title</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Protocol Title</Label>
                 <Input 
                   value={newModuleName} 
                   onChange={(e) => setNewModuleName(e.target.value)}
                   placeholder="e.g. Coagulation Cascade"
-                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                  className="bg-white/5 border-white/10 rounded-none h-10 text-sm"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Clinical Sector (Target Folder)</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Clinical Sector</Label>
                 <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                  <SelectTrigger className="bg-white/5 border-white/10 rounded-none focus:ring-primary text-xs uppercase font-black">
+                  <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-10 text-[10px] uppercase font-black">
                     <SelectValue placeholder="Select Sector" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
                     {CORE_SUBJECTS.map((subject) => (
-                      <SelectItem key={subject} value={subject} className="uppercase font-black text-[10px] tracking-widest focus:bg-primary focus:text-black">
+                      <SelectItem key={subject} value={subject} className="uppercase font-black text-[9px] tracking-widest">
                         {subject}
                       </SelectItem>
                     ))}
@@ -577,8 +578,8 @@ function LibraryContent() {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">PDF Protocol (Device Upload)</Label>
+              <div className="space-y-1.5">
+                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">PDF Protocol</Label>
                 <div className="flex items-center gap-4">
                   <Input 
                     type="file" 
@@ -588,57 +589,57 @@ function LibraryContent() {
                     className="hidden"
                     id="pdf-upload"
                   />
-                  <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-muted-foreground">
+                  <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-muted-foreground text-[9px]">
                     <label htmlFor="pdf-upload" className="cursor-pointer flex items-center justify-center gap-2">
-                      <Plus size={16} /> {selectedFile ? selectedFile.name : 'SELECT PDF FILE'}
+                      <Plus size={14} /> {selectedFile ? selectedFile.name : 'SELECT PDF'}
                     </label>
                   </Button>
                 </div>
               </div>
             </div>
-            <DialogFooter>
-              <Button variant="ghost" onClick={() => setIsAddModuleOpen(false)} className="uppercase font-black text-[10px] tracking-widest">Cancel</Button>
-              <Button onClick={createModule} className="bg-primary text-black rounded-none font-black text-[10px] tracking-widest px-8">ACTIVATE MODULE</Button>
+            <DialogFooter className="flex-col sm:flex-row gap-2">
+              <Button variant="ghost" onClick={() => setIsAddModuleOpen(false)} className="uppercase font-black text-[9px] tracking-widest w-full sm:w-auto">Cancel</Button>
+              <Button onClick={createModule} className="bg-primary text-black rounded-none font-black text-[9px] tracking-widest px-8 w-full sm:w-auto">ACTIVATE</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
 
-        {/* Fullscreen PDF Viewer with Mastery Titration */}
+        {/* Fullscreen PDF Viewer */}
         {viewingModule && (
           <div className="fixed inset-0 z-[200] bg-[#050a0f] flex flex-col animate-in fade-in duration-300">
-            <header className="h-20 bg-[#0A1219] border-b border-white/5 flex items-center justify-between px-6">
-              <div className="flex items-center gap-6">
+            <header className="h-16 lg:h-20 bg-[#0A1219] border-b border-white/5 flex items-center justify-between px-4 lg:px-6">
+              <div className="flex items-center gap-3 lg:gap-6">
                 <Button variant="ghost" size="icon" onClick={() => {
                   setViewingModule(null);
                   setViewingPdfUrl(null);
-                }} className="text-white/50 hover:text-white">
-                  <ChevronLeft size={24} />
+                }} className="text-white/50 h-8 w-8 lg:h-10 lg:w-10">
+                  <ChevronLeft size={20} />
                 </Button>
-                <div>
-                  <h2 className="text-[11px] font-black italic uppercase tracking-[0.3em] text-primary">Protocol Analysis</h2>
-                  <p className="text-lg font-black italic uppercase text-white truncate max-w-md">{viewingModule.name}</p>
+                <div className="truncate max-w-[150px] sm:max-w-md">
+                  <h2 className="text-[8px] lg:text-[11px] font-black italic uppercase tracking-[0.3em] text-primary">Protocol Analysis</h2>
+                  <p className="text-sm lg:text-lg font-black italic uppercase text-white truncate">{viewingModule.name}</p>
                 </div>
               </div>
 
-              <div className="flex-1 max-w-xl mx-12 hidden md:block">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Reading Mastery (Pages Read)</span>
-                  <span className="text-[9px] font-black text-primary uppercase tracking-widest">{currentMastery}%</span>
+              <div className="flex-1 max-w-xl mx-4 lg:mx-12 hidden sm:block">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[8px] lg:text-[9px] font-black text-muted-foreground uppercase tracking-widest">Mastery</span>
+                  <span className="text-[8px] lg:text-[9px] font-black text-primary uppercase tracking-widest">{currentMastery}%</span>
                 </div>
                 <Slider 
                   value={[currentMastery]} 
                   max={100} 
                   step={1} 
                   onValueChange={(vals) => saveMastery(vals[0])}
-                  className="py-2"
+                  className="py-1"
                 />
               </div>
 
               <Button variant="ghost" size="icon" onClick={() => {
                 setViewingModule(null);
                 setViewingPdfUrl(null);
-              }} className="text-red-500 hover:bg-red-500/10">
-                <X size={20} />
+              }} className="text-red-500 h-8 w-8 lg:h-10 lg:w-10">
+                <X size={18} />
               </Button>
             </header>
             <div className="flex-1 overflow-hidden relative">
@@ -649,11 +650,24 @@ function LibraryContent() {
                    title="PDF Viewer"
                  />
                ) : (
-                 <div className="flex flex-col items-center justify-center h-full space-y-6">
-                    <BookOpen size={64} className="text-primary/20" />
-                    <p className="text-sm font-black italic uppercase text-muted-foreground">Protocol context loaded for AI synthesis only.</p>
+                 <div className="flex flex-col items-center justify-center h-full space-y-4 px-6 text-center">
+                    <BookOpen size={48} className="text-primary/20" />
+                    <p className="text-[10px] font-black italic uppercase text-muted-foreground">Protocol context loaded for AI synthesis only.</p>
                  </div>
                )}
+            </div>
+            {/* Mobile Mastery Slider */}
+            <div className="sm:hidden bg-[#0A1219] p-4 border-t border-white/5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Reading Mastery</span>
+                <span className="text-[8px] font-black text-primary uppercase tracking-widest">{currentMastery}%</span>
+              </div>
+              <Slider 
+                value={[currentMastery]} 
+                max={100} 
+                step={1} 
+                onValueChange={(vals) => saveMastery(vals[0])}
+              />
             </div>
           </div>
         )}

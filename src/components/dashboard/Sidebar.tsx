@@ -113,10 +113,10 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Mobile Bottom Nav - Only visible on small screens OR if phone mode selected */}
+      {/* Mobile Bottom Nav */}
       <div className={cn(
         "lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#050a0f] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90 transition-all",
-        "lg:hidden" // Always show bottom nav on mobile/tablet screens
+        "lg:hidden" 
       )}>
         {[
           { icon: Home, label: 'Center', href: '/dashboard' },
@@ -127,9 +127,9 @@ export function Sidebar() {
         ].map((item) => {
           const isActive = pathname === item.href;
           return (
-            <Link key={item.href} href={item.href} className="flex flex-col items-center gap-1 min-w-[60px]">
-              <item.icon size={18} className={isActive ? "text-primary" : "text-muted-foreground"} />
-              <span className={cn("text-[8px] font-black uppercase tracking-tighter", isActive ? "text-white" : "text-muted-foreground")}>{item.label}</span>
+            <Link key={item.href} href={item.href} className="flex flex-col items-center justify-center gap-1 min-w-[50px] transition-all">
+              <item.icon size={16} className={isActive ? "text-primary" : "text-muted-foreground"} />
+              <span className={cn("text-[7px] font-black uppercase tracking-tighter", isActive ? "text-white" : "text-muted-foreground")}>{item.label}</span>
             </Link>
           );
         })}
