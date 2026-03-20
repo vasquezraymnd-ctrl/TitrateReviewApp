@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
@@ -23,7 +22,8 @@ import {
   Database,
   FolderOpen,
   ArrowRight,
-  BookOpen
+  BookOpen,
+  AlertCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -545,11 +545,16 @@ function LibraryContent() {
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 py-2">
-              <div className="riot-card p-3 bg-primary/5 border border-primary/20 flex items-start gap-3 mb-2">
-                 <Info className="text-primary shrink-0 mt-0.5" size={14} />
-                 <p className="text-[8px] font-bold text-white uppercase tracking-widest leading-relaxed">
-                   NOTICE: Each protocol must be filed under a specific clinical sector. 
-                 </p>
+              <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-start gap-3 mb-2">
+                 <AlertCircle className="text-primary shrink-0 mt-0.5" size={16} />
+                 <div className="space-y-1">
+                    <p className="text-[10px] font-black text-white uppercase tracking-widest leading-relaxed">
+                      Titration Guideline
+                    </p>
+                    <p className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest leading-relaxed">
+                      Please upload a PDF with <span className="text-primary font-black">clear, selectable text only</span>. Scanned documents or images without embedded text cannot be titrated into clinical assays.
+                    </p>
+                 </div>
               </div>
 
               <div className="space-y-1.5">
@@ -579,7 +584,7 @@ function LibraryContent() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">PDF Protocol</Label>
+                <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">PDF Protocol (Text Only)</Label>
                 <div className="flex items-center gap-4">
                   <Input 
                     type="file" 
@@ -599,7 +604,7 @@ function LibraryContent() {
             </div>
             <DialogFooter className="flex-col sm:flex-row gap-2">
               <Button variant="ghost" onClick={() => setIsAddModuleOpen(false)} className="uppercase font-black text-[9px] tracking-widest w-full sm:w-auto">Cancel</Button>
-              <Button onClick={createModule} className="bg-primary text-black rounded-none font-black text-[9px] tracking-widest px-8 w-full sm:w-auto">ACTIVATE</Button>
+              <Button onClick={createModule} className="bg-primary text-black rounded-none font-black text-[9px] tracking-widest px-8 w-full sm:w-auto h-12">ACTIVATE</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
