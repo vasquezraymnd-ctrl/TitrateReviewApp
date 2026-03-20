@@ -133,10 +133,10 @@ export function Sidebar() {
               >
                 <div className={cn(
                   "w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-2xl border-4 border-[#111a24] ring-2 ring-primary/40",
-                  "bg-primary text-black", // Non-transparent solid green
+                  "bg-primary text-black",
                   isActive && "scale-110 shadow-primary/40"
                 )}>
-                  <item.icon size={26} className={isActive ? "animate-pulse" : ""} />
+                  <item.icon size={30} className={isActive ? "animate-pulse" : ""} />
                 </div>
                 <span className={cn(
                   "text-[8px] font-black uppercase tracking-widest mt-1",
@@ -150,7 +150,7 @@ export function Sidebar() {
 
           return (
             <Link key={item.href} href={item.href} className="flex flex-col items-center justify-center gap-1 min-w-[50px] transition-all">
-              <item.icon size={18} className={isActive ? "text-primary" : "text-muted-foreground"} />
+              <item.icon size={22} className={isActive ? "text-primary" : "text-muted-foreground"} />
               <span className={cn("text-[7px] font-black uppercase tracking-tighter", isActive ? "text-white" : "text-muted-foreground")}>{item.label}</span>
             </Link>
           );
