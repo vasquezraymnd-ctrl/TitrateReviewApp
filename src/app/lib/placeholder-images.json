@@ -3,19 +3,19 @@
   "placeholderImages": [
     {
       "id": "micro-bacteria",
-      "description": "Microscopic view of bacteria",
+      "description": "Microscopic view of bacteria colonies",
       "imageUrl": "https://images.unsplash.com/photo-1583912267550-d44d7a125e7e?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "bacteria microscopy"
     },
     {
       "id": "blood-cells",
-      "description": "Hematology blood smear cells",
+      "description": "Hematology blood smear with red blood cells",
       "imageUrl": "https://images.unsplash.com/photo-1579154273821-3a914c818318?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "blood cells"
     },
     {
       "id": "chemistry-lab",
-      "description": "Clinical chemistry analyzer or test tubes",
+      "description": "Clinical chemistry automated analyzer",
       "imageUrl": "https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "laboratory analysis"
     },
@@ -33,7 +33,7 @@
     },
     {
       "id": "histopath",
-      "description": "Histopathology tissue section",
+      "description": "Histopathology tissue section slide",
       "imageUrl": "https://images.unsplash.com/photo-1579154417931-e41f985e5102?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "histopathology slide"
     }

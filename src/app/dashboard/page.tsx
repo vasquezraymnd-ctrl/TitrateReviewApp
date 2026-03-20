@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -199,7 +200,7 @@ export default function Dashboard() {
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
+                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-80 group-hover:opacity-100"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}
