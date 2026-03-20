@@ -26,7 +26,6 @@ export interface UserProfile {
   name: string;
   proficiencyRank: string;
   examDate: string;
-  totalQuestionsAnswered: number;
   currentStreak: number;
   lastActivityDate?: string; // YYYY-MM-DD
 }

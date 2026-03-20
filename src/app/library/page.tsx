@@ -112,7 +112,6 @@ function LibraryContent() {
         name: 'Future RMT',
         proficiencyRank: 'Laboratory Grade 42',
         examDate: '2025-08-20',
-        totalQuestionsAnswered: 0,
         currentStreak: 0
       };
       await db.put('profile', defaultProfile);
@@ -330,8 +329,8 @@ function LibraryContent() {
                <Edit2 size={16} />
              </button>
 
-             <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10">
-               <div className="flex items-center gap-6 md:col-span-2">
+             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+               <div className="flex items-center gap-6">
                  <div className="w-24 h-24 border-2 border-primary/50 p-1 rounded-none">
                    <div className="w-full h-full bg-primary/20 flex items-center justify-center">
                      <User size={48} className="text-primary" />
@@ -343,12 +342,8 @@ function LibraryContent() {
                    <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
                  </div>
                </div>
-               <div className="grid grid-cols-2 gap-4">
-                 <div className="bg-black/40 p-4 border border-white/5">
-                   <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Total Assays</p>
-                   <p className="text-2xl font-black italic text-primary">{profile?.totalQuestionsAnswered}</p>
-                 </div>
-                 <div className="bg-black/40 p-4 border border-white/5">
+               <div className="flex items-center justify-end">
+                 <div className="bg-black/40 p-4 border border-white/5 min-w-[140px]">
                    <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Academic Target</p>
                    <p className="text-2xl font-black italic text-white">{profile?.examDate ? formatTargetDate(profile.examDate) : '---'}</p>
                  </div>
@@ -546,7 +541,7 @@ function LibraryContent() {
                 <Microscope className="text-primary" />
                 Titrate New Protocol
               </DialogTitle>
-            </DialogHeader>
+            </Header>
             <div className="space-y-6 py-4">
               <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-start gap-4 mb-4">
                  <Info className="text-primary shrink-0 mt-1" size={16} />
