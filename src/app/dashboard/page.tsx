@@ -27,9 +27,11 @@ export default function Dashboard() {
     // Listen for updates
     window.addEventListener('profile-updated', loadDashboardData);
     window.addEventListener('mastery-updated', loadDashboardData);
+    window.addEventListener('schedule-updated', loadDashboardData);
     return () => {
       window.removeEventListener('profile-updated', loadDashboardData);
       window.removeEventListener('mastery-updated', loadDashboardData);
+      window.removeEventListener('schedule-updated', loadDashboardData);
     };
   }, []);
 

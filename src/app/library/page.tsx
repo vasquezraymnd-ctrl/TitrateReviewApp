@@ -1,11 +1,11 @@
 
 "use client"
 
-import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { db, Question, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
+import { db, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
 import { 
   Archive, 
   Search, 
@@ -14,17 +14,15 @@ import {
   UserCircle, 
   Plus, 
   Microscope, 
-  FilterX, 
-  X, 
   ChevronLeft, 
   Trash2, 
   Edit2, 
-  Info, 
   Database,
   FolderOpen,
   ArrowRight,
   BookOpen,
-  AlertCircle
+  AlertCircle,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -405,7 +403,7 @@ function LibraryContent() {
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover opacity-60 group-hover:opacity-80 transition-all duration-700"
+                          className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-700"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}
