@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from 'react';
@@ -6,13 +5,33 @@ import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Upload, FileText, CheckCircle2, AlertTriangle, Loader2, Database } from 'lucide-react';
-import { db, Question } from '@/lib/db';
+import { 
+  Upload, 
+  FileText, 
+  CheckCircle2, 
+  AlertTriangle, 
+  Loader2, 
+  Database, 
+  Zap,
+  Microscope,
+  BookOpen
+} from 'lucide-react';
+import { db, Question, CORE_SUBJECTS } from '@/lib/db';
 import { useToast } from '@/hooks/use-toast';
+import { generateQuestions } from '@/ai/flows/question-generator';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ImportPage() {
   const [file, setFile] = useState<File | null>(null);
   const [importing, setImporting] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<string>('Hematology');
   const [stats, setStats] = useState<{ count: number; subjects: string[] } | null>(null);
   const { toast } = useToast();
 
@@ -87,6 +106,29 @@ export default function ImportPage() {
     }
   };
 
+  const handleAiGeneration = async () => {
+    setGenerating(true);
+    try {
+      const result = await generateQuestions({ subject: selectedSubject, count: 5 });
+      if (result.questions && result.questions.length > 0) {
+        await db.bulkPut('questions', result.questions);
+        setStats({ count: result.questions.length, subjects: [selectedSubject] });
+        toast({
+          title: "AI Synthesis Complete",
+          description: `Generated 5 high-yield ${selectedSubject} board-style questions.`,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Synthesis Error",
+        description: "Laboratory AI failed to generate clinical content.",
+      });
+    } finally {
+      setGenerating(false);
+    }
+  };
+
   const processCsv = async () => {
     if (!file) return;
     setImporting(true);
@@ -143,37 +185,70 @@ export default function ImportPage() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="max-w-4xl mx-auto px-8 py-32 space-y-12">
+        <div className="max-w-6xl mx-auto px-8 py-32 space-y-12">
           <div className="border-b border-white/5 pb-8">
             <h2 className="text-4xl font-black italic uppercase tracking-tighter">Data Titration</h2>
             <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">
-              Populate your clinical library via Anki exports or tactical seeding.
+              Populate your clinical library via AI synthesis, Anki exports, or tactical seeding.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* AI Generation Card */}
+            <div className="riot-card bg-primary/5 border border-primary/20 p-8 flex flex-col justify-between">
+              <div>
+                <Zap className="text-primary mb-6 animate-pulse" size={32} />
+                <h3 className="text-xl font-black italic uppercase mb-2">AI Synthesis</h3>
+                <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest mb-6">
+                  Generate ASCP-style high-yield questions mimicking authoritative review sources like Stevens and Rodak's.
+                </p>
+                <div className="space-y-4">
+                   <Label className="text-[9px] font-black uppercase tracking-widest">Target Clinical Sector</Label>
+                   <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
+                      <SelectValue placeholder="Select Subject" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                      {CORE_SUBJECTS.map((s) => (
+                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                   </Select>
+                </div>
+              </div>
+              <Button 
+                onClick={handleAiGeneration}
+                disabled={generating}
+                className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]"
+              >
+                {generating ? <Loader2 className="animate-spin" /> : 'SYNTHESIZE CLINICAL QUESTIONS'}
+              </Button>
+            </div>
+
+            {/* Tactical Seeding Card */}
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
               <div>
                 <Database className="text-primary mb-6" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">Tactical Seeding</h3>
-                <p className="text-xs font-medium text-muted-foreground leading-relaxed uppercase tracking-widest">
-                  No data files? Synchronize your device with our core clinical sample set for immediate laboratory access.
+                <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
+                  Synchronize your device with our pre-built core clinical sample set for immediate laboratory access.
                 </p>
               </div>
               <Button 
                 onClick={seedSampleQuestions}
                 disabled={importing}
-                className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]"
+                className="riot-button h-12 mt-8 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
               >
-                {importing ? <Loader2 className="animate-spin" /> : 'SEED CLINICAL SAMPLES'}
+                {importing ? <Loader2 className="animate-spin" /> : 'SEED CORE SAMPLES'}
               </Button>
             </div>
 
+            {/* Manual Upload Card */}
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
               <div>
                 <Upload className="text-primary mb-6" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">Protocol Upload</h3>
-                <p className="text-xs font-medium text-muted-foreground leading-relaxed uppercase tracking-widest">
+                <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
                   Import your personal Anki archives (.csv or .txt). Precision titration ensures your library stays local.
                 </p>
               </div>
@@ -192,7 +267,7 @@ export default function ImportPage() {
                   </label>
                 </Button>
                 <Button 
-                  className="riot-button w-full h-12 bg-primary text-black font-black text-[10px]"
+                  className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
                   disabled={!file || importing}
                   onClick={processCsv}
                 >
@@ -203,14 +278,14 @@ export default function ImportPage() {
           </div>
 
           <div className="riot-card p-6 bg-white/[0.02] border border-white/5">
-            <h3 className="text-sm font-black italic uppercase tracking-widest flex items-center gap-2 mb-4">
-              <AlertTriangle className="text-warning" size={16} />
+            <h3 className="text-sm font-black italic uppercase tracking-widest flex items-center gap-2 mb-4 text-primary">
+              <Microscope size={16} />
               Analyst Guidelines
             </h3>
             <ul className="text-[10px] font-bold space-y-2 text-muted-foreground uppercase tracking-widest list-disc pl-5">
-              <li>Export your Anki deck as "Notes in Plain Text".</li>
-              <li>Structure must follow: Question [Tab] Answer [Tab] Subject [Tab] Rationale.</li>
-              <li>Data is stored in your local clinical archive (IndexedDB). No external sync occurs.</li>
+              <li>AI Synthesis mimics authoritative review books (Stevens, Rodak's, etc.) for high-yield preparation.</li>
+              <li>Anki Exports must be "Notes in Plain Text" with [Tab] separation.</li>
+              <li>All synthesized and imported data is stored in your device's local clinical archive (IndexedDB).</li>
             </ul>
           </div>
 
@@ -234,3 +309,9 @@ export default function ImportPage() {
     </div>
   );
 }
+
+const Label = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+  <label className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${className}`}>
+    {children}
+  </label>
+);
