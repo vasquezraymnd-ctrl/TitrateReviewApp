@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState, useRef } from 'react';
@@ -13,6 +14,7 @@ export default function Home() {
   const [stage, setStage] = useState<'animating' | 'device-selection' | 'onboarding' | 'ready-to-hold'>('animating');
   const [holdProgress, setHoldProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const [deviceType, setDeviceType] = useState<'phone' | 'tablet' | null>(null);
   const holdIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -37,12 +39,10 @@ export default function Home() {
   }, [router]);
 
   useEffect(() => {
-    if (isHolding) {
+    if (isHolding && !isNavigating) {
       holdIntervalRef.current = setInterval(() => {
         setHoldProgress(prev => {
           if (prev >= 100) {
-            clearInterval(holdIntervalRef.current!);
-            router.push('/dashboard');
             return 100;
           }
           return prev + 1.5; // Titration speed
@@ -64,7 +64,17 @@ export default function Home() {
     return () => {
       if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
     };
-  }, [isHolding, router]);
+  }, [isHolding, isNavigating]);
+
+  // Separate effect to handle navigation when progress is complete
+  // This avoids the "Cannot update a component while rendering" error
+  useEffect(() => {
+    if (holdProgress >= 100 && !isNavigating) {
+      setIsNavigating(true);
+      if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+      router.push('/dashboard');
+    }
+  }, [holdProgress, router, isNavigating]);
 
   const handleDeviceSelect = async (type: 'phone' | 'tablet') => {
     setDeviceType(type);
