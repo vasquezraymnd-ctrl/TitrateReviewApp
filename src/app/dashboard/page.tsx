@@ -159,29 +159,29 @@ export default function Dashboard() {
                         <div 
                           key={protocol.id} 
                           className={cn(
-                            "flex items-center gap-4 lg:gap-6 group/item py-5 lg:py-6 border-b border-white/5 last:border-0 transition-all duration-500",
-                            index === 0 && "bg-primary/[0.03] shadow-[0_0_30px_rgba(0,255,127,0.03)] px-3 -mx-3"
+                            "flex items-center gap-4 lg:gap-6 group/item py-6 lg:py-8 border-b border-white/5 last:border-0 transition-all duration-500",
+                            index === 0 && "bg-primary/[0.05] shadow-[0_0_40px_rgba(0,255,127,0.05)] px-4 -mx-4"
                           )}
                         >
                           <div className={cn(
-                            "w-1.5 transition-colors h-12 md:h-14 lg:h-20",
-                            index === 0 ? "bg-primary shadow-[0_0_15px_rgba(0,255,127,0.6)]" : "bg-primary/20 group-hover/item:bg-primary"
+                            "w-2 transition-colors h-14 md:h-16 lg:h-24",
+                            index === 0 ? "bg-primary shadow-[0_0_20px_rgba(0,255,127,0.8)]" : "bg-primary/20 group-hover/item:bg-primary"
                           )} />
                           <div className="flex-1">
-                            <div className="flex items-center justify-between mb-1.5">
-                              <p className="text-[10px] md:text-[12px] font-black text-muted-foreground uppercase tracking-[0.2em]">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[11px] md:text-[14px] font-black text-muted-foreground uppercase tracking-[0.2em]">
                                 {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
                               </p>
                               {index === 0 && (
-                                <span className="text-[8px] md:text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
+                                <span className="text-[9px] md:text-[12px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
                               )}
                             </div>
-                            <h4 className="text-xl md:text-3xl lg:text-4xl font-black italic uppercase tracking-tighter text-white/90 truncate max-w-[200px] sm:max-w-none">
+                            <h4 className="text-2xl md:text-4xl lg:text-5xl font-black italic uppercase tracking-tighter text-white truncate">
                               {protocol.title}
                             </h4>
-                            <div className="flex items-center gap-2 mt-2">
-                              <Calendar size={14} className="text-primary/60" />
-                              <span className="text-[14px] md:text-xl font-bold text-muted-foreground uppercase tracking-tight">
+                            <div className="flex items-center gap-3 mt-3">
+                              <Calendar size={16} className="text-primary/60" />
+                              <span className="text-[16px] md:text-2xl font-bold text-muted-foreground uppercase tracking-tight">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd, yyyy') : protocol.dayOfWeek} • {protocol.startTime} - {protocol.endTime}
                               </span>
                             </div>
@@ -189,9 +189,9 @@ export default function Dashboard() {
                         </div>
                       ))
                     ) : (
-                      <div className="py-10 text-center space-y-4 opacity-40">
-                        <AlertCircle className="mx-auto" size={24} />
-                        <p className="text-xs font-black uppercase tracking-widest">No Active Protocols</p>
+                      <div className="py-12 text-center space-y-4 opacity-40">
+                        <AlertCircle className="mx-auto" size={32} />
+                        <p className="text-sm font-black uppercase tracking-widest">No Active Protocols</p>
                       </div>
                     )}
                   </div>
@@ -227,12 +227,12 @@ export default function Dashboard() {
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover opacity-60 group-hover:opacity-80 transition-all duration-700"
+                          className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-700"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                      <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:left-6 flex justify-between items-end">
+                      <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:right-6 flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">{subject}</p>
                           <h4 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
