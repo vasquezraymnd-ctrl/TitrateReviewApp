@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { db, Question, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
-import { Archive, Search, FileText, User, UserCircle, Plus, Microscope, FilterX, X, ChevronLeft, Trash2, Edit2, Info } from 'lucide-react';
+import { Archive, Search, FileText, User, UserCircle, Plus, Microscope, FilterX, X, ChevronLeft, Trash2, Edit2, Info, Database } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {
@@ -25,7 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 function LibraryContent() {
   const searchParams = useSearchParams();
@@ -102,6 +101,45 @@ function LibraryContent() {
     setLoading(false);
   };
 
+  const seedSampleProtocol = async () => {
+    const sampleModule: LabModule = {
+      id: `sample-mod-${Date.now()}`,
+      name: "Coagulation Cascade: Primary & Secondary Hemostasis",
+      subject: "Hematology",
+      imageKey: "blood-cells",
+      mastery: 0,
+      extractedText: `
+        The coagulation cascade is a highly regulated sequence of biochemical events that leads to the formation of a stable fibrin clot. 
+        It is divided into the primary hemostasis (platelet plug formation) and secondary hemostasis (clotting factor activation).
+        
+        Key clotting factors include:
+        - Factor I (Fibrinogen)
+        - Factor II (Prothrombin)
+        - Factor VII (Stable Factor): Notable for having the shortest half-life of approximately 6 hours.
+        - Factor VIII (Antihemophilic Factor): Deficiency causes Hemophilia A.
+        - Factor IX (Christmas Factor): Deficiency causes Hemophilia B.
+        
+        The Extrinsic Pathway is initiated by the release of Tissue Factor (Factor III) following vascular injury. 
+        It primarily involves Factor VII and is monitored using the Prothrombin Time (PT) test.
+        
+        The Intrinsic Pathway involves Factors XII, XI, IX, and VIII. It is monitored using the Activated Partial Thromboplastin Time (aPTT) test.
+        
+        The Common Pathway begins with the activation of Factor X (Stuart-Prower Factor), which converts Prothrombin to Thrombin. 
+        Thrombin then converts Fibrinogen into Fibrin.
+        
+        Vitamin K is essential for the gamma-carboxylation of Factors II, VII, IX, and X, as well as Proteins C and S. 
+        Warfarin therapy antagonizes Vitamin K, affecting these factors first—starting with Factor VII due to its rapid turnover.
+      `.trim()
+    };
+
+    await db.put('modules', sampleModule);
+    toast({
+      title: "Sample Protocol Seeded",
+      description: "A high-yield Hematology module has been added for AI titration testing.",
+    });
+    loadLibrary();
+  };
+
   const updateStreak = async () => {
     const userProfile = await db.getById<UserProfile>('profile', 'current-user');
     if (!userProfile) return;
@@ -147,11 +185,8 @@ function LibraryContent() {
         return;
     }
 
-    // Attempt to extract text (Simple simulated titration for board prep)
     let extractedText = "";
     try {
-        // In a real environment, we'd use a PDF parser. 
-        // Here we simulate the process or use FileReader for any textual metadata.
         const reader = new FileReader();
         extractedText = await new Promise((resolve) => {
             reader.onload = (e) => resolve(e.target?.result as string || "");
@@ -168,7 +203,7 @@ function LibraryContent() {
       imageKey: selectedImageKey,
       mastery: 0,
       pdfBlob: selectedFile,
-      extractedText: extractedText.substring(0, 50000) // Store for AI context
+      extractedText: extractedText.substring(0, 50000)
     };
 
     await db.put('modules', newModule);
@@ -213,10 +248,12 @@ function LibraryContent() {
   };
 
   const openPdf = (module: LabModule) => {
+    updateStreak();
     if (module.pdfBlob) {
       const url = URL.createObjectURL(module.pdfBlob);
       setViewingPdf(url);
-      updateStreak();
+    } else if (module.extractedText) {
+      toast({ title: "Module Context Active", description: "This module is ready for AI titration." });
     } else {
       toast({ title: "No PDF attached", description: "This module only contains metadata." });
     }
@@ -288,6 +325,9 @@ function LibraryContent() {
               </p>
             </div>
             <div className="flex gap-4 w-full md:w-auto">
+              <Button onClick={seedSampleProtocol} variant="outline" className="riot-button h-12 px-6 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[10px]">
+                <Database className="mr-2 h-4 w-4" /> SEED SAMPLE
+              </Button>
               {subjectFilter && (
                 <Button asChild variant="outline" className="riot-button h-12 px-6 border-white/10 text-white font-black text-[10px]">
                   <Link href="/library"><FilterX className="mr-2 h-4 w-4" /> CLEAR FILTER</Link>
@@ -319,11 +359,16 @@ function LibraryContent() {
               <FileText size={64} className="mx-auto text-muted-foreground/30 mb-4" />
               <h3 className="text-xl font-black italic uppercase">No sub-modules recorded</h3>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">
-                Upload your PDF notes to begin device-local study.
+                Upload your PDF notes or seed a sample to begin device-local study.
               </p>
-              <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-8 bg-primary hover:bg-primary/80 text-black">
-                UPLOAD FIRST PDF
-              </Button>
+              <div className="flex gap-4 justify-center">
+                <Button onClick={seedSampleProtocol} className="riot-button h-12 px-8 bg-white/10 hover:bg-white/20 text-white">
+                  SEED SAMPLE PROTOCOL
+                </Button>
+                <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-12 px-8 bg-primary hover:bg-primary/80 text-black">
+                  UPLOAD FIRST PDF
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
@@ -345,7 +390,7 @@ function LibraryContent() {
                           <div className="flex items-center gap-2 mt-2">
                              <FileText size={12} className="text-primary" />
                              <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
-                               Local PDF Protocol
+                               {module.pdfBlob ? 'Local PDF Protocol' : 'Titrated Clinical Context'}
                              </span>
                           </div>
                         </div>
