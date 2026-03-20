@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { db, Question, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
-import { Archive, Search, FileText, User, UserCircle, Plus, Microscope, FilterX, X, ChevronLeft, Trash2 } from 'lucide-react';
+import { Archive, Search, FileText, User, UserCircle, Plus, Microscope, FilterX, X, ChevronLeft, Trash2, Edit2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {
@@ -36,11 +36,20 @@ function LibraryContent() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  
+  // Module Dialog State
   const [isAddModuleOpen, setIsAddModuleOpen] = useState(false);
   const [newModuleName, setNewModuleName] = useState('');
   const [selectedSubject, setSelectedSubject] = useState<string>(subjectFilter || 'Microbiology');
   const [selectedImageKey, setSelectedImageKey] = useState('med-lab');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  
+  // Profile Dialog State
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editYear, setEditYear] = useState('');
+  const [editExamDate, setEditExamDate] = useState('');
+
   const [viewingPdf, setViewingPdf] = useState<string | null>(null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -72,6 +81,9 @@ function LibraryContent() {
     const userProfile = await db.getById<UserProfile>('profile', 'current-user');
     if (userProfile) {
       setProfile(userProfile);
+      setEditName(userProfile.name);
+      setEditYear(userProfile.proficiencyRank);
+      setEditExamDate(userProfile.examDate);
     } else {
       const defaultProfile: UserProfile = {
         id: 'current-user',
@@ -82,6 +94,9 @@ function LibraryContent() {
       };
       await db.put('profile', defaultProfile);
       setProfile(defaultProfile);
+      setEditName(defaultProfile.name);
+      setEditYear(defaultProfile.proficiencyRank);
+      setEditExamDate(defaultProfile.examDate);
     }
     setLoading(false);
   };
@@ -106,6 +121,27 @@ function LibraryContent() {
     resetForm();
     setIsAddModuleOpen(false);
     loadLibrary();
+  };
+
+  const saveProfile = async () => {
+    if (!editName.trim()) {
+      toast({ variant: "destructive", title: "Error", description: "Name cannot be empty." });
+      return;
+    }
+
+    const updatedProfile: UserProfile = {
+      ...profile!,
+      name: editName,
+      proficiencyRank: editYear,
+      examDate: editExamDate,
+    };
+
+    await db.put('profile', updatedProfile);
+    setProfile(updatedProfile);
+    setIsEditProfileOpen(false);
+    toast({ title: "Profile Updated", description: "Your clinical credentials have been synchronized." });
+    // Trigger dashboard refresh if needed (usually handled by local state or refresh)
+    window.dispatchEvent(new Event('profile-updated'));
   };
 
   const resetForm = () => {
@@ -135,6 +171,12 @@ function LibraryContent() {
     m.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const formatTargetDate = (dateStr: string) => {
+    if (!dateStr) return "N/A";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' }).toUpperCase();
+  };
+
   return (
     <div className="flex h-screen bg-[#050a0f] overflow-hidden text-white">
       <Sidebar />
@@ -142,10 +184,18 @@ function LibraryContent() {
         <DashboardHeader />
         
         <div className="px-8 lg:px-16 py-32 max-w-7xl mx-auto space-y-16">
-          <section className="riot-card p-10 bg-white/[0.02] border border-white/5 relative overflow-hidden">
+          <section className="riot-card p-10 bg-white/[0.02] border border-white/5 relative overflow-hidden group/card">
              <div className="absolute top-0 right-0 p-8 opacity-5">
                <UserCircle className="text-primary" size={200} />
              </div>
+             
+             <button 
+               onClick={() => setIsEditProfileOpen(true)}
+               className="absolute top-6 right-6 p-2 bg-white/5 border border-white/10 hover:bg-primary hover:text-black transition-all opacity-0 group-hover/card:opacity-100 z-20"
+             >
+               <Edit2 size={16} />
+             </button>
+
              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10">
                <div className="flex items-center gap-6 md:col-span-2">
                  <div className="w-24 h-24 border-2 border-primary/50 p-1 rounded-none">
@@ -166,7 +216,7 @@ function LibraryContent() {
                  </div>
                  <div className="bg-black/40 p-4 border border-white/5">
                    <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Academic Target</p>
-                   <p className="text-2xl font-black italic text-white">AUG 25</p>
+                   <p className="text-2xl font-black italic text-white">{profile?.examDate ? formatTargetDate(profile.examDate) : '---'}</p>
                  </div>
                </div>
              </div>
@@ -256,6 +306,54 @@ function LibraryContent() {
           )}
         </div>
 
+        {/* Profile Edit Dialog */}
+        <Dialog open={isEditProfileOpen} onOpenChange={setIsEditProfileOpen}>
+          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+            <DialogHeader>
+              <DialogTitle className="font-black italic uppercase tracking-tighter text-2xl flex items-center gap-2">
+                <Edit2 className="text-primary" />
+                Edit Clinical Credentials
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6 py-4">
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Analyst Name</Label>
+                <Input 
+                  value={editName} 
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder="e.g. Future RMT"
+                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Year / Laboratory Grade</Label>
+                <Input 
+                  value={editYear} 
+                  onChange={(e) => setEditYear(e.target.value)}
+                  placeholder="e.g. 3rd Year Section A"
+                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Academic Target (Exam Date)</Label>
+                <Input 
+                  type="date"
+                  value={editExamDate} 
+                  onChange={(e) => setEditExamDate(e.target.value)}
+                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="ghost" onClick={() => setIsEditProfileOpen(false)} className="uppercase font-black text-[10px] tracking-widest">Cancel</Button>
+              <Button onClick={saveProfile} className="bg-primary text-black rounded-none font-black text-[10px] tracking-widest px-8">SAVE CREDENTIALS</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Module Add Dialog */}
         <Dialog open={isAddModuleOpen} onOpenChange={setIsAddModuleOpen}>
           <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
             <DialogHeader>

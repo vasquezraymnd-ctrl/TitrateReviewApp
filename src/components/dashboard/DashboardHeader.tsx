@@ -5,16 +5,34 @@ import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { db, UserProfile } from '@/lib/db';
 
 export function DashboardHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    
+    const loadProfile = async () => {
+      const userProfile = await db.getById<UserProfile>('profile', 'current-user');
+      if (userProfile) {
+        setProfile(userProfile);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    loadProfile();
+
+    // Listen for custom event if profile is updated in library
+    window.addEventListener('profile-updated', loadProfile);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('profile-updated', loadProfile);
+    };
   }, []);
 
   return (
@@ -39,8 +57,12 @@ export function DashboardHeader() {
         </Button>
         <div className="flex items-center gap-3 pl-6 border-l border-white/10 cursor-pointer group">
           <div className="text-right hidden md:block">
-            <p className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-primary transition-colors">Future RMT</p>
-            <p className="text-[9px] font-bold text-primary uppercase tracking-tighter">Laboratory Grade 42</p>
+            <p className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-primary transition-colors">
+              {profile?.name || 'Future RMT'}
+            </p>
+            <p className="text-[9px] font-bold text-primary uppercase tracking-tighter">
+              {profile?.proficiencyRank || 'Laboratory Grade 42'}
+            </p>
           </div>
           <Avatar className="w-8 h-8 rounded-none border border-primary/50 p-0.5">
             <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=64&h=64&fit=crop" className="grayscale" />
