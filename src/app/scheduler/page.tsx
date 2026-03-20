@@ -32,12 +32,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const STUDY_TIPS = [
-  "Master the reference ranges for Clinical Chemistry; they are the baseline for every diagnostic report.",
-  "Mnemonics are vital for Microbiology. Associate Gram stains with cell wall structures early on.",
-  "In Hematology, morphology is key. Spend extra time reviewing abnormal blood smears in your archives.",
-  "Clinical Microscopy requires precision. Always double-check your centrifuge settings for urine sediments.",
-  "For HTMLE, understanding the 'why' behind MT Laws is as important as memorizing the 'what'."
+const STUDY_METHOD_TIPS = [
+  "Active Recall: Instead of re-reading your notes, quiz yourself on core concepts like biochemical pathways to strengthen neural pathways.",
+  "Spaced Repetition: Review high-yield topics like Gram stain procedures at increasing intervals to move information into long-term memory.",
+  "Feynman Technique: Try explaining a complex process, like the coagulation cascade, in simple terms as if teaching a peer to identify gaps in your knowledge.",
+  "Concept Mapping: Draw connections between subjects, such as how Renal Physiology in Clinical Chemistry relates to findings in Clinical Microscopy.",
+  "Pomodoro Protocol: Use 25-minute focused 'assays' followed by 5-minute breaks to maintain peak analytical performance during long study sessions."
 ];
 
 export default function StudyPage() {
@@ -61,7 +61,7 @@ export default function StudyPage() {
 
   useEffect(() => {
     loadSchedules();
-    setRandomTip(STUDY_TIPS[Math.floor(Math.random() * STUDY_TIPS.length)]);
+    setRandomTip(STUDY_METHOD_TIPS[Math.floor(Math.random() * STUDY_METHOD_TIPS.length)]);
   }, []);
 
   useEffect(() => {
