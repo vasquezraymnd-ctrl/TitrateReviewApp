@@ -4,7 +4,7 @@
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Target, Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity } from 'lucide-react';
+import { Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity, Target } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -104,6 +104,7 @@ export default function Dashboard() {
               fill
               className="object-cover opacity-20 grayscale hover:grayscale-0 transition-all duration-1000"
               data-ai-hint="medical laboratory"
+              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050a0f] via-[#050a0f]/80 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#050a0f] via-transparent to-transparent" />
@@ -193,21 +194,21 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
               {subjects.map((subject) => (
                 <Link key={subject.id} href={`/quiz/${subject.id}`} className="group">
-                  <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50">
+                  <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
                     {subject.image && (
                       <Image 
                         src={subject.image} 
                         alt={subject.name} 
                         fill 
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
                         data-ai-hint={subject.hint}
                       />
                     )}
-                    <div className="absolute inset-0 bg-black/60 group-hover:bg-primary/10 transition-colors" />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                       <div className="space-y-1">
                         <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Laboratory Mastery</p>
-                        <h4 className="text-2xl font-black italic uppercase">{subject.name}</h4>
+                        <h4 className="text-2xl font-black italic uppercase text-white drop-shadow-lg">{subject.name}</h4>
                       </div>
                       <div className="text-right">
                         <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{subject.mastery}%</p>
