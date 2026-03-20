@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
@@ -32,11 +32,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+const STUDY_TIPS = [
+  "Master the reference ranges for Clinical Chemistry; they are the baseline for every diagnostic report.",
+  "Mnemonics are vital for Microbiology. Associate Gram stains with cell wall structures early on.",
+  "In Hematology, morphology is key. Spend extra time reviewing abnormal blood smears in your archives.",
+  "Clinical Microscopy requires precision. Always double-check your centrifuge settings for urine sediments.",
+  "For HTMLE, understanding the 'why' behind MT Laws is as important as memorizing the 'what'."
+];
+
 export default function StudyPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<ScheduleType>('class');
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [randomTip, setRandomTip] = useState("");
   const [newItem, setNewItem] = useState<Partial<Schedule>>({
     title: '',
     startTime: '08:00',
@@ -52,6 +61,7 @@ export default function StudyPage() {
 
   useEffect(() => {
     loadSchedules();
+    setRandomTip(STUDY_TIPS[Math.floor(Math.random() * STUDY_TIPS.length)]);
   }, []);
 
   useEffect(() => {
@@ -150,7 +160,9 @@ export default function StudyPage() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const filteredSchedules = schedules.filter(s => s.type === activeTab);
+  const filteredSchedules = useMemo(() => {
+    return schedules.filter(s => s.type === activeTab);
+  }, [schedules, activeTab]);
 
   return (
     <div className="flex h-screen bg-[#050a0f] overflow-hidden">
@@ -273,11 +285,13 @@ export default function StudyPage() {
                 <div className="riot-card p-8 bg-primary/5 border border-primary/20 relative overflow-hidden">
                    <div className="relative z-10">
                      <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4 flex items-center gap-2">
-                       <Info size={14} />
-                       Quick Tip
+                       <div className="p-1.5 bg-primary/10 border border-primary/20">
+                        <Info size={14} />
+                       </div>
+                       Clinical Insight
                      </h4>
-                     <p className="text-sm italic text-white/80 leading-relaxed">
-                       Consistency in laboratory practice leads to higher proficiency. Keep your schedule balanced between rotations and self-study.
+                     <p className="text-sm italic text-white/80 leading-relaxed min-h-[60px]">
+                       {randomTip || "Analyzing study protocols..."}
                      </p>
                    </div>
                 </div>
