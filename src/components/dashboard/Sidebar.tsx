@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -112,7 +113,7 @@ export function Sidebar() {
       </div>
 
       {/* Mobile Bottom Nav */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#111a24] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#111a24] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90 pb-safe">
         {[
           { icon: Home, label: 'Center', href: '/dashboard' },
           { icon: Archive, label: 'Archive', href: '/library' },
@@ -121,9 +122,36 @@ export function Sidebar() {
           { icon: Clock, label: 'Study', href: '/scheduler' },
         ].map((item) => {
           const isActive = pathname === item.href;
+          const isFocus = item.label === 'Focus';
+
+          if (isFocus) {
+            return (
+              <Link 
+                key={item.href} 
+                href={item.href} 
+                className="relative flex flex-col items-center justify-center -top-6 transition-all group"
+              >
+                <div className={cn(
+                  "w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-2xl border-4 border-[#111a24] ring-1 ring-primary/20",
+                  isActive 
+                    ? "bg-primary text-black shadow-primary/40 scale-110" 
+                    : "bg-white/5 text-primary border-[#111a24] group-hover:bg-primary/10"
+                )}>
+                  <item.icon size={24} className={isActive ? "animate-pulse" : ""} />
+                </div>
+                <span className={cn(
+                  "text-[8px] font-black uppercase tracking-widest mt-1",
+                  isActive ? "text-primary" : "text-muted-foreground"
+                )}>
+                  {item.label}
+                </span>
+              </Link>
+            );
+          }
+
           return (
             <Link key={item.href} href={item.href} className="flex flex-col items-center justify-center gap-1 min-w-[50px] transition-all">
-              <item.icon size={16} className={isActive ? "text-primary" : "text-muted-foreground"} />
+              <item.icon size={18} className={isActive ? "text-primary" : "text-muted-foreground"} />
               <span className={cn("text-[7px] font-black uppercase tracking-tighter", isActive ? "text-white" : "text-muted-foreground")}>{item.label}</span>
             </Link>
           );
