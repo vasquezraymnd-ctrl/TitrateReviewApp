@@ -26,9 +26,9 @@
     },
     {
       "id": "clin-microscopy",
-      "description": "Clinical Microscopy - Specimen bottle",
-      "imageUrl": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800&h=450",
-      "imageHint": "specimen bottle"
+      "description": "Clinical Microscopy - Microscopy view",
+      "imageUrl": "https://www.news-medical.net/image-handler/picture/2021/2/shutterstock_656103616.jpg",
+      "imageHint": "clinical microscopy"
     },
     {
       "id": "histopath",
