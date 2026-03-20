@@ -7,7 +7,6 @@ import { db, UserProfile } from '@/lib/db';
 import { Shield, ArrowRight, Microscope, Smartphone, Tablet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
 
 export default function Home() {
   const router = useRouter();
@@ -16,13 +15,13 @@ export default function Home() {
 
   useEffect(() => {
     const startupSequence = async () => {
-      // 1. Mandatory 5-second Titration Animation for every app launch
+      // Mandatory 5-second Titration Animation for every app launch
       await new Promise(resolve => setTimeout(resolve, 5000));
       setStage('device-selection');
     };
 
     startupSequence();
-  }, [router]);
+  }, []);
 
   const handleDeviceSelect = async (type: 'phone' | 'tablet') => {
     setDeviceType(type);
@@ -170,10 +169,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-50" />
         
         <div className="riot-card max-w-2xl w-full bg-[#0A1219] border border-white/10 p-8 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
-          <div className="absolute top-0 right-0 p-10 opacity-5">
-            <Microscope size={200} className="text-primary" />
-          </div>
-
           <div className="relative z-10 space-y-8 md:space-y-10">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
