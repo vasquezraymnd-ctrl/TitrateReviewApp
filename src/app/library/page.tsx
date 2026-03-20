@@ -91,6 +91,7 @@ function LibraryContent() {
         proficiencyRank: 'Laboratory Grade 42',
         examDate: '2025-08-20',
         totalQuestionsAnswered: 1248,
+        currentStreak: 0
       };
       await db.put('profile', defaultProfile);
       setProfile(defaultProfile);
@@ -99,6 +100,40 @@ function LibraryContent() {
       setEditExamDate(defaultProfile.examDate);
     }
     setLoading(false);
+  };
+
+  const updateStreak = async () => {
+    const userProfile = await db.getById<UserProfile>('profile', 'current-user');
+    if (!userProfile) return;
+
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    
+    if (userProfile.lastActivityDate === todayStr) {
+      return; // Already updated today
+    }
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    let newStreak = userProfile.currentStreak || 0;
+
+    if (userProfile.lastActivityDate === yesterdayStr) {
+      newStreak += 1;
+    } else {
+      newStreak = 1;
+    }
+
+    const updatedProfile = {
+      ...userProfile,
+      currentStreak: newStreak,
+      lastActivityDate: todayStr
+    };
+
+    await db.put('profile', updatedProfile);
+    setProfile(updatedProfile);
+    window.dispatchEvent(new Event('profile-updated'));
   };
 
   const createModule = async () => {
@@ -140,7 +175,6 @@ function LibraryContent() {
     setProfile(updatedProfile);
     setIsEditProfileOpen(false);
     toast({ title: "Profile Updated", description: "Your clinical credentials have been synchronized." });
-    // Trigger dashboard refresh if needed (usually handled by local state or refresh)
     window.dispatchEvent(new Event('profile-updated'));
   };
 
@@ -162,6 +196,7 @@ function LibraryContent() {
     if (module.pdfBlob) {
       const url = URL.createObjectURL(module.pdfBlob);
       setViewingPdf(url);
+      updateStreak();
     } else {
       toast({ title: "No PDF attached", description: "This module only contains metadata." });
     }

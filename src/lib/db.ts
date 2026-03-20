@@ -27,6 +27,8 @@ export interface UserProfile {
   proficiencyRank: string;
   examDate: string;
   totalQuestionsAnswered: number;
+  currentStreak: number;
+  lastActivityDate?: string; // YYYY-MM-DD
 }
 
 export type ScheduleType = 'class' | 'exam' | 'study';

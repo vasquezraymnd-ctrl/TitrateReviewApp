@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -128,7 +127,7 @@ export default function Dashboard() {
 
             <div className="animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
               <div className="riot-card p-8 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-100 transition-opacity">
                   <Target size={120} className="text-primary" />
                 </div>
                 
@@ -224,12 +223,12 @@ export default function Dashboard() {
           <section className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="bg-white/[0.02] p-12 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
               <Activity className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
-              <p className="text-6xl font-black italic uppercase tracking-tighter">1,248</p>
+              <p className="text-6xl font-black italic uppercase tracking-tighter">{profile?.totalQuestionsAnswered || 0}</p>
               <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Questions Cleared</p>
             </div>
             <div className="bg-white/[0.02] p-12 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
               <Clock className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
-              <p className="text-6xl font-black italic uppercase tracking-tighter">5 DAYS</p>
+              <p className="text-6xl font-black italic uppercase tracking-tighter">{profile?.currentStreak || 0} DAYS</p>
               <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Current Streak</p>
             </div>
             <div className="bg-primary p-12 flex flex-col items-center text-center space-y-4 shadow-[0_0_50px_rgba(0,255,127,0.2)]">
