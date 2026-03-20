@@ -3,6 +3,7 @@
 
 import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { db, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
@@ -22,7 +23,8 @@ import {
   ArrowRight,
   BookOpen,
   AlertCircle,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -46,6 +48,16 @@ import {
 } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/app/lib/placeholder-images';
+
+// Dynamically import the PDF viewer to handle client-side rendering requirements
+const PdfViewer = dynamic(() => import('@/components/dashboard/PdfViewer').then(mod => mod.PdfViewer), {
+  ssr: false,
+  loading: () => (
+    <div className="flex-1 flex items-center justify-center bg-[#050a0f]">
+      <Loader2 className="animate-spin text-primary" size={32} />
+    </div>
+  )
+});
 
 function LibraryContent() {
   const searchParams = useSearchParams();
@@ -611,7 +623,7 @@ function LibraryContent() {
         {/* Fullscreen PDF Viewer */}
         {viewingModule && (
           <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
-            <header className="h-16 lg:h-20 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 lg:px-6">
+            <header className="h-16 lg:h-20 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 lg:px-6 z-20">
               <div className="flex items-center gap-3 lg:gap-6">
                 <Button variant="ghost" size="icon" onClick={() => {
                   setViewingModule(null);
@@ -648,13 +660,9 @@ function LibraryContent() {
             </header>
             <div className="flex-1 overflow-hidden relative">
                {viewingPdfUrl ? (
-                 <iframe 
-                   src={`${viewingPdfUrl}#toolbar=0`} 
-                   className="w-full h-full border-none"
-                   title="PDF Viewer"
-                 />
+                 <PdfViewer url={viewingPdfUrl} />
                ) : (
-                 <div className="flex flex-col items-center justify-center h-full space-y-4 px-6 text-center">
+                 <div className="flex flex-col items-center justify-center h-full space-y-4 px-6 text-center bg-[#050a0f]">
                     <BookOpen size={48} className="text-primary/20" />
                     <p className="text-[10px] lg:text-[14px] font-black italic uppercase text-muted-foreground">Protocol context loaded for AI synthesis only.</p>
                  </div>
