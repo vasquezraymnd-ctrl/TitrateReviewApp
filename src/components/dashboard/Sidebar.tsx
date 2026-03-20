@@ -3,13 +3,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive, BookOpen, UserCircle } from 'lucide-react';
+import { Home, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive, BookOpen, UserCircle, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const mainNav = [
   { icon: Home, label: 'Laboratory Center', href: '/dashboard' },
   { icon: Archive, label: 'Protocol Archives', href: '/library' },
-  { icon: BookOpen, label: 'Study Protocols', href: '/scheduler' },
+  { icon: Zap, label: 'Focus Mode', href: '/scheduler' },
 ];
 
 const secondaryNav = [
