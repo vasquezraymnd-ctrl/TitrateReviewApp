@@ -23,28 +23,28 @@ export default function Dashboard() {
     { 
       name: 'Microbiology', 
       id: 'micro', 
-      image: PlaceHolderImages.find(img => img.id === 'micro-bacteria')?.imageUrl || '', 
+      image: PlaceHolderImages.find(img => img.id === 'micro-bacteria')?.imageUrl || null, 
       hint: PlaceHolderImages.find(img => img.id === 'micro-bacteria')?.imageHint || '',
       mastery: 85 
     },
     { 
       name: 'Hematology', 
       id: 'hemato', 
-      image: PlaceHolderImages.find(img => img.id === 'blood-cells')?.imageUrl || '', 
+      image: PlaceHolderImages.find(img => img.id === 'blood-cells')?.imageUrl || null, 
       hint: PlaceHolderImages.find(img => img.id === 'blood-cells')?.imageHint || '',
       mastery: 62 
     },
     { 
       name: 'ClinChem', 
       id: 'chem', 
-      image: PlaceHolderImages.find(img => img.id === 'chemistry-lab')?.imageUrl || '', 
+      image: PlaceHolderImages.find(img => img.id === 'chemistry-lab')?.imageUrl || null, 
       hint: PlaceHolderImages.find(img => img.id === 'chemistry-lab')?.imageHint || '',
       mastery: 45 
     },
     { 
       name: 'ImmunoSero', 
       id: 'immuno', 
-      image: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageUrl || '', 
+      image: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageUrl || null, 
       hint: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageHint || '',
       mastery: 78 
     },
@@ -106,13 +106,19 @@ export default function Dashboard() {
               {subjects.map((subject) => (
                 <Link key={subject.id} href={`/quiz/${subject.id}`} className="group">
                   <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50">
-                    <Image 
-                      src={subject.image} 
-                      alt={subject.name} 
-                      fill 
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                      data-ai-hint={subject.hint}
-                    />
+                    {subject.image ? (
+                      <Image 
+                        src={subject.image} 
+                        alt={subject.name} 
+                        fill 
+                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        data-ai-hint={subject.hint}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
+                        <Target className="text-muted-foreground/20" size={48} />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-black/60 group-hover:bg-primary/10 transition-colors" />
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                       <div className="space-y-1">
