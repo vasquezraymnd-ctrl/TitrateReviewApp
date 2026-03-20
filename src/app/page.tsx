@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     const startupSequence = async () => {
-      // 1. Duration for the Titration Animation (5s for high visibility)
+      // 1. Duration for the Titration Animation
       const animationPromise = new Promise(resolve => setTimeout(resolve, 5000));
       
       // 2. Check profile status in parallel
@@ -67,7 +67,7 @@ export default function Home() {
                 />
               </svg>
               
-              {/* The Pouring Stream (drops from the mouth of the tube) */}
+              {/* The Pouring Stream */}
               <div className="absolute top-[110px] left-1/2 -translate-x-1/2 w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function Home() {
                 Welcome, <br /><span className="text-primary">Future RMT</span>
               </h2>
               <p className="text-muted-foreground text-lg italic leading-relaxed max-w-md">
-                Precision is the core of diagnostic excellence. Before initiating your first clinical assay, please synchronize your analyst credentials.
+                The journey to RMT is a grueling phase but a rewarding one. Galingan Katusok!
               </p>
             </div>
 
