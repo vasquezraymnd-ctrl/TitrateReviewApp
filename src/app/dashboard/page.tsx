@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -7,13 +8,7 @@ import { Zap, Sparkles, Trophy, Target } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-
-const subjects = [
-  { name: 'Microbiology', id: 'micro', image: 'https://picsum.photos/seed/micro/800/450', mastery: 85, rank: 'Immortal' },
-  { name: 'Hematology', id: 'hemato', image: 'https://picsum.photos/seed/hemato/800/450', mastery: 62, rank: 'Diamond' },
-  { name: 'ClinChem', id: 'chem', image: 'https://picsum.photos/seed/chem/800/450', mastery: 45, rank: 'Platinum' },
-  { name: 'ImmunoSero', id: 'immuno', image: 'https://picsum.photos/seed/immuno/800/450', mastery: 78, rank: 'Ascendant' },
-];
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
@@ -23,6 +18,37 @@ export default function Dashboard() {
   }, []);
 
   if (!mounted) return null;
+
+  const subjects = [
+    { 
+      name: 'Microbiology', 
+      id: 'micro', 
+      image: PlaceHolderImages.find(img => img.id === 'micro-bacteria')?.imageUrl || '', 
+      hint: PlaceHolderImages.find(img => img.id === 'micro-bacteria')?.imageHint || '',
+      mastery: 85 
+    },
+    { 
+      name: 'Hematology', 
+      id: 'hemato', 
+      image: PlaceHolderImages.find(img => img.id === 'blood-cells')?.imageUrl || '', 
+      hint: PlaceHolderImages.find(img => img.id === 'blood-cells')?.imageHint || '',
+      mastery: 62 
+    },
+    { 
+      name: 'ClinChem', 
+      id: 'chem', 
+      image: PlaceHolderImages.find(img => img.id === 'chemistry-lab')?.imageUrl || '', 
+      hint: PlaceHolderImages.find(img => img.id === 'chemistry-lab')?.imageHint || '',
+      mastery: 45 
+    },
+    { 
+      name: 'ImmunoSero', 
+      id: 'immuno', 
+      image: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageUrl || '', 
+      hint: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageHint || '',
+      mastery: 78 
+    },
+  ];
 
   return (
     <div className="flex h-screen bg-[#050a0f] overflow-hidden">
@@ -39,7 +65,7 @@ export default function Dashboard() {
               alt="Hero"
               fill
               className="object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-1000"
-              data-ai-hint="scientific laboratory"
+              data-ai-hint="medical laboratory"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050a0f] via-transparent to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#050a0f] via-transparent to-transparent" />
@@ -54,7 +80,7 @@ export default function Dashboard() {
               Green <br /> <span className="text-primary">Protocol</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl font-medium uppercase tracking-wide leading-relaxed">
-              Tactical analysis complete. Calibrate your knowledge in <span className="text-white">Clinical Chemistry</span> to reach the next tier.
+              Tactical analysis complete. Calibrate your knowledge in <span className="text-white">Clinical Chemistry</span> to ensure diagnostic accuracy.
             </p>
             <div className="flex gap-4 pt-4">
               <Button asChild className="riot-button h-16 px-12 bg-primary hover:bg-primary/80 text-black rounded-none">
@@ -69,7 +95,7 @@ export default function Dashboard() {
 
         <div className="p-8 lg:p-16 space-y-20">
           
-          {/* Agent Selection Style (Subjects) */}
+          {/* Clinical Deployment Zones */}
           <section>
             <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
               <h3 className="text-3xl font-black italic tracking-tighter uppercase">Deployment Zones</h3>
@@ -85,12 +111,12 @@ export default function Dashboard() {
                       alt={subject.name} 
                       fill 
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                      data-ai-hint="medical biology"
+                      data-ai-hint={subject.hint}
                     />
                     <div className="absolute inset-0 bg-black/60 group-hover:bg-primary/10 transition-colors" />
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                       <div className="space-y-1">
-                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{subject.rank}</p>
+                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Subject Analysis</p>
                         <h4 className="text-2xl font-black italic uppercase">{subject.name}</h4>
                       </div>
                       <div className="text-right">
