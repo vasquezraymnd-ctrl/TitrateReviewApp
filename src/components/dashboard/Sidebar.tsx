@@ -2,18 +2,18 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, Library, PlayCircle, PlusSquare, Microscope, Settings, Shield } from 'lucide-react';
+import { Home, Search, Library, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const mainNav = [
   { icon: Home, label: 'Laboratory Center', href: '/dashboard' },
-  { icon: Search, label: 'Clinical Insights', href: '/explore' },
-  { icon: Library, label: 'Assay Library', href: '/library' },
+  { icon: Archive, label: 'Protocol Archives', href: '/library' },
+  { icon: Library, label: 'Assay Library', href: '/scheduler' },
 ];
 
 const secondaryNav = [
   { icon: PlusSquare, label: 'Data Titration', href: '/import' },
-  { icon: PlayCircle, label: 'Assay Scheduler', href: '/scheduler' },
+  { icon: PlayCircle, label: 'Active Assay', href: '/quiz' },
   { icon: Microscope, label: 'Certifications', href: '/liked' },
 ];
 

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 1;
+const DB_VERSION = 2; // Incremented version for new fields
 
 export interface Question {
   id: string;
@@ -24,15 +24,22 @@ export interface Progress {
 export interface UserProfile {
   id: string;
   name: string;
-  targetRating: number;
+  proficiencyRank: string;
   examDate: string;
+  totalQuestionsAnswered: number;
 }
+
+export type ScheduleType = 'class' | 'exam' | 'study';
 
 export interface Schedule {
   id: string;
-  dayOfWeek: string;
+  type: ScheduleType;
+  title: string;
+  dayOfWeek?: string; // For classes
+  date?: string; // For exams and study sessions
   startTime: string;
   endTime: string;
+  completed?: boolean;
 }
 
 export class TitrateDB {
@@ -110,6 +117,17 @@ export class TitrateDB {
       const store = transaction.objectStore(storeName);
       const request = store.get(id);
       request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async delete(storeName: string, id: string): Promise<void> {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(storeName, 'readwrite');
+      const store = transaction.objectStore(storeName);
+      const request = store.delete(id);
+      request.onsuccess = () => resolve();
       request.onerror = () => reject(request.error);
     });
   }

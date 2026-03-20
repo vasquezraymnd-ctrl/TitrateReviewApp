@@ -4,167 +4,210 @@ import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Calendar as CalendarIcon, Clock, Sparkles, Plus, Trash2, Microscope } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Calendar as CalendarIcon, 
+  Clock, 
+  Sparkles, 
+  Plus, 
+  Trash2, 
+  Microscope, 
+  GraduationCap, 
+  BookOpen, 
+  Timer,
+  Bell,
+  AlarmClock
+} from 'lucide-react';
 import { suggestStudyBlocks, SmartStudyBlockSuggesterOutput } from '@/ai/flows/smart-study-block-suggester';
-import { db, Schedule } from '@/lib/db';
+import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
-export default function SchedulerPage() {
+export default function AssayLibrary() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [suggestions, setSuggestions] = useState<SmartStudyBlockSuggesterOutput | null>(null);
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<ScheduleType>('class');
   const { toast } = useToast();
 
-  const [examDate, setExamDate] = useState("2025-08-20T08:00:00Z");
+  const [timerActive, setTimerActive] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
 
   useEffect(() => {
     loadSchedules();
   }, []);
+
+  useEffect(() => {
+    let interval: any;
+    if (timerActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setTimerActive(false);
+      toast({ title: "Assay Complete", description: "Protocol window has closed." });
+    }
+    return () => clearInterval(interval);
+  }, [timerActive, timeLeft]);
 
   const loadSchedules = async () => {
     const data = await db.getAll<Schedule>('schedules');
     setSchedules(data);
   };
 
-  const addClass = async () => {
-    const newClass: Schedule = {
-      id: Math.random().toString(36).substr(2, 9),
-      dayOfWeek: "Monday",
-      startTime: "08:00",
-      endTime: "17:00",
+  const addScheduleItem = async (type: ScheduleType) => {
+    const titles = {
+      class: "Laboratory Rotation",
+      exam: "Licensure Milestone",
+      study: "High-Yield Assay"
     };
-    await db.put('schedules', newClass);
+
+    const newItem: Schedule = {
+      id: Math.random().toString(36).substr(2, 9),
+      type: type,
+      title: titles[type],
+      dayOfWeek: type === 'class' ? "Monday" : undefined,
+      date: type !== 'class' ? new Date().toISOString().split('T')[0] : undefined,
+      startTime: "08:00",
+      endTime: "09:00",
+    };
+    await db.put('schedules', newItem);
+    loadSchedules();
+    toast({ title: "Protocol Added", description: `${titles[type]} recorded in library.` });
+  };
+
+  const deleteScheduleItem = async (id: string) => {
+    await db.delete('schedules', id);
     loadSchedules();
   };
 
-  const deleteClass = async (id: string) => {
-    const database = await db.init();
-    const transaction = database.transaction('schedules', 'readwrite');
-    transaction.objectStore('schedules').delete(id);
-    transaction.oncomplete = () => loadSchedules();
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const generatePlan = async () => {
-    setLoading(true);
-    try {
-      const result = await suggestStudyBlocks({
-        classSchedule: schedules.map(s => ({
-          dayOfWeek: s.dayOfWeek,
-          startTime: s.startTime,
-          endTime: s.endTime
-        })),
-        performanceData: [
-          { subjectName: "Microbiology", averageScore: 65, lastReviewDate: new Date(Date.now() - 7*24*60*60*1000).toISOString() },
-          { subjectName: "Hematology", averageScore: 82, lastReviewDate: new Date().toISOString() },
-        ],
-        examDate: examDate,
-        currentDateTime: new Date().toISOString()
-      });
-      setSuggestions(result);
-    } catch (err) {
-      toast({ title: "AI Calibration Error", description: "Failed to generate assay blocks." });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const filteredSchedules = schedules.filter(s => s.type === activeTab);
 
   return (
-    <div className="flex h-screen bg-black overflow-hidden">
+    <div className="flex h-screen bg-[#050a0f] overflow-hidden">
       <Sidebar />
-      <main className="flex-1 bg-[#121212] overflow-y-auto">
+      <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="max-w-5xl mx-auto px-8 py-12">
-          <div className="flex items-center justify-between mb-8">
+        <div className="max-w-6xl mx-auto px-8 lg:px-16 py-32 space-y-12">
+          <div className="flex items-center justify-between border-b border-white/5 pb-8">
             <div>
-              <h2 className="text-4xl font-headline font-bold uppercase italic tracking-tighter">Clinical Titration</h2>
-              <p className="text-muted-foreground">Coordinate your lab shifts and let AI identify your high-yield windows.</p>
+              <h2 className="text-5xl font-black italic uppercase tracking-tighter">Assay Library</h2>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage clinical rotations, board milestones, and high-yield protocols.</p>
             </div>
-            <Button onClick={generatePlan} className="bg-primary hover:bg-primary/90 text-black font-bold rounded-none px-8 py-6 h-auto riot-button" disabled={loading}>
-              <Sparkles className="mr-2 h-5 w-5" />
-              {loading ? "CALIBRATING..." : "GENERATE ASSAY PLAN"}
-            </Button>
+            <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-center gap-6">
+               <div className="text-center">
+                 <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Focus Window</p>
+                 <p className="text-3xl font-black italic text-white tracking-tighter">{formatTime(timeLeft)}</p>
+               </div>
+               <Button 
+                onClick={() => setTimerActive(!timerActive)}
+                className={cn(
+                  "riot-button h-10 px-6 rounded-none font-black text-[10px]",
+                  timerActive ? "bg-red-500 text-white" : "bg-primary text-black"
+                )}
+               >
+                 {timerActive ? "ABORT" : "INITIATE"}
+               </Button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-1 space-y-6">
-              <div className="bg-card border p-6 rounded-none riot-card">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-black italic uppercase tracking-widest text-sm">Laboratory Rotation</h3>
-                  <Button variant="ghost" size="icon" onClick={addClass}><Plus size={20}/></Button>
+          <Tabs defaultValue="class" className="w-full" onValueChange={(v) => setActiveTab(v as ScheduleType)}>
+            <TabsList className="bg-white/[0.02] border border-white/5 p-1 rounded-none h-14 mb-10 w-full max-w-2xl">
+              <TabsTrigger value="class" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[10px] tracking-widest">
+                <GraduationCap className="mr-2 h-4 w-4" /> Rotations
+              </TabsTrigger>
+              <TabsTrigger value="exam" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[10px] tracking-widest">
+                <Microscope className="mr-2 h-4 w-4" /> Milestones
+              </TabsTrigger>
+              <TabsTrigger value="study" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[10px] tracking-widest">
+                <BookOpen className="mr-2 h-4 w-4" /> High-Yield
+              </TabsTrigger>
+            </TabsList>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="lg:col-span-2 space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-black italic uppercase tracking-tighter flex items-center gap-3">
+                    {activeTab === 'class' && <GraduationCap className="text-primary" />}
+                    {activeTab === 'exam' && <Microscope className="text-primary" />}
+                    {activeTab === 'study' && <BookOpen className="text-primary" />}
+                    {activeTab === 'class' ? "Rotation Registry" : activeTab === 'exam' ? "Board Milestones" : "Assay Schedule"}
+                  </h3>
+                  <Button variant="outline" size="sm" onClick={() => addScheduleItem(activeTab)} className="border-white/10 hover:bg-white/5 rounded-none uppercase text-[10px] font-black">
+                    <Plus className="mr-2 h-4 w-4" /> Record Entry
+                  </Button>
                 </div>
-                <div className="space-y-3">
-                  {schedules.length === 0 ? (
-                    <p className="text-xs text-muted-foreground italic">No lab shifts recorded.</p>
-                  ) : schedules.map(s => (
-                    <div key={s.id} className="bg-white/[0.03] p-3 rounded-none flex items-center justify-between group border border-white/5">
-                      <div className="text-sm">
-                        <p className="font-black uppercase italic tracking-tighter">{s.dayOfWeek}</p>
-                        <p className="text-xs text-muted-foreground">{s.startTime} - {s.endTime}</p>
+
+                <div className="space-y-4">
+                  {filteredSchedules.length === 0 ? (
+                    <div className="riot-card p-12 bg-white/[0.02] border border-dashed border-white/10 text-center opacity-40">
+                      <Clock className="mx-auto mb-4" size={32} />
+                      <p className="font-black italic uppercase">No protocols recorded for this sector.</p>
+                    </div>
+                  ) : filteredSchedules.map((s) => (
+                    <div key={s.id} className="riot-card bg-white/[0.02] hover:bg-white/[0.04] transition-all p-6 border border-white/5 flex items-center justify-between group">
+                      <div className="flex items-center gap-6">
+                        <div className="w-14 h-14 bg-primary/10 flex items-center justify-center border border-primary/20">
+                          {s.type === 'class' ? <GraduationCap className="text-primary" /> : s.type === 'exam' ? <Microscope className="text-primary" /> : <BookOpen className="text-primary" />}
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-black italic uppercase tracking-tighter text-white">{s.title}</h4>
+                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                            {s.type === 'class' ? s.dayOfWeek : format(new Date(s.date!), 'MMMM dd, yyyy')} • {s.startTime} - {s.endTime}
+                          </p>
+                        </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="text-destructive opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => deleteClass(s.id)}>
-                        <Trash2 size={16} />
-                      </Button>
+                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                         <Button variant="ghost" size="icon" className="text-primary hover:bg-primary/10">
+                           <AlarmClock size={18} />
+                         </Button>
+                         <Button variant="ghost" size="icon" onClick={() => deleteScheduleItem(s.id)} className="text-destructive hover:bg-destructive/10">
+                           <Trash2 size={18} />
+                         </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-card border p-6 rounded-none riot-card">
-                <h3 className="font-black italic uppercase tracking-widest text-sm mb-4">Licensure Countdown</h3>
-                <div className="p-4 bg-primary/10 rounded-none text-center border border-primary/20">
-                  <p className="text-[10px] text-primary font-black mb-1 uppercase tracking-[0.3em]">Board Exam</p>
-                  <p className="text-3xl font-black italic tracking-tighter">AUG 20, 2025</p>
-                  {suggestions?.countdownToExam && (
-                    <p className="text-[10px] mt-2 text-muted-foreground font-bold uppercase tracking-widest">{suggestions.countdownToExam}</p>
-                  )}
+              <div className="space-y-8">
+                <div className="riot-card p-8 bg-primary/5 border border-primary/20 relative overflow-hidden">
+                   <div className="relative z-10">
+                     <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4">Diagnostic Insights</h4>
+                     <p className="text-sm italic text-white/80 leading-relaxed">
+                       AI Laboratory Strategist recommends prioritizing <span className="text-primary">Clinical Chemistry</span> during your next high-yield window.
+                     </p>
+                   </div>
+                   <Sparkles className="absolute -bottom-4 -right-4 text-primary opacity-20" size={80} />
                 </div>
-              </div>
-            </div>
 
-            <div className="lg:col-span-2">
-              <div className="bg-card border rounded-none overflow-hidden riot-card">
-                <div className="bg-white/[0.03] p-6 border-b border-white/10">
-                  <h3 className="font-black italic text-xl flex items-center gap-2 uppercase tracking-tighter">
-                    <Microscope className="text-primary" size={24} />
-                    Suggested Assay Blocks
-                  </h3>
-                </div>
-                <div className="p-6">
-                  {!suggestions ? (
-                    <div className="flex flex-col items-center justify-center py-20 text-center opacity-50">
-                      <Clock size={64} className="mb-4 text-muted-foreground" />
-                      <p className="text-lg font-black uppercase italic">No analysis generated</p>
-                      <p className="text-xs font-bold uppercase tracking-widest">Input your rotation schedule to begin.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {suggestions.suggestedBlocks.map((block, idx) => (
-                        <div key={idx} className="flex gap-4 p-4 bg-white/[0.02] hover:bg-white/[0.05] transition-colors border-l-4 border-primary rounded-none group">
-                          <div className="w-24 shrink-0 flex flex-col justify-center border-r border-white/10 pr-4">
-                            <p className="text-[10px] font-black text-muted-foreground uppercase">{format(new Date(block.startTime), 'eee')}</p>
-                            <p className="text-sm font-black text-primary">{format(new Date(block.startTime), 'HH:mm')}</p>
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-black italic text-lg text-white group-hover:text-primary transition-colors uppercase tracking-tighter">{block.subject}</h4>
-                            <p className="text-xs text-muted-foreground italic mb-1">{block.reason}</p>
-                            <p className="text-[10px] font-black text-secondary flex items-center gap-1 uppercase tracking-widest">
-                              <Clock size={12} />
-                              30 Min High-Yield Assay
-                            </p>
-                          </div>
-                          <Button size="icon" variant="ghost" className="self-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Plus size={20} className="text-primary" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                <div className="riot-card p-8 border border-white/5 bg-white/[0.02]">
+                  <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-6 border-b border-white/5 pb-4">Calibration Log</h4>
+                  <div className="space-y-4">
+                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+                       <span className="text-muted-foreground">Class Load</span>
+                       <span className="text-white">{schedules.filter(s => s.type === 'class').length} Units</span>
+                     </div>
+                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+                       <span className="text-muted-foreground">Exam Prep</span>
+                       <span className="text-white">{schedules.filter(s => s.type === 'exam').length} Milestones</span>
+                     </div>
+                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+                       <span className="text-muted-foreground">Study Intensity</span>
+                       <span className="text-primary">85% Capacity</span>
+                     </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Tabs>
         </div>
       </main>
     </div>
