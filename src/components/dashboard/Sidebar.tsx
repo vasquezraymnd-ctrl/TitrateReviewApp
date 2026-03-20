@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, Library, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive } from 'lucide-react';
+import { Home, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const mainNav = [
   { icon: Home, label: 'Laboratory Center', href: '/dashboard' },
   { icon: Archive, label: 'Protocol Archives', href: '/library' },
-  { icon: Library, label: 'Assay Library', href: '/scheduler' },
+  { icon: BookOpen, label: 'Study Protocols', href: '/scheduler' },
 ];
 
 const secondaryNav = [

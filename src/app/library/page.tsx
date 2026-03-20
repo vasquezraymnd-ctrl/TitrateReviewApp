@@ -3,12 +3,9 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { db, Question, Progress, UserProfile } from '@/lib/db';
-import { Card, CardContent } from '@/components/ui/card';
-import { Archive, Search, Filter, Play, User, Target, Zap, Microscope } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { db, Question, UserProfile } from '@/lib/db';
+import { Archive, Search, Play, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 export default function ProtocolArchives() {
@@ -132,7 +129,7 @@ export default function ProtocolArchives() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
-              {filteredSubjects.map(([name, count], idx) => (
+              {filteredSubjects.map(([name, count]) => (
                 <Link key={name} href={`/quiz/${name.toLowerCase()}`} className="group">
                   <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />

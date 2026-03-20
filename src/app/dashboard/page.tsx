@@ -149,7 +149,7 @@ export default function Dashboard() {
             <div className="bg-primary p-10 flex flex-col items-center text-center space-y-3">
               <Sparkles className="text-black" size={32} />
               <p className="text-5xl font-black italic uppercase tracking-tighter text-black">CALIBRATED</p>
-              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">AI Laboratory Strategist</p>
+              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">AI Study Strategist</p>
             </div>
           </section>
 

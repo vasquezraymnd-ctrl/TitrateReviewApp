@@ -6,7 +6,6 @@ import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Calendar as CalendarIcon, 
   Clock, 
   Sparkles, 
   Plus, 
@@ -14,17 +13,14 @@ import {
   Microscope, 
   GraduationCap, 
   BookOpen, 
-  Timer,
-  Bell,
   AlarmClock
 } from 'lucide-react';
-import { suggestStudyBlocks, SmartStudyBlockSuggesterOutput } from '@/ai/flows/smart-study-block-suggester';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
-export default function AssayLibrary() {
+export default function StudyPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<ScheduleType>('class');
@@ -98,7 +94,7 @@ export default function AssayLibrary() {
         <div className="max-w-6xl mx-auto px-8 lg:px-16 py-32 space-y-12">
           <div className="flex items-center justify-between border-b border-white/5 pb-8">
             <div>
-              <h2 className="text-5xl font-black italic uppercase tracking-tighter">Assay Library</h2>
+              <h2 className="text-5xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage clinical rotations, board milestones, and high-yield protocols.</p>
             </div>
             <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-center gap-6">
@@ -138,7 +134,7 @@ export default function AssayLibrary() {
                     {activeTab === 'class' && <GraduationCap className="text-primary" />}
                     {activeTab === 'exam' && <Microscope className="text-primary" />}
                     {activeTab === 'study' && <BookOpen className="text-primary" />}
-                    {activeTab === 'class' ? "Rotation Registry" : activeTab === 'exam' ? "Board Milestones" : "Assay Schedule"}
+                    {activeTab === 'class' ? "Rotation Registry" : activeTab === 'exam' ? "Board Milestones" : "Study Schedule"}
                   </h3>
                   <Button variant="outline" size="sm" onClick={() => addScheduleItem(activeTab)} className="border-white/10 hover:bg-white/5 rounded-none uppercase text-[10px] font-black">
                     <Plus className="mr-2 h-4 w-4" /> Record Entry
