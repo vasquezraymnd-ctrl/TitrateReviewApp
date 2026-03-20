@@ -14,15 +14,15 @@ export default function Home() {
 
   useEffect(() => {
     const startupSequence = async () => {
-      // 1. Duration for the Titration Animation (4s)
-      const animationPromise = new Promise(resolve => setTimeout(resolve, 4000));
+      // 1. Duration for the Titration Animation (5s for high visibility)
+      const animationPromise = new Promise(resolve => setTimeout(resolve, 5000));
       
-      // 2. Check profile status
+      // 2. Check profile status in parallel
       const profilePromise = db.getById<UserProfile>('profile', 'current-user');
       
       const [_, userProfile] = await Promise.all([animationPromise, profilePromise]);
       
-      // 3. Determine if user is initialized
+      // 3. Determine if user is initialized (name changed from default)
       const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
 
       if (isInitialized) {
@@ -36,36 +36,40 @@ export default function Home() {
     startupSequence();
   }, [router]);
 
+  // Loading / Titration Stage
   if (stage === 'animating' || stage === 'redirecting') {
     return (
       <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500] overflow-hidden">
         <div className="relative flex flex-col items-center w-full max-w-lg">
           
           {/* Test Tube Pouring Animation */}
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 flex flex-col items-center">
-            {/* Test Tube SVG */}
-            <svg 
-              width="60" 
-              height="120" 
-              viewBox="0 0 60 120" 
-              className="animate-[tilt_2s_ease-in-out_infinite] origin-bottom"
-            >
-              <path 
-                d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                className="text-white/20"
-              />
-              <path 
-                d="M10 60 L50 60 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
-                fill="currentColor" 
-                className="text-primary animate-[liquid-shift_2s_infinite]"
-              />
-            </svg>
-            
-            {/* Pouring Stream */}
-            <div className="w-[2px] bg-primary h-24 absolute top-full origin-top animate-[pour_2s_infinite] opacity-0" />
+          <div className="absolute -top-48 left-1/2 -translate-x-1/2">
+            <div className="relative flex flex-col items-center">
+              <svg 
+                width="80" 
+                height="160" 
+                viewBox="0 0 60 120" 
+                className="animate-[tilt-and-pour_5s_ease-in-out_infinite] origin-[30px_110px]"
+              >
+                {/* Test Tube Body */}
+                <path 
+                  d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  className="text-white/20"
+                />
+                {/* Tactical Liquid */}
+                <path 
+                  d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
+                  fill="currentColor" 
+                  className="text-primary animate-[liquid-drain_5s_infinite]"
+                />
+              </svg>
+              
+              {/* The Pouring Stream (drops from the mouth of the tube) */}
+              <div className="absolute top-[110px] left-1/2 -translate-x-1/2 w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
+            </div>
           </div>
 
           <div className="relative mt-24">
@@ -73,40 +77,45 @@ export default function Home() {
               TITRATE
               {/* The "Filling" text layer */}
               <div 
-                className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo_4s_ease-out_forwards]"
+                className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo-word_5s_ease-out_forwards]"
                 style={{ clipPath: 'inset(100% 0 0 0)' }}
               >
                 TITRATE
               </div>
             </h1>
             
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 w-max">
-               <div className="h-[1px] w-8 bg-white/10" />
-               <span className="text-[9px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">
+            <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-4 w-max">
+               <div className="h-[1px] w-12 bg-white/10" />
+               <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">
                  {stage === 'redirecting' ? 'RESUMING SESSION' : 'INITIALIZING LABORATORY'}
                </span>
-               <div className="h-[1px] w-8 bg-white/10" />
+               <div className="h-[1px] w-12 bg-white/10" />
             </div>
           </div>
         </div>
 
         <style jsx global>{`
-          @keyframes tilt {
-            0%, 100% { transform: rotate(0deg); }
-            40%, 60% { transform: rotate(-45deg); }
+          @keyframes tilt-and-pour {
+            0% { transform: rotate(0deg); opacity: 0; }
+            10% { transform: rotate(0deg); opacity: 1; }
+            30% { transform: rotate(-65deg); }
+            75% { transform: rotate(-65deg); }
+            90% { transform: rotate(0deg); opacity: 1; }
+            100% { transform: rotate(0deg); opacity: 0; }
           }
-          @keyframes liquid-shift {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px) rotate(5deg); }
+          @keyframes liquid-drain {
+            0%, 30% { transform: scaleY(1); }
+            75% { transform: scaleY(0.1); }
+            100% { transform: scaleY(0.1); }
           }
-          @keyframes pour {
-            0%, 40% { opacity: 0; transform: scaleY(0); }
-            45%, 65% { opacity: 1; transform: scaleY(1.5); }
-            70%, 100% { opacity: 0; transform: scaleY(0); }
+          @keyframes stream-flow {
+            0%, 35% { height: 0; opacity: 0; }
+            40% { height: 250px; opacity: 1; }
+            75% { height: 250px; opacity: 1; }
+            80%, 100% { height: 0; opacity: 0; }
           }
-          @keyframes fill-logo {
-            0% { clip-path: inset(100% 0 0 0); }
-            20% { clip-path: inset(100% 0 0 0); }
+          @keyframes fill-logo-word {
+            0%, 45% { clip-path: inset(100% 0 0 0); }
             100% { clip-path: inset(0% 0 0 0); }
           }
         `}</style>
@@ -114,6 +123,7 @@ export default function Home() {
     );
   }
 
+  // Onboarding Stage (For new students)
   if (stage === 'onboarding') {
     return (
       <div className="fixed inset-0 bg-[#050a0f] flex items-center justify-center z-[500] p-6">
@@ -156,3 +166,5 @@ export default function Home() {
 
   return null;
 }
+
+    
