@@ -161,12 +161,12 @@ export default function Dashboard() {
                             <p className="text-[10px] md:text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-1.5">
                               {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
                             </p>
-                            <h4 className="text-sm md:text-xl font-black italic uppercase tracking-tight text-white/90 truncate max-w-[200px] sm:max-w-none">
+                            <h4 className="text-base md:text-xl font-black italic uppercase tracking-tight text-white/90 truncate max-w-[200px] sm:max-w-none">
                               {protocol.title}
                             </h4>
                             <div className="flex items-center gap-2 mt-1.5">
                               <Calendar size={12} className="text-primary/60" />
-                              <span className="text-[11px] md:text-sm font-bold text-muted-foreground uppercase tracking-tighter">
+                              <span className="text-[12px] md:text-sm font-bold text-muted-foreground uppercase tracking-tighter">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd') : protocol.dayOfWeek} • {protocol.startTime}
                               </span>
                             </div>
@@ -212,7 +212,7 @@ export default function Dashboard() {
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-80 transition-all duration-700"
+                          className="object-cover grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-60 transition-all duration-700"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}
@@ -220,7 +220,7 @@ export default function Dashboard() {
                       <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:left-6 flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">{subject}</p>
-                          <h4 className="text-xl lg:text-2xl xl:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
+                          <h4 className="text-lg md:text-2xl xl:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
                             {latestModule ? `${subject}: ${latestModule}` : subject}
                           </h4>
                         </div>
