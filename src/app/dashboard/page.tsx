@@ -78,9 +78,6 @@ export default function Dashboard() {
             <h2 className="text-7xl md:text-9xl font-black italic uppercase tracking-tighter leading-none">
               Welcome <br /> <span className="text-primary">Future RMT</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl font-medium uppercase tracking-wide leading-relaxed">
-              Clinical analysis complete. Calibrate your knowledge in <span className="text-white">Clinical Chemistry</span> to ensure diagnostic accuracy.
-            </p>
             <div className="flex gap-4 pt-4">
               <Button asChild className="riot-button h-16 px-12 bg-primary hover:bg-primary/80 text-black rounded-none">
                 <Link href="/quiz">INITIATE ASSESSMENT</Link>
