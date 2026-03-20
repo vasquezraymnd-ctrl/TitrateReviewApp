@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive, BookOpen, UserCircle, Zap, Clock } from 'lucide-react';
+import { Home, PlayCircle, Shield, Archive, Settings, Clock, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +13,7 @@ const mainNav = [
 ];
 
 const secondaryNav = [
-  { icon: PlusSquare, label: 'Data Titration', href: '/import' },
+  { icon: Zap, label: 'Active Focus', href: '/focus' },
   { icon: PlayCircle, label: 'Active Assay', href: '/quiz' },
 ];
 
@@ -22,7 +22,6 @@ export function Sidebar() {
   const [isMobileMode, setIsMobileMode] = useState(false);
 
   useEffect(() => {
-    // Check localStorage for persistent device mode preference
     const mode = localStorage.getItem('TITRATE_DEVICE_MODE');
     setIsMobileMode(mode === 'phone');
   }, []);
@@ -31,7 +30,7 @@ export function Sidebar() {
     <>
       {/* Desktop/Tablet Sidebar */}
       <div className={cn(
-        "hidden lg:flex w-64 h-full bg-[#0b111a] flex-col border-r border-white/5 select-none z-50 transition-all duration-500",
+        "hidden lg:flex w-64 h-full bg-[#111a24] flex-col border-r border-white/5 select-none z-50 transition-all duration-500",
         isMobileMode && "lg:w-20"
       )}>
         <div className="p-8 mb-4">
@@ -105,7 +104,7 @@ export function Sidebar() {
         </div>
 
         <div className="mt-auto p-6 border-t border-white/5 bg-black/40">
-          <Link href="/settings" className="flex items-center gap-3 text-[11px] font-black text-muted-foreground hover:text-white transition-colors uppercase tracking-widest">
+          <Link href="/dashboard" className="flex items-center gap-3 text-[11px] font-black text-muted-foreground hover:text-white transition-colors uppercase tracking-widest">
             <Settings size={16} />
             <span className={isMobileMode ? "hidden" : "block"}>Instrumentation</span>
           </Link>
@@ -113,16 +112,13 @@ export function Sidebar() {
       </div>
 
       {/* Mobile Bottom Nav */}
-      <div className={cn(
-        "lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0b111a] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90 transition-all",
-        "lg:hidden" 
-      )}>
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#111a24] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90">
         {[
           { icon: Home, label: 'Center', href: '/dashboard' },
           { icon: Archive, label: 'Archive', href: '/library' },
+          { icon: Zap, label: 'Focus', href: '/focus' },
           { icon: PlayCircle, label: 'Assay', href: '/quiz' },
           { icon: Clock, label: 'Study', href: '/scheduler' },
-          { icon: PlusSquare, label: 'Data', href: '/import' }
         ].map((item) => {
           const isActive = pathname === item.href;
           return (

@@ -6,7 +6,6 @@ import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Clock, 
   Plus, 
   Trash2, 
   GraduationCap, 
@@ -14,16 +13,11 @@ import {
   AlarmClock,
   CalendarDays,
   Database,
-  Info,
-  X,
-  Zap,
-  Pause,
-  Play
+  Clock,
 } from 'lucide-react';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
 import {
   Dialog,
   DialogContent,
@@ -34,20 +28,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const STUDY_METHOD_TIPS = [
-  "Active Recall: Instead of re-reading your notes, quiz yourself on core concepts like biochemical pathways to strengthen neural pathways.",
-  "Spaced Repetition: Review high-yield topics like Gram stain procedures at increasing intervals to move information into long-term memory.",
-  "Feynman Technique: Try explaining a complex process, like the coagulation cascade, in simple terms as if teaching a peer to identify gaps in your knowledge.",
-  "Concept Mapping: Draw connections between subjects, such as how Renal Physiology in Clinical Chemistry relates to findings in Clinical Microscopy.",
-  "Pomodoro Protocol: Use 25-minute focused 'assays' followed by 5-minute breaks to maintain peak analytical performance during long study sessions."
-];
-
-export default function StudyPage() {
+export default function SchedulerPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<ScheduleType>('class');
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [randomTip, setRandomTip] = useState("");
   const [newItem, setNewItem] = useState<Partial<Schedule>>({
     title: '',
     startTime: '08:00',
@@ -58,28 +43,9 @@ export default function StudyPage() {
   
   const { toast } = useToast();
 
-  const [timerActive, setTimerActive] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
-
   useEffect(() => {
     loadSchedules();
-    setRandomTip(STUDY_METHOD_TIPS[Math.floor(Math.random() * STUDY_METHOD_TIPS.length)]);
   }, []);
-
-  useEffect(() => {
-    let interval: any;
-    if (timerActive && !isPaused && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      setTimerActive(false);
-      setIsPaused(false);
-      toast({ title: "Assay Complete", description: "Study window has closed." });
-    }
-    return () => clearInterval(interval);
-  }, [timerActive, isPaused, timeLeft, toast]);
 
   const loadSchedules = async () => {
     setLoading(true);
@@ -114,25 +80,17 @@ export default function StudyPage() {
         date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         startTime: '09:00',
         endTime: '11:00',
-      },
-      {
-        id: 'sample-4',
-        type: 'study',
-        title: 'High-Yield Blood Smear Review',
-        date: new Date().toISOString().split('T')[0],
-        startTime: '19:00',
-        endTime: '19:30',
       }
     ];
 
     await db.bulkPut('schedules', samples);
     loadSchedules();
-    toast({ title: "Sample Protocols Loaded", description: "Your archive has been seeded with undergraduate samples." });
+    toast({ title: "Samples Loaded", description: "Protocol archive seeded." });
   };
 
   const saveScheduleItem = async () => {
     if (!newItem.title) {
-      toast({ variant: "destructive", title: "Missing Information", description: "Protocol title is required." });
+      toast({ variant: "destructive", title: "Error", description: "Title is required." });
       return;
     }
 
@@ -150,19 +108,13 @@ export default function StudyPage() {
     loadSchedules();
     setIsAddOpen(false);
     setNewItem({ title: '', startTime: '08:00', endTime: '09:00', dayOfWeek: 'Monday', date: new Date().toISOString().split('T')[0] });
-    toast({ title: "Protocol Recorded", description: "Schedule updated in local archive." });
+    toast({ title: "Protocol Saved", description: "Entry added to your schedule." });
   };
 
   const deleteScheduleItem = async (id: string) => {
     await db.delete('schedules', id);
     loadSchedules();
-    toast({ title: "Protocol Removed", description: "Schedule entry deleted." });
-  };
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    toast({ title: "Entry Removed", description: "Schedule updated." });
   };
 
   const filteredSchedules = useMemo(() => {
@@ -170,99 +122,78 @@ export default function StudyPage() {
   }, [schedules, activeTab]);
 
   return (
-    <div className="flex h-screen bg-[#050a0f] overflow-hidden">
+    <div className="flex h-screen bg-[#111a24] overflow-hidden text-white">
       <Sidebar />
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="max-w-6xl mx-auto px-8 lg:px-16 py-32 space-y-12">
-          <div className="flex items-center justify-between border-b border-white/5 pb-8">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-16 py-28 lg:py-32 space-y-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-8 gap-6">
             <div>
-              <h2 className="text-4xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations, exam milestones, and high-yield blocks.</p>
+              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
+              <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations and exam milestones.</p>
             </div>
-            <div className="flex gap-4">
-              {schedules.length === 0 && (
-                <Button 
-                  variant="outline" 
-                  onClick={seedSampleData}
-                  className="riot-button h-10 px-6 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[10px]"
-                >
-                  <Database className="mr-2 h-4 w-4" /> SEED SAMPLES
-                </Button>
-              )}
-              <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-center gap-6">
-                 <div className="text-center">
-                   <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Focus Window</p>
-                   <p className="text-3xl font-black italic text-white tracking-tighter">{formatTime(timeLeft)}</p>
-                 </div>
-                 <Button 
-                  onClick={() => {
-                    setTimerActive(true);
-                    setIsPaused(false);
-                  }}
-                  className="riot-button h-10 px-6 rounded-none font-black text-[10px] bg-primary text-black"
-                 >
-                   INITIATE
-                 </Button>
-              </div>
-            </div>
+            {schedules.length === 0 && (
+              <Button 
+                variant="outline" 
+                onClick={seedSampleData}
+                className="riot-button h-12 px-8 border-primary/20 text-primary hover:bg-primary/5 font-black text-xs"
+              >
+                <Database className="mr-2 h-4 w-4" /> SEED SAMPLES
+              </Button>
+            )}
           </div>
 
           <Tabs defaultValue="class" className="w-full" onValueChange={(v) => setActiveTab(v as ScheduleType)}>
-            <TabsList className="bg-white/[0.02] border border-white/5 p-1 rounded-none h-14 mb-10 w-full max-w-2xl">
-              <TabsTrigger value="class" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[10px] tracking-widest">
-                <GraduationCap className="mr-2 h-4 w-4" /> Class Schedule
+            <TabsList className="bg-white/[0.02] border border-white/5 p-1 rounded-none h-14 md:h-16 mb-8 w-full max-w-3xl flex overflow-x-auto no-scrollbar">
+              <TabsTrigger value="class" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs tracking-widest">
+                <GraduationCap className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> <span className="hidden sm:inline">Class</span> Schedule
               </TabsTrigger>
-              <TabsTrigger value="exam" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[10px] tracking-widest">
-                <CalendarDays className="mr-2 h-4 w-4" /> Academic Exams
+              <TabsTrigger value="exam" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs tracking-widest">
+                <CalendarDays className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> <span className="hidden sm:inline">Academic</span> Exams
               </TabsTrigger>
-              <TabsTrigger value="study" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[10px] tracking-widest">
-                <BookOpen className="mr-2 h-4 w-4" /> Study Blocks
+              <TabsTrigger value="study" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs tracking-widest">
+                <BookOpen className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Study Blocks
               </TabsTrigger>
             </TabsList>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               <div className="lg:col-span-2 space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-black italic uppercase tracking-tighter flex items-center gap-3">
-                    {activeTab === 'class' ? "Course Schedule" : activeTab === 'exam' ? "Exam Milestones" : "High-Yield Sessions"}
+                  <h3 className="text-xl md:text-2xl font-black italic uppercase tracking-tighter flex items-center gap-3">
+                    {activeTab === 'class' ? "Course Rotations" : activeTab === 'exam' ? "Exam Milestones" : "Study Sessions"}
                   </h3>
-                  <Button variant="outline" size="sm" onClick={() => setIsAddOpen(true)} className="border-white/10 hover:bg-white/5 rounded-none uppercase text-[10px] font-black">
-                    <Plus className="mr-2 h-4 w-4" /> Record Entry
+                  <Button variant="outline" size="sm" onClick={() => setIsAddOpen(true)} className="border-white/10 hover:bg-white/5 rounded-none uppercase text-[10px] font-black h-10 px-4">
+                    <Plus className="mr-2 h-4 w-4" /> RECORD
                   </Button>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 pb-24 md:pb-0">
                   {loading ? (
                     <div className="riot-card p-12 bg-white/[0.02] border border-dashed border-white/10 text-center opacity-40">
                       <Clock className="mx-auto mb-4 animate-pulse" size={32} />
-                      <p className="font-black italic uppercase">Accessing Archive...</p>
+                      <p className="font-black italic uppercase text-xs">Accessing Archives...</p>
                     </div>
                   ) : filteredSchedules.length === 0 ? (
                     <div className="riot-card p-12 bg-white/[0.02] border border-dashed border-white/10 text-center opacity-40">
                       <Clock className="mx-auto mb-4" size={32} />
-                      <p className="font-black italic uppercase">No entries recorded in this sector.</p>
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase mt-2">Use the "Seed Samples" button above to populate.</p>
+                      <p className="font-black italic uppercase text-xs">No entries recorded.</p>
                     </div>
                   ) : filteredSchedules.map((s) => (
-                    <div key={s.id} className="riot-card bg-white/[0.02] hover:bg-white/[0.04] transition-all p-6 border border-white/5 flex items-center justify-between group">
-                      <div className="flex items-center gap-6">
-                        <div className="w-14 h-14 bg-primary/10 flex items-center justify-center border border-primary/20">
-                          {s.type === 'class' ? <GraduationCap className="text-primary" /> : s.type === 'exam' ? <CalendarDays className="text-primary" /> : <BookOpen className="text-primary" />}
+                    <div key={s.id} className="riot-card bg-white/[0.02] hover:bg-white/[0.04] transition-all p-5 md:p-6 border border-white/5 flex items-center justify-between group">
+                      <div className="flex items-center gap-4 md:gap-6">
+                        <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
+                          {s.type === 'class' ? <GraduationCap className="text-primary size-5 md:size-6" /> : s.type === 'exam' ? <CalendarDays className="text-primary size-5 md:size-6" /> : <BookOpen className="text-primary size-5 md:size-6" />}
                         </div>
-                        <div>
-                          <h4 className="text-lg font-black italic uppercase tracking-tighter text-white">{s.title}</h4>
-                          <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                            {s.type === 'class' ? s.dayOfWeek : s.date ? format(new Date(s.date), 'MMMM dd, yyyy') : 'No Date'} • {s.startTime} - {s.endTime}
+                        <div className="min-w-0">
+                          <h4 className="text-base md:text-lg font-black italic uppercase tracking-tighter text-white truncate">{s.title}</h4>
+                          <p className="text-[9px] md:text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
+                            {s.type === 'class' ? s.dayOfWeek : s.date ? format(new Date(s.date), 'MMM dd, yyyy') : 'N/A'} • {s.startTime} - {s.endTime}
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                         <Button variant="ghost" size="icon" className="text-primary hover:bg-primary/10">
-                           <AlarmClock size={18} />
-                         </Button>
-                         <Button variant="ghost" size="icon" onClick={() => deleteScheduleItem(s.id)} className="text-destructive hover:bg-destructive/10">
+                      <div className="flex items-center gap-1 md:gap-2">
+                         <Button variant="ghost" size="icon" onClick={() => deleteScheduleItem(s.id)} className="text-red-500 hover:bg-red-500/10 h-10 w-10">
                            <Trash2 size={18} />
                          </Button>
                       </div>
@@ -271,133 +202,42 @@ export default function StudyPage() {
                 </div>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-8 hidden lg:block">
                 <div className="riot-card p-8 bg-white/[0.02] border border-white/5">
-                  <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-6 border-b border-white/5 pb-4">Study Metrics</h4>
+                  <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-6 border-b border-white/5 pb-4">Calibration Metrics</h4>
                   <div className="space-y-4">
                      <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
                        <span className="text-muted-foreground">Class Load</span>
-                       <span className="text-white">{schedules.filter(s => s.type === 'class').length} Subjects</span>
+                       <span className="text-white">{schedules.filter(s => s.type === 'class').length} Folders</span>
                      </div>
                      <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
-                       <span className="text-muted-foreground">Exams Pending</span>
+                       <span className="text-muted-foreground">Exam Targets</span>
                        <span className="text-white">{schedules.filter(s => s.type === 'exam').length} Dates</span>
                      </div>
                      <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
-                       <span className="text-muted-foreground">Study Intensity</span>
+                       <span className="text-muted-foreground">Protocol Intensity</span>
                        <span className="text-primary">Operational</span>
                      </div>
                   </div>
-                </div>
-
-                <div className="riot-card p-8 bg-primary/5 border border-primary/20 relative overflow-hidden">
-                   <div className="relative z-10">
-                     <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4 flex items-center gap-2">
-                       <div className="p-1.5 bg-primary/10 border border-primary/20">
-                        <Info size={14} />
-                       </div>
-                       Clinical Insight
-                     </h4>
-                     <p className="text-sm italic text-white/80 leading-relaxed min-h-[60px]">
-                       {randomTip || "Analyzing study protocols..."}
-                     </p>
-                   </div>
                 </div>
               </div>
             </div>
           </Tabs>
         </div>
 
-        {/* Focus Mode Overlay */}
-        {timerActive && (
-          <div className="fixed inset-0 z-[200] bg-[#050a0f] flex flex-col items-center justify-center p-8 animate-in fade-in zoom-in duration-500">
-             <div className="absolute inset-0 opacity-5 pointer-events-none">
-                <Zap size={800} className="text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-             </div>
-
-             <div className="relative z-10 text-center space-y-12 max-w-2xl w-full">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-center gap-2">
-                    <Zap className={cn("text-primary", !isPaused && "animate-pulse")} size={24} />
-                    <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">
-                      {isPaused ? 'Assay Suspended' : 'High-Yield Assay in Progress'}
-                    </span>
-                  </div>
-                  <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">
-                    {isPaused ? 'PAUSED' : 'Focusing...'}
-                  </h2>
-                </div>
-
-                <div className="riot-card p-12 md:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-md">
-                   <div className={cn(
-                     "text-8xl md:text-[12rem] font-black italic tracking-tighter tabular-nums leading-none transition-colors duration-500",
-                     isPaused ? "text-white/20" : "text-white"
-                   )}>
-                     {formatTime(timeLeft)}
-                   </div>
-                </div>
-
-                <div className="space-y-8">
-                  <p className="text-muted-foreground font-medium italic text-lg max-w-md mx-auto">
-                    {isPaused 
-                      ? "Assay interrupted. Resume when laboratory silence is restored."
-                      : "Laboratory silence is the foundation of precise diagnosis. Stay concentrated on your protocol."
-                    }
-                  </p>
-                  
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button 
-                      onClick={() => setIsPaused(!isPaused)}
-                      className="riot-button h-16 px-12 bg-primary text-black rounded-none font-black tracking-widest group"
-                    >
-                      {isPaused ? (
-                        <><Play className="mr-2" /> RESUME PROTOCOL</>
-                      ) : (
-                        <><Pause className="mr-2" /> PAUSE PROTOCOL</>
-                      )}
-                    </Button>
-                    <Button 
-                      onClick={() => {
-                        setTimerActive(false);
-                        setIsPaused(false);
-                      }}
-                      variant="outline"
-                      className="riot-button h-16 px-12 border-red-500/50 text-red-500 hover:bg-red-500/10 rounded-none font-black tracking-widest group"
-                    >
-                      <X className="mr-2 group-hover:rotate-90 transition-transform" /> ABORT PROTOCOL
-                    </Button>
-                  </div>
-                </div>
-             </div>
-
-             <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end opacity-20 border-t border-white/10 pt-8">
-                <div>
-                   <p className="text-[10px] font-black uppercase tracking-[0.3em]">Operational Status</p>
-                   <p className="text-sm font-black italic uppercase">
-                     {isPaused ? 'Interrupted' : 'Deep Focus Locked'}
-                   </p>
-                </div>
-                <div className="text-right">
-                   <p className="text-[10px] font-black uppercase tracking-[0.3em]">Protocol Code</p>
-                   <p className="text-sm font-black italic uppercase">#HY-ASSAY-30</p>
-                </div>
-             </div>
-          </div>
-        )}
-
         <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+          <DialogContent className="bg-[#111a24] border-white/10 text-white rounded-none max-w-[95%] sm:max-w-md">
             <DialogHeader>
               <DialogTitle className="font-black italic uppercase tracking-tighter text-2xl">New {activeTab} Entry</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 py-4">
+            <div className="space-y-6 py-4">
               <div className="space-y-2">
                 <Label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Entry Title</Label>
                 <Input 
                   value={newItem.title} 
                   onChange={(e) => setNewItem({...newItem, title: e.target.value})}
-                  placeholder="e.g. Hematology Lab 101"
-                  className="bg-white/5 border-white/10 rounded-none focus:ring-primary"
+                  placeholder="e.g. Hematology Lab"
+                  className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-primary"
                 />
               </div>
               
@@ -408,7 +248,7 @@ export default function StudyPage() {
                     type="time"
                     value={newItem.startTime} 
                     onChange={(e) => setNewItem({...newItem, startTime: e.target.value})}
-                    className="bg-white/5 border-white/10 rounded-none"
+                    className="bg-white/5 border-white/10 rounded-none h-12"
                   />
                 </div>
                 <div className="space-y-2">
@@ -417,7 +257,7 @@ export default function StudyPage() {
                     type="time"
                     value={newItem.endTime} 
                     onChange={(e) => setNewItem({...newItem, endTime: e.target.value})}
-                    className="bg-white/5 border-white/10 rounded-none"
+                    className="bg-white/5 border-white/10 rounded-none h-12"
                   />
                 </div>
               </div>
@@ -428,7 +268,7 @@ export default function StudyPage() {
                   <select 
                     value={newItem.dayOfWeek}
                     onChange={(e) => setNewItem({...newItem, dayOfWeek: e.target.value})}
-                    className="w-full bg-[#121b24] border border-white/10 h-10 px-3 text-sm rounded-none outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full bg-[#111a24] border border-white/10 h-12 px-3 text-sm rounded-none outline-none focus:ring-1 focus:ring-primary"
                   >
                     {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
                       <option key={day} value={day}>{day}</option>
@@ -442,14 +282,14 @@ export default function StudyPage() {
                     type="date"
                     value={newItem.date} 
                     onChange={(e) => setNewItem({...newItem, date: e.target.value})}
-                    className="bg-white/5 border-white/10 rounded-none"
+                    className="bg-white/5 border-white/10 rounded-none h-12"
                   />
                 </div>
               )}
             </div>
-            <DialogFooter>
-              <Button variant="ghost" onClick={() => setIsAddOpen(false)} className="uppercase font-black text-[10px] tracking-widest">Cancel</Button>
-              <Button onClick={saveScheduleItem} className="bg-primary text-black rounded-none font-black text-[10px] tracking-widest px-8">SAVE PROTOCOL</Button>
+            <DialogFooter className="flex-col sm:flex-row gap-3">
+              <Button variant="ghost" onClick={() => setIsAddOpen(false)} className="uppercase font-black text-xs tracking-widest w-full sm:w-auto">Cancel</Button>
+              <Button onClick={saveScheduleItem} className="bg-primary text-black rounded-none font-black text-xs tracking-widest px-8 w-full sm:w-auto h-12">SAVE ENTRY</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
