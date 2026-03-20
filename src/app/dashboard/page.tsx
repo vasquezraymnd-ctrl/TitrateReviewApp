@@ -73,10 +73,10 @@ export default function Dashboard() {
           <div className="relative z-10 p-8 lg:p-16 w-full max-w-5xl space-y-8">
             <div className="flex items-center gap-2">
               <Microscope className="text-primary animate-pulse" size={24} />
-              <span className="text-primary font-black tracking-[0.4em] uppercase text-xs">Diagnostic Protocol</span>
+              <span className="text-primary font-black tracking-[0.4em] uppercase text-xs">Good Day</span>
             </div>
             <h2 className="text-7xl md:text-9xl font-black italic uppercase tracking-tighter leading-none">
-              Green <br /> <span className="text-primary">Assay</span>
+              Welcome <br /> <span className="text-primary">Future RMT</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl font-medium uppercase tracking-wide leading-relaxed">
               Clinical analysis complete. Calibrate your knowledge in <span className="text-white">Clinical Chemistry</span> to ensure diagnostic accuracy.
