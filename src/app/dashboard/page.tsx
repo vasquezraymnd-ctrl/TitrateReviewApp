@@ -59,7 +59,7 @@ export default function Dashboard() {
 
     setUpcomingProtocols(sorted);
 
-    // Calculate mastery
+    // Calculate mastery and latest modules
     const modules = await db.getAll<LabModule>('modules');
     const masteryMap: Record<string, number> = {};
     const latestMap: Record<string, string> = {};
@@ -161,12 +161,12 @@ export default function Dashboard() {
                             <p className="text-[10px] md:text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-1.5">
                               {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
                             </p>
-                            <h4 className="text-base md:text-xl font-black italic uppercase tracking-tight text-white/90 truncate max-w-[200px] sm:max-w-none">
+                            <h4 className="text-base md:text-xl lg:text-2xl font-black italic uppercase tracking-tight text-white/90 truncate max-w-[200px] sm:max-w-none">
                               {protocol.title}
                             </h4>
                             <div className="flex items-center gap-2 mt-1.5">
                               <Calendar size={12} className="text-primary/60" />
-                              <span className="text-[12px] md:text-sm font-bold text-muted-foreground uppercase tracking-tighter">
+                              <span className="text-[12px] md:text-base font-bold text-muted-foreground uppercase tracking-tighter">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd') : protocol.dayOfWeek} • {protocol.startTime}
                               </span>
                             </div>
