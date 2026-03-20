@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 5; // Incremented for PDF support
+const DB_VERSION = 5; // Updated for extractedText support
 
 export interface Question {
   id: string;
@@ -51,6 +51,7 @@ export interface LabModule {
   imageKey: string;
   mastery: number;
   pdfBlob?: Blob; // Stored locally on device
+  extractedText?: string; // Cached text for AI generation
 }
 
 export const CORE_SUBJECTS = [
