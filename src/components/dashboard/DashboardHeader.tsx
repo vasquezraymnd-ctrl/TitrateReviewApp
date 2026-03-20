@@ -39,12 +39,12 @@ export function DashboardHeader() {
         </Button>
         <div className="flex items-center gap-3 pl-6 border-l border-white/10 cursor-pointer group">
           <div className="text-right hidden md:block">
-            <p className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-primary transition-colors">Student Analyst</p>
+            <p className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-primary transition-colors">Future RMT</p>
             <p className="text-[9px] font-bold text-primary uppercase tracking-tighter">Laboratory Grade 42</p>
           </div>
           <Avatar className="w-8 h-8 rounded-none border border-primary/50 p-0.5">
             <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=64&h=64&fit=crop" className="grayscale" />
-            <AvatarFallback>SA</AvatarFallback>
+            <AvatarFallback>RMT</AvatarFallback>
           </Avatar>
         </div>
       </div>

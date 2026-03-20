@@ -75,7 +75,7 @@ function LibraryContent() {
     } else {
       const defaultProfile: UserProfile = {
         id: 'current-user',
-        name: 'Student Analyst',
+        name: 'Future RMT',
         proficiencyRank: 'Laboratory Grade 42',
         examDate: '2025-08-20',
         totalQuestionsAnswered: 1248,
@@ -154,7 +154,7 @@ function LibraryContent() {
                    </div>
                  </div>
                  <div>
-                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2">Student Analyst</p>
+                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2">Future RMT</p>
                    <h2 className="text-5xl font-black italic uppercase tracking-tighter mb-1">{profile?.name}</h2>
                    <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
                  </div>
