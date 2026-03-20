@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useMemo } from 'react';
@@ -24,7 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "@/components/ui/dialog";
+} from "@/dialog/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -127,17 +128,17 @@ export default function SchedulerPage() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-16 py-28 lg:py-32 space-y-12">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-8 lg:px-16 py-28 lg:py-32 space-y-12 xl:space-y-20">
           <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/5 pb-8 gap-6">
             <div>
-              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
-              <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations and exam milestones.</p>
+              <h2 className="text-3xl md:text-5xl xl:text-7xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
+              <p className="text-[10px] md:text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations and exam milestones.</p>
             </div>
             {schedules.length === 0 && (
               <Button 
                 variant="outline" 
                 onClick={seedSampleData}
-                className="riot-button h-12 px-8 border-primary/20 text-primary hover:bg-primary/5 font-black text-xs"
+                className="riot-button h-12 xl:h-16 px-8 xl:px-12 border-primary/20 text-primary hover:bg-primary/5 font-black text-xs xl:text-sm"
               >
                 <Database className="mr-2 h-4 w-4" /> SEED SAMPLES
               </Button>
@@ -145,25 +146,25 @@ export default function SchedulerPage() {
           </div>
 
           <Tabs defaultValue="class" className="w-full" onValueChange={(v) => setActiveTab(v as ScheduleType)}>
-            <TabsList className="bg-white/[0.02] border border-white/5 p-1 rounded-none h-14 md:h-16 mb-8 w-full max-w-3xl flex overflow-x-auto no-scrollbar">
-              <TabsTrigger value="class" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs tracking-widest">
+            <TabsList className="bg-white/[0.02] border border-white/5 p-1 rounded-none h-14 md:h-16 xl:h-20 mb-8 w-full max-w-4xl flex overflow-x-auto no-scrollbar">
+              <TabsTrigger value="class" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs xl:text-sm tracking-widest">
                 <GraduationCap className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> <span className="hidden sm:inline">Class</span> Schedule
               </TabsTrigger>
-              <TabsTrigger value="exam" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs tracking-widest">
+              <TabsTrigger value="exam" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs xl:text-sm tracking-widest">
                 <CalendarDays className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> <span className="hidden sm:inline">Academic</span> Exams
               </TabsTrigger>
-              <TabsTrigger value="study" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs tracking-widest">
+              <TabsTrigger value="study" className="flex-1 rounded-none data-[state=active]:bg-primary data-[state=active]:text-black font-black uppercase text-[9px] md:text-xs xl:text-sm tracking-widest">
                 <BookOpen className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Study Blocks
               </TabsTrigger>
             </TabsList>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              <div className="lg:col-span-2 space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-12 xl:gap-20">
+              <div className="lg:col-span-2 xl:col-span-3 space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl md:text-2xl font-black italic uppercase tracking-tighter flex items-center gap-3">
+                  <h3 className="text-xl md:text-2xl xl:text-4xl font-black italic uppercase tracking-tighter flex items-center gap-3">
                     {activeTab === 'class' ? "Course Rotations" : activeTab === 'exam' ? "Exam Milestones" : "Study Sessions"}
                   </h3>
-                  <Button variant="outline" size="sm" onClick={() => setIsAddOpen(true)} className="border-white/10 hover:bg-white/5 rounded-none uppercase text-[10px] font-black h-10 px-4">
+                  <Button variant="outline" size="sm" onClick={() => setIsAddOpen(true)} className="border-white/10 hover:bg-white/5 rounded-none uppercase text-[10px] xl:text-[12px] font-black h-10 xl:h-12 px-4 xl:px-8">
                     <Plus className="mr-2 h-4 w-4" /> RECORD
                   </Button>
                 </div>
@@ -180,21 +181,21 @@ export default function SchedulerPage() {
                       <p className="font-black italic uppercase text-xs">No entries recorded.</p>
                     </div>
                   ) : filteredSchedules.map((s) => (
-                    <div key={s.id} className="riot-card bg-white/[0.02] hover:bg-white/[0.04] transition-all p-5 md:p-6 border border-white/5 flex items-center justify-between group">
-                      <div className="flex items-center gap-4 md:gap-6">
-                        <div className="w-12 h-12 md:w-14 md:h-14 bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
-                          {s.type === 'class' ? <GraduationCap className="text-primary size-5 md:size-6" /> : s.type === 'exam' ? <CalendarDays className="text-primary size-5 md:size-6" /> : <BookOpen className="text-primary size-5 md:size-6" />}
+                    <div key={s.id} className="riot-card bg-white/[0.02] hover:bg-white/[0.04] transition-all p-5 md:p-6 xl:p-10 border border-white/5 flex items-center justify-between group">
+                      <div className="flex items-center gap-4 md:gap-6 xl:gap-10">
+                        <div className="w-12 h-12 md:w-14 md:h-14 xl:w-20 xl:h-20 bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
+                          {s.type === 'class' ? <GraduationCap className="text-primary size-5 md:size-6 xl:size-10" /> : s.type === 'exam' ? <CalendarDays className="text-primary size-5 md:size-6 xl:size-10" /> : <BookOpen className="text-primary size-5 md:size-6 xl:size-10" />}
                         </div>
                         <div className="min-w-0">
-                          <h4 className="text-base md:text-lg font-black italic uppercase tracking-tighter text-white truncate">{s.title}</h4>
-                          <p className="text-[9px] md:text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
+                          <h4 className="text-base md:text-lg xl:text-3xl font-black italic uppercase tracking-tighter text-white truncate">{s.title}</h4>
+                          <p className="text-[9px] md:text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
                             {s.type === 'class' ? s.dayOfWeek : s.date ? format(new Date(s.date), 'MMM dd, yyyy') : 'N/A'} • {s.startTime} - {s.endTime}
                           </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-1 md:gap-2">
-                         <Button variant="ghost" size="icon" onClick={() => deleteScheduleItem(s.id)} className="text-red-500 hover:bg-red-500/10 h-10 w-10">
-                           <Trash2 size={18} />
+                         <Button variant="ghost" size="icon" onClick={() => deleteScheduleItem(s.id)} className="text-red-500 hover:bg-red-500/10 h-10 w-10 xl:h-14 xl:w-14">
+                           <Trash2 size={24} />
                          </Button>
                       </div>
                     </div>
@@ -203,18 +204,18 @@ export default function SchedulerPage() {
               </div>
 
               <div className="space-y-8 hidden lg:block">
-                <div className="riot-card p-8 bg-white/[0.02] border border-white/5">
-                  <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-6 border-b border-white/5 pb-4">Calibration Metrics</h4>
-                  <div className="space-y-4">
-                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+                <div className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5">
+                  <h4 className="text-[10px] xl:text-[12px] font-black text-muted-foreground uppercase tracking-[0.4em] mb-6 border-b border-white/5 pb-4">Calibration Metrics</h4>
+                  <div className="space-y-4 xl:space-y-6">
+                     <div className="flex items-center justify-between text-[10px] xl:text-[13px] font-bold uppercase tracking-widest">
                        <span className="text-muted-foreground">Class Load</span>
                        <span className="text-white">{schedules.filter(s => s.type === 'class').length} Folders</span>
                      </div>
-                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+                     <div className="flex items-center justify-between text-[10px] xl:text-[13px] font-bold uppercase tracking-widest">
                        <span className="text-muted-foreground">Exam Targets</span>
                        <span className="text-white">{schedules.filter(s => s.type === 'exam').length} Dates</span>
                      </div>
-                     <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
+                     <div className="flex items-center justify-between text-[10px] xl:text-[13px] font-bold uppercase tracking-widest">
                        <span className="text-muted-foreground">Protocol Intensity</span>
                        <span className="text-primary">Operational</span>
                      </div>

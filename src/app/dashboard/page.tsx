@@ -106,7 +106,7 @@ export default function Dashboard() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative pb-20 md:pb-0">
         <DashboardHeader />
         
-        <section className="relative min-h-[450px] md:h-[60vh] lg:h-[75vh] w-full flex items-center px-6 md:px-10 lg:px-16 pt-24 md:pt-0">
+        <section className="relative min-h-[450px] md:h-[60vh] lg:h-[75vh] xl:h-[85vh] w-full flex items-center px-6 md:px-10 lg:px-16 pt-24 md:pt-0">
           <div className="absolute inset-0 z-0">
             <Image 
               src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&q=80&w=1920&h=1080"
@@ -119,14 +119,14 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d141d] via-[#0d141d]/80 to-transparent" />
           </div>
 
-          <div className="relative z-10 w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="relative z-10 w-full max-w-7xl xl:max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-20 items-center">
             <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-left-12 duration-1000">
               <div className="flex items-center gap-2">
                 <Microscope className="text-primary animate-pulse" size={14} />
                 <span className="text-primary font-black tracking-[0.4em] uppercase text-[10px]">Status: Active</span>
               </div>
               
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter leading-none">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[10rem] font-black italic uppercase tracking-tighter leading-none">
                 Welcome <br /> <span className="text-primary">{profile?.name || 'Future RMT'}</span>
               </h2>
 
@@ -141,9 +141,9 @@ export default function Dashboard() {
             </div>
 
             <div className="animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
-              <div className="riot-card p-6 md:p-8 lg:p-10 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
+              <div className="riot-card p-6 md:p-8 lg:p-10 xl:p-14 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-100 transition-opacity hidden lg:block">
-                  <Target size={120} className="text-primary" />
+                  <Target size={160} className="text-primary" />
                 </div>
                 
                 <div className="relative z-10 space-y-6 lg:space-y-8">
@@ -161,12 +161,12 @@ export default function Dashboard() {
                         <div 
                           key={protocol.id} 
                           className={cn(
-                            "flex items-center gap-4 lg:gap-6 group/item py-6 lg:py-8 border-b border-white/5 last:border-0 transition-all duration-500",
+                            "flex items-center gap-4 lg:gap-6 xl:gap-8 group/item py-6 lg:py-8 xl:py-10 border-b border-white/5 last:border-0 transition-all duration-500",
                             index === 0 && "bg-primary/[0.05] shadow-[0_0_40px_rgba(0,255,127,0.05)] px-4 -mx-4"
                           )}
                         >
                           <div className={cn(
-                            "w-2 transition-colors h-14 md:h-16 lg:h-24",
+                            "w-2 transition-colors h-14 md:h-16 lg:h-24 xl:h-28",
                             index === 0 ? "bg-primary shadow-[0_0_20px_rgba(0,255,127,0.8)]" : "bg-primary/20 group-hover/item:bg-primary"
                           )} />
                           <div className="flex-1">
@@ -175,15 +175,15 @@ export default function Dashboard() {
                                 {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
                               </p>
                               {index === 0 && (
-                                <span className="text-[9px] md:text-[12px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
+                                <span className="text-[9px] md:text-[12px] xl:text-[14px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
                               )}
                             </div>
-                            <h4 className="text-2xl md:text-4xl lg:text-5xl font-black italic uppercase tracking-tighter text-white truncate">
+                            <h4 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-black italic uppercase tracking-tighter text-white truncate">
                               {protocol.title}
                             </h4>
                             <div className="flex items-center gap-3 mt-3">
-                              <Calendar size={16} className="text-primary/60" />
-                              <span className="text-[16px] md:text-2xl font-bold text-muted-foreground uppercase tracking-tight">
+                              <Calendar size={18} className="text-primary/60" />
+                              <span className="text-[16px] md:text-2xl xl:text-3xl font-bold text-muted-foreground uppercase tracking-tight">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd, yyyy') : protocol.dayOfWeek} • {protocol.startTime} - {protocol.endTime}
                               </span>
                             </div>
@@ -203,18 +203,18 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <div className="p-6 md:p-10 lg:p-16 space-y-12 lg:space-y-24">
+        <div className="p-6 md:p-10 lg:p-16 space-y-12 lg:space-y-24 xl:space-y-32 max-w-[1800px] mx-auto">
           
           <section>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 lg:mb-12 border-b border-white/5 pb-6 gap-4">
               <div>
-                <h3 className="text-2xl md:text-3xl lg:text-4xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
+                <h3 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
                 <p className="text-[10px] lg:text-[11px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Select laboratory specialization</p>
               </div>
               <Link href="/library" className="text-[10px] lg:text-[11px] font-black text-primary hover:underline uppercase tracking-[0.3em]">All Archives</Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 lg:gap-8">
               {CORE_SUBJECTS.map((subject) => {
                 const imageKey = getSubjectImage(subject);
                 const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
@@ -238,11 +238,11 @@ export default function Dashboard() {
                         <div className="space-y-1">
                           <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">{subject}</p>
                           <h4 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
-                            {latestModule ? `${subject}: ${latestModule}` : subject}
+                            {latestModule ? `${latestModule}` : subject}
                           </h4>
                         </div>
                         <div className="text-right shrink-0">
-                          <p className="text-2xl md:text-3xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
+                          <p className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
                           <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Mastery</p>
                         </div>
                       </div>
@@ -254,15 +254,15 @@ export default function Dashboard() {
           </section>
 
           <section className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10">
-            <div className="bg-white/[0.02] p-10 md:p-14 lg:p-20 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
-              <Activity className="text-primary/70 group-hover:text-primary mb-2" size={24} />
-              <p className="text-4xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter">{profile?.currentStreak || 0} DAYS</p>
-              <p className="text-[10px] lg:text-[12px] font-black text-muted-foreground uppercase tracking-widest">Clinical Persistence Streak</p>
+            <div className="bg-white/[0.02] p-10 md:p-14 lg:p-20 xl:p-32 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
+              <Activity className="text-primary/70 group-hover:text-primary mb-2" size={32} />
+              <p className="text-4xl md:text-6xl lg:text-8xl xl:text-[10rem] font-black italic uppercase tracking-tighter">{profile?.currentStreak || 0} DAYS</p>
+              <p className="text-[10px] lg:text-[14px] font-black text-muted-foreground uppercase tracking-widest">Clinical Persistence Streak</p>
             </div>
-            <div className="bg-primary p-10 md:p-14 lg:p-20 flex flex-col items-center text-center space-y-4 shadow-[0_0_50px_rgba(0,255,127,0.1)]">
-              <BookOpen className="text-black mb-2" size={24} />
-              <p className="text-4xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-black">ACTIVE</p>
-              <p className="text-[10px] lg:text-[12px] font-black text-black/60 uppercase tracking-widest">Laboratory Protocol Status</p>
+            <div className="bg-primary p-10 md:p-14 lg:p-20 xl:p-32 flex flex-col items-center text-center space-y-4 shadow-[0_0_50px_rgba(0,255,127,0.1)]">
+              <BookOpen className="text-black mb-2" size={32} />
+              <p className="text-4xl md:text-6xl lg:text-8xl xl:text-[10rem] font-black italic uppercase tracking-tighter text-black">ACTIVE</p>
+              <p className="text-[10px] lg:text-[14px] font-black text-black/60 uppercase tracking-widest">Laboratory Protocol Status</p>
             </div>
           </section>
 

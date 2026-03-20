@@ -316,8 +316,8 @@ function LibraryContent() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="px-6 md:px-10 lg:px-16 py-28 md:py-32 max-w-7xl mx-auto space-y-12 lg:space-y-16">
-          <section className="riot-card p-6 md:p-10 bg-white/[0.02] border border-white/5 relative overflow-hidden group/card">
+        <div className="px-6 md:px-10 lg:px-16 py-28 md:py-32 max-w-[1800px] mx-auto space-y-12 lg:space-y-16 xl:space-y-24">
+          <section className="riot-card p-6 md:p-10 lg:p-14 xl:p-20 bg-white/[0.02] border border-white/5 relative overflow-hidden group/card">
              <div className="absolute top-0 right-0 p-8 opacity-5">
                <UserCircle className="text-primary" size={200} />
              </div>
@@ -330,23 +330,23 @@ function LibraryContent() {
              </button>
 
              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
-               <div className="flex items-center gap-4 md:gap-6">
-                 <div className="w-16 h-16 md:w-20 lg:w-24 md:h-20 lg:h-24 border border-primary/50 p-1 rounded-none">
+               <div className="flex items-center gap-4 md:gap-6 xl:gap-10">
+                 <div className="w-16 h-16 md:w-20 lg:w-24 xl:w-32 md:h-20 lg:h-24 xl:h-32 border border-primary/50 p-1 rounded-none">
                    <div className="w-full h-full bg-primary/20 flex items-center justify-center">
                      <User size={32} className="text-primary md:hidden" />
-                     <User size={40} className="text-primary hidden md:block" />
+                     <User size={48} className="text-primary hidden md:block" />
                    </div>
                  </div>
                  <div>
-                   <p className="text-[9px] font-black text-primary uppercase tracking-[0.4em] mb-1">Future RMT</p>
-                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-black italic uppercase tracking-tighter mb-1 leading-none">{profile?.name}</h2>
-                   <p className="text-[10px] md:text-sm font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
+                   <p className="text-[9px] xl:text-[11px] font-black text-primary uppercase tracking-[0.4em] mb-1">Future RMT</p>
+                   <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-black italic uppercase tracking-tighter mb-1 leading-none">{profile?.name}</h2>
+                   <p className="text-[10px] md:text-sm xl:text-lg font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
                  </div>
                </div>
                <div className="flex items-center justify-start md:justify-end">
-                 <div className="bg-black/40 p-3 border border-white/5 min-w-[120px]">
-                   <p className="text-[8px] md:text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Academic Target</p>
-                   <p className="text-xl md:text-2xl font-black italic text-white">{profile?.examDate ? formatTargetDate(profile.examDate) : '---'}</p>
+                 <div className="bg-black/40 p-4 border border-white/5 min-w-[140px] xl:min-w-[200px] text-center">
+                   <p className="text-[8px] md:text-[9px] xl:text-[11px] font-black text-muted-foreground uppercase tracking-widest mb-1">Academic Target</p>
+                   <p className="text-xl md:text-2xl xl:text-4xl font-black italic text-white">{profile?.examDate ? formatTargetDate(profile.examDate) : '---'}</p>
                  </div>
                </div>
              </div>
@@ -354,42 +354,42 @@ function LibraryContent() {
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h3 className="text-2xl lg:text-3xl font-black italic tracking-tighter uppercase flex items-center gap-2">
+              <h3 className="text-2xl lg:text-3xl xl:text-5xl font-black italic tracking-tighter uppercase flex items-center gap-2">
                 <Archive className="text-primary" size={22} />
                 {subjectFilter ? `${subjectFilter} Sector` : 'Archives'}
               </h3>
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
+              <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
                 {subjectFilter 
                   ? `Titrated protocols for ${subjectFilter}.` 
                   : 'Select a clinical sector folder.'}
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 lg:gap-4 w-full md:w-auto">
-              <Button onClick={seedSampleProtocol} variant="outline" className="h-10 px-4 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[9px] flex-1 md:flex-none">
+            <div className="flex flex-wrap gap-2 lg:gap-4 xl:gap-6 w-full md:w-auto">
+              <Button onClick={seedSampleProtocol} variant="outline" className="h-10 xl:h-12 px-4 xl:px-6 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[9px] xl:text-[11px] flex-1 md:flex-none">
                 <Database className="mr-2 h-3 w-3" /> SEED SAMPLE
               </Button>
               {subjectFilter && (
-                <Button onClick={() => router.push('/library')} variant="outline" className="h-10 px-4 border-white/10 text-white font-black text-[9px] flex-1 md:flex-none">
+                <Button onClick={() => router.push('/library')} variant="outline" className="h-10 xl:h-12 px-4 xl:px-6 border-white/10 text-white font-black text-[9px] xl:text-[11px] flex-1 md:flex-none">
                   <ChevronLeft className="mr-2 h-3 w-3" /> DIRECTORY
                 </Button>
               )}
-              <div className="relative w-full md:w-56 lg:w-80">
+              <div className="relative w-full md:w-56 lg:w-80 xl:w-96">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
                 <input 
                   placeholder="SEARCH..." 
-                  className="w-full bg-white/5 border border-white/10 h-10 pl-10 pr-4 text-[9px] font-black tracking-widest uppercase focus:bg-white/10 focus:ring-1 focus:ring-primary outline-none transition-all"
+                  className="w-full bg-white/5 border border-white/10 h-10 xl:h-12 pl-10 pr-4 text-[9px] xl:text-[11px] font-black tracking-widest uppercase focus:bg-white/10 focus:ring-1 focus:ring-primary outline-none transition-all"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
-              <Button onClick={() => setIsAddModuleOpen(true)} className="h-10 px-6 bg-primary text-black font-black text-[9px] w-full md:w-auto">
+              <Button onClick={() => setIsAddModuleOpen(true)} className="h-10 xl:h-12 px-6 xl:px-10 bg-primary text-black font-black text-[9px] xl:text-[11px] w-full md:w-auto">
                 <Plus className="mr-2 h-3 w-3" /> NEW PROTOCOL
               </Button>
             </div>
           </div>
 
           {!subjectFilter ? (
-            <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 lg:gap-8">
               {CORE_SUBJECTS.map((subject) => {
                 const imageKey = getSubjectImage(subject);
                 const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
@@ -414,7 +414,7 @@ function LibraryContent() {
                       <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Sector Folder</p>
-                          <h4 className="text-lg md:text-2xl lg:text-3xl font-black italic uppercase text-white leading-tight">{subject}</h4>
+                          <h4 className="text-lg md:text-2xl lg:text-3xl xl:text-4xl font-black italic uppercase text-white leading-tight">{subject}</h4>
                         </div>
                         <div className="text-right">
                           <p className="text-xl md:text-3xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
@@ -429,24 +429,24 @@ function LibraryContent() {
           ) : (
             <div className="space-y-8">
                {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                  {[1, 2, 3, 4].map(i => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8">
+                  {[1, 2, 3, 4, 5].map(i => (
                     <div key={i} className="aspect-[16/10] bg-white/[0.02] animate-pulse riot-card" />
                   ))}
                 </div>
               ) : filteredModules.length === 0 ? (
-                <div className="text-center py-20 riot-card border border-dashed border-white/10 bg-white/[0.02]">
-                  <FileText size={48} className="mx-auto text-muted-foreground/30 mb-4" />
-                  <h3 className="text-lg font-black italic uppercase">Archive Empty</h3>
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-6 px-6">
+                <div className="text-center py-20 xl:py-40 riot-card border border-dashed border-white/10 bg-white/[0.02]">
+                  <FileText size={48} className="mx-auto text-muted-foreground/30 mb-4 xl:size-24" />
+                  <h3 className="text-lg xl:text-3xl font-black italic uppercase">Archive Empty</h3>
+                  <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-widest mb-6 px-6">
                     No protocols filed in {subjectFilter}.
                   </p>
-                  <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-10 px-8 bg-primary text-black text-[9px]">
+                  <Button onClick={() => setIsAddModuleOpen(true)} className="riot-button h-10 xl:h-14 px-8 xl:px-12 bg-primary text-black text-[9px] xl:text-[11px]">
                     UPLOAD PROTOCOL
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 lg:gap-8">
                   {filteredModules.map((module) => (
                     <div key={module.id} className="group cursor-pointer" onClick={() => openPdf(module)}>
                       <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
@@ -463,17 +463,17 @@ function LibraryContent() {
                           <div className="flex justify-between items-end">
                             <div className="space-y-1">
                               <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
-                              <h4 className="text-xl md:text-lg lg:text-xl font-black italic uppercase leading-tight text-white truncate max-w-[140px] md:max-w-none">
+                              <h4 className="text-xl md:text-lg lg:text-xl xl:text-2xl font-black italic uppercase leading-tight text-white truncate max-w-[140px] md:max-w-none">
                                 {module.name}
                               </h4>
                               <div className="flex items-center gap-1.5 mt-1">
                                  <FileText size={10} className="text-primary" />
-                                 <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">
+                                 <span className="text-[8px] xl:text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                                    {module.mastery}% Titrated
                                  </span>
                               </div>
                             </div>
-                            <div className="w-8 h-8 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <div className="w-8 h-8 xl:w-10 xl:h-10 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
                               <ArrowRight className="text-black" size={14} />
                             </div>
                           </div>
@@ -619,16 +619,16 @@ function LibraryContent() {
                 }} className="text-white/50 h-8 w-8 lg:h-10 lg:w-10">
                   <ChevronLeft size={20} />
                 </Button>
-                <div className="truncate max-w-[150px] sm:max-w-md">
+                <div className="truncate max-w-[150px] sm:max-w-md lg:max-w-2xl">
                   <h2 className="text-[8px] lg:text-[11px] font-black italic uppercase tracking-[0.3em] text-primary">Protocol Analysis</h2>
-                  <p className="text-sm lg:text-lg font-black italic uppercase text-white truncate">{viewingModule.name}</p>
+                  <p className="text-sm lg:text-xl font-black italic uppercase text-white truncate">{viewingModule.name}</p>
                 </div>
               </div>
 
               <div className="flex-1 max-w-xl mx-4 lg:mx-12 hidden sm:block">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[8px] lg:text-[9px] font-black text-muted-foreground uppercase tracking-widest">Mastery</span>
-                  <span className="text-[8px] lg:text-[9px] font-black text-primary uppercase tracking-widest">{currentMastery}%</span>
+                  <span className="text-[8px] lg:text-[10px] font-black text-muted-foreground uppercase tracking-widest">Mastery</span>
+                  <span className="text-[8px] lg:text-[10px] font-black text-primary uppercase tracking-widest">{currentMastery}%</span>
                 </div>
                 <Slider 
                   value={[currentMastery]} 
@@ -656,7 +656,7 @@ function LibraryContent() {
                ) : (
                  <div className="flex flex-col items-center justify-center h-full space-y-4 px-6 text-center">
                     <BookOpen size={48} className="text-primary/20" />
-                    <p className="text-[10px] font-black italic uppercase text-muted-foreground">Protocol context loaded for AI synthesis only.</p>
+                    <p className="text-[10px] lg:text-[14px] font-black italic uppercase text-muted-foreground">Protocol context loaded for AI synthesis only.</p>
                  </div>
                )}
             </div>

@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -149,8 +150,8 @@ export default function QuizPage() {
       <div className="flex h-screen bg-[#0b111a] items-center justify-center text-white flex-col gap-6">
         <Zap className="animate-pulse text-primary" size={64} />
         <div className="text-center">
-            <h2 className="text-2xl font-black italic uppercase tracking-tighter">AI TITRATION IN PROGRESS</h2>
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Synthesizing clinical assays from protocol text...</p>
+            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter">AI TITRATION IN PROGRESS</h2>
+            <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Synthesizing clinical assays from protocol text...</p>
         </div>
       </div>
     );
@@ -162,24 +163,24 @@ export default function QuizPage() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="max-w-6xl mx-auto px-8 lg:px-16 py-32 flex flex-col min-h-full">
+        <div className="max-w-7xl xl:max-w-[1600px] mx-auto px-8 lg:px-16 py-32 flex flex-col min-h-full">
           <div className="flex-1">
             {step === 'subject' && (
-              <div className="space-y-12 animate-in fade-in duration-700">
+              <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
                 <div className="border-b border-white/5 pb-8">
-                  <h2 className="text-4xl font-black italic uppercase tracking-tighter">Sector Selection</h2>
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
+                  <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">Sector Selection</h2>
+                  <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                   {CORE_SUBJECTS.map((subject) => (
                     <button 
                       key={subject} 
                       onClick={() => handleSubjectSelect(subject)}
-                      className="riot-card p-10 bg-white/[0.02] border border-white/5 hover:bg-primary hover:text-black transition-all group"
+                      className="riot-card p-10 xl:p-14 bg-white/[0.02] border border-white/5 hover:bg-primary hover:text-black transition-all group"
                     >
-                      <Microscope size={32} className="mb-6 group-hover:scale-110 transition-transform" />
-                      <h3 className="text-2xl font-black italic uppercase tracking-tighter">{subject}</h3>
-                      <p className="text-[10px] font-bold opacity-60 mt-2 uppercase tracking-widest">Initiate Assay</p>
+                      <Microscope size={32} className="mb-6 group-hover:scale-110 transition-transform xl:size-48" />
+                      <h3 className="text-2xl xl:text-4xl font-black italic uppercase tracking-tighter">{subject}</h3>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 mt-2 uppercase tracking-widest">Initiate Assay</p>
                     </button>
                   ))}
                 </div>
@@ -187,37 +188,37 @@ export default function QuizPage() {
             )}
 
             {step === 'module' && (
-              <div className="space-y-12 animate-in slide-in-from-right-12 duration-700">
+              <div className="space-y-12 xl:space-y-20 animate-in slide-in-from-right-12 duration-700">
                 <div className="flex items-center justify-between border-b border-white/5 pb-8">
                   <div>
-                      <h2 className="text-4xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
-                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Select an uploaded protocol for AI-driven question synthesis.</p>
+                      <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
+                      <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Select an uploaded protocol for AI-driven question synthesis.</p>
                   </div>
-                  <Button variant="ghost" onClick={() => setStep('subject')} className="uppercase font-black text-[10px] tracking-widest">Back</Button>
+                  <Button variant="ghost" onClick={() => setStep('subject')} className="uppercase font-black text-[10px] xl:text-[12px] tracking-widest">Back</Button>
                 </div>
 
                 {modules.length === 0 ? (
-                  <div className="text-center py-24 riot-card border border-dashed border-white/10 bg-white/[0.02]">
-                      <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4" />
-                      <h3 className="text-xl font-black italic uppercase">No Protocols Found</h3>
-                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-8">You must upload modules to the Protocol Archives first.</p>
-                      <Button asChild className="riot-button h-12 px-8 bg-primary text-black">
+                  <div className="text-center py-24 xl:py-40 riot-card border border-dashed border-white/10 bg-white/[0.02]">
+                      <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
+                      <h3 className="text-xl xl:text-4xl font-black italic uppercase">No Protocols Found</h3>
+                      <p className="text-xs xl:text-lg font-bold text-muted-foreground uppercase tracking-widest mb-8">You must upload modules to the Protocol Archives first.</p>
+                      <Button asChild className="riot-button h-12 xl:h-16 px-8 xl:px-14 bg-primary text-black xl:text-sm">
                           <Link href="/library">GO TO ARCHIVES</Link>
                       </Button>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     {modules.map((m) => (
                       <button 
                         key={m.id} 
                         onClick={() => startModuleAssay(m)}
-                        className="riot-card p-8 bg-white/[0.02] border border-white/5 hover:border-primary/50 text-left group"
+                        className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:border-primary/50 text-left group"
                       >
-                        <BookOpen size={24} className="mb-4 text-primary" />
-                        <h4 className="text-xl font-black italic uppercase tracking-tighter">{m.name}</h4>
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-2">Generate Quiz from PDF</p>
+                        <BookOpen size={24} className="mb-4 text-primary xl:size-32" />
+                        <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter">{m.name}</h4>
+                        <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">Generate Quiz from PDF</p>
                         <div className="mt-6 flex justify-end">
-                           <div className="w-10 h-10 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                           <div className="w-10 h-10 xl:w-14 xl:h-14 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
                               <ChevronRight className="text-black" />
                            </div>
                         </div>
@@ -229,16 +230,16 @@ export default function QuizPage() {
             )}
 
             {step === 'quiz' && !completed && (
-              <div className="animate-in fade-in duration-700">
+              <div className="animate-in fade-in duration-700 max-w-5xl mx-auto w-full">
                 <div className="flex items-center justify-between mb-12">
                   <div className="flex-1 mr-8">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Assay Precision</span>
-                      <span className="text-[10px] font-black text-primary uppercase tracking-widest">{currentIndex + 1} / {questions.length}</span>
+                      <span className="text-[10px] xl:text-[12px] font-black text-muted-foreground uppercase tracking-widest">Assay Precision</span>
+                      <span className="text-[10px] xl:text-[12px] font-black text-primary uppercase tracking-widest">{currentIndex + 1} / {questions.length}</span>
                     </div>
                     <ProgressBar value={((currentIndex + 1) / questions.length) * 100} className="h-1 bg-white/5" />
                   </div>
-                  <Button variant="ghost" className="text-red-500 font-black uppercase text-[10px] tracking-widest" onClick={() => setCompleted(true)}>
+                  <Button variant="ghost" className="text-red-500 font-black uppercase text-[10px] xl:text-[12px] tracking-widest" onClick={() => setCompleted(true)}>
                     Abort
                   </Button>
                 </div>
@@ -252,20 +253,20 @@ export default function QuizPage() {
             )}
 
             {completed && (
-              <div className="text-center py-20 animate-in fade-in zoom-in duration-700">
-                <div className="w-24 h-24 bg-primary/20 text-primary rounded-none flex items-center justify-center mx-auto mb-8 border border-primary/30">
-                  <Trophy size={48} />
+              <div className="text-center py-20 xl:py-40 animate-in fade-in zoom-in duration-700">
+                <div className="w-24 h-24 xl:w-32 xl:h-32 bg-primary/20 text-primary rounded-none flex items-center justify-center mx-auto mb-8 border border-primary/30">
+                  <Trophy size={48} className="xl:size-20" />
                 </div>
-                <h2 className="text-5xl font-black italic uppercase tracking-tighter mb-4 text-white">Assay Finalized</h2>
-                <p className="text-muted-foreground mb-12 text-lg italic max-w-lg mx-auto leading-relaxed">
+                <h2 className="text-5xl xl:text-8xl font-black italic uppercase tracking-tighter mb-4 text-white">Assay Finalized</h2>
+                <p className="text-muted-foreground mb-12 text-lg xl:text-2xl italic max-w-2xl mx-auto leading-relaxed">
                   Your titration levels for this module have been updated. The laboratory algorithm will schedule these protocols for future review.
                 </p>
                 
                 <div className="flex gap-4 justify-center">
-                  <Button asChild variant="outline" className="riot-button h-16 px-10 border-white/10 text-white font-black text-[10px]">
+                  <Button asChild variant="outline" className="riot-button h-16 xl:h-20 px-10 xl:px-16 border-white/10 text-white font-black text-[10px] xl:text-[12px]">
                     <Link href="/dashboard">BACK TO LABORATORY</Link>
                   </Button>
-                  <Button onClick={() => window.location.reload()} className="riot-button h-16 px-10 bg-primary text-black font-black text-[10px]">
+                  <Button onClick={() => window.location.reload()} className="riot-button h-16 xl:h-20 px-10 xl:px-16 bg-primary text-black font-black text-[10px] xl:text-[12px]">
                     NEW ASSAY <ChevronRight className="ml-2" />
                   </Button>
                 </div>
@@ -281,11 +282,11 @@ export default function QuizPage() {
                 <h3 className="text-sm font-black italic uppercase tracking-[0.3em] text-white/40">Reset Laboratory Assays</h3>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+              <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 items-end">
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
+                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
                   <Select value={resetSubject} onValueChange={setResetSubject}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
@@ -296,10 +297,10 @@ export default function QuizPage() {
                   </Select>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
+                <div className="space-y-2 lg:col-span-1 xl:col-span-2">
+                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
                   <Select value={selectedResetModuleId || ""} onValueChange={setSelectedResetModuleId}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
                       <SelectValue placeholder="SELECT MODULE" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
@@ -314,7 +315,7 @@ export default function QuizPage() {
                   <AlertDialogTrigger asChild>
                     <Button 
                       disabled={!selectedResetModuleId}
-                      className="riot-button h-12 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/5 font-black text-[10px]"
+                      className="riot-button h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/5 font-black text-[10px] xl:text-[12px]"
                     >
                       RESET ASSAY DATA
                     </Button>
