@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -8,20 +9,31 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { db, Schedule, LabModule, CORE_SUBJECTS } from '@/lib/db';
+import { db, Schedule, LabModule, UserProfile, CORE_SUBJECTS } from '@/lib/db';
 import { format, isAfter, parseISO, startOfDay } from 'date-fns';
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const [upcomingProtocols, setUpcomingProtocols] = useState<Schedule[]>([]);
   const [subjectMastery, setSubjectMastery] = useState<Record<string, number>>({});
+  const [profile, setProfile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
     setMounted(true);
     loadDashboardData();
+    
+    // Listen for profile updates
+    window.addEventListener('profile-updated', loadDashboardData);
+    return () => window.removeEventListener('profile-updated', loadDashboardData);
   }, []);
 
   const loadDashboardData = async () => {
+    // Load Profile
+    const userProfile = await db.getById<UserProfile>('profile', 'current-user');
+    if (userProfile) {
+      setProfile(userProfile);
+    }
+
     // Load Upcoming Protocols
     const schedules = await db.getAll<Schedule>('schedules');
     const now = new Date();
@@ -101,7 +113,7 @@ export default function Dashboard() {
               </div>
               
               <h2 className="text-7xl md:text-8xl font-black italic uppercase tracking-tighter leading-none">
-                Welcome <br /> <span className="text-primary">Future RMT</span>
+                Welcome <br /> <span className="text-primary">{profile?.name || 'Future RMT'}</span>
               </h2>
 
               <div className="flex gap-4 pt-4">
