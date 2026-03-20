@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 4; // Incremented for subject field in modules
+const DB_VERSION = 5; // Incremented for PDF support
 
 export interface Question {
   id: string;
@@ -48,6 +48,7 @@ export interface LabModule {
   subject: string; // The core subject category
   imageKey: string;
   mastery: number;
+  pdfBlob?: Blob; // Stored locally on device
 }
 
 export const CORE_SUBJECTS = [
