@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* Instagram Black */
+    --background: 0 0% 7%; /* Spotify Black #121212 */
     --foreground: 0 0% 100%;
-    --card: 0 0% 8%;
+    --card: 0 0% 10%; /* #181818 */
     --card-foreground: 0 0% 100%;
-    --popover: 0 0% 5%;
+    --popover: 0 0% 12%;
     --popover-foreground: 0 0% 100%;
-    --primary: 210 100% 50%; /* Instagram Blue */
-    --primary-foreground: 0 0% 100%;
+    --primary: 142 70% 45%; /* Spotify Green #1DB954 */
+    --primary-foreground: 0 0% 0%;
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 12%;
+    --muted: 0 0% 15%;
     --muted-foreground: 0 0% 65%;
-    --accent: 330 100% 60%; /* Part of IG Gradient */
-    --accent-foreground: 0 0% 100%;
+    --accent: 142 70% 45%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 210 100% 50%;
+    --ring: 142 70% 45%;
     --radius: 0.5rem;
 
     --success: 142 70% 45%;
@@ -35,22 +35,19 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tight;
   }
 }
 
-/* Instagram Story Gradient Ring */
-.ig-story-ring {
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  padding: 2px;
+.spotify-gradient {
+  background: linear-gradient(to bottom, #222222 0%, #121212 100%);
 }
 
-.ig-feed-container {
-  max-width: 630px;
-  margin: 0 auto;
+.card-hover-effect {
+  @apply transition-all duration-300 hover:bg-[#282828] cursor-pointer;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -62,6 +59,7 @@
   scrollbar-width: none;
 }
 
-.text-shadow-sm {
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+/* Custom shadow for play buttons */
+.play-shadow {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 }
