@@ -174,7 +174,7 @@ export default function StudyPage() {
         <div className="max-w-6xl mx-auto px-8 lg:px-16 py-32 space-y-12">
           <div className="flex items-center justify-between border-b border-white/5 pb-8">
             <div>
-              <h2 className="text-5xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
+              <h2 className="text-4xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations, exam milestones, and high-yield blocks.</p>
             </div>
             <div className="flex gap-4">
