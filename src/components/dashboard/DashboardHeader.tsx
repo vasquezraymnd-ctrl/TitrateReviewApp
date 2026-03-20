@@ -1,10 +1,8 @@
 "use client"
 
-import { useEffect, useState } from 'react';
-import { Search, Bell, User } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Search, Heart, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 export function DashboardHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,29 +17,24 @@ export function DashboardHeader() {
 
   return (
     <header className={cn(
-      "flex items-center justify-between px-12 py-4 fixed top-0 right-0 left-20 lg:left-64 z-[100] transition-colors duration-500",
-      isScrolled ? "bg-black/95 shadow-md" : "bg-gradient-to-b from-black/80 to-transparent"
+      "flex items-center justify-between px-4 lg:px-0 py-3 fixed top-0 left-0 right-0 lg:left-64 bg-background/80 backdrop-blur-xl border-b border-muted z-[90] lg:hidden",
+      "transition-all duration-300"
     )}>
-      <div className="flex items-center gap-8">
-        <div className="hidden md:flex gap-6 text-sm font-medium">
-          <span className="cursor-pointer hover:text-white/70 transition-colors text-white">Browse</span>
-          <span className="cursor-pointer hover:text-white/70 transition-colors text-white/70">Top Performance</span>
-          <span className="cursor-pointer hover:text-white/70 transition-colors text-white/70">Weak Spots</span>
-        </div>
+      <div className="flex items-center">
+         <h1 className="text-2xl font-black italic tracking-tighter font-headline">TITRATE</h1>
       </div>
       
-      <div className="flex items-center gap-6">
-        <Search size={20} className="text-white cursor-pointer" />
-        <span className="text-sm font-bold hidden sm:inline">CANDIDATE</span>
-        <Bell size={20} className="text-white cursor-pointer" />
-        
-        <div className="flex items-center gap-2 cursor-pointer group">
-          <Avatar className="h-8 w-8 rounded-sm overflow-hidden">
-            <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=64&h=64&fit=crop" />
-            <AvatarFallback className="bg-primary text-white rounded-none">MT</AvatarFallback>
-          </Avatar>
-          <div className="border-t-4 border-l-4 border-r-4 border-transparent border-t-white ml-1 group-hover:rotate-180 transition-transform duration-200" />
+      <div className="flex items-center gap-5">
+        <div className="relative bg-muted rounded-lg px-3 py-1.5 flex items-center gap-2 lg:hidden">
+          <Search size={16} className="text-muted-foreground" />
+          <input 
+            type="text" 
+            placeholder="Search" 
+            className="bg-transparent border-none text-xs focus:ring-0 w-24 outline-none" 
+          />
         </div>
+        <Heart size={24} />
+        <MessageCircle size={24} />
       </div>
     </header>
   );

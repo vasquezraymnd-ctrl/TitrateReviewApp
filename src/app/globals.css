@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 8%; /* Netflix Black #141414 */
-    --foreground: 0 0% 98%;
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 357 78% 47%; /* Netflix Red #E50914 */
+    --background: 0 0% 0%; /* Instagram Black */
+    --foreground: 0 0% 100%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 210 100% 50%; /* Instagram Blue */
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 357 78% 47%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
+    --accent: 330 100% 60%; /* Part of IG Gradient */
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 357 78% 47%;
-    --radius: 0.25rem;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 210 100% 50%;
+    --radius: 0.5rem;
 
     --success: 142 70% 45%;
     --warning: 48 96% 53%;
@@ -42,29 +42,26 @@
   }
 }
 
-/* Netflix Hover Effect */
-.netflix-card {
-  @apply transition-transform duration-300 ease-out cursor-pointer relative overflow-hidden rounded-sm;
+/* Instagram Story Gradient Ring */
+.ig-story-ring {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  padding: 2px;
 }
 
-.netflix-card:hover {
-  @apply z-10 scale-110 shadow-2xl;
+.ig-feed-container {
+  max-width: 630px;
+  margin: 0 auto;
 }
 
-.hero-gradient {
-  background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%),
-              linear-gradient(to right, hsl(var(--background)) 0%, transparent 50%);
-}
-
-.row-container::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.row-container {
+.no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.text-shadow-md {
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
