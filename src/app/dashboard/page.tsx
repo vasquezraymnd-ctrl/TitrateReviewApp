@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -56,7 +57,7 @@ export default function Dashboard() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        {/* Hero Section - Clinical Splash Art */}
+        {/* Hero Section */}
         <section className="relative h-[65vh] min-h-[550px] w-full flex items-end">
           <div className="absolute inset-0 z-0">
             <Image 
@@ -91,7 +92,7 @@ export default function Dashboard() {
 
         <div className="p-8 lg:p-16 space-y-20">
           
-          {/* Clinical Analysis Sectors */}
+          {/* Clinical Sectors */}
           <section>
             <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
               <h3 className="text-3xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
@@ -131,7 +132,7 @@ export default function Dashboard() {
             </div>
           </section>
 
-          {/* Laboratory Proficiency Stats */}
+          {/* Student Stats */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="bg-white/[0.02] p-10 flex flex-col items-center text-center space-y-3 hover:bg-white/[0.04] transition-colors">
               <Trophy className="text-primary/70" size={32} />
@@ -141,12 +142,12 @@ export default function Dashboard() {
             <div className="bg-white/[0.02] p-10 flex flex-col items-center text-center space-y-3 hover:bg-white/[0.04] transition-colors">
               <Zap className="text-primary/70" size={32} />
               <p className="text-5xl font-black italic uppercase tracking-tighter">5 DAYS</p>
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Assay Streak</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Study Streak</p>
             </div>
             <div className="bg-primary p-10 flex flex-col items-center text-center space-y-3">
               <Sparkles className="text-black" size={32} />
               <p className="text-5xl font-black italic uppercase tracking-tighter text-black">CALIBRATED</p>
-              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">AI Study Strategist</p>
+              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">AI Analyst Assistant</p>
             </div>
           </section>
 

@@ -1,10 +1,11 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { db, Question, UserProfile } from '@/lib/db';
-import { Archive, Search, Play, User } from 'lucide-react';
+import { Archive, Search, Play, User, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -33,7 +34,7 @@ export default function ProtocolArchives() {
     } else {
       const defaultProfile: UserProfile = {
         id: 'current-user',
-        name: 'Analyst Doe',
+        name: 'Student Analyst',
         proficiencyRank: 'Laboratory Grade 42',
         examDate: '2025-08-20',
         totalQuestionsAnswered: 1248,
@@ -60,7 +61,7 @@ export default function ProtocolArchives() {
           {/* Student Profile Overview */}
           <section className="riot-card p-10 bg-white/[0.02] border border-white/5 relative overflow-hidden">
              <div className="absolute top-0 right-0 p-8 opacity-5">
-               <Shield className="text-primary" size={200} />
+               <UserCircle className="text-primary" size={200} />
              </div>
              
              <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -71,7 +72,7 @@ export default function ProtocolArchives() {
                    </div>
                  </div>
                  <div>
-                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2">Subject Analyst</p>
+                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2">Student Analyst</p>
                    <h2 className="text-5xl font-black italic uppercase tracking-tighter mb-1">{profile?.name}</h2>
                    <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
                  </div>
@@ -83,7 +84,7 @@ export default function ProtocolArchives() {
                    <p className="text-2xl font-black italic text-primary">{profile?.totalQuestionsAnswered}</p>
                  </div>
                  <div className="bg-black/40 p-4 border border-white/5">
-                   <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Board Target</p>
+                   <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Academic Target</p>
                    <p className="text-2xl font-black italic text-white">AUG 25</p>
                  </div>
                </div>
@@ -154,23 +155,4 @@ export default function ProtocolArchives() {
       </main>
     </div>
   );
-}
-
-function Shield(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-    </svg>
-  )
 }

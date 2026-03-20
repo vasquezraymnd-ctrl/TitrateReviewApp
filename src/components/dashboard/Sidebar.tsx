@@ -1,8 +1,9 @@
+
 "use client"
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive, BookOpen } from 'lucide-react';
+import { Home, PlayCircle, PlusSquare, Microscope, Settings, Shield, Archive, BookOpen, UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const mainNav = [
@@ -14,7 +15,6 @@ const mainNav = [
 const secondaryNav = [
   { icon: PlusSquare, label: 'Data Titration', href: '/import' },
   { icon: PlayCircle, label: 'Active Assay', href: '/quiz' },
-  { icon: Microscope, label: 'Certifications', href: '/liked' },
 ];
 
 export function Sidebar() {
@@ -54,7 +54,7 @@ export function Sidebar() {
           </nav>
 
           <nav className="flex flex-col gap-1">
-            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] px-4 mb-4">Diagnostic Units</p>
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] px-4 mb-4">Laboratory Tools</p>
             {secondaryNav.map((item) => {
               const isActive = pathname === item.href;
               return (
