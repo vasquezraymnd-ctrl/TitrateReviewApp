@@ -1,28 +1,27 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 20% 4%; /* Near black */
+    --background: 210 20% 8%; /* Lightened from 4% */
     --foreground: 40 10% 95%;
-    --card: 210 20% 6%;
+    --card: 210 20% 10%; /* Lightened from 6% */
     --card-foreground: 40 10% 95%;
-    --popover: 210 20% 6%;
+    --popover: 210 20% 10%;
     --popover-foreground: 40 10% 95%;
     --primary: 150 100% 50%; /* Tactical Green */
     --primary-foreground: 150 100% 5%;
     --secondary: 40 10% 92%;
     --secondary-foreground: 210 20% 10%;
-    --muted: 210 15% 12%;
+    --muted: 210 15% 15%; /* Lightened from 12% */
     --muted-foreground: 210 10% 55%;
     --accent: 150 100% 50%;
     --accent-foreground: 150 100% 5%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 15% 15%;
-    --input: 210 15% 15%;
+    --border: 210 15% 18%; /* Lightened from 15% */
+    --input: 210 15% 18%;
     --ring: 150 100% 50%;
     --radius: 0rem;
 
@@ -49,7 +48,7 @@
 }
 
 .riot-gradient {
-  background: linear-gradient(135deg, #050a0f 0%, #101a23 100%);
+  background: linear-gradient(135deg, #0b111a 0%, #16222d 100%);
 }
 
 .riot-card {

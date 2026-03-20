@@ -146,7 +146,7 @@ export default function QuizPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen bg-[#050a0f] items-center justify-center text-white flex-col gap-6">
+      <div className="flex h-screen bg-[#0b111a] items-center justify-center text-white flex-col gap-6">
         <Zap className="animate-pulse text-primary" size={64} />
         <div className="text-center">
             <h2 className="text-2xl font-black italic uppercase tracking-tighter">AI TITRATION IN PROGRESS</h2>
@@ -157,7 +157,7 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="flex h-screen bg-[#050a0f] overflow-hidden text-white">
+    <div className="flex h-screen bg-[#0b111a] overflow-hidden text-white">
       <Sidebar />
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
@@ -288,7 +288,7 @@ export default function QuizPage() {
                     <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                       {CORE_SUBJECTS.map(s => (
                         <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
                       ))}
@@ -302,7 +302,7 @@ export default function QuizPage() {
                     <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
                       <SelectValue placeholder="SELECT MODULE" />
                     </SelectTrigger>
-                    <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                       {resetModulesList.map(m => (
                         <SelectItem key={m.id} value={m.id} className="uppercase font-black text-[10px] tracking-widest">{m.name}</SelectItem>
                       ))}
@@ -319,7 +319,7 @@ export default function QuizPage() {
                       RESET ASSAY DATA
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                  <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                     <AlertDialogHeader>
                       <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
                       <AlertDialogDescription className="text-muted-foreground italic text-sm">

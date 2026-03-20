@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
@@ -312,7 +311,7 @@ function LibraryContent() {
   };
 
   return (
-    <div className="flex h-screen bg-[#050a0f] overflow-hidden text-white">
+    <div className="flex h-screen bg-[#0b111a] overflow-hidden text-white">
       <Sidebar />
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
@@ -490,7 +489,7 @@ function LibraryContent() {
 
         {/* Profile Edit Dialog */}
         <Dialog open={isEditProfileOpen} onOpenChange={setIsEditProfileOpen}>
-          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none max-w-[95%] sm:max-w-lg">
+          <DialogContent className="bg-[#111a24] border-white/10 text-white rounded-none max-w-[95%] sm:max-w-lg">
             <DialogHeader>
               <DialogTitle className="font-black italic uppercase tracking-tighter text-xl flex items-center gap-2">
                 <Edit2 className="text-primary" size={18} />
@@ -537,7 +536,7 @@ function LibraryContent() {
 
         {/* Module Add Dialog */}
         <Dialog open={isAddModuleOpen} onOpenChange={setIsAddModuleOpen}>
-          <DialogContent className="bg-[#0A1219] border-white/10 text-white rounded-none max-w-[95%] sm:max-w-lg">
+          <DialogContent className="bg-[#111a24] border-white/10 text-white rounded-none max-w-[95%] sm:max-w-lg">
             <DialogHeader>
               <DialogTitle className="font-black italic uppercase tracking-tighter text-xl flex items-center gap-2">
                 <Microscope className="text-primary" size={18} />
@@ -568,7 +567,7 @@ function LibraryContent() {
                   <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-10 text-[10px] uppercase font-black">
                     <SelectValue placeholder="Select Sector" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                  <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                     {CORE_SUBJECTS.map((subject) => (
                       <SelectItem key={subject} value={subject} className="uppercase font-black text-[9px] tracking-widest">
                         {subject}
@@ -606,8 +605,8 @@ function LibraryContent() {
 
         {/* Fullscreen PDF Viewer */}
         {viewingModule && (
-          <div className="fixed inset-0 z-[200] bg-[#050a0f] flex flex-col animate-in fade-in duration-300">
-            <header className="h-16 lg:h-20 bg-[#0A1219] border-b border-white/5 flex items-center justify-between px-4 lg:px-6">
+          <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
+            <header className="h-16 lg:h-20 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 lg:px-6">
               <div className="flex items-center gap-3 lg:gap-6">
                 <Button variant="ghost" size="icon" onClick={() => {
                   setViewingModule(null);
@@ -657,7 +656,7 @@ function LibraryContent() {
                )}
             </div>
             {/* Mobile Mastery Slider */}
-            <div className="sm:hidden bg-[#0A1219] p-4 border-t border-white/5">
+            <div className="sm:hidden bg-[#111a24] p-4 border-t border-white/5">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Reading Mastery</span>
                 <span className="text-[8px] font-black text-primary uppercase tracking-widest">{currentMastery}%</span>
@@ -678,7 +677,7 @@ function LibraryContent() {
 
 export default function ProtocolArchives() {
   return (
-    <Suspense fallback={<div className="bg-[#050a0f] h-screen" />}>
+    <Suspense fallback={<div className="bg-[#0b111a] h-screen" />}>
       <LibraryContent />
     </Suspense>
   );

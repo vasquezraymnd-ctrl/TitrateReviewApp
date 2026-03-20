@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState } from 'react';
@@ -54,7 +53,7 @@ export default function Home() {
   // Stage 1: Titration Animation (The Loading Screen)
   if (stage === 'animating' || stage === 'redirecting') {
     return (
-      <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500] overflow-hidden px-6">
+      <div className="fixed inset-0 bg-[#0b111a] flex flex-col items-center justify-center z-[500] overflow-hidden px-6">
         <div className="relative flex flex-col items-center w-full max-w-lg">
           
           {/* Beaker Pouring Animation */}
@@ -137,8 +136,8 @@ export default function Home() {
   // Stage 2: Device Calibration
   if (stage === 'device-selection') {
     return (
-      <div className="fixed inset-0 bg-[#050a0f] flex items-center justify-center z-[500] p-6">
-        <div className="riot-card max-w-xl w-full bg-[#0A1219] border border-white/10 p-6 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
+      <div className="fixed inset-0 bg-[#0b111a] flex items-center justify-center z-[500] p-6">
+        <div className="riot-card max-w-xl w-full bg-[#111a24] border border-white/10 p-6 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
           <div className="relative z-10 space-y-8 md:space-y-10">
             <div className="space-y-3">
               <div className="flex items-center gap-3">
@@ -176,10 +175,10 @@ export default function Home() {
   // Stage 3: Welcome & Onboarding
   if (stage === 'onboarding') {
     return (
-      <div className="fixed inset-0 bg-[#050a0f] flex items-center justify-center z-[500] p-4 md:p-6">
+      <div className="fixed inset-0 bg-[#0b111a] flex items-center justify-center z-[500] p-4 md:p-6">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent opacity-50" />
         
-        <div className="riot-card max-w-2xl w-full bg-[#0A1219] border border-white/10 p-8 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
+        <div className="riot-card max-w-2xl w-full bg-[#111a24] border border-white/10 p-8 md:p-12 relative overflow-hidden animate-in fade-in zoom-in duration-700">
           <div className="relative z-10 space-y-6 md:space-y-10">
             <div className="space-y-3 md:space-y-4">
               <div className="flex items-center gap-3">

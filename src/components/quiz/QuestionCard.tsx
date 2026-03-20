@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from 'react';
@@ -25,7 +24,7 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6 md:space-y-8 animate-in fade-in zoom-in duration-500">
-      <div className="riot-card bg-[#0A1219] border-l-4 border-primary p-6 md:p-12 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
+      <div className="riot-card bg-[#111a24] border-l-4 border-primary p-6 md:p-12 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
         <div className="absolute top-0 right-0 p-4 opacity-5">
           <ShieldCheck size={150} className="text-primary md:size-[200px]" />
         </div>
@@ -89,7 +88,7 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
 
       {showRationale && (
         <div className="space-y-4 md:space-y-6 animate-in slide-in-from-bottom-8 duration-700 pb-20 lg:pb-0">
-          <div className="riot-card bg-[#121b24] p-6 md:p-12 border border-white/10 relative">
+          <div className="riot-card bg-[#1a2430] p-6 md:p-12 border border-white/10 relative">
              <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
                <div className={cn("p-1.5 md:p-2 border rounded-none", isCorrect ? "border-primary/30 text-primary" : "border-red-500/30 text-red-500")}>
                  {isCorrect ? <ShieldCheck size={20} className="md:size-7" /> : <ShieldAlert size={20} className="md:size-7" />}

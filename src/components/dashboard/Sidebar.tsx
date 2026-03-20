@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from 'next/link';
@@ -32,7 +31,7 @@ export function Sidebar() {
     <>
       {/* Desktop/Tablet Sidebar */}
       <div className={cn(
-        "hidden lg:flex w-64 h-full bg-[#050a0f] flex-col border-r border-white/5 select-none z-50 transition-all duration-500",
+        "hidden lg:flex w-64 h-full bg-[#0b111a] flex-col border-r border-white/5 select-none z-50 transition-all duration-500",
         isMobileMode && "lg:w-20"
       )}>
         <div className="p-8 mb-4">
@@ -115,7 +114,7 @@ export function Sidebar() {
 
       {/* Mobile Bottom Nav */}
       <div className={cn(
-        "lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#050a0f] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90 transition-all",
+        "lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0b111a] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90 transition-all",
         "lg:hidden" 
       )}>
         {[

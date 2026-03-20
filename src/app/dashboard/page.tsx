@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -97,7 +96,7 @@ export default function Dashboard() {
   if (!mounted) return null;
 
   return (
-    <div className="flex h-screen bg-[#050a0f] overflow-hidden text-white flex-col lg:flex-row">
+    <div className="flex h-screen bg-[#0b111a] overflow-hidden text-white flex-col lg:flex-row">
       <Sidebar />
       
       <main className="flex-1 overflow-y-auto no-scrollbar relative pb-20 lg:pb-0">
@@ -113,8 +112,8 @@ export default function Dashboard() {
               data-ai-hint="medical laboratory"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050a0f] via-[#050a0f]/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050a0f] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b111a] via-[#0b111a]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0b111a] via-transparent to-transparent" />
           </div>
 
           <div className="relative z-10 w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
