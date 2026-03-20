@@ -8,7 +8,7 @@ import { Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity, Target } 
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { PlaceHolderImages } from '@/app/lib/placeholder-images';
 import { db, Schedule, LabModule, UserProfile, CORE_SUBJECTS } from '@/lib/db';
 import { format, isAfter, parseISO, startOfDay } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -164,24 +164,24 @@ export default function Dashboard() {
                           )}
                         >
                           <div className={cn(
-                            "w-1.5 transition-colors h-12 md:h-14 lg:h-16",
-                            index === 0 ? "bg-primary shadow-[0_0_10px_rgba(0,255,127,0.5)]" : "bg-primary/20 group-hover/item:bg-primary"
+                            "w-1.5 transition-colors h-12 md:h-14 lg:h-20",
+                            index === 0 ? "bg-primary shadow-[0_0_15px_rgba(0,255,127,0.6)]" : "bg-primary/20 group-hover/item:bg-primary"
                           )} />
                           <div className="flex-1">
                             <div className="flex items-center justify-between mb-1.5">
-                              <p className="text-[10px] md:text-[12px] font-black text-muted-foreground uppercase tracking-widest">
+                              <p className="text-[10px] md:text-[12px] font-black text-muted-foreground uppercase tracking-[0.2em]">
                                 {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
                               </p>
                               {index === 0 && (
                                 <span className="text-[8px] md:text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
                               )}
                             </div>
-                            <h4 className="text-lg md:text-2xl lg:text-3xl font-black italic uppercase tracking-tight text-white/90 truncate max-w-[200px] sm:max-w-none">
+                            <h4 className="text-xl md:text-3xl lg:text-4xl font-black italic uppercase tracking-tighter text-white/90 truncate max-w-[200px] sm:max-w-none">
                               {protocol.title}
                             </h4>
                             <div className="flex items-center gap-2 mt-2">
                               <Calendar size={14} className="text-primary/60" />
-                              <span className="text-[13px] md:text-lg font-bold text-muted-foreground uppercase tracking-tighter">
+                              <span className="text-[14px] md:text-xl font-bold text-muted-foreground uppercase tracking-tight">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd, yyyy') : protocol.dayOfWeek} • {protocol.startTime} - {protocol.endTime}
                               </span>
                             </div>
@@ -227,7 +227,7 @@ export default function Dashboard() {
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-60 transition-all duration-700"
+                          className="object-cover opacity-60 group-hover:opacity-80 transition-all duration-700"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}

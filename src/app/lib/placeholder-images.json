@@ -36,6 +36,12 @@
       "description": "Histopathology tissue section slide",
       "imageUrl": "https://images.unsplash.com/photo-1579154417931-e41f985e5102?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "tissue slide"
+    },
+    {
+      "id": "med-lab",
+      "description": "General medical laboratory equipment",
+      "imageUrl": "https://images.unsplash.com/photo-1579154273821-3a914c818318?auto=format&fit=crop&q=80&w=800&h=450",
+      "imageHint": "medical lab"
     }
   ]
 }

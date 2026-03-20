@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
@@ -46,7 +47,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { PlaceHolderImages } from '@/app/lib/placeholder-images';
 
 function LibraryContent() {
   const searchParams = useSearchParams();
@@ -404,7 +405,7 @@ function LibraryContent() {
                           src={placeholder.imageUrl} 
                           alt={subject} 
                           fill 
-                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-40 group-hover:opacity-70"
+                          className="object-cover opacity-60 group-hover:opacity-80 transition-all duration-700"
                           data-ai-hint={placeholder.imageHint}
                         />
                       )}
