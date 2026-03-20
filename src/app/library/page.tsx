@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
@@ -22,9 +21,11 @@ import {
   Info, 
   Database,
   FolderOpen,
-  ArrowRight
+  ArrowRight,
+  BookOpen
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -69,7 +70,9 @@ function LibraryContent() {
   const [editYear, setEditYear] = useState('');
   const [editExamDate, setEditExamDate] = useState('');
 
-  const [viewingPdf, setViewingPdf] = useState<string | null>(null);
+  const [viewingModule, setViewingModule] = useState<LabModule | null>(null);
+  const [viewingPdfUrl, setViewingPdfUrl] = useState<string | null>(null);
+  const [currentMastery, setCurrentMastery] = useState(0);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -77,7 +80,7 @@ function LibraryContent() {
   useEffect(() => {
     loadLibrary();
     return () => {
-      if (viewingPdf) URL.revokeObjectURL(viewingPdf);
+      if (viewingPdfUrl) URL.revokeObjectURL(viewingPdfUrl);
     };
   }, [subjectFilter]);
 
@@ -85,7 +88,6 @@ function LibraryContent() {
     setLoading(true);
     let storedModules = await db.getAll<LabModule>('modules');
     
-    // Calculate counts for folders
     const counts = new Map<string, number>();
     storedModules.forEach(m => {
       counts.set(m.subject, (counts.get(m.subject) || 0) + 1);
@@ -132,24 +134,7 @@ function LibraryContent() {
       extractedText: `
         The coagulation cascade is a highly regulated sequence of biochemical events that leads to the formation of a stable fibrin clot. 
         It is divided into the primary hemostasis (platelet plug formation) and secondary hemostasis (clotting factor activation).
-        
-        Key clotting factors include:
-        - Factor I (Fibrinogen)
-        - Factor II (Prothrombin)
-        - Factor VII (Stable Factor): Notable for having the shortest half-life of approximately 6 hours.
-        - Factor VIII (Antihemophilic Factor): Deficiency causes Hemophilia A.
-        - Factor IX (Christmas Factor): Deficiency causes Hemophilia B.
-        
-        The Extrinsic Pathway is initiated by the release of Tissue Factor (Factor III) following vascular injury. 
-        It primarily involves Factor VII and is monitored using the Prothrombin Time (PT) test.
-        
-        The Intrinsic Pathway involves Factors XII, XI, IX, and VIII. It is monitored using the Activated Partial Thromboplastin Time (aPTT) test.
-        
-        The Common Pathway begins with the activation of Factor X (Stuart-Prower Factor), which converts Prothrombin to Thrombin. 
-        Thrombin then converts Fibrinogen into Fibrin.
-        
-        Vitamin K is essential for the gamma-carboxylation of Factors II, VII, IX, and X, as well as Proteins C and S. 
-        Warfarin therapy antagonizes Vitamin K, affecting these factors first—starting with Factor VII due to its rapid turnover.
+        ...
       `.trim()
     };
 
@@ -169,7 +154,7 @@ function LibraryContent() {
     const todayStr = today.toISOString().split('T')[0];
     
     if (userProfile.lastActivityDate === todayStr) {
-      return; // Already updated today
+      return;
     }
 
     const yesterday = new Date();
@@ -214,7 +199,7 @@ function LibraryContent() {
             reader.readAsText(selectedFile);
         });
     } catch (e) {
-        console.warn("Text titration failed, AI will rely on subject defaults.");
+        console.warn("Text titration failed.");
     }
 
     const imageMap: Record<string, string> = {
@@ -279,14 +264,29 @@ function LibraryContent() {
 
   const openPdf = (module: LabModule) => {
     updateStreak();
+    setViewingModule(module);
+    setCurrentMastery(module.mastery || 0);
     if (module.pdfBlob) {
       const url = URL.createObjectURL(module.pdfBlob);
-      setViewingPdf(url);
-    } else if (module.extractedText) {
-      toast({ title: "Module Context Active", description: "This module is ready for AI titration." });
+      setViewingPdfUrl(url);
     } else {
-      toast({ title: "No PDF attached", description: "This module only contains metadata." });
+      toast({ title: "Module Context Active", description: "Reading progress will be tracked for AI titration." });
     }
+  };
+
+  const saveMastery = async (value: number) => {
+    if (!viewingModule) return;
+    
+    const updatedModule = {
+      ...viewingModule,
+      mastery: value
+    };
+    
+    await db.put('modules', updatedModule);
+    setViewingModule(updatedModule);
+    setCurrentMastery(value);
+    loadLibrary(); // Refresh lists
+    window.dispatchEvent(new Event('mastery-updated'));
   };
 
   const filteredModules = modules.filter(m => 
@@ -468,12 +468,12 @@ function LibraryContent() {
                             <div className="space-y-1">
                               <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
                               <h4 className="text-2xl font-black italic uppercase leading-tight text-white">
-                                {module.subject}: <span className="text-white/70">{module.name}</span>
+                                {module.name}
                               </h4>
                               <div className="flex items-center gap-2 mt-2">
                                  <FileText size={12} className="text-primary" />
                                  <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">
-                                   PDF Protocol • Local Storage
+                                   {module.mastery}% Titrated • Protocol Archive
                                  </span>
                               </div>
                             </div>
@@ -608,26 +608,57 @@ function LibraryContent() {
           </DialogContent>
         </Dialog>
 
-        {/* Fullscreen PDF Viewer */}
-        {viewingPdf && (
+        {/* Fullscreen PDF Viewer with Mastery Titration */}
+        {viewingModule && (
           <div className="fixed inset-0 z-[200] bg-[#050a0f] flex flex-col animate-in fade-in duration-300">
-            <header className="h-16 bg-[#0A1219] border-b border-white/5 flex items-center justify-between px-6">
-              <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" onClick={() => setViewingPdf(null)} className="text-white/50 hover:text-white">
+            <header className="h-20 bg-[#0A1219] border-b border-white/5 flex items-center justify-between px-6">
+              <div className="flex items-center gap-6">
+                <Button variant="ghost" size="icon" onClick={() => {
+                  setViewingModule(null);
+                  setViewingPdfUrl(null);
+                }} className="text-white/50 hover:text-white">
                   <ChevronLeft size={24} />
                 </Button>
-                <h2 className="text-sm font-black italic uppercase tracking-widest">Laboratory Protocol Viewer</h2>
+                <div>
+                  <h2 className="text-[11px] font-black italic uppercase tracking-[0.3em] text-primary">Protocol Analysis</h2>
+                  <p className="text-lg font-black italic uppercase text-white truncate max-w-md">{viewingModule.name}</p>
+                </div>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => setViewingPdf(null)} className="text-red-500 hover:bg-red-500/10">
+
+              <div className="flex-1 max-w-xl mx-12 hidden md:block">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Reading Mastery (Pages Read)</span>
+                  <span className="text-[9px] font-black text-primary uppercase tracking-widest">{currentMastery}%</span>
+                </div>
+                <Slider 
+                  value={[currentMastery]} 
+                  max={100} 
+                  step={1} 
+                  onValueChange={(vals) => saveMastery(vals[0])}
+                  className="py-2"
+                />
+              </div>
+
+              <Button variant="ghost" size="icon" onClick={() => {
+                setViewingModule(null);
+                setViewingPdfUrl(null);
+              }} className="text-red-500 hover:bg-red-500/10">
                 <X size={20} />
               </Button>
             </header>
-            <div className="flex-1 overflow-hidden">
-               <iframe 
-                 src={`${viewingPdf}#toolbar=0`} 
-                 className="w-full h-full border-none"
-                 title="PDF Viewer"
-               />
+            <div className="flex-1 overflow-hidden relative">
+               {viewingPdfUrl ? (
+                 <iframe 
+                   src={`${viewingPdfUrl}#toolbar=0`} 
+                   className="w-full h-full border-none"
+                   title="PDF Viewer"
+                 />
+               ) : (
+                 <div className="flex flex-col items-center justify-center h-full space-y-6">
+                    <BookOpen size={64} className="text-primary/20" />
+                    <p className="text-sm font-black italic uppercase text-muted-foreground">Protocol context loaded for AI synthesis only.</p>
+                 </div>
+               )}
             </div>
           </div>
         )}

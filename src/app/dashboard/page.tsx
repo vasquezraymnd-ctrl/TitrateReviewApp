@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -23,9 +22,13 @@ export default function Dashboard() {
     setMounted(true);
     loadDashboardData();
     
-    // Listen for profile updates
+    // Listen for updates
     window.addEventListener('profile-updated', loadDashboardData);
-    return () => window.removeEventListener('profile-updated', loadDashboardData);
+    window.addEventListener('mastery-updated', loadDashboardData);
+    return () => {
+      window.removeEventListener('profile-updated', loadDashboardData);
+      window.removeEventListener('mastery-updated', loadDashboardData);
+    };
   }, []);
 
   const loadDashboardData = async () => {
@@ -55,7 +58,7 @@ export default function Dashboard() {
 
     setUpcomingProtocols(sorted);
 
-    // Calculate mastery and find latest module per core subject
+    // Calculate mastery as average of "pages read" across all modules in sector
     const modules = await db.getAll<LabModule>('modules');
     const masteryMap: Record<string, number> = {};
     const latestMap: Record<string, string> = {};
@@ -63,12 +66,12 @@ export default function Dashboard() {
     CORE_SUBJECTS.forEach(subject => {
       const subjectModules = modules.filter(m => m.subject === subject);
       
-      // Calculate Mastery
       if (subjectModules.length > 0) {
-        const total = subjectModules.reduce((acc, m) => acc + m.mastery, 0);
+        // Average the mastery (representing total sector pages read completion)
+        const total = subjectModules.reduce((acc, m) => acc + (m.mastery || 0), 0);
         masteryMap[subject] = Math.round(total / subjectModules.length);
         
-        // Find latest based on ID (contains timestamp)
+        // Find latest based on ID
         const sortedModules = [...subjectModules].sort((a, b) => b.id.localeCompare(a.id));
         latestMap[subject] = sortedModules[0].name;
       } else {
@@ -228,6 +231,7 @@ export default function Dashboard() {
                         </div>
                         <div className="text-right">
                           <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
+                          <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Mastery</p>
                         </div>
                       </div>
                     </div>

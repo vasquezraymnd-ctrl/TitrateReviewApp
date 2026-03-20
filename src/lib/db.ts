@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 5; // Updated for extractedText support
+const DB_VERSION = 5;
 
 export interface Question {
   id: string;
@@ -47,11 +47,11 @@ export interface Schedule {
 export interface LabModule {
   id: string;
   name: string;
-  subject: string; // The core subject category
+  subject: string;
   imageKey: string;
-  mastery: number;
-  pdfBlob?: Blob; // Stored locally on device
-  extractedText?: string; // Cached text for AI generation
+  mastery: number; // 0-100 percentage based on "pages read"
+  pdfBlob?: Blob;
+  extractedText?: string;
 }
 
 export const CORE_SUBJECTS = [
