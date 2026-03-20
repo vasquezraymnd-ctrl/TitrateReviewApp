@@ -16,7 +16,9 @@ import {
   Database,
   Info,
   X,
-  Zap
+  Zap,
+  Pause,
+  Play
 } from 'lucide-react';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
@@ -57,6 +59,7 @@ export default function StudyPage() {
   const { toast } = useToast();
 
   const [timerActive, setTimerActive] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
 
   useEffect(() => {
@@ -66,16 +69,17 @@ export default function StudyPage() {
 
   useEffect(() => {
     let interval: any;
-    if (timerActive && timeLeft > 0) {
+    if (timerActive && !isPaused && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft(prev => prev - 1);
       }, 1000);
     } else if (timeLeft === 0) {
       setTimerActive(false);
+      setIsPaused(false);
       toast({ title: "Assay Complete", description: "Study window has closed." });
     }
     return () => clearInterval(interval);
-  }, [timerActive, timeLeft, toast]);
+  }, [timerActive, isPaused, timeLeft, toast]);
 
   const loadSchedules = async () => {
     setLoading(true);
@@ -193,7 +197,10 @@ export default function StudyPage() {
                    <p className="text-3xl font-black italic text-white tracking-tighter">{formatTime(timeLeft)}</p>
                  </div>
                  <Button 
-                  onClick={() => setTimerActive(true)}
+                  onClick={() => {
+                    setTimerActive(true);
+                    setIsPaused(false);
+                  }}
                   className="riot-button h-10 px-6 rounded-none font-black text-[10px] bg-primary text-black"
                  >
                    INITIATE
@@ -311,37 +318,64 @@ export default function StudyPage() {
              <div className="relative z-10 text-center space-y-12 max-w-2xl w-full">
                 <div className="space-y-4">
                   <div className="flex items-center justify-center gap-2">
-                    <Zap className="text-primary animate-pulse" size={24} />
-                    <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">High-Yield Assay in Progress</span>
+                    <Zap className={cn("text-primary", !isPaused && "animate-pulse")} size={24} />
+                    <span className="text-primary font-black uppercase tracking-[0.4em] text-xs">
+                      {isPaused ? 'Assay Suspended' : 'High-Yield Assay in Progress'}
+                    </span>
                   </div>
-                  <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">Focusing...</h2>
+                  <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">
+                    {isPaused ? 'PAUSED' : 'Focusing...'}
+                  </h2>
                 </div>
 
                 <div className="riot-card p-12 md:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-md">
-                   <div className="text-8xl md:text-[12rem] font-black italic text-white tracking-tighter tabular-nums leading-none">
+                   <div className={cn(
+                     "text-8xl md:text-[12rem] font-black italic tracking-tighter tabular-nums leading-none transition-colors duration-500",
+                     isPaused ? "text-white/20" : "text-white"
+                   )}>
                      {formatTime(timeLeft)}
                    </div>
                 </div>
 
                 <div className="space-y-8">
                   <p className="text-muted-foreground font-medium italic text-lg max-w-md mx-auto">
-                    "Laboratory silence is the foundation of precise diagnosis. Stay concentrated on your protocol."
+                    {isPaused 
+                      ? "Assay interrupted. Resume when laboratory silence is restored."
+                      : "Laboratory silence is the foundation of precise diagnosis. Stay concentrated on your protocol."
+                    }
                   </p>
                   
-                  <Button 
-                    onClick={() => setTimerActive(false)}
-                    variant="outline"
-                    className="riot-button h-16 px-12 border-red-500/50 text-red-500 hover:bg-red-500/10 rounded-none font-black tracking-widest group"
-                  >
-                    <X className="mr-2 group-hover:rotate-90 transition-transform" /> ABORT PROTOCOL
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button 
+                      onClick={() => setIsPaused(!isPaused)}
+                      className="riot-button h-16 px-12 bg-primary text-black rounded-none font-black tracking-widest group"
+                    >
+                      {isPaused ? (
+                        <><Play className="mr-2" /> RESUME PROTOCOL</>
+                      ) : (
+                        <><Pause className="mr-2" /> PAUSE PROTOCOL</>
+                      )}
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        setTimerActive(false);
+                        setIsPaused(false);
+                      }}
+                      variant="outline"
+                      className="riot-button h-16 px-12 border-red-500/50 text-red-500 hover:bg-red-500/10 rounded-none font-black tracking-widest group"
+                    >
+                      <X className="mr-2 group-hover:rotate-90 transition-transform" /> ABORT PROTOCOL
+                    </Button>
+                  </div>
                 </div>
              </div>
 
              <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end opacity-20 border-t border-white/10 pt-8">
                 <div>
                    <p className="text-[10px] font-black uppercase tracking-[0.3em]">Operational Status</p>
-                   <p className="text-sm font-black italic uppercase">Deep Focus Locked</p>
+                   <p className="text-sm font-black italic uppercase">
+                     {isPaused ? 'Interrupted' : 'Deep Focus Locked'}
+                   </p>
                 </div>
                 <div className="text-right">
                    <p className="text-[10px] font-black uppercase tracking-[0.3em]">Protocol Code</p>
