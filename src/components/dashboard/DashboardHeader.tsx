@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronLeft, ChevronRight, User, Bell } from 'lucide-react';
+import { Bell, User, LayoutGrid, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -19,33 +19,33 @@ export function DashboardHeader() {
 
   return (
     <header className={cn(
-      "flex items-center justify-between px-6 lg:px-8 py-4 fixed top-0 left-0 right-0 lg:left-64 z-[90] transition-all duration-300",
-      isScrolled ? "bg-[#070707] shadow-xl" : "bg-transparent"
+      "flex items-center justify-between px-6 lg:px-12 py-6 fixed top-0 left-0 right-0 lg:left-64 z-[90] transition-all duration-300",
+      isScrolled ? "bg-[#0F1923] border-b border-primary/20 shadow-2xl" : "bg-transparent"
     )}>
-      <div className="flex items-center gap-4">
-        <div className="flex gap-2">
-          <Button variant="ghost" size="icon" className="bg-black/40 hover:bg-black/60 rounded-full w-8 h-8 text-white">
-            <ChevronLeft size={20} />
-          </Button>
-          <Button variant="ghost" size="icon" className="bg-black/40 hover:bg-black/60 rounded-full w-8 h-8 text-white hidden md:flex">
-            <ChevronRight size={20} />
-          </Button>
+      <div className="flex items-center gap-6">
+        <h2 className="text-xs font-black tracking-[0.4em] uppercase text-white/50 hidden md:block">Tactical Dashboard</h2>
+        <div className="relative group hidden sm:block">
+           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-hover:text-primary transition-colors" />
+           <input 
+             placeholder="SEARCH ARCHIVES..." 
+             className="bg-white/5 border-none h-10 pl-10 pr-4 text-[10px] font-black tracking-widest uppercase focus:bg-white/10 focus:ring-0 transition-all outline-none w-48 focus:w-64" 
+           />
         </div>
       </div>
       
-      <div className="flex items-center gap-4">
-        <Button variant="outline" className="hidden md:flex rounded-full border-white/20 bg-transparent text-white font-bold hover:scale-105 transition-transform">
-          Upgrade Pro
+      <div className="flex items-center gap-6">
+        <Button variant="ghost" size="icon" className="text-white/40 hover:text-primary transition-colors">
+          <Bell size={18} />
         </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-white transition-colors">
-          <Bell size={20} />
-        </Button>
-        <div className="bg-black/40 p-0.5 pr-3 rounded-full flex items-center gap-2 hover:bg-[#282828] cursor-pointer group transition-colors">
-          <Avatar className="w-7 h-7">
-            <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=64&h=64&fit=crop" />
+        <div className="flex items-center gap-3 pl-6 border-l border-white/10 cursor-pointer group">
+          <div className="text-right hidden md:block">
+            <p className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-primary transition-colors">Tactician Doe</p>
+            <p className="text-[9px] font-bold text-primary uppercase tracking-tighter">Level 42</p>
+          </div>
+          <Avatar className="w-8 h-8 rounded-none border border-primary/50 p-0.5">
+            <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=64&h=64&fit=crop" className="grayscale" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
-          <span className="text-xs font-bold text-white group-hover:text-primary transition-colors">John Doe</span>
         </div>
       </div>
     </header>

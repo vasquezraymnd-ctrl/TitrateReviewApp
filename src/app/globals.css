@@ -4,29 +4,29 @@
 
 @layer base {
   :root {
-    --background: 0 0% 7%; /* Spotify Black #121212 */
-    --foreground: 0 0% 100%;
-    --card: 0 0% 10%; /* #181818 */
-    --card-foreground: 0 0% 100%;
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 142 70% 45%; /* Spotify Green #1DB954 */
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 142 70% 45%;
-    --accent-foreground: 0 0% 0%;
+    --background: 210 20% 6%; /* Deep Charcoal #0F1923 */
+    --foreground: 40 10% 95%;
+    --card: 210 20% 8%;
+    --card-foreground: 40 10% 95%;
+    --popover: 210 20% 8%;
+    --popover-foreground: 40 10% 95%;
+    --primary: 356 100% 64%; /* Riot Red #FF4655 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 10% 92%; /* Off-white #ECE8E1 */
+    --secondary-foreground: 210 20% 10%;
+    --muted: 210 15% 15%;
+    --muted-foreground: 210 10% 60%;
+    --accent: 356 100% 64%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 142 70% 45%;
-    --radius: 0.5rem;
+    --border: 210 15% 20%;
+    --input: 210 15% 20%;
+    --ring: 356 100% 64%;
+    --radius: 0rem; /* Riot style is more angular */
 
-    --success: 142 70% 45%;
-    --warning: 48 96% 53%;
+    --success: 160 100% 40%;
+    --warning: 45 100% 50%;
   }
 }
 
@@ -38,16 +38,22 @@
     @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-headline tracking-tight;
+    @apply font-headline tracking-tighter uppercase italic;
   }
 }
 
-.spotify-gradient {
-  background: linear-gradient(to bottom, #222222 0%, #121212 100%);
+.riot-gradient {
+  background: linear-gradient(135deg, #0F1923 0%, #1A252E 100%);
 }
 
-.card-hover-effect {
-  @apply transition-all duration-300 hover:bg-[#282828] cursor-pointer;
+.riot-card {
+  @apply relative overflow-hidden border border-white/5 transition-all duration-300;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+}
+
+.riot-button {
+  @apply relative uppercase font-bold tracking-widest transition-all active:scale-95;
+  clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -57,9 +63,4 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-/* Custom shadow for play buttons */
-.play-shadow {
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
 }
