@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -11,11 +10,11 @@ import {
   Sparkles, 
   Plus, 
   Trash2, 
-  Microscope, 
   GraduationCap, 
   BookOpen, 
   AlarmClock,
-  CalendarDays
+  CalendarDays,
+  Database
 } from 'lucide-react';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
@@ -33,7 +32,7 @@ import { Label } from "@/components/ui/label";
 
 export default function StudyPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<ScheduleType>('class');
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [newItem, setNewItem] = useState<Partial<Schedule>>({
@@ -67,8 +66,51 @@ export default function StudyPage() {
   }, [timerActive, timeLeft, toast]);
 
   const loadSchedules = async () => {
+    setLoading(true);
     const data = await db.getAll<Schedule>('schedules');
     setSchedules(data);
+    setLoading(false);
+  };
+
+  const seedSampleData = async () => {
+    const samples: Schedule[] = [
+      {
+        id: 'sample-1',
+        type: 'class',
+        title: 'Hematology 1 Laboratory',
+        dayOfWeek: 'Monday',
+        startTime: '08:00',
+        endTime: '11:00',
+      },
+      {
+        id: 'sample-2',
+        type: 'class',
+        title: 'Clinical Chemistry 2 Lecture',
+        dayOfWeek: 'Wednesday',
+        startTime: '13:00',
+        endTime: '15:00',
+      },
+      {
+        id: 'sample-3',
+        type: 'exam',
+        title: 'Microbiology Midterms',
+        date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        startTime: '09:00',
+        endTime: '11:00',
+      },
+      {
+        id: 'sample-4',
+        type: 'study',
+        title: 'High-Yield Blood Smear Review',
+        date: new Date().toISOString().split('T')[0],
+        startTime: '19:00',
+        endTime: '19:30',
+      }
+    ];
+
+    await db.bulkPut('schedules', samples);
+    loadSchedules();
+    toast({ title: "Sample Protocols Loaded", description: "Your archive has been seeded with undergraduate samples." });
   };
 
   const saveScheduleItem = async () => {
@@ -120,20 +162,31 @@ export default function StudyPage() {
               <h2 className="text-5xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations, exam milestones, and high-yield blocks.</p>
             </div>
-            <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-center gap-6">
-               <div className="text-center">
-                 <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Focus Window</p>
-                 <p className="text-3xl font-black italic text-white tracking-tighter">{formatTime(timeLeft)}</p>
-               </div>
-               <Button 
-                onClick={() => setTimerActive(!timerActive)}
-                className={cn(
-                  "riot-button h-10 px-6 rounded-none font-black text-[10px]",
-                  timerActive ? "bg-red-500 text-white" : "bg-primary text-black"
-                )}
-               >
-                 {timerActive ? "ABORT" : "INITIATE"}
-               </Button>
+            <div className="flex gap-4">
+              {schedules.length === 0 && (
+                <Button 
+                  variant="outline" 
+                  onClick={seedSampleData}
+                  className="riot-button h-10 px-6 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[10px]"
+                >
+                  <Database className="mr-2 h-4 w-4" /> SEED SAMPLES
+                </Button>
+              )}
+              <div className="riot-card p-4 bg-primary/5 border border-primary/20 flex items-center gap-6">
+                 <div className="text-center">
+                   <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-1">Focus Window</p>
+                   <p className="text-3xl font-black italic text-white tracking-tighter">{formatTime(timeLeft)}</p>
+                 </div>
+                 <Button 
+                  onClick={() => setTimerActive(!timerActive)}
+                  className={cn(
+                    "riot-button h-10 px-6 rounded-none font-black text-[10px]",
+                    timerActive ? "bg-red-500 text-white" : "bg-primary text-black"
+                  )}
+                 >
+                   {timerActive ? "ABORT" : "INITIATE"}
+                 </Button>
+              </div>
             </div>
           </div>
 
@@ -162,10 +215,16 @@ export default function StudyPage() {
                 </div>
 
                 <div className="space-y-4">
-                  {filteredSchedules.length === 0 ? (
+                  {loading ? (
+                    <div className="riot-card p-12 bg-white/[0.02] border border-dashed border-white/10 text-center opacity-40">
+                      <Clock className="mx-auto mb-4 animate-pulse" size={32} />
+                      <p className="font-black italic uppercase">Accessing Archive...</p>
+                    </div>
+                  ) : filteredSchedules.length === 0 ? (
                     <div className="riot-card p-12 bg-white/[0.02] border border-dashed border-white/10 text-center opacity-40">
                       <Clock className="mx-auto mb-4" size={32} />
                       <p className="font-black italic uppercase">No entries recorded in this sector.</p>
+                      <p className="text-[10px] font-bold text-muted-foreground uppercase mt-2">Use the "Seed Samples" button above to see example data.</p>
                     </div>
                   ) : filteredSchedules.map((s) => (
                     <div key={s.id} className="riot-card bg-white/[0.02] hover:bg-white/[0.04] transition-all p-6 border border-white/5 flex items-center justify-between group">
@@ -176,7 +235,7 @@ export default function StudyPage() {
                         <div>
                           <h4 className="text-lg font-black italic uppercase tracking-tighter text-white">{s.title}</h4>
                           <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                            {s.type === 'class' ? s.dayOfWeek : format(new Date(s.date!), 'MMMM dd, yyyy')} • {s.startTime} - {s.endTime}
+                            {s.type === 'class' ? s.dayOfWeek : s.date ? format(new Date(s.date), 'MMMM dd, yyyy') : 'No Date'} • {s.startTime} - {s.endTime}
                           </p>
                         </div>
                       </div>
@@ -198,7 +257,7 @@ export default function StudyPage() {
                    <div className="relative z-10">
                      <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4">Analyst Insights</h4>
                      <p className="text-sm italic text-white/80 leading-relaxed">
-                       AI Assistant suggests prioritizing <span className="text-primary">Microbiology</span> review before your Wednesday rotation.
+                       AI Assistant suggests prioritizing <span className="text-primary">Microbiology</span> review before your academic rotations.
                      </p>
                    </div>
                    <Sparkles className="absolute -bottom-4 -right-4 text-primary opacity-20" size={80} />
