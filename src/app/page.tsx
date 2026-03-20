@@ -50,7 +50,7 @@ export default function Home() {
           <h1 className="text-7xl md:text-9xl font-black italic tracking-tighter text-white relative overflow-hidden">
             <span className="relative z-10">TITRATE</span>
             {/* Liquid Fill Effect */}
-            <div className="absolute inset-0 bg-primary h-full w-full -translate-y-full animate-[slideInFromBottom_3s_ease-out_forwards] mix-blend-overlay opacity-50" />
+            <div className="absolute inset-0 bg-primary h-full w-full translate-y-full animate-[slideInFromBottom_3s_ease-out_forwards] mix-blend-overlay opacity-50" />
           </h1>
           
           <div className="mt-4 flex items-center gap-4">
