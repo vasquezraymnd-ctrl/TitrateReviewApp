@@ -2,19 +2,19 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, Library, PlayCircle, PlusSquare, Heart, Settings, Shield } from 'lucide-react';
+import { Home, Search, Library, PlayCircle, PlusSquare, Microscope, Settings, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const mainNav = [
-  { icon: Home, label: 'Headquarters', href: '/dashboard' },
-  { icon: Search, label: 'Intelligence', href: '/explore' },
-  { icon: Library, label: 'Arsenal', href: '/library' },
+  { icon: Home, label: 'Laboratory Center', href: '/dashboard' },
+  { icon: Search, label: 'Clinical Insights', href: '/explore' },
+  { icon: Library, label: 'Assay Library', href: '/library' },
 ];
 
 const secondaryNav = [
-  { icon: PlusSquare, label: 'Import', href: '/import' },
-  { icon: PlayCircle, label: 'Tactical Training', href: '/scheduler' },
-  { icon: Heart, label: 'Commendations', href: '/liked' },
+  { icon: PlusSquare, label: 'Data Titration', href: '/import' },
+  { icon: PlayCircle, label: 'Assay Scheduler', href: '/scheduler' },
+  { icon: Microscope, label: 'Certifications', href: '/liked' },
 ];
 
 export function Sidebar() {
@@ -33,7 +33,7 @@ export function Sidebar() {
 
         <div className="px-4 space-y-10">
           <nav className="flex flex-col gap-1">
-             <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] px-4 mb-4">Strategic Ops</p>
+             <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] px-4 mb-4">Clinical Protocols</p>
             {mainNav.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -54,7 +54,7 @@ export function Sidebar() {
           </nav>
 
           <nav className="flex flex-col gap-1">
-            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] px-4 mb-4">Tactical Units</p>
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.3em] px-4 mb-4">Diagnostic Units</p>
             {secondaryNav.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -78,14 +78,14 @@ export function Sidebar() {
         <div className="mt-auto p-6 border-t border-white/5 bg-black/40">
           <Link href="/settings" className="flex items-center gap-3 text-[11px] font-black text-muted-foreground hover:text-white transition-colors uppercase tracking-widest">
             <Settings size={16} />
-            <span>Systems</span>
+            <span>Instrumentation</span>
           </Link>
         </div>
       </div>
 
       {/* Mobile Bottom Nav */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#050a0f] border-t border-primary/20 flex items-center justify-around px-2 z-[100]">
-        {[...mainNav, { icon: PlayCircle, label: 'Training', href: '/quiz' }].map((item) => {
+        {[...mainNav, { icon: PlayCircle, label: 'Assay', href: '/quiz' }].map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link key={item.href} href={item.href} className="flex flex-col items-center gap-1">

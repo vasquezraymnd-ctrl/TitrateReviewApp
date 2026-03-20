@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Question } from '@/lib/db';
 import { cn } from '@/lib/utils';
-import { ShieldCheck, ShieldAlert, Target, Zap } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, Microscope, Zap } from 'lucide-react';
 
 interface QuestionCardProps {
   question: Question;
@@ -33,8 +33,8 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-2">
-              <Target className="text-primary" size={18} />
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Intelligence Test</span>
+              <Microscope className="text-primary" size={18} />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Clinical Assessment</span>
             </div>
             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">
               Sector: {question.subject}
@@ -88,12 +88,12 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
              <div className="flex items-center gap-3 mb-6">
                {isCorrect ? <ShieldCheck className="text-primary" size={24} /> : <ShieldAlert className="text-red-500" size={24} />}
                <h4 className="font-black italic uppercase tracking-widest text-sm">
-                 {isCorrect ? "Strategic Success" : "Analysis Required"}
+                 {isCorrect ? "Protocol Verified" : "Calibration Required"}
                </h4>
              </div>
              
              <div className="space-y-4 mb-10">
-               <span className="text-primary font-black text-[10px] tracking-widest uppercase block border-b border-primary/20 pb-2">Full Intel Report</span>
+               <span className="text-primary font-black text-[10px] tracking-widest uppercase block border-b border-primary/20 pb-2">Full Assay Report</span>
                <p className="text-muted-foreground text-base leading-relaxed italic">
                  {question.rationale}
                </p>

@@ -1,10 +1,9 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Zap, Sparkles, Trophy, Target } from 'lucide-react';
+import { Zap, Sparkles, Trophy, Target, Microscope } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -57,12 +56,12 @@ export default function Dashboard() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        {/* Hero Section - Tactical Splash Art */}
+        {/* Hero Section - Clinical Splash Art */}
         <section className="relative h-[65vh] min-h-[550px] w-full flex items-end">
           <div className="absolute inset-0 z-0">
             <Image 
               src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&q=80&w=1920&h=1080"
-              alt="Hero"
+              alt="Clinical Lab"
               fill
               className="object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-1000"
               data-ai-hint="medical laboratory"
@@ -73,21 +72,21 @@ export default function Dashboard() {
 
           <div className="relative z-10 p-8 lg:p-16 w-full max-w-5xl space-y-8">
             <div className="flex items-center gap-2">
-              <Target className="text-primary animate-pulse" size={24} />
-              <span className="text-primary font-black tracking-[0.4em] uppercase text-xs">Mission Briefing</span>
+              <Microscope className="text-primary animate-pulse" size={24} />
+              <span className="text-primary font-black tracking-[0.4em] uppercase text-xs">Diagnostic Protocol</span>
             </div>
             <h2 className="text-7xl md:text-9xl font-black italic uppercase tracking-tighter leading-none">
-              Green <br /> <span className="text-primary">Protocol</span>
+              Green <br /> <span className="text-primary">Assay</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl font-medium uppercase tracking-wide leading-relaxed">
-              Tactical analysis complete. Calibrate your knowledge in <span className="text-white">Clinical Chemistry</span> to ensure diagnostic accuracy.
+              Clinical analysis complete. Calibrate your knowledge in <span className="text-white">Clinical Chemistry</span> to ensure diagnostic accuracy.
             </p>
             <div className="flex gap-4 pt-4">
               <Button asChild className="riot-button h-16 px-12 bg-primary hover:bg-primary/80 text-black rounded-none">
-                <Link href="/quiz">INITIATE TRAINING</Link>
+                <Link href="/quiz">INITIATE ASSESSMENT</Link>
               </Button>
               <Button asChild variant="outline" className="riot-button h-16 px-12 border-white/10 hover:bg-white/5 rounded-none uppercase">
-                <Link href="/library">ARCHIVES</Link>
+                <Link href="/library">PROTOCOL ARCHIVES</Link>
               </Button>
             </div>
           </div>
@@ -95,11 +94,11 @@ export default function Dashboard() {
 
         <div className="p-8 lg:p-16 space-y-20">
           
-          {/* Clinical Deployment Zones */}
+          {/* Clinical Analysis Sectors */}
           <section>
             <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
-              <h3 className="text-3xl font-black italic tracking-tighter uppercase">Deployment Zones</h3>
-              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">View Full Map</Link>
+              <h3 className="text-3xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
+              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">View Laboratory Map</Link>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
@@ -122,7 +121,7 @@ export default function Dashboard() {
                     <div className="absolute inset-0 bg-black/60 group-hover:bg-primary/10 transition-colors" />
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                       <div className="space-y-1">
-                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Subject Analysis</p>
+                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Assay Analysis</p>
                         <h4 className="text-2xl font-black italic uppercase">{subject.name}</h4>
                       </div>
                       <div className="text-right">
@@ -135,22 +134,22 @@ export default function Dashboard() {
             </div>
           </section>
 
-          {/* Tactical Stats Bar */}
+          {/* Laboratory Proficiency Stats */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="bg-white/[0.02] p-10 flex flex-col items-center text-center space-y-3 hover:bg-white/[0.04] transition-colors">
               <Trophy className="text-primary/70" size={32} />
               <p className="text-5xl font-black italic uppercase tracking-tighter">1,248</p>
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Combat Rating</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Proficiency Index</p>
             </div>
             <div className="bg-white/[0.02] p-10 flex flex-col items-center text-center space-y-3 hover:bg-white/[0.04] transition-colors">
               <Zap className="text-primary/70" size={32} />
               <p className="text-5xl font-black italic uppercase tracking-tighter">5 DAYS</p>
-              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Active Streak</p>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Assay Streak</p>
             </div>
             <div className="bg-primary p-10 flex flex-col items-center text-center space-y-3">
               <Sparkles className="text-black" size={32} />
               <p className="text-5xl font-black italic uppercase tracking-tighter text-black">CALIBRATED</p>
-              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">AI Strategist</p>
+              <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">AI Laboratory Strategist</p>
             </div>
           </section>
 
