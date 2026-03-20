@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 2; // Incremented version for new fields
+const DB_VERSION = 3; // Incremented for modules store
 
 export interface Question {
   id: string;
@@ -35,11 +35,18 @@ export interface Schedule {
   id: string;
   type: ScheduleType;
   title: string;
-  dayOfWeek?: string; // For classes
-  date?: string; // For exams and study sessions
+  dayOfWeek?: string;
+  date?: string;
   startTime: string;
   endTime: string;
   completed?: boolean;
+}
+
+export interface LabModule {
+  id: string;
+  name: string;
+  imageKey: string;
+  mastery: number;
 }
 
 export class TitrateDB {
@@ -65,6 +72,9 @@ export class TitrateDB {
         }
         if (!db.objectStoreNames.contains('schedules')) {
           db.createObjectStore('schedules', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('modules')) {
+          db.createObjectStore('modules', { keyPath: 'id' });
         }
       };
 

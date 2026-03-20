@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -9,19 +8,21 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { db, Schedule } from '@/lib/db';
+import { db, Schedule, LabModule } from '@/lib/db';
 import { format, isAfter, parseISO, startOfDay } from 'date-fns';
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
   const [upcomingProtocols, setUpcomingProtocols] = useState<Schedule[]>([]);
+  const [modules, setModules] = useState<LabModule[]>([]);
 
   useEffect(() => {
     setMounted(true);
-    loadUpcomingProtocols();
+    loadDashboardData();
   }, []);
 
-  const loadUpcomingProtocols = async () => {
+  const loadDashboardData = async () => {
+    // Load Upcoming Protocols
     const schedules = await db.getAll<Schedule>('schedules');
     const now = new Date();
     const today = startOfDay(now);
@@ -40,54 +41,27 @@ export default function Dashboard() {
       .slice(0, 3);
 
     setUpcomingProtocols(sorted);
+
+    // Load Lab Modules
+    let storedModules = await db.getAll<LabModule>('modules');
+    
+    // Seed default if empty
+    if (storedModules.length === 0) {
+      const defaults: LabModule[] = [
+        { id: 'micro', name: 'Microbiology', imageKey: 'micro-bacteria', mastery: 85 },
+        { id: 'hemato', name: 'Hematology', imageKey: 'blood-cells', mastery: 62 },
+        { id: 'chem', name: 'ClinChem', imageKey: 'chemistry-lab', mastery: 45 },
+        { id: 'immuno', name: 'ImmunoSero', imageKey: 'immunology-test', mastery: 78 },
+        { id: 'clinmicro', name: 'ClinMicro', imageKey: 'clin-microscopy', mastery: 54 },
+        { id: 'htmle', name: 'HTMLE', imageKey: 'histopath', mastery: 39 },
+      ];
+      await db.bulkPut('modules', defaults);
+      storedModules = defaults;
+    }
+    setModules(storedModules);
   };
 
   if (!mounted) return null;
-
-  const subjects = [
-    { 
-      name: 'Microbiology', 
-      id: 'micro', 
-      image: PlaceHolderImages.find(img => img.id === 'micro-bacteria')?.imageUrl || null, 
-      hint: PlaceHolderImages.find(img => img.id === 'micro-bacteria')?.imageHint || '',
-      mastery: 85 
-    },
-    { 
-      name: 'Hematology', 
-      id: 'hemato', 
-      image: PlaceHolderImages.find(img => img.id === 'blood-cells')?.imageUrl || null, 
-      hint: PlaceHolderImages.find(img => img.id === 'blood-cells')?.imageHint || '',
-      mastery: 62 
-    },
-    { 
-      name: 'ClinChem', 
-      id: 'chem', 
-      image: PlaceHolderImages.find(img => img.id === 'chemistry-lab')?.imageUrl || null, 
-      hint: PlaceHolderImages.find(img => img.id === 'chemistry-lab')?.imageHint || '',
-      mastery: 45 
-    },
-    { 
-      name: 'ImmunoSero', 
-      id: 'immuno', 
-      image: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageUrl || null, 
-      hint: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageHint || '',
-      mastery: 78 
-    },
-    { 
-      name: 'ClinMicro', 
-      id: 'clinmicro', 
-      image: PlaceHolderImages.find(img => img.id === 'clin-microscopy')?.imageUrl || null, 
-      hint: PlaceHolderImages.find(img => img.id === 'clin-microscopy')?.imageHint || '',
-      mastery: 54 
-    },
-    { 
-      name: 'HTMLE', 
-      id: 'htmle', 
-      image: PlaceHolderImages.find(img => img.id === 'histopath')?.imageUrl || null, 
-      hint: PlaceHolderImages.find(img => img.id === 'histopath')?.imageHint || '',
-      mastery: 39 
-    },
-  ];
 
   return (
     <div className="flex h-screen bg-[#050a0f] overflow-hidden text-white">
@@ -148,7 +122,7 @@ export default function Dashboard() {
 
                   <div className="space-y-4">
                     {upcomingProtocols.length > 0 ? (
-                      upcomingProtocols.map((protocol, idx) => (
+                      upcomingProtocols.map((protocol) => (
                         <div key={protocol.id} className="flex items-center gap-4 group/item">
                           <div className="w-1 bg-primary/20 group-hover/item:bg-primary transition-colors h-12" />
                           <div className="flex-1">
@@ -186,37 +160,40 @@ export default function Dashboard() {
             <div className="flex items-center justify-between mb-12 border-b border-white/5 pb-6">
               <div>
                 <h3 className="text-3xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Select laboratory specialization for review</p>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Laboratory specialization for review</p>
               </div>
-              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">View Full Archive</Link>
+              <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">Protocol Archives</Link>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-              {subjects.map((subject) => (
-                <Link key={subject.id} href={`/quiz/${subject.id}`} className="group">
-                  <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
-                    {subject.image && (
-                      <Image 
-                        src={subject.image} 
-                        alt={subject.name} 
-                        fill 
-                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
-                        data-ai-hint={subject.hint}
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
-                    <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
-                      <div className="space-y-1">
-                        <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Laboratory Mastery</p>
-                        <h4 className="text-2xl font-black italic uppercase text-white drop-shadow-lg">{subject.name}</h4>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{subject.mastery}%</p>
+              {modules.map((module) => {
+                const placeholder = PlaceHolderImages.find(img => img.id === module.imageKey);
+                return (
+                  <Link key={module.id} href={`/quiz/${module.id}`} className="group">
+                    <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
+                      {placeholder && (
+                        <Image 
+                          src={placeholder.imageUrl} 
+                          alt={module.name} 
+                          fill 
+                          className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100"
+                          data-ai-hint={placeholder.imageHint}
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
+                      <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                        <div className="space-y-1">
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">Laboratory Mastery</p>
+                          <h4 className="text-2xl font-black italic uppercase text-white drop-shadow-lg">{module.name}</h4>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-3xl font-black italic text-white/40 group-hover:text-white transition-colors">{module.mastery}%</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </section>
 
