@@ -31,8 +31,8 @@ export function Sidebar() {
     <>
       {/* Desktop/Tablet Sidebar */}
       <div className={cn(
-        "hidden lg:flex w-64 h-full bg-[#111a24] flex-col border-r border-white/5 select-none z-50 transition-all duration-500",
-        isMobileMode && "lg:w-20"
+        "hidden md:flex w-64 h-full bg-[#111a24] flex-col border-r border-white/5 select-none z-50 transition-all duration-500",
+        isMobileMode && "md:w-20"
       )}>
         <div className="p-8 mb-4">
           <h1 className={cn(
@@ -113,7 +113,7 @@ export function Sidebar() {
       </div>
 
       {/* Mobile Bottom Nav */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#111a24] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90 pb-safe">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#111a24] border-t border-primary/20 flex items-center justify-around px-2 z-[100] backdrop-blur-md bg-opacity-90 pb-safe">
         {[
           { icon: Home, label: 'Center', href: '/dashboard' },
           { icon: Archive, label: 'Archive', href: '/library' },

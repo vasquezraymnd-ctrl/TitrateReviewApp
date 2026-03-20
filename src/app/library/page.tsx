@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, Suspense, useRef, useMemo } from 'react';
@@ -311,12 +312,12 @@ function LibraryContent() {
   };
 
   return (
-    <div className="flex h-screen bg-[#0b111a] overflow-hidden text-white">
+    <div className="flex h-screen bg-[#0b111a] overflow-hidden text-white flex-col md:flex-row">
       <Sidebar />
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="px-6 md:px-8 lg:px-16 py-28 lg:py-32 max-w-7xl mx-auto space-y-12 lg:space-y-16">
+        <div className="px-6 md:px-10 lg:px-16 py-28 md:py-32 max-w-7xl mx-auto space-y-12 lg:space-y-16">
           <section className="riot-card p-6 md:p-10 bg-white/[0.02] border border-white/5 relative overflow-hidden group/card">
              <div className="absolute top-0 right-0 p-8 opacity-5">
                <UserCircle className="text-primary" size={200} />
@@ -331,15 +332,15 @@ function LibraryContent() {
 
              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                <div className="flex items-center gap-4 md:gap-6">
-                 <div className="w-16 h-16 md:w-24 md:h-24 border border-primary/50 p-1 rounded-none">
+                 <div className="w-16 h-16 md:w-20 lg:w-24 md:h-20 lg:h-24 border border-primary/50 p-1 rounded-none">
                    <div className="w-full h-full bg-primary/20 flex items-center justify-center">
                      <User size={32} className="text-primary md:hidden" />
-                     <User size={48} className="text-primary hidden md:block" />
+                     <User size={40} className="text-primary hidden md:block" />
                    </div>
                  </div>
                  <div>
                    <p className="text-[9px] font-black text-primary uppercase tracking-[0.4em] mb-1">Future RMT</p>
-                   <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mb-1 leading-none">{profile?.name}</h2>
+                   <h2 className="text-3xl md:text-4xl lg:text-5xl font-black italic uppercase tracking-tighter mb-1 leading-none">{profile?.name}</h2>
                    <p className="text-[10px] md:text-sm font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
                  </div>
                </div>
@@ -373,7 +374,7 @@ function LibraryContent() {
                   <ChevronLeft className="mr-2 h-3 w-3" /> DIRECTORY
                 </Button>
               )}
-              <div className="relative w-full md:w-64 lg:w-80">
+              <div className="relative w-full md:w-56 lg:w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
                 <input 
                   placeholder="SEARCH..." 
@@ -389,7 +390,7 @@ function LibraryContent() {
           </div>
 
           {!subjectFilter ? (
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {CORE_SUBJECTS.map((subject) => {
                 const imageKey = getSubjectImage(subject);
                 const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
@@ -414,10 +415,10 @@ function LibraryContent() {
                       <div className="absolute bottom-4 left-4 right-4 lg:bottom-6 lg:left-6 lg:right-6 flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Sector Folder</p>
-                          <h4 className="text-lg lg:text-3xl font-black italic uppercase text-white leading-tight">{subject}</h4>
+                          <h4 className="text-lg md:text-2xl lg:text-3xl font-black italic uppercase text-white leading-tight">{subject}</h4>
                         </div>
                         <div className="text-right">
-                          <p className="text-xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
+                          <p className="text-xl md:text-3xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{count}</p>
                           <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">Files</p>
                         </div>
                       </div>
@@ -429,7 +430,7 @@ function LibraryContent() {
           ) : (
             <div className="space-y-8">
                {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                   {[1, 2, 3, 4].map(i => (
                     <div key={i} className="aspect-[16/10] bg-white/[0.02] animate-pulse riot-card" />
                   ))}
@@ -446,7 +447,7 @@ function LibraryContent() {
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
                   {filteredModules.map((module) => (
                     <div key={module.id} className="group cursor-pointer" onClick={() => openPdf(module)}>
                       <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50 bg-black">
@@ -463,7 +464,7 @@ function LibraryContent() {
                           <div className="flex justify-between items-end">
                             <div className="space-y-1">
                               <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
-                              <h4 className="text-xl font-black italic uppercase leading-tight text-white truncate max-w-[140px] lg:max-w-none">
+                              <h4 className="text-xl md:text-lg lg:text-xl font-black italic uppercase leading-tight text-white truncate max-w-[140px] md:max-w-none">
                                 {module.name}
                               </h4>
                               <div className="flex items-center gap-1.5 mt-1">

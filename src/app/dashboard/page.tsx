@@ -98,13 +98,13 @@ export default function Dashboard() {
   if (!mounted) return null;
 
   return (
-    <div className="flex h-screen bg-[#0d141d] overflow-hidden text-white flex-col lg:flex-row">
+    <div className="flex h-screen bg-[#0d141d] overflow-hidden text-white flex-col md:flex-row">
       <Sidebar />
       
-      <main className="flex-1 overflow-y-auto no-scrollbar relative pb-20 lg:pb-0">
+      <main className="flex-1 overflow-y-auto no-scrollbar relative pb-20 md:pb-0">
         <DashboardHeader />
         
-        <section className="relative min-h-[450px] lg:h-[75vh] w-full flex items-center px-6 md:px-8 lg:px-16 pt-24 lg:pt-0">
+        <section className="relative min-h-[450px] md:h-[60vh] lg:h-[75vh] w-full flex items-center px-6 md:px-10 lg:px-16 pt-24 md:pt-0">
           <div className="absolute inset-0 z-0">
             <Image 
               src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&q=80&w=1920&h=1080"
@@ -117,29 +117,29 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d141d] via-[#0d141d]/80 to-transparent" />
           </div>
 
-          <div className="relative z-10 w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="space-y-4 lg:space-y-8 animate-in fade-in slide-in-from-left-12 duration-1000">
+          <div className="relative z-10 w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-left-12 duration-1000">
               <div className="flex items-center gap-2">
                 <Microscope className="text-primary animate-pulse" size={14} />
                 <span className="text-primary font-black tracking-[0.4em] uppercase text-[10px]">Status: Active</span>
               </div>
               
-              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black italic uppercase tracking-tighter leading-none">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter leading-none">
                 Welcome <br /> <span className="text-primary">{profile?.name || 'Future RMT'}</span>
               </h2>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <Button asChild className="riot-button h-12 lg:h-16 px-6 lg:px-12 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest text-[10px] lg:text-[11px]">
+                <Button asChild className="riot-button h-12 md:h-14 lg:h-16 px-6 md:px-10 lg:px-12 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest text-[10px] md:text-[11px]">
                   <Link href="/quiz">START ASSAY</Link>
                 </Button>
-                <Button asChild variant="outline" className="riot-button h-12 lg:h-16 px-6 lg:px-12 border-white/10 hover:bg-white/5 rounded-none uppercase font-black tracking-widest text-[10px] lg:text-[11px]">
+                <Button asChild variant="outline" className="riot-button h-12 md:h-14 lg:h-16 px-6 md:px-10 lg:px-12 border-white/10 hover:bg-white/5 rounded-none uppercase font-black tracking-widest text-[10px] md:text-[11px]">
                   <Link href="/library">PROTOCOL ARCHIVES</Link>
                 </Button>
               </div>
             </div>
 
             <div className="animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
-              <div className="riot-card p-6 lg:p-10 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
+              <div className="riot-card p-6 md:p-8 lg:p-10 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-100 transition-opacity hidden lg:block">
                   <Target size={120} className="text-primary" />
                 </div>
@@ -164,7 +164,7 @@ export default function Dashboard() {
                           )}
                         >
                           <div className={cn(
-                            "w-1.5 transition-colors h-12 lg:h-16",
+                            "w-1.5 transition-colors h-12 md:h-14 lg:h-16",
                             index === 0 ? "bg-primary shadow-[0_0_10px_rgba(0,255,127,0.5)]" : "bg-primary/20 group-hover/item:bg-primary"
                           )} />
                           <div className="flex-1">
@@ -201,18 +201,18 @@ export default function Dashboard() {
           </div>
         </section>
 
-        <div className="p-6 md:p-8 lg:p-16 space-y-12 lg:space-y-24">
+        <div className="p-6 md:p-10 lg:p-16 space-y-12 lg:space-y-24">
           
           <section>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 lg:mb-12 border-b border-white/5 pb-6 gap-4">
               <div>
-                <h3 className="text-2xl lg:text-4xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-black italic tracking-tighter uppercase">Clinical Sectors</h3>
                 <p className="text-[10px] lg:text-[11px] font-bold text-muted-foreground uppercase tracking-[0.3em] mt-1">Select laboratory specialization</p>
               </div>
               <Link href="/library" className="text-[10px] lg:text-[11px] font-black text-primary hover:underline uppercase tracking-[0.3em]">All Archives</Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {CORE_SUBJECTS.map((subject) => {
                 const imageKey = getSubjectImage(subject);
                 const placeholder = PlaceHolderImages.find(img => img.id === imageKey);
@@ -235,12 +235,12 @@ export default function Dashboard() {
                       <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:left-6 flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">{subject}</p>
-                          <h4 className="text-lg md:text-2xl xl:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
+                          <h4 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
                             {latestModule ? `${subject}: ${latestModule}` : subject}
                           </h4>
                         </div>
                         <div className="text-right shrink-0">
-                          <p className="text-2xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
+                          <p className="text-2xl md:text-3xl lg:text-4xl font-black italic text-white/40 group-hover:text-white transition-colors">{mastery}%</p>
                           <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">Mastery</p>
                         </div>
                       </div>
@@ -252,14 +252,14 @@ export default function Dashboard() {
           </section>
 
           <section className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10">
-            <div className="bg-white/[0.02] p-10 lg:p-20 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
+            <div className="bg-white/[0.02] p-10 md:p-14 lg:p-20 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
               <Activity className="text-primary/70 group-hover:text-primary mb-2" size={24} />
-              <p className="text-4xl lg:text-8xl font-black italic uppercase tracking-tighter">{profile?.currentStreak || 0} DAYS</p>
+              <p className="text-4xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter">{profile?.currentStreak || 0} DAYS</p>
               <p className="text-[10px] lg:text-[12px] font-black text-muted-foreground uppercase tracking-widest">Clinical Persistence Streak</p>
             </div>
-            <div className="bg-primary p-10 lg:p-20 flex flex-col items-center text-center space-y-4 shadow-[0_0_50px_rgba(0,255,127,0.1)]">
+            <div className="bg-primary p-10 md:p-14 lg:p-20 flex flex-col items-center text-center space-y-4 shadow-[0_0_50px_rgba(0,255,127,0.1)]">
               <BookOpen className="text-black mb-2" size={24} />
-              <p className="text-4xl lg:text-8xl font-black italic uppercase tracking-tighter text-black">ACTIVE</p>
+              <p className="text-4xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-black">ACTIVE</p>
               <p className="text-[10px] lg:text-[12px] font-black text-black/60 uppercase tracking-widest">Laboratory Protocol Status</p>
             </div>
           </section>
