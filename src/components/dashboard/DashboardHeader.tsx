@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, Search } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -48,13 +48,6 @@ export function DashboardHeader() {
     )}>
       <div className="flex items-center gap-6">
         <h2 className="text-xs font-black tracking-[0.4em] uppercase text-white/50 hidden md:block">Clinical Dashboard</h2>
-        <div className="relative group hidden sm:block">
-           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-hover:text-primary transition-colors" />
-           <input 
-             placeholder="SEARCH PROTOCOLS..." 
-             className="bg-white/5 border-none h-10 pl-10 pr-4 text-[10px] font-black tracking-widest uppercase focus:bg-white/10 focus:ring-0 transition-all outline-none w-48 focus:w-64" 
-           />
-        </div>
       </div>
       
       <div className="flex items-center gap-6">
