@@ -3,37 +3,37 @@
   "placeholderImages": [
     {
       "id": "micro-bacteria",
-      "description": "Petri dish with agar culture",
+      "description": "Microbiology - Petri dish with agar culture",
       "imageUrl": "https://images.unsplash.com/photo-1583912267550-d44d7a125e7e?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "agar plate"
     },
     {
       "id": "blood-cells",
-      "description": "3D Red blood cells / erythrocytes",
+      "description": "Hematology - Red blood cells microscopy",
       "imageUrl": "https://images.unsplash.com/photo-1579154273821-3a914c818318?auto=format&fit=crop&q=80&w=800&h=450",
-      "imageHint": "red blood cells"
+      "imageHint": "blood cells"
     },
     {
       "id": "chemistry-lab",
-      "description": "Clinical chemistry automated analyzer",
+      "description": "Clinical Chemistry - Laboratory analyzer",
       "imageUrl": "https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "biochemistry lab"
     },
     {
       "id": "immunology-test",
-      "description": "Serology or immunology testing kit",
+      "description": "Immuno-Serology - Test kit",
       "imageUrl": "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "immunoassay kit"
     },
     {
       "id": "clin-microscopy",
-      "description": "Laboratory specimen bottle",
+      "description": "Clinical Microscopy - Specimen bottle",
       "imageUrl": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "specimen bottle"
     },
     {
       "id": "histopath",
-      "description": "Histopathology tissue section slide",
+      "description": "HTMLE - Tissue section slide",
       "imageUrl": "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "tissue slide"
     },
