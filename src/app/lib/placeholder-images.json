@@ -24,6 +24,18 @@
       "description": "Serology or immunology testing kit",
       "imageUrl": "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800&h=450",
       "imageHint": "medical research"
+    },
+    {
+      "id": "clin-microscopy",
+      "description": "Microscopic analysis of body fluids",
+      "imageUrl": "https://images.unsplash.com/photo-1579154396622-9218d6f5198e?auto=format&fit=crop&q=80&w=800&h=450",
+      "imageHint": "microscopy fluids"
+    },
+    {
+      "id": "histopath",
+      "description": "Histopathology tissue section",
+      "imageUrl": "https://images.unsplash.com/photo-1579154417931-e41f985e5102?auto=format&fit=crop&q=80&w=800&h=450",
+      "imageHint": "histopathology slide"
     }
   ]
 }

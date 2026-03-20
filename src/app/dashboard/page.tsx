@@ -1,9 +1,10 @@
+
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Trophy, Target, Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity } from 'lucide-react';
+import { Target, Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -71,6 +72,20 @@ export default function Dashboard() {
       image: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageUrl || null, 
       hint: PlaceHolderImages.find(img => img.id === 'immunology-test')?.imageHint || '',
       mastery: 78 
+    },
+    { 
+      name: 'ClinMicro', 
+      id: 'clinmicro', 
+      image: PlaceHolderImages.find(img => img.id === 'clin-microscopy')?.imageUrl || null, 
+      hint: PlaceHolderImages.find(img => img.id === 'clin-microscopy')?.imageHint || '',
+      mastery: 54 
+    },
+    { 
+      name: 'HTMLE', 
+      id: 'htmle', 
+      image: PlaceHolderImages.find(img => img.id === 'histopath')?.imageUrl || null, 
+      hint: PlaceHolderImages.find(img => img.id === 'histopath')?.imageHint || '',
+      mastery: 39 
     },
   ];
 
@@ -175,7 +190,7 @@ export default function Dashboard() {
               <Link href="/library" className="text-[10px] font-black text-primary hover:underline uppercase tracking-[0.3em]">View Full Archive</Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
               {subjects.map((subject) => (
                 <Link key={subject.id} href={`/quiz/${subject.id}`} className="group">
                   <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.03] transition-all duration-500 ring-0 hover:ring-1 ring-primary/50">
@@ -206,12 +221,12 @@ export default function Dashboard() {
 
           <section className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="bg-white/[0.02] p-12 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
-              <Trophy className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
+              <Activity className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
               <p className="text-6xl font-black italic uppercase tracking-tighter">1,248</p>
               <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Questions Cleared</p>
             </div>
             <div className="bg-white/[0.02] p-12 flex flex-col items-center text-center space-y-4 hover:bg-white/[0.04] transition-colors group">
-              <Activity className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
+              <Clock className="text-primary/70 group-hover:text-primary transition-colors" size={36} />
               <p className="text-6xl font-black italic uppercase tracking-tighter">5 DAYS</p>
               <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Current Streak</p>
             </div>
