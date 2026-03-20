@@ -11,27 +11,32 @@ import Link from 'next/link';
 export default function Home() {
   const router = useRouter();
   const [stage, setStage] = useState<'animating' | 'onboarding' | 'redirecting'>('animating');
-  const [profile, setProfile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
-    // 1. Initial Splash Duration
-    const timer = setTimeout(async () => {
-      const userProfile = await db.getById<UserProfile>('profile', 'current-user');
+    const startupSequence = async () => {
+      // 1. Minimum duration for the Titration Animation (3.5s)
+      const animationPromise = new Promise(resolve => setTimeout(resolve, 3500));
       
-      // If profile is default or missing, show onboarding
-      if (!userProfile || userProfile.name === 'Future RMT' || !userProfile.name) {
-        setProfile(userProfile || null);
-        setStage('onboarding');
-      } else {
+      // 2. Parallelly check profile status
+      const profilePromise = db.getById<UserProfile>('profile', 'current-user');
+      
+      const [_, userProfile] = await Promise.all([animationPromise, profilePromise]);
+      
+      // 3. Determine if user is "Active" or needs initialization
+      const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
+
+      if (isInitialized) {
         setStage('redirecting');
         router.push('/dashboard');
+      } else {
+        setStage('onboarding');
       }
-    }, 3500); // 3.5s for the titration animation
+    };
 
-    return () => clearTimeout(timer);
+    startupSequence();
   }, [router]);
 
-  if (stage === 'animating') {
+  if (stage === 'animating' || stage === 'redirecting') {
     return (
       <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500]">
         <div className="relative flex flex-col items-center">
@@ -50,7 +55,9 @@ export default function Home() {
           
           <div className="mt-4 flex items-center gap-4">
              <div className="h-[1px] w-12 bg-white/10" />
-             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/60">Clinical Assay Platform</span>
+             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/60">
+               {stage === 'redirecting' ? 'RESUMING SESSION' : 'INITIALIZING LABORATORY'}
+             </span>
              <div className="h-[1px] w-12 bg-white/10" />
           </div>
         </div>
@@ -98,9 +105,5 @@ export default function Home() {
     );
   }
 
-  return (
-    <div className="fixed inset-0 bg-[#050a0f] flex items-center justify-center">
-      <div className="w-12 h-12 border-2 border-primary/20 border-t-primary animate-spin" />
-    </div>
-  );
+  return null;
 }
