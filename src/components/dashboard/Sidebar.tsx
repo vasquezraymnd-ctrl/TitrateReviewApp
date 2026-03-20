@@ -23,8 +23,8 @@ export function Sidebar() {
   const [isMobileMode, setIsMobileMode] = useState(false);
 
   useEffect(() => {
-    // Check session storage for device mode preference
-    const mode = sessionStorage.getItem('TITRATE_DEVICE_MODE');
+    // Check localStorage for persistent device mode preference
+    const mode = localStorage.getItem('TITRATE_DEVICE_MODE');
     setIsMobileMode(mode === 'phone');
   }, []);
 

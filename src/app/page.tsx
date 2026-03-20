@@ -17,17 +17,28 @@ export default function Home() {
     const startupSequence = async () => {
       // Mandatory 5-second Titration Animation for every app launch
       await new Promise(resolve => setTimeout(resolve, 5000));
-      setStage('device-selection');
+      
+      // Check if we already have device preference and profile
+      const storedDevice = localStorage.getItem('TITRATE_DEVICE_MODE');
+      const userProfile = await db.getById<UserProfile>('profile', 'current-user');
+      const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
+
+      if (storedDevice && isInitialized) {
+        setStage('redirecting');
+        router.push('/dashboard');
+      } else {
+        setStage('device-selection');
+      }
     };
 
     startupSequence();
-  }, []);
+  }, [router]);
 
   const handleDeviceSelect = async (type: 'phone' | 'tablet') => {
     setDeviceType(type);
     
-    // Store device preference in sessionStorage for the current session
-    sessionStorage.setItem('TITRATE_DEVICE_MODE', type);
+    // Store device preference persistently
+    localStorage.setItem('TITRATE_DEVICE_MODE', type);
     
     const userProfile = await db.getById<UserProfile>('profile', 'current-user');
     const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
