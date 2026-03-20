@@ -108,10 +108,6 @@ export default function Dashboard() {
                 Welcome <br /> <span className="text-primary">Future RMT</span>
               </h2>
 
-              <p className="text-muted-foreground font-bold uppercase tracking-widest text-sm max-w-lg leading-relaxed">
-                Calibration successful. Your laboratory archives are synchronized. Initiate diagnostic assays to maintain proficiency.
-              </p>
-
               <div className="flex gap-4 pt-4">
                 <Button asChild className="riot-button h-16 px-12 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest">
                   <Link href="/quiz">INITIATE ASSESSMENT</Link>
