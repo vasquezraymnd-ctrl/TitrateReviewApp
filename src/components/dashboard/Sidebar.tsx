@@ -132,16 +132,15 @@ export function Sidebar() {
                 className="relative flex flex-col items-center justify-center -top-6 transition-all group"
               >
                 <div className={cn(
-                  "w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-2xl border-4 border-[#111a24] ring-1 ring-primary/20",
-                  isActive 
-                    ? "bg-primary text-black shadow-primary/40 scale-110" 
-                    : "bg-white/5 text-primary border-[#111a24] group-hover:bg-primary/10"
+                  "w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-2xl border-4 border-[#111a24] ring-2 ring-primary/40",
+                  "bg-primary text-black", // Non-transparent solid green
+                  isActive && "scale-110 shadow-primary/40"
                 )}>
-                  <item.icon size={24} className={isActive ? "animate-pulse" : ""} />
+                  <item.icon size={26} className={isActive ? "animate-pulse" : ""} />
                 </div>
                 <span className={cn(
                   "text-[8px] font-black uppercase tracking-widest mt-1",
-                  isActive ? "text-primary" : "text-muted-foreground"
+                  isActive ? "text-primary" : "text-primary/70"
                 )}>
                   {item.label}
                 </span>
