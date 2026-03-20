@@ -4,28 +4,28 @@
 
 @layer base {
   :root {
-    --background: 210 20% 6%; /* Deep Charcoal #0F1923 */
+    --background: 210 20% 4%; /* Near black */
     --foreground: 40 10% 95%;
-    --card: 210 20% 8%;
+    --card: 210 20% 6%;
     --card-foreground: 40 10% 95%;
-    --popover: 210 20% 8%;
+    --popover: 210 20% 6%;
     --popover-foreground: 40 10% 95%;
-    --primary: 356 100% 64%; /* Riot Red #FF4655 */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 40 10% 92%; /* Off-white #ECE8E1 */
+    --primary: 150 100% 50%; /* Tactical Green */
+    --primary-foreground: 150 100% 5%;
+    --secondary: 40 10% 92%;
     --secondary-foreground: 210 20% 10%;
-    --muted: 210 15% 15%;
-    --muted-foreground: 210 10% 60%;
-    --accent: 356 100% 64%;
-    --accent-foreground: 0 0% 100%;
+    --muted: 210 15% 12%;
+    --muted-foreground: 210 10% 55%;
+    --accent: 150 100% 50%;
+    --accent-foreground: 150 100% 5%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 15% 20%;
-    --input: 210 15% 20%;
-    --ring: 356 100% 64%;
-    --radius: 0rem; /* Riot style is more angular */
+    --border: 210 15% 15%;
+    --input: 210 15% 15%;
+    --ring: 150 100% 50%;
+    --radius: 0rem;
 
-    --success: 160 100% 40%;
+    --success: 150 100% 40%;
     --warning: 45 100% 50%;
   }
 }
@@ -43,7 +43,7 @@
 }
 
 .riot-gradient {
-  background: linear-gradient(135deg, #0F1923 0%, #1A252E 100%);
+  background: linear-gradient(135deg, #050a0f 0%, #101a23 100%);
 }
 
 .riot-card {
