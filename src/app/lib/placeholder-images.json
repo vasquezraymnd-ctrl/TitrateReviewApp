@@ -1,3 +1,4 @@
+
 {
   "placeholderImages": [
     {
@@ -33,7 +34,7 @@
     {
       "id": "histopath",
       "description": "HTMLE - Tissue section slide",
-      "imageUrl": "https://www.sigmaaldrich.com/deepweb/assets/sigmaaldrich/marketing/global/images/applications/clinical-and-diagnostics/histological-staining-kidney/histological-staining-kidney.jpg",
+      "imageUrl": "https://patho.ch/media/bcvdk2ah/histopathologie.jpg",
       "imageHint": "tissue slide"
     },
     {
