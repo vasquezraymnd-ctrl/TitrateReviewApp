@@ -45,55 +45,83 @@ export default function ImportPage() {
     setImporting(true);
     const samples: Question[] = [
       {
-        id: 'sample-q1',
-        subject: 'Microbiology',
-        question: 'Which of the following is the primary stain used in the Gram staining technique?',
-        choices: [
-          { id: 'A', text: 'Safranin' },
-          { id: 'B', text: 'Crystal Violet' },
-          { id: 'C', text: 'Gram\'s Iodine' },
-          { id: 'D', text: '95% Ethyl Alcohol' },
-        ],
-        answerId: 'B',
-        rationale: 'Crystal Violet is the primary stain that colors all cells purple initially. Iodine acts as a mordant, Safranin is the counterstain, and Alcohol is the decolorizer.',
-        tags: ['Gram Stain', 'Basic Micro'],
-      },
-      {
-        id: 'sample-q2',
+        id: 'rodaks-hema-1',
         subject: 'Hematology',
-        question: 'What is the normal life span of a mature erythrocyte in circulation?',
+        question: 'A 24-year-old female presents with a microcytic, hypochromic anemia. Laboratory results show a decreased serum iron, increased TIBC, and decreased ferritin. Which of the following is the most likely diagnosis?',
         choices: [
-          { id: 'A', text: '10-20 days' },
-          { id: 'B', text: '120 days' },
-          { id: 'C', text: '60 days' },
-          { id: 'D', text: '8-10 days' },
+          { id: 'A', text: 'Sideroblastic Anemia' },
+          { id: 'B', text: 'Anemia of Chronic Disease' },
+          { id: 'C', text: 'Iron Deficiency Anemia' },
+          { id: 'D', text: 'Thalassemia Minor' },
         ],
-        answerId: 'B',
-        rationale: 'Red blood cells (erythrocytes) typically circulate for approximately 120 days before being removed by the spleen.',
-        tags: ['RBC', 'Physiology'],
+        answerId: 'C',
+        rationale: 'In Iron Deficiency Anemia (IDA), the body\'s iron stores (ferritin) are depleted, leading to a compensatory increase in Total Iron Binding Capacity (TIBC) and a decrease in serum iron. Sideroblastic anemia and Thalassemia would typically show normal or increased ferritin.',
+        tags: ['Rodaks', 'Anemia', 'Iron Studies'],
       },
       {
-        id: 'sample-q3',
-        subject: 'Clinical Chemistry',
-        question: 'Which enzyme is most specific for acute pancreatitis diagnosis?',
+        id: 'rodaks-hema-2',
+        subject: 'Hematology',
+        question: 'Which of the following coagulation factors is the first to decrease in a patient with severe Vitamin K deficiency or early Warfarin therapy?',
         choices: [
-          { id: 'A', text: 'Amylase' },
-          { id: 'B', text: 'Lipase' },
-          { id: 'C', text: 'AST' },
-          { id: 'D', text: 'ALP' },
+          { id: 'A', text: 'Factor II' },
+          { id: 'B', text: 'Factor VII' },
+          { id: 'C', text: 'Factor IX' },
+          { id: 'D', text: 'Factor X' },
         ],
         answerId: 'B',
-        rationale: 'While both amylase and lipase rise in pancreatitis, lipase remains elevated longer and is considered more specific to pancreatic tissue.',
-        tags: ['Enzymology', 'Pancreas'],
+        rationale: 'Factor VII has the shortest half-life (approximately 6 hours) of all the Vitamin K-dependent factors (II, VII, IX, X, Protein C, and Protein S). Therefore, it is the first to show a significant decrease in deficiency or inhibition.',
+        tags: ['Rodaks', 'Coagulation', 'Vitamin K'],
+      },
+      {
+        id: 'stevens-immuno-1',
+        subject: 'Immuno-Serology',
+        question: 'A patient experiences immediate bronchoconstriction and hives after a bee sting. This reaction is mediated by which of the following mechanisms?',
+        choices: [
+          { id: 'A', text: 'Type I Hypersensitivity (IgE)' },
+          { id: 'B', text: 'Type II Hypersensitivity (Cytotoxic)' },
+          { id: 'C', text: 'Type III Hypersensitivity (Immune Complex)' },
+          { id: 'D', text: 'Type IV Hypersensitivity (Delayed)' },
+        ],
+        answerId: 'A',
+        rationale: 'Type I hypersensitivity involves IgE antibodies binding to mast cells and basophils. Upon re-exposure to the allergen, degranulation occurs, releasing histamine and leukotrienes, causing immediate symptoms like anaphylaxis or urticaria.',
+        tags: ['Stevens', 'Hypersensitivity', 'IgE'],
+      },
+      {
+        id: 'stevens-immuno-2',
+        subject: 'Immuno-Serology',
+        question: 'In an Antinuclear Antibody (ANA) test, a "Speckled" pattern is most commonly associated with antibodies against which of the following?',
+        choices: [
+          { id: 'A', text: 'Double-stranded DNA' },
+          { id: 'B', text: 'Histones' },
+          { id: 'C', text: 'Extractable Nuclear Antigens (ENA)' },
+          { id: 'D', text: 'Centromeres' },
+        ],
+        answerId: 'C',
+        rationale: 'A speckled ANA pattern is associated with antibodies to non-histone proteins or Extractable Nuclear Antigens (ENAs), such as Smith (Sm), RNP, SS-A, and SS-B. Homogeneous is dsDNA/Histones, and Nucleolar is associated with scleroderma.',
+        tags: ['Stevens', 'ANA', 'Autoimmunity'],
+      },
+      {
+        id: 'bishop-chem-1',
+        subject: 'Clinical Chemistry',
+        question: 'Which of the following biochemical markers is considered the "gold standard" for the early diagnosis of myocardial infarction due to its high cardiac specificity?',
+        choices: [
+          { id: 'A', text: 'CK-MB' },
+          { id: 'B', text: 'Myoglobin' },
+          { id: 'C', text: 'Cardiac Troponin I (cTnI)' },
+          { id: 'D', text: 'LDH-1/LDH-2 Flip' },
+        ],
+        answerId: 'C',
+        rationale: 'Cardiac Troponins (I and T) are highly specific for cardiac muscle injury. While CK-MB is also used, Troponin remains elevated longer and is more specific. Myoglobin rises earliest but lacks specificity.',
+        tags: ['Bishop', 'Cardiac Markers', 'Troponin'],
       }
     ];
 
     try {
       await db.bulkPut('questions', samples);
-      setStats({ count: samples.length, subjects: ['Microbiology', 'Hematology', 'Clinical Chemistry'] });
+      setStats({ count: samples.length, subjects: ['Hematology', 'Immuno-Serology', 'Clinical Chemistry'] });
       toast({
-        title: "Clinical Samples Loaded",
-        description: "Standard MedTech assays have been synchronized with your device.",
+        title: "High-Yield Samples Loaded",
+        description: "Standard MedTech assays (Rodaks/Stevens/Bishop) have been synchronized.",
       });
     } catch (err) {
       toast({
@@ -189,7 +217,7 @@ export default function ImportPage() {
           <div className="border-b border-white/5 pb-8">
             <h2 className="text-4xl font-black italic uppercase tracking-tighter">Data Titration</h2>
             <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">
-              Populate your clinical library via AI synthesis, Anki exports, or tactical seeding.
+              Populate your clinical library via AI synthesis, Anki exports, or high-yield seeding.
             </p>
           </div>
 
@@ -229,9 +257,9 @@ export default function ImportPage() {
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
               <div>
                 <Database className="text-primary mb-6" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">Tactical Seeding</h3>
+                <h3 className="text-xl font-black italic uppercase mb-2">High-Yield Seeding</h3>
                 <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                  Synchronize your device with our pre-built core clinical sample set for immediate laboratory access.
+                  Synchronize your device with professional board samples from Rodak's, Stevens, and Bishop for immediate access.
                 </p>
               </div>
               <Button 
@@ -283,7 +311,7 @@ export default function ImportPage() {
               Analyst Guidelines
             </h3>
             <ul className="text-[10px] font-bold space-y-2 text-muted-foreground uppercase tracking-widest list-disc pl-5">
-              <li>AI Synthesis mimics authoritative review books (Stevens, Rodak's, etc.) for high-yield preparation.</li>
+              <li>High-Yield Seeding uses questions mimicking authoritative review books for board-level preparation.</li>
               <li>Anki Exports must be "Notes in Plain Text" with [Tab] separation.</li>
               <li>All synthesized and imported data is stored in your device's local clinical archive (IndexedDB).</li>
             </ul>
