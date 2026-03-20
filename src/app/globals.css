@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -46,6 +45,36 @@
 @keyframes slideInFromBottom {
   0% { transform: translateY(100%); }
   100% { transform: translateY(0); }
+}
+
+@keyframes tilt-and-pour {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(-65deg); }
+  80% { transform: rotate(-65deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes liquid-drain {
+  0% { transform: scaleY(1); transform-origin: bottom; }
+  25% { transform: scaleY(1); transform-origin: bottom; }
+  80% { transform: scaleY(0.2); transform-origin: bottom; }
+  100% { transform: scaleY(0.2); transform-origin: bottom; }
+}
+
+@keyframes stream-flow {
+  0% { height: 0; opacity: 0; }
+  25% { height: 0; opacity: 0; }
+  30% { height: 250px; opacity: 1; }
+  75% { height: 250px; opacity: 1; }
+  80% { height: 0; opacity: 0; }
+  100% { height: 0; opacity: 0; }
+}
+
+@keyframes fill-logo-word {
+  0% { clip-path: inset(100% 0 0 0); }
+  25% { clip-path: inset(100% 0 0 0); }
+  85% { clip-path: inset(0% 0 0 0); }
+  100% { clip-path: inset(0% 0 0 0); }
 }
 
 .riot-gradient {

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState, useRef } from 'react';
@@ -24,11 +23,12 @@ export default function Home() {
       const userProfile = await db.getById<UserProfile>('profile', 'current-user');
       const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
 
+      // Intro animation runs for 5 seconds
+      await new Promise(resolve => setTimeout(resolve, 5000));
+
       if (storedDevice && isInitialized) {
         setStage('ready-to-hold');
       } else {
-        // First time users see the 5s intro
-        await new Promise(resolve => setTimeout(resolve, 5000));
         setStage('device-selection');
       }
     };
@@ -45,19 +45,18 @@ export default function Home() {
             router.push('/dashboard');
             return 100;
           }
-          return prev + 2; // Titration speed
+          return prev + 1.5; // Titration speed
         });
-      }, 30);
+      }, 20);
     } else {
       if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
-      // Optional: slowly drain progress if released early
       const drainInterval = setInterval(() => {
         setHoldProgress(prev => {
           if (prev <= 0) {
             clearInterval(drainInterval);
             return 0;
           }
-          return prev - 1;
+          return prev - 2;
         });
       }, 20);
       return () => clearInterval(drainInterval);
@@ -81,18 +80,18 @@ export default function Home() {
     }
   };
 
-  // Stage 1: Initial Animation (Auto-play for first launch)
+  // Stage 1: Initial Titration Animation
   if (stage === 'animating') {
     return (
       <div className="fixed inset-0 bg-[#0b111a] flex flex-col items-center justify-center z-[500] overflow-hidden px-6">
         <div className="relative flex flex-col items-center w-full max-w-lg">
           <div className="absolute -top-32 md:-top-48 left-1/2 -translate-x-1/2 scale-75 md:scale-100">
             <div className="relative flex flex-col items-center">
-              <svg width="80" height="160" viewBox="0 0 60 120" className="animate-[tilt-and-pour_5s_ease-in-out_infinite] origin-[30px_110px]">
+              <svg width="80" height="160" viewBox="0 0 60 120" className="animate-[tilt-and-pour_5s_ease-in-out_infinite] origin-[30px_20px]">
                 <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
                 <path d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="currentColor" className="text-primary animate-[liquid-drain_5s_infinite]" />
               </svg>
-              <div className="absolute top-[110px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
+              <div className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
             </div>
           </div>
           <div className="relative mt-20 md:mt-24 text-center">
@@ -104,7 +103,7 @@ export default function Home() {
             </h1>
             <div className="absolute -bottom-8 md:-bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 md:gap-4 w-max">
                <div className="h-[1px] w-8 md:w-12 bg-white/10" />
-               <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">INITIALIZING</span>
+               <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">INITIALIZING LAB</span>
                <div className="h-[1px] w-8 md:w-12 bg-white/10" />
             </div>
           </div>
@@ -113,7 +112,7 @@ export default function Home() {
     );
   }
 
-  // Stage: Ready to Hold (For returning users)
+  // Stage: Interactive Titration (For returning users)
   if (stage === 'ready-to-hold') {
     return (
       <div 
@@ -131,19 +130,22 @@ export default function Home() {
                 width="80" 
                 height="160" 
                 viewBox="0 0 60 120" 
-                className="origin-[30px_110px] transition-transform duration-700"
+                className="origin-[30px_20px] transition-transform duration-300"
                 style={{ transform: `rotate(${-65 * (holdProgress / 100)}deg)` }}
               >
                 <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
                 <path 
                   d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
                   fill="currentColor" 
-                  className="text-primary"
-                  style={{ transform: `scaleY(${Math.max(0.1, 1 - (holdProgress / 100))})`, transformOrigin: 'bottom' }}
+                  className="text-primary transition-transform duration-300"
+                  style={{ transform: `scaleY(${Math.max(0.2, 1 - (holdProgress / 100))})`, transformOrigin: 'bottom' }}
                 />
               </svg>
-              {holdProgress > 5 && holdProgress < 100 && (
-                <div className="absolute top-[110px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top animate-pulse" style={{ height: '250px' }} />
+              {holdProgress > 5 && (
+                <div 
+                  className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top transition-all duration-300" 
+                  style={{ height: '300px', opacity: isHolding ? 1 : 0 }} 
+                />
               )}
             </div>
           </div>
@@ -152,7 +154,7 @@ export default function Home() {
             <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative">
               TITRATE
               <div 
-                className="absolute inset-0 text-primary overflow-hidden" 
+                className="absolute inset-0 text-primary overflow-hidden transition-all duration-300" 
                 style={{ clipPath: `inset(${100 - holdProgress}% 0 0 0)` }}
               >
                 TITRATE
@@ -163,7 +165,7 @@ export default function Home() {
               <div className="flex flex-col items-center gap-2">
                 <Zap className={cn("text-primary", isHolding && "animate-pulse")} size={20} />
                 <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-primary">
-                  {holdProgress > 0 ? `TITRATION: ${Math.round(holdProgress)}%` : 'HOLD TO ENTER LAB'}
+                  {holdProgress > 0 ? `TITRATING: ${Math.round(holdProgress)}%` : 'HOLD TO START ASSAY'}
                 </p>
               </div>
               <div className="w-48 h-1 bg-white/5 mx-auto">
