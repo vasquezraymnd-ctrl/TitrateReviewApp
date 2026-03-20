@@ -14,15 +14,15 @@ export default function Home() {
 
   useEffect(() => {
     const startupSequence = async () => {
-      // 1. Minimum duration for the Titration Animation (3.5s)
-      const animationPromise = new Promise(resolve => setTimeout(resolve, 3500));
+      // 1. Duration for the Titration Animation (4s)
+      const animationPromise = new Promise(resolve => setTimeout(resolve, 4000));
       
-      // 2. Parallelly check profile status
+      // 2. Check profile status
       const profilePromise = db.getById<UserProfile>('profile', 'current-user');
       
       const [_, userProfile] = await Promise.all([animationPromise, profilePromise]);
       
-      // 3. Determine if user is "Active" or needs initialization
+      // 3. Determine if user is initialized
       const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
 
       if (isInitialized) {
@@ -38,29 +38,78 @@ export default function Home() {
 
   if (stage === 'animating' || stage === 'redirecting') {
     return (
-      <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500]">
-        <div className="relative flex flex-col items-center">
-          {/* Titration Drop Animation */}
-          <div className="mb-8 relative">
-             <div className="w-1 h-8 bg-primary absolute -top-12 left-1/2 -translate-x-1/2 animate-[bounce_1.5s_infinite] opacity-40" />
-             <Shield className="text-primary fill-primary/20 w-24 h-24 animate-pulse" />
-             <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full scale-150 animate-pulse" />
+      <div className="fixed inset-0 bg-[#050a0f] flex flex-col items-center justify-center z-[500] overflow-hidden">
+        <div className="relative flex flex-col items-center w-full max-w-lg">
+          
+          {/* Test Tube Pouring Animation */}
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 flex flex-col items-center">
+            {/* Test Tube SVG */}
+            <svg 
+              width="60" 
+              height="120" 
+              viewBox="0 0 60 120" 
+              className="animate-[tilt_2s_ease-in-out_infinite] origin-bottom"
+            >
+              <path 
+                d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                className="text-white/20"
+              />
+              <path 
+                d="M10 60 L50 60 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
+                fill="currentColor" 
+                className="text-primary animate-[liquid-shift_2s_infinite]"
+              />
+            </svg>
+            
+            {/* Pouring Stream */}
+            <div className="w-[2px] bg-primary h-24 absolute top-full origin-top animate-[pour_2s_infinite] opacity-0" />
           </div>
-          
-          <h1 className="text-7xl md:text-9xl font-black italic tracking-tighter text-white relative overflow-hidden">
-            <span className="relative z-10">TITRATE</span>
-            {/* Liquid Fill Effect */}
-            <div className="absolute inset-0 bg-primary h-full w-full translate-y-full animate-[slideInFromBottom_3s_ease-out_forwards] mix-blend-overlay opacity-50" />
-          </h1>
-          
-          <div className="mt-4 flex items-center gap-4">
-             <div className="h-[1px] w-12 bg-white/10" />
-             <span className="text-[10px] font-black uppercase tracking-[0.6em] text-primary/60">
-               {stage === 'redirecting' ? 'RESUMING SESSION' : 'INITIALIZING LABORATORY'}
-             </span>
-             <div className="h-[1px] w-12 bg-white/10" />
+
+          <div className="relative mt-24">
+            <h1 className="text-8xl md:text-[10rem] font-black italic tracking-tighter text-white/5 relative">
+              TITRATE
+              {/* The "Filling" text layer */}
+              <div 
+                className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo_4s_ease-out_forwards]"
+                style={{ clipPath: 'inset(100% 0 0 0)' }}
+              >
+                TITRATE
+              </div>
+            </h1>
+            
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-4 w-max">
+               <div className="h-[1px] w-8 bg-white/10" />
+               <span className="text-[9px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">
+                 {stage === 'redirecting' ? 'RESUMING SESSION' : 'INITIALIZING LABORATORY'}
+               </span>
+               <div className="h-[1px] w-8 bg-white/10" />
+            </div>
           </div>
         </div>
+
+        <style jsx global>{`
+          @keyframes tilt {
+            0%, 100% { transform: rotate(0deg); }
+            40%, 60% { transform: rotate(-45deg); }
+          }
+          @keyframes liquid-shift {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px) rotate(5deg); }
+          }
+          @keyframes pour {
+            0%, 40% { opacity: 0; transform: scaleY(0); }
+            45%, 65% { opacity: 1; transform: scaleY(1.5); }
+            70%, 100% { opacity: 0; transform: scaleY(0); }
+          }
+          @keyframes fill-logo {
+            0% { clip-path: inset(100% 0 0 0); }
+            20% { clip-path: inset(100% 0 0 0); }
+            100% { clip-path: inset(0% 0 0 0); }
+          }
+        `}</style>
       </div>
     );
   }
@@ -85,7 +134,7 @@ export default function Home() {
                 Welcome, <br /><span className="text-primary">Future RMT</span>
               </h2>
               <p className="text-muted-foreground text-lg italic leading-relaxed max-w-md">
-                "Precision is the core of diagnostic excellence. Before initiating your first clinical assay, please synchronize your analyst credentials."
+                Precision is the core of diagnostic excellence. Before initiating your first clinical assay, please synchronize your analyst credentials.
               </p>
             </div>
 
