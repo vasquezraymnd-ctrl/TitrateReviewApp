@@ -22,7 +22,8 @@ import {
   Upload,
   ChevronLeft,
   Layers,
-  Trash2
+  Trash2,
+  FileText
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -58,12 +59,10 @@ export default function QuizPage() {
   const [hasAnkiCards, setHasAnkiCards] = useState(false);
   const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
-  // Titration / Import State
   const [importing, setImporting] = useState(false);
   const [importProgress, setImportProgress] = useState(0);
   const [file, setFile] = useState<File | null>(null);
 
-  // Reset States
   const [resetSubject, setResetSubject] = useState<string>('Hematology');
   const [resetModulesList, setResetModulesList] = useState<LabModule[]>([]);
   const [selectedResetModuleId, setSelectedResetModuleId] = useState<string | null>(null);
@@ -89,12 +88,10 @@ export default function QuizPage() {
     setLoading(true);
     setSelectedSubject(subject);
     
-    // Check for PDF Modules
     const allModules = await db.getAll<LabModule>('modules');
     const filteredModules = allModules.filter(m => m.subject === subject);
     setModules(filteredModules);
     
-    // Check for Anki Questions
     const allQuestions = await db.getAll<Question>('questions');
     const filteredQuestions = allQuestions.filter(q => q.subject === subject);
     setHasAnkiCards(filteredQuestions.length > 0);
@@ -125,7 +122,7 @@ export default function QuizPage() {
         toast({ 
             variant: "destructive", 
             title: "Assay Failure", 
-            description: "No clinical text found in this protocol. Please re-upload with clear selectable text." 
+            description: "No clinical text found in this protocol." 
         });
         setLoading(false);
         return;
@@ -148,7 +145,7 @@ export default function QuizPage() {
       toast({ 
         variant: "destructive", 
         title: "Synthesis Error", 
-        description: "Laboratory AI failed to titrate the protocol into questions." 
+        description: "Laboratory AI failed to titrate the protocol." 
       });
     } finally {
       setLoading(false);
@@ -157,8 +154,6 @@ export default function QuizPage() {
 
   const handleAnswer = async (quality: number) => {
     const question = questions[currentIndex];
-    
-    // Update Spaced Repetition Progress
     const prevProgress = await db.getById<Progress>('progress', question.id);
     const newProgress = calculateSM2(quality, prevProgress);
     
@@ -185,22 +180,32 @@ export default function QuizPage() {
       const questionsToImport: Question[] = [];
       const total = lines.length;
 
-      if (total === 0) {
-        throw new Error("Archive is empty.");
-      }
+      if (total === 0) throw new Error("Archive is empty.");
 
       for (let idx = 0; idx < total; idx++) {
         const line = lines[idx];
         const parts = line.split('\t'); 
         if (parts.length < 2) continue;
 
-        const front = parts[0].trim().replace(/^"|"$/g, '');
-        const back = parts[1].trim().replace(/^"|"$/g, '');
+        // Clean HTML tags and entities from Anki export
+        const cleanText = (str: string) => str
+          .replace(/<[^>]*>?/gm, '') // Remove HTML tags
+          .replace(/&nbsp;/g, ' ')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&')
+          .replace(/^"|"$/g, '')
+          .trim();
+
+        const rawFront = parts[0];
+        const rawBack = parts[1];
         const tagsRaw = (parts[2] || 'General').toLowerCase();
+
+        const front = cleanText(rawFront);
+        const back = cleanText(rawBack);
         
-        // Authoritative Author & Sector Mapping
+        // Subject Mapping based on authors or topics
         let subjectMatch = 'General';
-        
         const isHema = /hema|blood|rodak|keohane|harmening|coag|heme/.test(tagsRaw);
         const isMicro = /micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(tagsRaw);
         const isChem = /chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(tagsRaw);
@@ -215,16 +220,43 @@ export default function QuizPage() {
         else if (isCM) subjectMatch = 'Clinical Microscopy';
         else if (isHTMLE) subjectMatch = 'HTMLE';
 
-        const tags = tagsRaw.split(' ').filter(t => t.length > 0);
+        // Auto-detect multiple choices (Lines starting with A), B), C), D) or A., B., C., D.)
+        const choicePattern = /^([A-D]|[1-4])[\).]\s*(.*)$/i;
+        const frontLines = rawFront.split(/<br\s*\/?>|\n/i).map(l => cleanText(l)).filter(l => l.length > 0);
+        
+        const detectedChoices: {id: string, text: string}[] = [];
+        let questionText = front;
+
+        if (frontLines.length > 1) {
+          const potentialChoices = frontLines.filter(line => choicePattern.test(line));
+          if (potentialChoices.length >= 2) {
+            // We have a multiple choice question
+            questionText = frontLines.filter(line => !choicePattern.test(line)).join(' ');
+            potentialChoices.forEach(choiceLine => {
+              const match = choiceLine.match(choicePattern);
+              if (match) {
+                detectedChoices.push({
+                  id: match[1].toUpperCase().replace('1', 'A').replace('2', 'B').replace('3', 'C').replace('4', 'D'),
+                  text: match[2].trim()
+                });
+              }
+            });
+          }
+        }
+
+        // If no choices detected, add a default for Flashcard Mode
+        if (detectedChoices.length === 0) {
+          detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
+        }
 
         questionsToImport.push({
           id: `titrate-${Date.now()}-${idx}`,
           subject: subjectMatch,
-          question: front,
-          choices: [{ id: 'A', text: 'REVEAL CLINICAL DATA' }],
-          answerId: 'A',
+          question: questionText,
+          choices: detectedChoices,
+          answerId: 'A', // For flashcards, A is always correct
           rationale: back,
-          tags: tags,
+          tags: tagsRaw.split(' ').filter(t => t.length > 0),
         });
 
         if (idx % 20 === 0 || idx === total - 1) {
@@ -232,30 +264,21 @@ export default function QuizPage() {
         }
       }
 
-      if (questionsToImport.length === 0) {
-        throw new Error("No valid data found. Ensure export is Tab-Separated.");
-      }
-
       await db.bulkPut('questions', questionsToImport);
       await countTotalAnki();
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards organized by review book and chapter.`,
+        description: `Recorded ${questionsToImport.length} clinical cards into the sector archives.`,
       });
       
       setFile(null);
-      const input = document.getElementById('anki-upload-quiz') as HTMLInputElement;
-      if (input) input.value = '';
-
-      if (selectedSubject) {
-        handleSubjectSelect(selectedSubject);
-      }
+      if (selectedSubject) handleSubjectSelect(selectedSubject);
     } catch (err) {
       toast({
         variant: "destructive",
         title: "Titration Failed",
-        description: err instanceof Error ? err.message : "Error processing clinical archive.",
+        description: err instanceof Error ? err.message : "Error processing archive.",
       });
     } finally {
       setTimeout(() => {
@@ -265,25 +288,6 @@ export default function QuizPage() {
     }
   };
 
-  const resetModuleData = async () => {
-    if (!selectedResetModuleId) return;
-    
-    const module = resetModulesList.find(m => m.id === selectedResetModuleId);
-    if (!module) return;
-
-    const allQuestions = await db.getAll<Question>('questions');
-    const questionsToRemove = allQuestions.filter(q => q.tags?.includes(module.name));
-
-    for (const q of questionsToRemove) {
-      await db.delete('progress', q.id);
-      await db.delete('questions', q.id);
-    }
-
-    toast({ title: "Assay Reset", description: `Cleared progress for ${module.name}.` });
-    setSelectedResetModuleId(null);
-    countTotalAnki();
-  };
-
   const purgeAllRecords = async () => {
     const allQuestions = await db.getAll<Question>('questions');
     for (const q of allQuestions) {
@@ -291,7 +295,7 @@ export default function QuizPage() {
       await db.delete('progress', q.id);
     }
     await countTotalAnki();
-    toast({ title: "Laboratory Purged", description: "All clinical records and progress have been deleted." });
+    toast({ title: "Laboratory Purged", description: "All clinical records deleted." });
   };
 
   if (loading) {
@@ -316,7 +320,7 @@ export default function QuizPage() {
           <div className="flex-1">
             {step === 'subject' && (
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
-                <div className="border-b border-white/5 pb-8 flex justify-between items-end">
+                <div className="border-b border-white/5 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                   <div>
                     <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
                     <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
@@ -365,8 +369,8 @@ export default function QuizPage() {
                       className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group"
                     >
                       <Layers size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Clinical Review Archive</h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Titrated Cards</p>
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Anki Archive</h4>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Imported Data</p>
                       <div className="mt-6 flex justify-end">
                          <div className="w-10 h-10 xl:w-14 xl:h-14 bg-black/20 group-hover:bg-black/40 flex items-center justify-center">
                             <ChevronRight />
@@ -397,7 +401,7 @@ export default function QuizPage() {
                         <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
                         <h3 className="text-xl xl:text-4xl font-black italic uppercase text-white">No Protocols Found</h3>
                         <p className="text-xs xl:text-lg font-bold text-muted-foreground uppercase tracking-widest mb-8 px-6">
-                          Titrate an archive below or upload PDFs to the Protocol Archives.
+                          Titrate an archive below to begin.
                         </p>
                     </div>
                   )}
@@ -451,16 +455,16 @@ export default function QuizPage() {
 
           <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
             <div className="space-y-8">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <Database className="text-primary/70" size={24} />
                   <div>
                     <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Laboratory Import Center</h3>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate your clinical library via review book archives.</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate Anki .txt archives into clinical folders.</p>
                   </div>
                 </div>
-                <div className="bg-primary/10 border border-primary/30 px-6 py-3 flex flex-col items-end">
-                   <p className="text-[8px] font-black text-primary uppercase tracking-[0.2em]">TITRATED CARDS IN CACHE</p>
+                <div className="bg-primary/10 border border-primary/30 px-6 py-3 flex flex-col items-end shrink-0">
+                   <p className="text-[8px] font-black text-primary uppercase tracking-[0.2em]">TITRATED CARDS</p>
                    <p className="text-2xl font-black italic text-white leading-none mt-1">{totalAnkiInDb}</p>
                 </div>
               </div>
@@ -470,10 +474,10 @@ export default function QuizPage() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <Upload className="text-primary" size={32} />
-                      <h3 className="text-xl font-black italic uppercase text-white">Archive Titration</h3>
+                      <h3 className="text-xl font-black italic uppercase text-white">Anki Archive Titration</h3>
                     </div>
                     <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                      Select your Tab-Separated .txt export from your study archive.
+                      Export from Anki as "Notes in Plain Text (.txt)" with "Include Tags" checked.
                     </p>
                   </div>
                   
@@ -513,11 +517,14 @@ export default function QuizPage() {
                 <div className="riot-card bg-primary/5 border border-primary/20 p-8">
                    <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                         <AlertCircle className="text-primary" size={24} />
-                         <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Assay Protocol</h4>
+                         <FileText className="text-primary" size={24} />
+                         <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Titration Protocol</h4>
                       </div>
                       <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        The lab filters cards by searching your tags for authoritative authors like <span className="text-white">"Rodak", "Mahon", "Bishop", "Strasinger", "Stevens"</span>. Unlabeled cards will be titrated into the <span className="text-white">"Uncategorized Archive"</span> found on the subject selection screen.
+                        The lab automatically detects A, B, C, D choices in your text. Cards without choices will trigger <span className="text-white">Flashcard Mode</span>.
+                      </p>
+                      <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
+                        Tags containing <span className="text-white">Rodak, Mahon, Bishop, Strasinger, or Stevens</span> will auto-sort into their respective sectors.
                       </p>
                    </div>
                 </div>
@@ -529,7 +536,7 @@ export default function QuizPage() {
                 <RefreshCw className="text-red-500/50" size={20} />
                 <h3 className="text-sm font-black italic uppercase tracking-[0.3em] text-white/40">Reset Laboratory Assays</h3>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 items-end">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
                 <div className="space-y-2">
                   <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
                   <Select value={resetSubject} onValueChange={setResetSubject}>
@@ -543,54 +550,19 @@ export default function QuizPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2 lg:col-span-1 xl:col-span-1">
-                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
-                  <Select value={selectedResetModuleId || ""} onValueChange={setSelectedResetModuleId}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
-                      <SelectValue placeholder="SELECT MODULE" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                      {resetModulesList.map(m => (
-                        <SelectItem key={m.id} value={m.id} className="uppercase font-black text-[10px] tracking-widest">{m.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
                 
-                <div className="flex gap-2">
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button disabled={!selectedResetModuleId} className="riot-button flex-1 h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 font-black text-[10px]">
-                        RESET MODULE
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                      <AlertDialogHeader>
-                        <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
-                        <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          This will permanently delete all study progress for the selected protocol.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
-                        <AlertDialogAction onClick={resetModuleData} className="bg-red-500 text-white hover:bg-red-600 uppercase font-black text-[10px] rounded-none">
-                          PURGE MODULE
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-
+                <div className="flex gap-2 col-span-1 md:col-span-2">
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button className="riot-button flex-1 h-12 xl:h-14 bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white font-black text-[10px]">
-                        <Trash2 className="mr-2 h-3 w-3" /> PURGE ALL
+                        <Trash2 className="mr-2 h-3 w-3" /> PURGE ALL TITRATED CARDS
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                       <AlertDialogHeader>
                         <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl text-red-500">CRITICAL: TOTAL PURGE</AlertDialogTitle>
                         <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          This will permanently delete ALL titrated cards and study progress from the laboratory. This action cannot be undone.
+                          This will permanently delete ALL imported Anki cards and study progress.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
