@@ -59,7 +59,6 @@ export default function ImportPage() {
       .replace(/\s\s+/g, ' ')
       .trim();
     
-    // Handle Anki deck paths (A::B::Chapter Name)
     if (clean.includes('::')) {
       const parts = clean.split('::');
       return parts[parts.length - 1].trim();
@@ -101,16 +100,10 @@ export default function ImportPage() {
 
       for (let idx = 0; idx < lines.length; idx++) {
         const parts = lines[idx].split('\t');
-        
-        // STRICT PARSING RULES (0-indexed columns):
-        // Col 3 (parts[2]): Chapter Path
-        // Col 4 (parts[3]): Question Text
-        // Col 5-8 (parts[4-7]): Choices A, B, C, D
-        // Col 12-13 (parts[11-12]): Answer Text
-        
         if (parts.length < 8) continue;
 
-        const chapter = scrub(parts[2]);
+        const chapterRaw = parts[2] || "";
+        const chapter = scrub(chapterRaw);
         const qText = scrub(parts[3]);
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
@@ -131,7 +124,7 @@ export default function ImportPage() {
         else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
 
         let subjectMatch = 'General';
-        const context = (chapter + ' ' + qText).toLowerCase();
+        const context = (chapterRaw + ' ' + qText).toLowerCase();
         
         if (/hema|blood|rodak|keohane|harmening|coag|heme/.test(context)) subjectMatch = 'Hematology';
         else if (/micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(context)) subjectMatch = 'Microbiology';
@@ -155,7 +148,7 @@ export default function ImportPage() {
 
       await db.bulkPut('questions', questions);
       setStats({ count: questions.length, subjects: Array.from(subjects) });
-      toast({ title: "Titration Successful", description: `Imported ${questions.length} cards from specific chapters.` });
+      toast({ title: "Titration Successful", description: `Imported ${questions.length} cards into clinical chapters.` });
     } catch (err) {
       toast({ variant: "destructive", title: "Titration Failed", description: "Error processing columns." });
     } finally {
@@ -174,7 +167,8 @@ export default function ImportPage() {
       await db.delete('modules', m.id);
     }
     setStats(null);
-    toast({ title: "Laboratory Purged", description: "All questions and modules have been deleted." });
+    toast({ title: "Laboratory Purged", description: "All archives have been deleted." });
+    window.dispatchEvent(new Event('archives-purged'));
   };
 
   return (
@@ -236,7 +230,7 @@ export default function ImportPage() {
                 <Database className="text-primary mb-6" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">Strict Anki Titration</h3>
                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-relaxed">
-                  Export "Notes in Plain Text" from Anki. Use strict Column 3 (Chapter), Column 4 (Question), Col 5-8 (Choices), and Col 12-13 (Answer).
+                  Upload "Notes in Plain Text" from Anki. Column 3 identifies Chapter/Archive names.
                 </p>
               </div>
               <div className="mt-8 space-y-4">

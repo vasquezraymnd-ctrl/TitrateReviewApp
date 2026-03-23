@@ -22,7 +22,8 @@ import {
   ChevronLeft,
   Layers,
   Trash2,
-  FileText
+  FileText,
+  Archive
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -48,6 +49,7 @@ export default function QuizPage() {
   const [step, setStep] = useState<'subject' | 'module' | 'quiz'>('subject');
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [modules, setModules] = useState<LabModule[]>([]);
+  const [chapters, setChapters] = useState<string[]>([]);
   const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
   const [importing, setImporting] = useState(false);
@@ -58,6 +60,10 @@ export default function QuizPage() {
 
   useEffect(() => {
     countTotalAnki();
+    window.addEventListener('archives-purged', () => {
+        countTotalAnki();
+        setStep('subject');
+    });
   }, []);
 
   const countTotalAnki = async () => {
@@ -69,25 +75,32 @@ export default function QuizPage() {
     setLoading(true);
     setSelectedSubject(subject);
     
+    // Load PDF Modules
     const allModules = await db.getAll<LabModule>('modules');
     const filteredModules = allModules.filter(m => m.subject === subject);
     setModules(filteredModules);
+
+    // Load Anki Chapters
+    const allQuestions = await db.getAll<Question>('questions');
+    const subjectQuestions = allQuestions.filter(q => q.subject === subject);
+    const uniqueChapters = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized'))).sort();
+    setChapters(uniqueChapters);
     
     setStep('module');
     setLoading(false);
   };
 
-  const startAnkiReview = async () => {
+  const startChapterAssay = async (chapter: string) => {
     if (!selectedSubject) return;
     setLoading(true);
     const allQuestions = await db.getAll<Question>('questions');
-    const filtered = allQuestions.filter(q => q.subject === selectedSubject || selectedSubject === 'General');
+    const filtered = allQuestions.filter(q => q.subject === selectedSubject && q.tags.includes(chapter));
     
     if (filtered.length > 0) {
       setQuestions(filtered);
       setStep('quiz');
     } else {
-      toast({ title: "Archive Empty", description: "No cards found for this sector." });
+      toast({ title: "Chapter Empty", description: "No titrated data found for this chapter." });
     }
     setLoading(false);
   };
@@ -189,7 +202,8 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 8) continue;
 
-        const chapter = scrub(parts[2]);
+        const chapterRaw = parts[2] || "";
+        const chapter = scrub(chapterRaw);
         const qText = scrub(parts[3]);
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
@@ -210,7 +224,7 @@ export default function QuizPage() {
         else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
 
         let subjectMatch = 'General';
-        const context = (chapter + ' ' + qText).toLowerCase();
+        const context = (chapterRaw + ' ' + qText).toLowerCase();
         
         if (/hema|blood|rodak|keohane|harmening|coag|heme/.test(context)) subjectMatch = 'Hematology';
         else if (/micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(context)) subjectMatch = 'Microbiology';
@@ -236,7 +250,7 @@ export default function QuizPage() {
 
       await db.bulkPut('questions', questionsToImport);
       await countTotalAnki();
-      toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards from specific chapters.` });
+      toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards into clinical chapters.` });
       setFile(null);
       if (selectedSubject) handleSubjectSelect(selectedSubject);
     } catch (err) {
@@ -316,24 +330,29 @@ export default function QuizPage() {
                         <ChevronLeft size={32} />
                       </Button>
                       <div>
-                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
-                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a protocol or your titrated archive.</p>
+                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Protocols</h2>
+                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Select a chapter archive or PDF protocol.</p>
                       </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {totalAnkiInDb > 0 && (
+                  {/* List Anki Chapters as Archives */}
+                  {chapters.map((chapter) => (
                     <button 
-                      onClick={startAnkiReview}
-                      className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group"
+                      key={chapter}
+                      onClick={() => startChapterAssay(chapter)}
+                      className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group text-left"
                     >
-                      <Layers size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Anki Archive</h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Cards</p>
+                      <Archive size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black truncate w-full">
+                        {chapter}
+                      </h4>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Chapter Archive</p>
                     </button>
-                  )}
+                  ))}
 
+                  {/* List PDF Modules */}
                   {modules.map((m) => (
                     <button 
                       key={m.id} 
@@ -341,10 +360,20 @@ export default function QuizPage() {
                       className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:border-primary/50 text-left group"
                     >
                       <BookOpen size={24} className="mb-4 text-primary xl:size-32" />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white">{m.name}</h4>
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white truncate w-full">
+                        {m.name}
+                      </h4>
                       <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">AI Assay Synthesis</p>
                     </button>
                   ))}
+                  
+                  {chapters.length === 0 && modules.length === 0 && (
+                     <div className="col-span-full py-20 text-center opacity-30 border border-dashed border-white/10 riot-card">
+                       <AlertCircle className="mx-auto mb-4" size={48} />
+                       <h3 className="text-2xl font-black italic uppercase">No Titrated Data</h3>
+                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Upload a PDF or Anki file below.</p>
+                     </div>
+                  )}
                 </div>
               </div>
             )}
