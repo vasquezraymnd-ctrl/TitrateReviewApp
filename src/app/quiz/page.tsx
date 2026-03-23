@@ -51,6 +51,12 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
+interface SubjectStats {
+  mastered: number;
+  total: number;
+  unanswered: number;
+}
+
 export default function QuizPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -61,6 +67,7 @@ export default function QuizPage() {
   const [importSubject, setImportSubject] = useState<string>('Clinical Microscopy');
   const [modules, setModules] = useState<LabModule[]>([]);
   const [chapters, setChapters] = useState<{ name: string; mastered: number; total: number }[]>([]);
+  const [subjectStats, setSubjectStats] = useState<Record<string, SubjectStats>>({});
   const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
   const [importing, setImporting] = useState(false);
@@ -70,18 +77,37 @@ export default function QuizPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    countTotalAnki();
+    loadGlobalStats();
     const handleArchivePurge = () => {
-        countTotalAnki();
+        loadGlobalStats();
         setStep('subject');
     };
     window.addEventListener('archives-purged', handleArchivePurge);
     return () => window.removeEventListener('archives-purged', handleArchivePurge);
   }, []);
 
-  const countTotalAnki = async () => {
-    const all = await db.getAll<Question>('questions');
-    setTotalAnkiInDb(all.length);
+  const loadGlobalStats = async () => {
+    const allQuestions = await db.getAll<Question>('questions');
+    const allProgress = await db.getAll<Progress>('progress');
+    setTotalAnkiInDb(allQuestions.length);
+
+    const stats: Record<string, SubjectStats> = {};
+    
+    CORE_SUBJECTS.forEach(subject => {
+      const subjectQs = allQuestions.filter(q => q.subject === subject);
+      const masteredCount = allProgress.filter(p => {
+        const q = subjectQs.find(sq => sq.id === p.questionId);
+        return q && (p.repetition || 0) > 0;
+      }).length;
+
+      stats[subject] = {
+        total: subjectQs.length,
+        mastered: masteredCount,
+        unanswered: subjectQs.length - masteredCount
+      };
+    });
+
+    setSubjectStats(stats);
   };
 
   const handleSubjectSelect = async (subject: string) => {
@@ -98,13 +124,13 @@ export default function QuizPage() {
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
     const allProgress = await db.getAll<Progress>('progress');
     
+    // Natural Sort for Chapters
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
     const chaptersWithData = uniqueChapterNames.map(name => {
         const chapterQs = subjectQuestions.filter(q => q.tags[0] === name);
         const chapterProgress = allProgress.filter(p => chapterQs.some(q => q.id === p.questionId));
-        // Mastery count based on questions with at least 1 repetition
         const masteredCount = chapterProgress.filter(p => (p.repetition || 0) > 0).length;
         return { name, mastered: masteredCount, total: chapterQs.length };
     });
@@ -143,7 +169,8 @@ export default function QuizPage() {
       }
       
       toast({ title: "Chapter Calibrated", description: `Reset progress for ${chapterName}.` });
-      handleSubjectSelect(selectedSubject); // Refresh scores
+      handleSubjectSelect(selectedSubject);
+      loadGlobalStats();
     } catch (err) {
       toast({ variant: "destructive", title: "Calibration Failed", description: "Could not reset progress." });
     } finally {
@@ -163,7 +190,8 @@ export default function QuizPage() {
       }
       
       toast({ title: "Subject Calibrated", description: `Reset all progress for ${selectedSubject}.` });
-      handleSubjectSelect(selectedSubject); // Refresh scores
+      handleSubjectSelect(selectedSubject);
+      loadGlobalStats();
     } catch (err) {
       toast({ variant: "destructive", title: "Calibration Failed", description: "Could not reset progress." });
     } finally {
@@ -175,11 +203,7 @@ export default function QuizPage() {
     setLoading(true);
     try {
       if (!module.extractedText) {
-        toast({ 
-            variant: "destructive", 
-            title: "Assay Failure", 
-            description: "No clinical text found in this protocol." 
-        });
+        toast({ variant: "destructive", title: "Assay Failure", description: "No clinical text found." });
         setLoading(false);
         return;
       }
@@ -197,14 +221,10 @@ export default function QuizPage() {
         setCurrentIndex(0);
         setCompleted(false);
       } else {
-        throw new Error("AI failed to synthesize assay.");
+        throw new Error("AI failed synthesis.");
       }
     } catch (err) {
-      toast({ 
-        variant: "destructive", 
-        title: "Synthesis Error", 
-        description: "Laboratory AI failed to titrate the protocol." 
-      });
+      toast({ variant: "destructive", title: "Synthesis Error", description: "Lab AI failed titration." });
     } finally {
       setLoading(false);
     }
@@ -224,6 +244,7 @@ export default function QuizPage() {
       setCurrentIndex(prev => prev + 1);
     } else {
       setCompleted(true);
+      loadGlobalStats();
     }
   };
 
@@ -270,18 +291,13 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 8) continue;
 
-        // STRICT COLUMN MAPPING (Col 3-13)
-        // Col 3: Chapter/Path
         const chapterRaw = parts[2] || "";
         const chapter = scrub(chapterRaw) || "Uncategorized";
-        // Col 4: Question
         const qText = scrub(parts[3]);
-        // Col 5-8: Choices (Capturing entire text)
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
         const cC = scrub(parts[6]);
         const cD = scrub(parts[7]);
-        // Col 12-13: Answer identification
         const ansRaw = scrub(parts[11] || parts[12] || "");
 
         const choices = [
@@ -312,7 +328,7 @@ export default function QuizPage() {
       }
 
       await db.bulkPut('questions', questionsToImport);
-      await countTotalAnki();
+      await loadGlobalStats();
       toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards into ${importSubject}.` });
       setFile(null);
       
@@ -339,7 +355,7 @@ export default function QuizPage() {
     for (const m of allModules) {
       await db.delete('modules', m.id);
     }
-    await countTotalAnki();
+    await loadGlobalStats();
     toast({ title: "Laboratory Purged", description: "All questions and modules deleted." });
     setStep('subject');
     window.dispatchEvent(new Event('archives-purged'));
@@ -374,17 +390,31 @@ export default function QuizPage() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-                  {CORE_SUBJECTS.map((subject) => (
-                    <button 
-                      key={subject} 
-                      onClick={() => handleSubjectSelect(subject)}
-                      className="riot-card p-10 xl:p-14 bg-white/[0.02] border border-white/5 hover:bg-primary hover:text-black transition-all group"
-                    >
-                      <Microscope size={32} className="mb-6 group-hover:scale-110 transition-transform xl:size-48 text-primary group-hover:text-black" />
-                      <h3 className="text-2xl xl:text-4xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">{subject}</h3>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 mt-2 uppercase tracking-widest group-hover:text-black">Initiate Assay</p>
-                    </button>
-                  ))}
+                  {CORE_SUBJECTS.map((subject) => {
+                    const stats = subjectStats[subject] || { mastered: 0, total: 0, unanswered: 0 };
+                    return (
+                      <button 
+                        key={subject} 
+                        onClick={() => handleSubjectSelect(subject)}
+                        className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:bg-primary hover:text-black transition-all group text-left flex flex-col justify-between"
+                      >
+                        <div>
+                          <Microscope size={32} className="mb-6 group-hover:scale-110 transition-transform xl:size-40 text-primary group-hover:text-black" />
+                          <h3 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">{subject}</h3>
+                        </div>
+                        <div className="mt-6 space-y-2 border-t border-white/5 pt-4 group-hover:border-black/10">
+                           <div className="flex justify-between items-center text-[9px] xl:text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:text-black">
+                             <span>Answered</span>
+                             <span>{stats.mastered} / {stats.total}</span>
+                           </div>
+                           <div className="flex justify-between items-center text-[9px] xl:text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:text-black">
+                             <span>Unanswered</span>
+                             <span>{stats.unanswered}</span>
+                           </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -420,7 +450,6 @@ export default function QuizPage() {
                         <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black truncate w-full">
                           {chapter.name}
                         </h4>
-                        <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Chapter Archive</p>
                       </button>
                       
                       <button 
@@ -429,7 +458,6 @@ export default function QuizPage() {
                           resetChapterProgress(chapter.name);
                         }}
                         className="absolute bottom-4 right-4 p-2 bg-black/40 hover:bg-red-500/20 text-white/20 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100 z-20"
-                        title="Reset Progress"
                       >
                         <RotateCcw size={14} />
                       </button>
