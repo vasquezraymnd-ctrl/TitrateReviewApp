@@ -42,7 +42,8 @@ export default function ImportPage() {
   const [file, setFile] = useState<File | null>(null);
   const [importing, setImporting] = useState(false);
   const [generating, setGenerating] = useState(false);
-  const [selectedSubject, setSelectedSubject] = useState<string>('Hematology');
+  const [selectedSubjectAi, setSelectedSubjectAi] = useState<string>('Hematology');
+  const [selectedSubjectAnki, setSelectedSubjectAnki] = useState<string>('Clinical Microscopy');
   const [stats, setStats] = useState<{ count: number; subjects: string[] } | null>(null);
   const { toast } = useToast();
 
@@ -75,11 +76,11 @@ export default function ImportPage() {
   const handleAiGeneration = async () => {
     setGenerating(true);
     try {
-      const result = await generateQuestions({ subject: selectedSubject, count: 5 });
+      const result = await generateQuestions({ subject: selectedSubjectAi, count: 5 });
       if (result.questions && result.questions.length > 0) {
         await db.bulkPut('questions', result.questions);
-        setStats({ count: result.questions.length, subjects: [selectedSubject] });
-        toast({ title: "AI Synthesis Complete", description: `Generated 5 high-yield ${selectedSubject} questions.` });
+        setStats({ count: result.questions.length, subjects: [selectedSubjectAi] });
+        toast({ title: "AI Synthesis Complete", description: `Generated 5 high-yield ${selectedSubjectAi} questions.` });
       }
     } catch (error) {
       toast({ variant: "destructive", title: "Synthesis Error", description: "AI titration failed." });
@@ -96,14 +97,14 @@ export default function ImportPage() {
       const text = await file.text();
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questions: Question[] = [];
-      const subjects = new Set<string>();
 
       for (let idx = 0; idx < lines.length; idx++) {
         const parts = lines[idx].split('\t');
         if (parts.length < 8) continue;
 
+        // STRICT COLUMN MAPPING
         const chapterRaw = parts[2] || "";
-        const chapter = scrub(chapterRaw);
+        const chapter = scrub(chapterRaw) || "Uncategorized";
         const qText = scrub(parts[3]);
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
@@ -123,21 +124,9 @@ export default function ImportPage() {
         if (match) answerId = match.id;
         else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
 
-        let subjectMatch = 'General';
-        const context = (chapterRaw + ' ' + qText).toLowerCase();
-        
-        if (/hema|blood|rodak|keohane|harmening|coag|heme/.test(context)) subjectMatch = 'Hematology';
-        else if (/micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(context)) subjectMatch = 'Microbiology';
-        else if (/chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(context)) subjectMatch = 'Clinical Chemistry';
-        else if (/immuno|sero|stevens|turgeon|abbas|bloodbank|harmening_bb/.test(context)) subjectMatch = 'Immuno-Serology';
-        else if (/microscopy|urine|strasinger|bodyfluid|analysis|clinmic/.test(context)) subjectMatch = 'Clinical Microscopy';
-        else if (/histo|path|htmle|gregorio|bancroft|fixative|staining/.test(context)) subjectMatch = 'HTMLE';
-
-        subjects.add(subjectMatch);
-
         questions.push({
           id: `strict-${Date.now()}-${idx}`,
-          subject: subjectMatch,
+          subject: selectedSubjectAnki, // STICK TO USER CHOICE
           question: qText,
           choices: choices,
           answerId: answerId,
@@ -147,8 +136,8 @@ export default function ImportPage() {
       }
 
       await db.bulkPut('questions', questions);
-      setStats({ count: questions.length, subjects: Array.from(subjects) });
-      toast({ title: "Titration Successful", description: `Imported ${questions.length} cards into clinical chapters.` });
+      toast({ title: "Titration Successful", description: `Imported ${questions.length} cards into ${selectedSubjectAnki}.` });
+      setFile(null);
     } catch (err) {
       toast({ variant: "destructive", title: "Titration Failed", description: "Error processing columns." });
     } finally {
@@ -166,7 +155,6 @@ export default function ImportPage() {
     for (const m of allModules) {
       await db.delete('modules', m.id);
     }
-    setStats(null);
     toast({ title: "Laboratory Purged", description: "All archives have been deleted." });
     window.dispatchEvent(new Event('archives-purged'));
   };
@@ -207,8 +195,8 @@ export default function ImportPage() {
                 <Zap className="text-primary mb-6 animate-pulse" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">AI Synthesis</h3>
                 <div className="space-y-4">
-                   <Label className="text-[9px] font-black uppercase tracking-widest">Clinical Sector</Label>
-                   <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+                   <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Target Sector</Label>
+                   <Select value={selectedSubjectAi} onValueChange={setSelectedSubjectAi}>
                     <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase">
                       <SelectValue placeholder="Select Subject" />
                     </SelectTrigger>
@@ -229,9 +217,19 @@ export default function ImportPage() {
               <div>
                 <Database className="text-primary mb-6" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">Strict Anki Titration</h3>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-relaxed">
-                  Upload "Notes in Plain Text" from Anki. Column 3 identifies Chapter/Archive names.
-                </p>
+                <div className="space-y-4 mt-6">
+                   <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Calibration Sector</Label>
+                   <Select value={selectedSubjectAnki} onValueChange={setSelectedSubjectAnki}>
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase">
+                      <SelectValue placeholder="Select Sector" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                      {CORE_SUBJECTS.map((s) => (
+                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                   </Select>
+                </div>
               </div>
               <div className="mt-8 space-y-4">
                 <Input type="file" accept=".txt" onChange={handleFileChange} className="hidden" id="anki-upload" />

@@ -40,6 +40,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 export default function QuizPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -48,6 +56,7 @@ export default function QuizPage() {
   const [completed, setCompleted] = useState(false);
   const [step, setStep] = useState<'subject' | 'module' | 'quiz'>('subject');
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+  const [importSubject, setImportSubject] = useState<string>('Clinical Microscopy');
   const [modules, setModules] = useState<LabModule[]>([]);
   const [chapters, setChapters] = useState<string[]>([]);
   const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
@@ -202,8 +211,9 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 8) continue;
 
+        // STRICT COLUMN MAPPING
         const chapterRaw = parts[2] || "";
-        const chapter = scrub(chapterRaw);
+        const chapter = scrub(chapterRaw) || "Uncategorized";
         const qText = scrub(parts[3]);
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
@@ -223,19 +233,9 @@ export default function QuizPage() {
         if (match) answerId = match.id;
         else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
 
-        let subjectMatch = 'General';
-        const context = (chapterRaw + ' ' + qText).toLowerCase();
-        
-        if (/hema|blood|rodak|keohane|harmening|coag|heme/.test(context)) subjectMatch = 'Hematology';
-        else if (/micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(context)) subjectMatch = 'Microbiology';
-        else if (/chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(context)) subjectMatch = 'Clinical Chemistry';
-        else if (/immuno|sero|stevens|turgeon|abbas|bloodbank|harmening_bb/.test(context)) subjectMatch = 'Immuno-Serology';
-        else if (/microscopy|urine|strasinger|bodyfluid|analysis|clinmic/.test(context)) subjectMatch = 'Clinical Microscopy';
-        else if (/histo|path|htmle|gregorio|bancroft|fixative|staining/.test(context)) subjectMatch = 'HTMLE';
-
         questionsToImport.push({
           id: `strict-${Date.now()}-${idx}`,
-          subject: subjectMatch,
+          subject: importSubject, // STICK TO USER CHOICE
           question: qText,
           choices: choices,
           answerId: answerId,
@@ -250,9 +250,13 @@ export default function QuizPage() {
 
       await db.bulkPut('questions', questionsToImport);
       await countTotalAnki();
-      toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards into clinical chapters.` });
+      toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards into ${importSubject}.` });
       setFile(null);
-      if (selectedSubject) handleSubjectSelect(selectedSubject);
+      
+      // If we are currently viewing the subject we just imported into, refresh the list
+      if (selectedSubject === importSubject) {
+        handleSubjectSelect(importSubject);
+      }
     } catch (err) {
       toast({ variant: "destructive", title: "Titration Failed", description: "Error processing archive." });
     } finally {
@@ -276,6 +280,7 @@ export default function QuizPage() {
     await countTotalAnki();
     toast({ title: "Laboratory Purged", description: "All questions and modules deleted." });
     setStep('subject');
+    window.dispatchEvent(new Event('archives-purged'));
   };
 
   if (loading) {
@@ -412,6 +417,21 @@ export default function QuizPage() {
                   <Upload className="text-primary" size={32} />
                   <h3 className="text-xl font-black italic uppercase">Strict Titration Import</h3>
                 </div>
+                
+                <div className="space-y-4">
+                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector</Label>
+                  <Select value={importSubject} onValueChange={setImportSubject}>
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase">
+                      <SelectValue placeholder="Select Sector" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                      {CORE_SUBJECTS.map((s) => (
+                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {importing && (
                   <div className="space-y-2">
                     <div className="flex justify-between text-[10px] font-black uppercase text-primary">
