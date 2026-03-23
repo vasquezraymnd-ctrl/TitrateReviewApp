@@ -22,7 +22,7 @@ import {
   Upload,
   ChevronLeft,
   Layers,
-  FileText
+  Trash2
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -45,7 +45,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 export default function QuizPage() {
@@ -182,7 +181,6 @@ export default function QuizPage() {
     
     try {
       const text = await file.text();
-      // Handle both Windows and Unix line endings
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questionsToImport: Question[] = [];
       const total = lines.length;
@@ -193,7 +191,6 @@ export default function QuizPage() {
 
       for (let idx = 0; idx < total; idx++) {
         const line = lines[idx];
-        // Anki plain text export is Tab-Separated
         const parts = line.split('\t'); 
         if (parts.length < 2) continue;
 
@@ -201,7 +198,6 @@ export default function QuizPage() {
         const back = parts[1].trim().replace(/^"|"$/g, '');
         const tagsRaw = (parts[2] || 'General').toLowerCase();
         
-        // Advanced Tag Matching Logic
         let subjectMatch = 'General';
         if (tagsRaw.includes('hema')) subjectMatch = 'Hematology';
         else if (tagsRaw.includes('microbio') || tagsRaw.includes('micro')) subjectMatch = 'Microbiology';
@@ -220,7 +216,6 @@ export default function QuizPage() {
           tags: tagsRaw.split(' '),
         });
 
-        // Update progress state periodically for larger files
         if (idx % 20 === 0 || idx === total - 1) {
           setImportProgress(Math.round(((idx + 1) / total) * 100));
         }
@@ -239,11 +234,9 @@ export default function QuizPage() {
       });
       
       setFile(null);
-      // Reset input if possible
       const input = document.getElementById('anki-upload-quiz') as HTMLInputElement;
       if (input) input.value = '';
 
-      // If a subject was already selected, refresh the module list to show Anki
       if (selectedSubject) {
         handleSubjectSelect(selectedSubject);
       }
@@ -278,6 +271,16 @@ export default function QuizPage() {
     toast({ title: "Assay Reset", description: `Cleared progress for ${module.name}.` });
     setSelectedResetModuleId(null);
     countTotalAnki();
+  };
+
+  const purgeAllRecords = async () => {
+    const allQuestions = await db.getAll<Question>('questions');
+    for (const q of allQuestions) {
+      await db.delete('questions', q.id);
+      await db.delete('progress', q.id);
+    }
+    await countTotalAnki();
+    toast({ title: "Laboratory Purged", description: "All clinical records and progress have been deleted." });
   };
 
   if (loading) {
@@ -529,7 +532,7 @@ export default function QuizPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2 lg:col-span-1 xl:col-span-2">
+                <div className="space-y-2 lg:col-span-1 xl:col-span-1">
                   <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
                   <Select value={selectedResetModuleId || ""} onValueChange={setSelectedResetModuleId}>
                     <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
@@ -542,27 +545,52 @@ export default function QuizPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button disabled={!selectedResetModuleId} className="riot-button h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 font-black text-[10px]">
-                      RESET ASSAY DATA
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
-                      <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                        This will permanently delete all cached questions and progress for the selected protocol.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
-                      <AlertDialogAction onClick={resetModuleData} className="bg-red-500 text-white hover:bg-red-600 uppercase font-black text-[10px] rounded-none">
-                        PURGE ASSAY DATA
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                
+                <div className="flex gap-2">
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button disabled={!selectedResetModuleId} className="riot-button flex-1 h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 font-black text-[10px]">
+                        RESET MODULE
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
+                        <AlertDialogDescription className="text-muted-foreground italic text-sm">
+                          This will permanently delete all cached questions and progress for the selected protocol.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
+                        <AlertDialogAction onClick={resetModuleData} className="bg-red-500 text-white hover:bg-red-600 uppercase font-black text-[10px] rounded-none">
+                          PURGE MODULE
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button className="riot-button flex-1 h-12 xl:h-14 bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white font-black text-[10px]">
+                        <Trash2 className="mr-2 h-3 w-3" /> PURGE ALL
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl text-red-500">CRITICAL: TOTAL PURGE</AlertDialogTitle>
+                        <AlertDialogDescription className="text-muted-foreground italic text-sm">
+                          This will permanently delete ALL imported Anki cards, synthesized questions, and study progress from the laboratory. This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
+                        <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 text-white hover:bg-red-700 uppercase font-black text-[10px] rounded-none">
+                          CONFIRM TOTAL PURGE
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
               </div>
             </div>
           </div>
