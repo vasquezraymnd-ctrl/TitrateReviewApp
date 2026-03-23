@@ -55,39 +55,6 @@ export default function SchedulerPage() {
     window.dispatchEvent(new Event('schedule-updated'));
   };
 
-  const seedSampleData = async () => {
-    const samples: Schedule[] = [
-      {
-        id: 'sample-1',
-        type: 'class',
-        title: 'Hematology 1 Laboratory',
-        dayOfWeek: 'Monday',
-        startTime: '08:00',
-        endTime: '11:00',
-      },
-      {
-        id: 'sample-2',
-        type: 'class',
-        title: 'Clinical Chemistry 2 Lecture',
-        dayOfWeek: 'Wednesday',
-        startTime: '13:00',
-        endTime: '15:00',
-      },
-      {
-        id: 'sample-3',
-        type: 'exam',
-        title: 'Microbiology Midterms',
-        date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        startTime: '09:00',
-        endTime: '11:00',
-      }
-    ];
-
-    await db.bulkPut('schedules', samples);
-    loadSchedules();
-    toast({ title: "Samples Loaded", description: "Protocol archive seeded." });
-  };
-
   const saveScheduleItem = async () => {
     if (!newItem.title) {
       toast({ variant: "destructive", title: "Error", description: "Title is required." });
@@ -133,15 +100,6 @@ export default function SchedulerPage() {
               <h2 className="text-3xl md:text-5xl xl:text-7xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
               <p className="text-[10px] md:text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations and exam milestones.</p>
             </div>
-            {schedules.length === 0 && (
-              <Button 
-                variant="outline" 
-                onClick={seedSampleData}
-                className="riot-button h-12 xl:h-16 px-8 xl:px-12 border-primary/20 text-primary hover:bg-primary/5 font-black text-xs xl:text-sm"
-              >
-                <Database className="mr-2 h-4 w-4" /> SEED SAMPLES
-              </Button>
-            )}
           </div>
 
           <Tabs defaultValue="class" className="w-full" onValueChange={(v) => setActiveTab(v as ScheduleType)}>

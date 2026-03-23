@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -359,52 +358,6 @@ export default function QuizPage() {
     }
   };
 
-  const seedAllProtocols = async () => {
-    setLoading(true);
-    try {
-      const samples: Question[] = [
-        // Turgeon Hematology (Variable Choices, Contextual)
-        {
-          id: 'seed-turgeon-1',
-          subject: 'Hematology',
-          question: 'What is the primary biohazard in the laboratory environment?',
-          choices: [{id: 'A', text: 'Blood and body fluids'}, {id: 'B', text: 'Distilled water'}, {id: 'C', text: 'Latex gloves'}],
-          answerId: 'A',
-          rationale: 'OSHA Safety Guidelines. Answer: Blood and body fluids',
-          tags: ['Safety & Lab Operations']
-        },
-        // Bishop Clinical Chemistry (Units, Math)
-        {
-          id: 'seed-bishop-1',
-          subject: 'Clinical Chemistry',
-          question: 'Which of the following bilirubin fractions is water soluble and can be found in urine?',
-          choices: [{id: 'A', text: 'Unconjugated bilirubin'}, {id: 'B', text: 'Conjugated bilirubin'}, {id: 'C', text: 'Delta bilirubin'}, {id: 'D', text: 'Albumin-bound bilirubin'}],
-          answerId: 'B',
-          rationale: 'Liver Function Analysis. Bilirubin conversion. Answer: Conjugated bilirubin',
-          tags: ['Liver Function']
-        },
-        // Strasinger Clinical Microscopy
-        {
-          id: 'seed-stras-1',
-          subject: 'Clinical Microscopy',
-          question: 'A urine specimen that exhibits a Port Wine color may indicate the presence of:',
-          choices: [{id: 'A', text: 'Melanin'}, {id: 'B', text: 'Porphyrins'}, {id: 'C', text: 'Homogentisic acid'}, {id: 'D', text: 'RBCs'}],
-          answerId: 'B',
-          rationale: 'Strasinger Chapter 4: Physical Examination. Answer: Porphyrins',
-          tags: ['Chapter 4 Physical Examination']
-        }
-      ];
-
-      await db.bulkPut('questions', samples);
-      await loadGlobalStats();
-      toast({ title: "Laboratory Initialized", description: "Clinical protocols from Turgeon, Bishop, and Strasinger are now active." });
-    } catch (err) {
-      toast({ variant: "destructive", title: "Seeding Failed" });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const startModuleAssay = async (module: LabModule) => {
     setLoading(true);
     try {
@@ -461,14 +414,6 @@ export default function QuizPage() {
                         <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
                         <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Pick a clinical sector folder to begin titration.</p>
                     </div>
-                    {Object.values(subjectStats).every(s => s.total === 0) && (
-                      <Button 
-                        onClick={seedAllProtocols}
-                        className="riot-button h-12 xl:h-14 px-8 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-black font-black text-[10px]"
-                      >
-                        <Database className="mr-2 h-4 w-4" /> INITIALIZE ALL PROTOCOLS
-                      </Button>
-                    )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                   {CORE_SUBJECTS.map((subject) => {

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense, useRef } from 'react';
@@ -133,28 +132,6 @@ function LibraryContent() {
       setEditExamDate(defaultProfile.examDate);
     }
     setLoading(false);
-  };
-
-  const seedSampleProtocol = async () => {
-    const sampleModule: LabModule = {
-      id: `sample-mod-${Date.now()}`,
-      name: "Coagulation Cascade: Primary & Secondary Hemostasis",
-      subject: "Hematology",
-      imageKey: "blood-cells",
-      mastery: 0,
-      extractedText: `
-        The coagulation cascade is a highly regulated sequence of biochemical events that leads to the formation of a stable fibrin clot. 
-        It is divided into the primary hemostasis (platelet plug formation) and secondary hemostasis (clotting factor activation).
-        ...
-      `.trim()
-    };
-
-    await db.put('modules', sampleModule);
-    toast({
-      title: "Sample Protocol Seeded",
-      description: "A high-yield Hematology module has been added for AI titration testing.",
-    });
-    loadLibrary();
   };
 
   const updateStreak = async () => {
@@ -377,9 +354,6 @@ function LibraryContent() {
               </p>
             </div>
             <div className="flex flex-wrap gap-2 lg:gap-4 xl:gap-6 w-full md:w-auto">
-              <Button onClick={seedSampleProtocol} variant="outline" className="h-10 xl:h-12 px-4 xl:px-6 border-primary/20 text-primary hover:bg-primary/5 rounded-none font-black text-[9px] xl:text-[11px] flex-1 md:flex-none">
-                <Database className="mr-2 h-3 w-3" /> SEED SAMPLE
-              </Button>
               {subjectFilter && (
                 <Button onClick={() => router.push('/library')} variant="outline" className="h-10 xl:h-12 px-4 xl:px-6 border-white/10 text-white font-black text-[9px] xl:text-[11px] flex-1 md:flex-none">
                   <ChevronLeft className="mr-2 h-3 w-3" /> DIRECTORY
