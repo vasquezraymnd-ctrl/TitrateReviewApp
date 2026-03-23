@@ -48,7 +48,7 @@ export default function ImportPage() {
 
   const scrub = (str: string) => {
     if (!str) return "";
-    return str
+    let clean = str
       .replace(/<[^>]*>?/gm, ' ') 
       .replace(/&nbsp;/g, ' ')
       .replace(/&lt;/g, '<')
@@ -58,6 +58,13 @@ export default function ImportPage() {
       .replace(/Lelouch/gi, '')
       .replace(/\s\s+/g, ' ')
       .trim();
+    
+    // Handle Anki deck paths (A::B::Chapter Name)
+    if (clean.includes('::')) {
+      const parts = clean.split('::');
+      return parts[parts.length - 1].trim();
+    }
+    return clean;
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,6 +101,13 @@ export default function ImportPage() {
 
       for (let idx = 0; idx < lines.length; idx++) {
         const parts = lines[idx].split('\t');
+        
+        // STRICT PARSING RULES (0-indexed columns):
+        // Col 3 (parts[2]): Chapter Path
+        // Col 4 (parts[3]): Question Text
+        // Col 5-8 (parts[4-7]): Choices A, B, C, D
+        // Col 12-13 (parts[11-12]): Answer Text
+        
         if (parts.length < 8) continue;
 
         const chapter = scrub(parts[2]);
@@ -118,6 +132,7 @@ export default function ImportPage() {
 
         let subjectMatch = 'General';
         const context = (chapter + ' ' + qText).toLowerCase();
+        
         if (/hema|blood|rodak|keohane|harmening|coag|heme/.test(context)) subjectMatch = 'Hematology';
         else if (/micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(context)) subjectMatch = 'Microbiology';
         else if (/chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(context)) subjectMatch = 'Clinical Chemistry';
@@ -140,9 +155,9 @@ export default function ImportPage() {
 
       await db.bulkPut('questions', questions);
       setStats({ count: questions.length, subjects: Array.from(subjects) });
-      toast({ title: "Titration Successful", description: `Imported ${questions.length} strict-format cards.` });
+      toast({ title: "Titration Successful", description: `Imported ${questions.length} cards from specific chapters.` });
     } catch (err) {
-      toast({ variant: "destructive", title: "Titration Failed", description: "Error processing strict columns." });
+      toast({ variant: "destructive", title: "Titration Failed", description: "Error processing columns." });
     } finally {
       setImporting(false);
     }
@@ -159,7 +174,7 @@ export default function ImportPage() {
       await db.delete('modules', m.id);
     }
     setStats(null);
-    toast({ title: "Laboratory Purged", description: "Archive cleared." });
+    toast({ title: "Laboratory Purged", description: "All questions and modules have been deleted." });
   };
 
   return (
@@ -181,7 +196,7 @@ export default function ImportPage() {
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-red-500 font-black uppercase">TOTAL PURGE REQUIRED?</AlertDialogTitle>
                   <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                    This will permanently delete all clinical records and uploaded protocols.
+                    This will permanently delete all quiz questions, anki cards, and uploaded modules.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -220,8 +235,8 @@ export default function ImportPage() {
               <div>
                 <Database className="text-primary mb-6" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">Strict Anki Titration</h3>
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                  Import "Notes in Plain Text" using strict Column 3-13 alignment.
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-relaxed">
+                  Export "Notes in Plain Text" from Anki. Use strict Column 3 (Chapter), Column 4 (Question), Col 5-8 (Choices), and Col 12-13 (Answer).
                 </p>
               </div>
               <div className="mt-8 space-y-4">

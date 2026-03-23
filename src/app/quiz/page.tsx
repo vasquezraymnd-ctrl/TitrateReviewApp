@@ -48,31 +48,21 @@ export default function QuizPage() {
   const [step, setStep] = useState<'subject' | 'module' | 'quiz'>('subject');
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [modules, setModules] = useState<LabModule[]>([]);
-  const [hasAnkiCards, setHasAnkiCards] = useState(false);
   const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
   const [importing, setImporting] = useState(false);
   const [importProgress, setImportProgress] = useState(0);
   const [file, setFile] = useState<File | null>(null);
 
-  const [resetSubject, setResetSubject] = useState<string>('Hematology');
-  const [resetModulesList, setResetModulesList] = useState<LabModule[]>([]);
-
   const { toast } = useToast();
 
   useEffect(() => {
-    loadResetModules();
     countTotalAnki();
-  }, [resetSubject]);
+  }, []);
 
   const countTotalAnki = async () => {
     const all = await db.getAll<Question>('questions');
     setTotalAnkiInDb(all.length);
-  };
-
-  const loadResetModules = async () => {
-    const all = await db.getAll<LabModule>('modules');
-    setResetModulesList(all.filter(m => m.subject === resetSubject));
   };
 
   const handleSubjectSelect = async (subject: string) => {
@@ -83,10 +73,6 @@ export default function QuizPage() {
     const filteredModules = allModules.filter(m => m.subject === subject);
     setModules(filteredModules);
     
-    const allQuestions = await db.getAll<Question>('questions');
-    const filteredQuestions = allQuestions.filter(q => q.subject === subject);
-    setHasAnkiCards(filteredQuestions.length > 0);
-    
     setStep('module');
     setLoading(false);
   };
@@ -95,13 +81,13 @@ export default function QuizPage() {
     if (!selectedSubject) return;
     setLoading(true);
     const allQuestions = await db.getAll<Question>('questions');
-    const filtered = allQuestions.filter(q => q.subject === selectedSubject);
+    const filtered = allQuestions.filter(q => q.subject === selectedSubject || selectedSubject === 'General');
     
     if (filtered.length > 0) {
       setQuestions(filtered);
       setStep('quiz');
     } else {
-      toast({ title: "Archive Empty", description: "No titrated cards found for this sector." });
+      toast({ title: "Archive Empty", description: "No cards found for this sector." });
     }
     setLoading(false);
   };
@@ -179,11 +165,9 @@ export default function QuizPage() {
       const questionsToImport: Question[] = [];
       const total = lines.length;
 
-      if (total === 0) throw new Error("Archive is empty.");
-
       const scrub = (str: string) => {
         if (!str) return "";
-        let result = str
+        let clean = str
           .replace(/<[^>]*>?/gm, ' ') 
           .replace(/&nbsp;/g, ' ')
           .replace(/&lt;/g, '<')
@@ -191,25 +175,18 @@ export default function QuizPage() {
           .replace(/&amp;/g, '&')
           .replace(/Anki\s*ng\s*RMT/gi, '')
           .replace(/Lelouch/gi, '')
-          .replace(/SHOW\s*ANSWERS\s*IMMEDIATELY/gi, '')
-          .replace(/SUBMIT\s*AND\s*ESC/gi, '')
-          .replace(/AUTO\s*SUBMIT/gi, '')
-          .replace(/SHUFFLE\s*CHOICES/gi, '')
           .replace(/\s\s+/g, ' ')
           .trim();
-        return result;
+        
+        if (clean.includes('::')) {
+          const p = clean.split('::');
+          return p[p.length - 1].trim();
+        }
+        return clean;
       };
 
       for (let idx = 0; idx < total; idx++) {
-        const line = lines[idx];
-        const parts = line.split('\t'); 
-        
-        // STRICT PARSING RULES:
-        // Column 3 (parts[2]): Chapter/Path
-        // Column 4 (parts[3]): Question
-        // Columns 5-8 (parts[4-7]): Choices A, B, C, D
-        // Columns 12-13 (parts[11-12]): Answer
-        
+        const parts = lines[idx].split('\t'); 
         if (parts.length < 8) continue;
 
         const chapter = scrub(parts[2]);
@@ -227,16 +204,11 @@ export default function QuizPage() {
           { id: 'D', text: cD },
         ];
 
-        // Match answer text to choice ID
         let answerId = 'A';
         const match = choices.find(c => c.text.toLowerCase() === ansRaw.toLowerCase());
-        if (match) {
-          answerId = match.id;
-        } else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) {
-          answerId = ansRaw.toUpperCase();
-        }
+        if (match) answerId = match.id;
+        else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
 
-        // Sector Mapping Logic
         let subjectMatch = 'General';
         const context = (chapter + ' ' + qText).toLowerCase();
         
@@ -264,20 +236,11 @@ export default function QuizPage() {
 
       await db.bulkPut('questions', questionsToImport);
       await countTotalAnki();
-      
-      toast({
-        title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards following strict column alignment.`,
-      });
-      
+      toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards from specific chapters.` });
       setFile(null);
       if (selectedSubject) handleSubjectSelect(selectedSubject);
     } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Titration Failed",
-        description: err instanceof Error ? err.message : "Error processing archive.",
-      });
+      toast({ variant: "destructive", title: "Titration Failed", description: "Error processing archive." });
     } finally {
       setTimeout(() => {
         setImporting(false);
@@ -297,7 +260,7 @@ export default function QuizPage() {
       await db.delete('modules', m.id);
     }
     await countTotalAnki();
-    toast({ title: "Laboratory Purged", description: "All clinical cards and modules have been deleted." });
+    toast({ title: "Laboratory Purged", description: "All questions and modules deleted." });
     setStep('subject');
   };
 
@@ -306,8 +269,8 @@ export default function QuizPage() {
       <div className="flex h-screen bg-[#0b111a] items-center justify-center text-white flex-col gap-6">
         <Zap className="animate-pulse text-primary" size={64} />
         <div className="text-center">
-            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter text-white">Laboratory Protocol Sync</h2>
-            <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Accessing local clinical archives...</p>
+            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter">Laboratory Protocol Sync</h2>
+            <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Accessing local archives...</p>
         </div>
       </div>
     );
@@ -325,15 +288,9 @@ export default function QuizPage() {
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
                 <div className="border-b border-white/5 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                   <div>
-                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
+                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">Sector Selection</h2>
                     <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
                   </div>
-                  {totalAnkiInDb > 0 && (
-                     <button onClick={() => handleSubjectSelect('General')} className="bg-primary/10 border border-primary/30 px-4 py-2 flex items-center gap-2 hover:bg-primary hover:text-black transition-all">
-                       <Layers size={14} />
-                       <span className="text-[10px] font-black uppercase tracking-widest">Uncategorized Archive ({totalAnkiInDb})</span>
-                     </button>
-                  )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                   {CORE_SUBJECTS.map((subject) => (
@@ -359,21 +316,21 @@ export default function QuizPage() {
                         <ChevronLeft size={32} />
                       </Button>
                       <div>
-                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">{selectedSubject} Assays</h2>
+                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
                         <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a protocol or your titrated archive.</p>
                       </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {hasAnkiCards && (
+                  {totalAnkiInDb > 0 && (
                     <button 
                       onClick={startAnkiReview}
                       className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group"
                     >
                       <Layers size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
                       <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Anki Archive</h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Imported Data</p>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Cards</p>
                     </button>
                   )}
 
@@ -388,13 +345,6 @@ export default function QuizPage() {
                       <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">AI Assay Synthesis</p>
                     </button>
                   ))}
-
-                  {(!hasAnkiCards && modules.length === 0) && (
-                    <div className="col-span-full text-center py-24 xl:py-40 riot-card border border-dashed border-white/10 bg-white/[0.02]">
-                        <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
-                        <h3 className="text-xl xl:text-4xl font-black italic uppercase text-white">No Protocols Found</h3>
-                    </div>
-                  )}
                 </div>
               </div>
             )}
@@ -431,7 +381,7 @@ export default function QuizPage() {
               <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-6">
                 <div className="flex items-center gap-3">
                   <Upload className="text-primary" size={32} />
-                  <h3 className="text-xl font-black italic uppercase text-white">Strict Titration Import</h3>
+                  <h3 className="text-xl font-black italic uppercase">Strict Titration Import</h3>
                 </div>
                 {importing && (
                   <div className="space-y-2">
@@ -454,7 +404,7 @@ export default function QuizPage() {
                   />
                   <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
                     <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
-                      {file ? file.name : 'CHOOSE .TXT (STRICT COLS)'}
+                      {file ? file.name : 'CHOOSE .TXT (STRICT)'}
                     </label>
                   </Button>
                   <Button 
