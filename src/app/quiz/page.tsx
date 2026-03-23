@@ -186,10 +186,9 @@ export default function QuizPage() {
         const parts = line.split('\t'); 
         if (parts.length < 2) continue;
 
-        // Clean HTML tags and scrubbing patterns
         const cleanAndScrub = (str: string) => {
           let scrubbed = str
-            .replace(/<[^>]*>?/gm, '') // Remove HTML tags
+            .replace(/<[^>]*>?/gm, ' ') // Remove HTML tags, replace with space
             .replace(/&nbsp;/g, ' ')
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>')
@@ -197,7 +196,6 @@ export default function QuizPage() {
             .replace(/^"|"$/g, '')
             .trim();
 
-          // SCRUB JUNK PHRASES
           const junk = [
             /ANKI\s*ng\s*RMT/gi,
             /LELOUCH/gi,
@@ -205,7 +203,7 @@ export default function QuizPage() {
             /AUTO\s*SUBMIT/gi,
             /SHUFFLE\s*CHOICES/gi,
             /SUBMIT\s*AND\s*ESC/gi,
-            /\[.*?\]/g, // Remove brackets
+            /\[.*?\]/g, 
             /–/g,
             /—/g
           ];
@@ -221,10 +219,76 @@ export default function QuizPage() {
         const rawBack = parts[1];
         const tagsRaw = (parts[2] || 'General').toLowerCase();
 
-        const front = cleanAndScrub(rawFront);
-        const back = cleanAndScrub(rawBack);
+        // 1. IMPROVED CHOICE DETECTION LOGIC
+        // We look for patterns like A. A) (A) 1. 1) at the start of blocks
+        const choicePattern = /(?:\s|^)\b([A-D]|[1-4])[\)\.]\s+/gi;
         
-        // Subject Mapping based on authors or topics
+        // Split front by common delimiters to check for choices line by line
+        const frontSegments = rawFront.split(/(?:<br\s*\/?>|<div>|<div>|<p>|\n)/i).map(l => l.trim()).filter(l => l.length > 0);
+        
+        const detectedChoices: {id: string, text: string}[] = [];
+        let finalQuestionText = "";
+        let collectingChoices = false;
+
+        frontSegments.forEach((seg) => {
+          const scrubbedSeg = cleanAndScrub(seg);
+          if (!scrubbedSeg) return;
+
+          // Check if this segment starts with a choice indicator
+          const choiceMatch = scrubbedSeg.match(/^([A-D]|[1-4])[\)\.]\s+(.*)$/i);
+          
+          if (choiceMatch) {
+            collectingChoices = true;
+            detectedChoices.push({
+              id: choiceMatch[1].toUpperCase().replace('1', 'A').replace('2', 'B').replace('3', 'C').replace('4', 'D'),
+              text: choiceMatch[2].trim()
+            });
+          } else if (!collectingChoices) {
+            // If we haven't hit choices yet, it's still part of the question
+            finalQuestionText += (finalQuestionText ? " " : "") + scrubbedSeg;
+          } else {
+            // If we are already collecting choices but this line doesn't start with one,
+            // it might be a multi-line choice (rare but possible)
+            if (detectedChoices.length > 0) {
+              detectedChoices[detectedChoices.length - 1].text += " " + scrubbedSeg;
+            }
+          }
+        });
+
+        // If no choices found via line splitting, try regex search on the whole block
+        if (detectedChoices.length === 0) {
+           const scrubbedFullFront = cleanAndScrub(rawFront);
+           // Simple check: does it look like "Question? A. Answer1 B. Answer2"
+           const multiChoiceRegex = /\b([A-D]|[1-4])[\)\.]\s+(.+?)(?=\s+\b[A-D]|[1-4][\)\.]|$)/gi;
+           let m;
+           const matches = [];
+           while ((m = multiChoiceRegex.exec(scrubbedFullFront)) !== null) {
+              matches.push({
+                id: m[1].toUpperCase().replace('1', 'A').replace('2', 'B').replace('3', 'C').replace('4', 'D'),
+                text: m[2].trim()
+              });
+           }
+
+           if (matches.length >= 2) {
+             // Found choices in the string. The question is everything before the first choice.
+             const firstChoiceIndex = scrubbedFullFront.search(/\b([A-D]|[1-4])[\)\.]\s+/i);
+             finalQuestionText = scrubbedFullFront.substring(0, firstChoiceIndex).trim();
+             detectedChoices.push(...matches);
+           } else {
+             finalQuestionText = scrubbedFullFront;
+           }
+        }
+
+        // Final validation: Question shouldn't be empty
+        if (!finalQuestionText && detectedChoices.length > 0) {
+          finalQuestionText = "Clinical Case Study / Question (Refer to choices)";
+        }
+
+        if (detectedChoices.length === 0) {
+          detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
+        }
+
+        // Subject Mapping
         let subjectMatch = 'General';
         const isHema = /hema|blood|rodak|keohane|harmening|coag|heme/.test(tagsRaw);
         const isMicro = /micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(tagsRaw);
@@ -240,43 +304,13 @@ export default function QuizPage() {
         else if (isCM) subjectMatch = 'Clinical Microscopy';
         else if (isHTMLE) subjectMatch = 'HTMLE';
 
-        // Auto-detect multiple choices
-        const choicePattern = /^([A-D]|[1-4])[\).]\s*(.*)$/i;
-        const frontLines = rawFront.split(/<br\s*\/?>|\n/i).map(l => cleanAndScrub(l)).filter(l => l.length > 0);
-        
-        const detectedChoices: {id: string, text: string}[] = [];
-        let questionText = front;
-
-        if (frontLines.length > 1) {
-          const potentialChoices = frontLines.filter(line => choicePattern.test(line));
-          if (potentialChoices.length >= 2) {
-            questionText = frontLines.filter(line => !choicePattern.test(line)).join(' ');
-            // Re-scrub question text to ensure metadata is gone from concatenated lines
-            questionText = cleanAndScrub(questionText);
-            
-            potentialChoices.forEach(choiceLine => {
-              const match = choiceLine.match(choicePattern);
-              if (match) {
-                detectedChoices.push({
-                  id: match[1].toUpperCase().replace('1', 'A').replace('2', 'B').replace('3', 'C').replace('4', 'D'),
-                  text: match[2].trim()
-                });
-              }
-            });
-          }
-        }
-
-        if (detectedChoices.length === 0) {
-          detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
-        }
-
         questionsToImport.push({
           id: `titrate-${Date.now()}-${idx}`,
           subject: subjectMatch,
-          question: questionText,
+          question: finalQuestionText,
           choices: detectedChoices,
-          answerId: 'A',
-          rationale: back,
+          answerId: 'A', // Default to A as Anki doesn't always specify MCQ correctness
+          rationale: cleanAndScrub(rawBack),
           tags: tagsRaw.split(' ').filter(t => t.length > 0),
         });
 
@@ -290,11 +324,12 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards. Metadata purged.`,
+        description: `Recorded ${questionsToImport.length} clinical cards. Metadata purged and choices arranged.`,
       });
       
       setFile(null);
       if (selectedSubject) handleSubjectSelect(selectedSubject);
+      else window.location.reload(); // Hard refresh to show uncategorized archive count
     } catch (err) {
       toast({
         variant: "destructive",
@@ -317,6 +352,7 @@ export default function QuizPage() {
     }
     await countTotalAnki();
     toast({ title: "Laboratory Purged", description: "All clinical records deleted." });
+    setStep('subject');
   };
 
   if (loading) {
