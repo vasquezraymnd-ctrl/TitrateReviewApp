@@ -8,7 +8,6 @@ import { db, Question, Progress, LabModule, CORE_SUBJECTS } from '@/lib/db';
 import { calculateSM2 } from '@/lib/sm2';
 import { QuestionCard } from '@/components/quiz/QuestionCard';
 import { Button } from '@/components/ui/button';
-import { Progress as ProgressBar } from '@/components/ui/progress';
 import { 
   Trophy, 
   ChevronRight, 
@@ -168,6 +167,14 @@ export default function QuizPage() {
     }
   };
 
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+    } else {
+      setStep('module');
+    }
+  };
+
   const processAnkiExport = async () => {
     if (!file) return;
     setImporting(true);
@@ -203,7 +210,7 @@ export default function QuizPage() {
             /AUTO\s*SUBMIT/gi,
             /SHUFFLE\s*CHOICES/gi,
             /SUBMIT\s*AND\s*ESC/gi,
-            /\(\s*\)/g, // Remove empty parenthesis clumped with choices
+            /\(\s*\)/g,
             /\[.*?\]/g, 
             /–/g,
             /—/g
@@ -230,7 +237,6 @@ export default function QuizPage() {
           const scrubbedSeg = cleanAndScrub(seg);
           if (!scrubbedSeg) return;
 
-          // Detect line starting with A. or A)
           const choiceMatch = scrubbedSeg.match(/^([A-D]|[1-4])[\)\.]\s*(.*)$/i);
           
           if (choiceMatch) {
@@ -248,13 +254,11 @@ export default function QuizPage() {
           }
         });
 
-        // Aggressive Heuristic for clumped choices (e.g., CDC OSHA CLSI CLIA)
         const scrubbedFullFront = cleanAndScrub(rawFront);
         if (detectedChoices.length === 0) {
           const questionMarkIndex = scrubbedFullFront.lastIndexOf('?');
           if (questionMarkIndex !== -1 && questionMarkIndex < scrubbedFullFront.length - 5) {
             const potentialChoiceBlock = scrubbedFullFront.substring(questionMarkIndex + 1).trim();
-            // Split by double spaces or specific word patterns
             const splitChoices = potentialChoiceBlock.split(/\s{2,}|(?=\b[A-Z]{3,}\b)/).filter(s => s.trim().length > 0);
             
             if (splitChoices.length >= 2 && splitChoices.length <= 5) {
@@ -274,7 +278,6 @@ export default function QuizPage() {
           detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
         }
 
-        // Subject Mapping
         let subjectMatch = 'General';
         const isHema = /hema|blood|rodak|keohane|harmening|coag|heme/.test(tagsRaw);
         const isMicro = /micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(tagsRaw);
@@ -454,23 +457,11 @@ export default function QuizPage() {
 
             {step === 'quiz' && !completed && (
               <div className="animate-in fade-in duration-700 max-w-5xl mx-auto w-full">
-                <div className="flex items-center justify-between mb-12">
-                  <div className="flex-1 mr-8">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] xl:text-[12px] font-black text-muted-foreground uppercase tracking-widest">Assay Precision</span>
-                      <span className="text-[10px] xl:text-[12px] font-black text-primary uppercase tracking-widest">{currentIndex + 1} / {questions.length}</span>
-                    </div>
-                    <ProgressBar value={((currentIndex + 1) / questions.length) * 100} className="h-1 bg-white/5" />
-                  </div>
-                  <Button variant="ghost" className="text-red-500 font-black uppercase text-[10px] xl:text-[12px] tracking-widest" onClick={() => setCompleted(true)}>
-                    Abort
-                  </Button>
-                </div>
-
                 <QuestionCard 
                   key={questions[currentIndex].id}
                   question={questions[currentIndex]} 
-                  onAnswer={handleAnswer} 
+                  onAnswer={handleAnswer}
+                  onPrevious={handlePrevious}
                 />
               </div>
             )}
@@ -530,7 +521,9 @@ export default function QuizPage() {
                         <span>Titrating Archive...</span>
                         <span>{importProgress}%</span>
                       </div>
-                      <ProgressBar value={importProgress} className="h-1 bg-white/5" />
+                      <div className="h-1 bg-white/5 w-full relative overflow-hidden">
+                        <div className="absolute inset-0 bg-primary transition-all duration-300" style={{ width: `${importProgress}%` }} />
+                      </div>
                     </div>
                   )}
 

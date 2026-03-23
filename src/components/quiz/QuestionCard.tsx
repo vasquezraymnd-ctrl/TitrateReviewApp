@@ -4,28 +4,32 @@
 import { useState } from 'react';
 import { Question } from '@/lib/db';
 import { cn } from '@/lib/utils';
-import { ShieldCheck, ShieldAlert, Microscope, ChevronRight, Eye, EyeOff } from 'lucide-react';
+import { ShieldCheck, Microscope, ChevronRight, Eye, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
 interface QuestionCardProps {
   question: Question;
   onAnswer: (quality: number) => void;
+  onPrevious: () => void;
 }
 
-export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
+export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [showRationale, setShowRationale] = useState(false);
   const [isFlashcardMode, setIsFlashcardMode] = useState(false);
   const [showFlashcardAnswer, setShowFlashcardAnswer] = useState(false);
 
   const handleSelect = (choiceId: string) => {
     if (selectedId) return;
     setSelectedId(choiceId);
-    setShowRationale(true);
   };
 
-  const isCorrect = selectedId === question.answerId;
+  const handleNext = () => {
+    // Pass a default high quality for progression
+    onAnswer(5);
+  };
+
+  const isRevealed = !!selectedId || showFlashcardAnswer;
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6 md:space-y-8 animate-in fade-in zoom-in duration-500">
@@ -39,7 +43,6 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
           onCheckedChange={(val) => {
             setIsFlashcardMode(val);
             setSelectedId(null);
-            setShowRationale(false);
             setShowFlashcardAnswer(false);
           }} 
         />
@@ -111,10 +114,7 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
             <div className="space-y-6">
                {!showFlashcardAnswer ? (
                  <Button 
-                   onClick={() => {
-                     setShowFlashcardAnswer(true);
-                     setShowRationale(true);
-                   }}
+                   onClick={() => setShowFlashcardAnswer(true)}
                    className="riot-button w-full h-16 md:h-20 bg-primary text-black font-black tracking-[0.2em] text-xs md:text-sm"
                  >
                    REVEAL CLINICAL DATA
@@ -132,53 +132,24 @@ export function QuestionCard({ question, onAnswer }: QuestionCardProps) {
         </div>
       </div>
 
-      {showRationale && (
-        <div className="space-y-4 md:space-y-6 animate-in slide-in-from-bottom-8 duration-700 pb-20 lg:pb-0">
-          <div className="riot-card bg-[#1a2430] p-6 md:p-12 border border-white/10 relative">
-             <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
-               <div className={cn("p-1.5 md:p-2 border rounded-none", (isCorrect || isFlashcardMode) ? "border-primary/30 text-primary" : "border-red-500/30 text-red-500")}>
-                 {(isCorrect || isFlashcardMode) ? <ShieldCheck size={20} className="md:size-7" /> : <ShieldAlert size={20} className="md:size-7" />}
-               </div>
-               <div>
-                 <h4 className="font-black italic uppercase tracking-widest text-sm md:text-lg">
-                   {(isCorrect || isFlashcardMode) ? "Protocol Verified" : "Review Required"}
-                 </h4>
-                 <p className="text-[8px] md:text-[10px] font-bold text-muted-foreground uppercase tracking-[0.3em]">Clinical Rationale</p>
-               </div>
-             </div>
-             
-             <div className="space-y-4 mb-8 md:mb-12 border-l-2 border-primary/20 pl-4 md:pl-8">
-               <span className="text-primary font-black text-[9px] md:text-[11px] tracking-[0.4em] uppercase block">Assay Report</span>
-               <p className="text-white/80 text-sm md:text-lg leading-relaxed italic font-medium">
-                 {question.rationale}
-               </p>
-             </div>
-
-             <div className="border-t border-white/5 pt-8 md:pt-12 flex flex-col items-center">
-                <div className="flex flex-col items-center mb-6 md:mb-10 text-center">
-                  <p className="text-[9px] md:text-[11px] font-black text-muted-foreground uppercase tracking-[0.4em]">Rate Precision</p>
-                  <p className="text-[8px] font-bold text-primary/40 uppercase tracking-widest mt-1">Calibrate SR Algorithm</p>
-                </div>
-                
-                <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-                  {[0, 1, 2, 3, 4, 5].map((q) => (
-                    <button
-                      key={q}
-                      className="w-10 h-10 md:w-16 md:h-16 bg-white/[0.03] border border-white/10 flex flex-col items-center justify-center group hover:bg-primary hover:text-black transition-all duration-300 relative"
-                      onClick={() => onAnswer(q)}
-                    >
-                      <span className="font-black italic text-sm md:text-2xl">{q}</span>
-                    </button>
-                  ))}
-                </div>
-                <div className="flex justify-between w-full max-w-[280px] md:max-w-sm mt-3 px-1">
-                  <span className="text-[8px] md:text-[9px] font-black text-muted-foreground uppercase tracking-widest">Blackout</span>
-                  <span className="text-[8px] md:text-[9px] font-black text-primary uppercase tracking-widest">Flawless</span>
-                </div>
-             </div>
-          </div>
-        </div>
-      )}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-8">
+        <Button 
+          variant="outline" 
+          onClick={onPrevious}
+          className="riot-button h-14 md:h-16 px-10 border-white/10 text-white font-black text-[10px] tracking-widest w-full sm:w-auto"
+        >
+          <ChevronLeft className="mr-2 h-4 w-4" /> BACK
+        </Button>
+        
+        {isRevealed && (
+          <Button 
+            onClick={handleNext}
+            className="riot-button h-14 md:h-16 px-12 bg-primary text-black font-black text-[10px] tracking-widest w-full sm:w-auto animate-in slide-in-from-bottom-4"
+          >
+            NEXT QUESTION <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
