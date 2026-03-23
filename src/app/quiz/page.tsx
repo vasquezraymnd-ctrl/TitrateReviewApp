@@ -23,7 +23,9 @@ import {
   Layers,
   Trash2,
   FileText,
-  Archive
+  Archive,
+  RotateCcw,
+  Target
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -58,7 +60,7 @@ export default function QuizPage() {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [importSubject, setImportSubject] = useState<string>('Clinical Microscopy');
   const [modules, setModules] = useState<LabModule[]>([]);
-  const [chapters, setChapters] = useState<string[]>([]);
+  const [chapters, setChapters] = useState<{ name: string; score: number }[]>([]);
   const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
   const [importing, setImporting] = useState(false);
@@ -89,32 +91,63 @@ export default function QuizPage() {
     const filteredModules = allModules.filter(m => m.subject === subject);
     setModules(filteredModules);
 
-    // Load Anki Chapters
+    // Load Anki Chapters and Calculate Scores
     const allQuestions = await db.getAll<Question>('questions');
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
+    const allProgress = await db.getAll<Progress>('progress');
     
-    // NATURAL SORT: Chapter 2 comes before Chapter 10
-    const uniqueChapters = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
+    const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
-    setChapters(uniqueChapters);
+    const chaptersWithScores = uniqueChapterNames.map(name => {
+        const chapterQs = subjectQuestions.filter(q => q.tags[0] === name);
+        const chapterProgress = allProgress.filter(p => chapterQs.some(q => q.id === p.questionId));
+        // Mastery score based on questions with at least 1 repetition
+        const masteredCount = chapterProgress.filter(p => (p.repetition || 0) > 0).length;
+        const score = chapterQs.length > 0 ? Math.round((masteredCount / chapterQs.length) * 100) : 0;
+        return { name, score };
+    });
+
+    setChapters(chaptersWithScores);
     setStep('module');
     setLoading(false);
   };
 
-  const startChapterAssay = async (chapter: string) => {
+  const startChapterAssay = async (chapterName: string) => {
     if (!selectedSubject) return;
     setLoading(true);
     const allQuestions = await db.getAll<Question>('questions');
-    const filtered = allQuestions.filter(q => q.subject === selectedSubject && q.tags.includes(chapter));
+    const filtered = allQuestions.filter(q => q.subject === selectedSubject && q.tags.includes(chapterName));
     
     if (filtered.length > 0) {
       setQuestions(filtered);
       setStep('quiz');
+      setCurrentIndex(0);
+      setCompleted(false);
     } else {
       toast({ title: "Chapter Empty", description: "No titrated data found for this chapter." });
     }
     setLoading(false);
+  };
+
+  const resetChapterProgress = async (chapterName: string) => {
+    if (!selectedSubject) return;
+    setLoading(true);
+    try {
+      const allQuestions = await db.getAll<Question>('questions');
+      const chapterQs = allQuestions.filter(q => q.subject === selectedSubject && q.tags.includes(chapterName));
+      
+      for (const q of chapterQs) {
+        await db.delete('progress', q.id);
+      }
+      
+      toast({ title: "Progress Calibrated", description: `Reset study data for ${chapterName}.` });
+      handleSubjectSelect(selectedSubject); // Refresh scores
+    } catch (err) {
+      toast({ variant: "destructive", title: "Calibration Failed", description: "Could not reset progress." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const startModuleAssay = async (module: LabModule) => {
@@ -140,6 +173,8 @@ export default function QuizPage() {
       if (result.questions && result.questions.length > 0) {
         setQuestions(result.questions);
         setStep('quiz');
+        setCurrentIndex(0);
+        setCompleted(false);
       } else {
         throw new Error("AI failed to synthesize assay.");
       }
@@ -214,18 +249,14 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 8) continue;
 
-        // STRICT COLUMN MAPPING
-        // Col 3 (Index 2): Chapter
+        // STRICT COLUMN MAPPING (Col 3-13)
         const chapterRaw = parts[2] || "";
         const chapter = scrub(chapterRaw) || "Uncategorized";
-        // Col 4 (Index 3): Question
         const qText = scrub(parts[3]);
-        // Col 5-8 (Index 4-7): Choices
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
         const cC = scrub(parts[6]);
         const cD = scrub(parts[7]);
-        // Col 12-13 (Index 11-12): Answer
         const ansRaw = scrub(parts[11] || parts[12] || "");
 
         const choices = [
@@ -348,19 +379,36 @@ export default function QuizPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {/* Each Chapter is its own archive, sorted ascendingly */}
                   {chapters.map((chapter) => (
-                    <button 
-                      key={chapter}
-                      onClick={() => startChapterAssay(chapter)}
-                      className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group text-left"
-                    >
-                      <Archive size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black truncate w-full">
-                        {chapter}
-                      </h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Chapter Archive</p>
-                    </button>
+                    <div key={chapter.name} className="relative group">
+                      <button 
+                        onClick={() => startChapterAssay(chapter.name)}
+                        className="riot-card w-full p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all text-left"
+                      >
+                        <div className="flex justify-between items-start mb-4">
+                          <Archive size={24} className="text-primary group-hover:text-black xl:size-32" />
+                          <div className="text-right">
+                             <span className="text-2xl xl:text-4xl font-black italic text-primary/50 group-hover:text-black/50">{chapter.score}%</span>
+                             <p className="text-[8px] font-black uppercase tracking-widest opacity-60">Mastery</p>
+                          </div>
+                        </div>
+                        <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black truncate w-full">
+                          {chapter.name}
+                        </h4>
+                        <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Chapter Archive</p>
+                      </button>
+                      
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          resetChapterProgress(chapter.name);
+                        }}
+                        className="absolute bottom-4 right-4 p-2 bg-black/40 hover:bg-red-500/20 text-white/20 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100 z-20"
+                        title="Reset Progress"
+                      >
+                        <RotateCcw size={14} />
+                      </button>
+                    </div>
                   ))}
 
                   {modules.map((m) => (
@@ -471,7 +519,7 @@ export default function QuizPage() {
                 </div>
               </div>
 
-              <div className="riot-card bg-red-500/5 border border-red-500/20 p-8 flex flex-col justify-center text-center">
+              <div className="riot-card bg-red-500/5 border border-red-500/20 p-8 flex flex-col justify-center space-y-4">
                  <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="ghost" className="text-red-500 hover:bg-red-500/10 font-black text-[10px] uppercase tracking-widest h-12">
@@ -491,6 +539,18 @@ export default function QuizPage() {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
+                  
+                  <div className="border-t border-red-500/10 pt-4 flex flex-col gap-2">
+                    <p className="text-[8px] font-black uppercase text-red-500/60 tracking-widest text-center">Specific Protocol Calibration</p>
+                    <Button 
+                      variant="ghost" 
+                      className="text-white/40 hover:text-white font-black text-[10px] uppercase tracking-widest h-10 border border-white/5"
+                      onClick={() => setStep('subject')}
+                      disabled={step === 'subject'}
+                    >
+                      <Target className="mr-2 h-3 w-3" /> RESET SPECIFIC SUBJECT
+                    </Button>
+                  </div>
               </div>
             </div>
           </div>
