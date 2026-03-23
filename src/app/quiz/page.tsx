@@ -180,10 +180,12 @@ export default function QuizPage() {
     
     try {
       const text = await file.text();
+      // Handle both Windows and Unix line endings
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questionsToImport: Question[] = [];
 
       lines.forEach((line, idx) => {
+        // Anki plain text export is Tab-Separated
         const parts = line.split('\t'); 
         if (parts.length < 2) return;
 
@@ -220,16 +222,23 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards.`,
+        description: `Recorded ${questionsToImport.length} clinical cards in laboratory.`,
       });
       
       setFile(null);
-      if (selectedSubject) handleSubjectSelect(selectedSubject);
+      // Reset input if possible
+      const input = document.getElementById('anki-upload-quiz') as HTMLInputElement;
+      if (input) input.value = '';
+
+      // If a subject was already selected, refresh the module list to show Anki
+      if (selectedSubject) {
+        handleSubjectSelect(selectedSubject);
+      }
     } catch (err) {
       toast({
         variant: "destructive",
         title: "Titration Failed",
-        description: err instanceof Error ? err.message : "Error processing file.",
+        description: err instanceof Error ? err.message : "Error processing clinical archive.",
       });
     } finally {
       setImporting(false);
@@ -260,7 +269,7 @@ export default function QuizPage() {
       <div className="flex h-screen bg-[#0b111a] items-center justify-center text-white flex-col gap-6">
         <Zap className="animate-pulse text-primary" size={64} />
         <div className="text-center">
-            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter">Laboratory Protocol Sync</h2>
+            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter text-white">Laboratory Protocol Sync</h2>
             <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Accessing local clinical archives...</p>
         </div>
       </div>
@@ -279,7 +288,7 @@ export default function QuizPage() {
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
                 <div className="border-b border-white/5 pb-8 flex justify-between items-end">
                   <div>
-                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">Sector Selection</h2>
+                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
                     <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
                   </div>
                   {totalAnkiInDb > 0 && (
@@ -296,9 +305,9 @@ export default function QuizPage() {
                       onClick={() => handleSubjectSelect(subject)}
                       className="riot-card p-10 xl:p-14 bg-white/[0.02] border border-white/5 hover:bg-primary hover:text-black transition-all group"
                     >
-                      <Microscope size={32} className="mb-6 group-hover:scale-110 transition-transform xl:size-48" />
-                      <h3 className="text-2xl xl:text-4xl font-black italic uppercase tracking-tighter">{subject}</h3>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 mt-2 uppercase tracking-widest">Initiate Assay</p>
+                      <Microscope size={32} className="mb-6 group-hover:scale-110 transition-transform xl:size-48 text-primary group-hover:text-black" />
+                      <h3 className="text-2xl xl:text-4xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">{subject}</h3>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 mt-2 uppercase tracking-widest group-hover:text-black">Initiate Assay</p>
                     </button>
                   ))}
                 </div>
@@ -313,7 +322,7 @@ export default function QuizPage() {
                         <ChevronLeft size={32} />
                       </Button>
                       <div>
-                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
+                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">{selectedSubject} Assays</h2>
                         <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a protocol or your imported archive.</p>
                       </div>
                   </div>
@@ -326,8 +335,8 @@ export default function QuizPage() {
                       className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group"
                     >
                       <Layers size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter">Anki Review Archive</h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2">Practice Imported Cards</p>
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Anki Review Archive</h4>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Imported Cards</p>
                       <div className="mt-6 flex justify-end">
                          <div className="w-10 h-10 xl:w-14 xl:h-14 bg-black/20 group-hover:bg-black/40 flex items-center justify-center">
                             <ChevronRight />
@@ -343,7 +352,7 @@ export default function QuizPage() {
                       className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:border-primary/50 text-left group"
                     >
                       <BookOpen size={24} className="mb-4 text-primary xl:size-32" />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter">{m.name}</h4>
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white">{m.name}</h4>
                       <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">AI Assay Synthesis</p>
                       <div className="mt-6 flex justify-end">
                          <div className="w-10 h-10 xl:w-14 xl:h-14 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
@@ -356,7 +365,7 @@ export default function QuizPage() {
                   {(!hasAnkiCards && modules.length === 0) && (
                     <div className="col-span-full text-center py-24 xl:py-40 riot-card border border-dashed border-white/10 bg-white/[0.02]">
                         <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
-                        <h3 className="text-xl xl:text-4xl font-black italic uppercase">No Protocols Found</h3>
+                        <h3 className="text-xl xl:text-4xl font-black italic uppercase text-white">No Protocols Found</h3>
                         <p className="text-xs xl:text-lg font-bold text-muted-foreground uppercase tracking-widest mb-8 px-6">
                           Import an Anki archive below or upload PDFs to the Protocol Archives.
                         </p>
@@ -416,7 +425,7 @@ export default function QuizPage() {
                 <div className="flex items-center gap-3">
                   <Database className="text-primary/70" size={24} />
                   <div>
-                    <h3 className="text-xl font-black italic uppercase tracking-tighter">Laboratory Import Center</h3>
+                    <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Laboratory Import Center</h3>
                     <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate your clinical library via Anki archives.</p>
                   </div>
                 </div>
@@ -431,7 +440,7 @@ export default function QuizPage() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <Upload className="text-primary" size={32} />
-                      <h3 className="text-xl font-black italic uppercase">Anki Titration</h3>
+                      <h3 className="text-xl font-black italic uppercase text-white">Anki Titration</h3>
                     </div>
                     <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
                       Select your Tab-Separated .txt export from Anki.
