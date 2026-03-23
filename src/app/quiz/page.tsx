@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -18,13 +17,11 @@ import {
   Zap, 
   AlertCircle, 
   RefreshCw,
-  FileJson,
   Database,
   Upload
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
-import { generateQuestions } from '@/ai/flows/question-generator';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
@@ -58,8 +55,6 @@ export default function QuizPage() {
   
   // Titration / Import State
   const [importing, setImporting] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [selectedAiSubject, setSelectedAiSubject] = useState<string>('Hematology');
   const [file, setFile] = useState<File | null>(null);
 
   // Reset States
@@ -142,80 +137,6 @@ export default function QuizPage() {
     }
   };
 
-  // --- Titration / Import Handlers ---
-
-  const seedHighYieldDeck = async () => {
-    setImporting(true);
-    const medTechDeck: Question[] = [
-      {
-        id: 'anki-hema-1',
-        subject: 'Hematology',
-        question: 'What is the hallmark cell found in Hodgkin\'s Lymphoma, described as having an "Owl-Eye" appearance?',
-        choices: [
-          { id: 'A', text: 'Pappenheimer Cell' },
-          { id: 'B', text: 'Reed-Sternberg Cell' },
-          { id: 'C', text: 'Sézary Cell' },
-          { id: 'D', text: 'Pelger-Huet Cell' },
-        ],
-        answerId: 'B',
-        rationale: 'Reed-Sternberg cells are large, binucleated or multinucleated cells (typically with prominent nucleoli) essential for the diagnosis of Hodgkin\'s Lymphoma.',
-        tags: ['Anki', 'Lymphoma', 'Morphology'],
-      },
-      {
-        id: 'anki-micro-1',
-        subject: 'Microbiology',
-        question: 'Which biochemical test is primarily used to differentiate Staphylococcus aureus from other Staphylococci?',
-        choices: [
-          { id: 'A', text: 'Catalase' },
-          { id: 'B', text: 'Coagulase' },
-          { id: 'C', text: 'Oxidase' },
-          { id: 'D', text: 'Urease' },
-        ],
-        answerId: 'B',
-        rationale: 'Coagulase is the primary enzyme used to differentiate S. aureus (+) from coagulase-negative staphylococci.',
-        tags: ['Anki', 'Staph', 'Biochemical'],
-      }
-    ];
-
-    try {
-      await db.bulkPut('questions', medTechDeck);
-      toast({
-        title: "MedTech Board Deck Titrated",
-        description: "High-yield flashcards have been synchronized.",
-      });
-    } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Titration Failed",
-        description: "Could not populate sample deck.",
-      });
-    } finally {
-      setImporting(false);
-    }
-  };
-
-  const handleAiGeneration = async () => {
-    setGenerating(true);
-    try {
-      const result = await generateQuestions({ subject: selectedAiSubject, count: 5 });
-      if (result.questions && result.questions.length > 0) {
-        await db.bulkPut('questions', result.questions);
-        toast({
-          title: "AI Synthesis Complete",
-          description: `Generated 5 high-yield ${selectedAiSubject} board-style questions.`,
-        });
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Synthesis Error",
-        description: "Laboratory AI failed to generate clinical content.",
-      });
-    } finally {
-      setGenerating(false);
-    }
-  };
-
   const processAnkiExport = async () => {
     if (!file) return;
     setImporting(true);
@@ -223,7 +144,7 @@ export default function QuizPage() {
     try {
       const text = await file.text();
       const lines = text.split('\n').filter(line => line.trim().length > 0);
-      const questions: Question[] = [];
+      const questionsToImport: Question[] = [];
 
       lines.forEach((line, idx) => {
         const parts = line.split('\t'); 
@@ -238,7 +159,7 @@ export default function QuizPage() {
           tagsRaw.toLowerCase().includes(s.toLowerCase())
         ) || 'General';
 
-        questions.push({
+        questionsToImport.push({
           id: `anki-${Date.now()}-${idx}`,
           subject: subjectMatch,
           question: front,
@@ -254,15 +175,16 @@ export default function QuizPage() {
         });
       });
 
-      if (questions.length === 0) {
+      if (questionsToImport.length === 0) {
         throw new Error("No valid flashcards found in the archive.");
       }
 
-      await db.bulkPut('questions', questions);
+      await db.bulkPut('questions', questionsToImport);
       toast({
         title: "Titration Successful",
-        description: `Imported ${questions.length} cards from Anki archive.`,
+        description: `Imported ${questionsToImport.length} cards from Anki archive.`,
       });
+      setFile(null);
     } catch (err) {
       toast({
         variant: "destructive",
@@ -436,68 +358,21 @@ export default function QuizPage() {
                 <div className="flex items-center gap-3">
                   <Database className="text-primary/70" size={24} />
                   <div>
-                    <h3 className="text-xl font-black italic uppercase tracking-tighter">Laboratory Titration Center</h3>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Populate your clinical library via AI synthesis or Anki archives.</p>
+                    <h3 className="text-xl font-black italic uppercase tracking-tighter">Laboratory Import Center</h3>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate your clinical library via Anki archives.</p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                  {/* AI Generation */}
-                  <div className="riot-card bg-primary/5 border border-primary/20 p-8 flex flex-col justify-between">
-                    <div>
-                      <Zap className="text-primary mb-6 animate-pulse" size={32} />
-                      <h3 className="text-xl font-black italic uppercase mb-2">AI Synthesis</h3>
-                      <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest mb-6">
-                        Generate ASCP-style questions mimicking review books like Stevens and Rodak's.
-                      </p>
-                      <div className="space-y-4">
-                         <Label className="text-[9px] font-black uppercase tracking-widest">Clinical Sector</Label>
-                         <Select value={selectedAiSubject} onValueChange={setSelectedAiSubject}>
-                          <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
-                            <SelectValue placeholder="Select Subject" />
-                          </SelectTrigger>
-                          <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
-                            {CORE_SUBJECTS.map((s) => (
-                              <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
-                            ))}
-                          </SelectContent>
-                         </Select>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Anki Titration Card */}
+                  <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <Upload className="text-primary" size={32} />
+                        <h3 className="text-xl font-black italic uppercase">Anki Titration</h3>
                       </div>
-                    </div>
-                    <Button 
-                      onClick={handleAiGeneration}
-                      disabled={generating}
-                      className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]"
-                    >
-                      {generating ? <Loader2 className="animate-spin" /> : 'SYNTHESIZE ASSAY'}
-                    </Button>
-                  </div>
-
-                  {/* Trial Deck */}
-                  <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
-                    <div>
-                      <FileJson className="text-primary mb-6" size={32} />
-                      <h3 className="text-xl font-black italic uppercase mb-2">Trial MedTech Deck</h3>
                       <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                        Quick-load high-yield clinical cards from core sectors to test the laboratory interface.
-                      </p>
-                    </div>
-                    <Button 
-                      onClick={seedHighYieldDeck}
-                      disabled={importing}
-                      className="riot-button h-12 mt-8 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
-                    >
-                      {importing ? <Loader2 className="animate-spin" /> : 'SEED TRIAL DECK'}
-                    </Button>
-                  </div>
-
-                  {/* Anki Upload */}
-                  <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
-                    <div>
-                      <Upload className="text-primary mb-6" size={32} />
-                      <h3 className="text-xl font-black italic uppercase mb-2">Anki Titration</h3>
-                      <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                        Import Anki archives. Use "Notes in Plain Text" export with [Tab] separation.
+                        Import Anki archives. Use "Notes in Plain Text" export with [Tab] separation for perfect clinical titration.
                       </p>
                     </div>
                     
@@ -522,6 +397,19 @@ export default function QuizPage() {
                         {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
                       </Button>
                     </div>
+                  </div>
+
+                  {/* Information / Guideline Card */}
+                  <div className="riot-card bg-primary/5 border border-primary/20 p-8">
+                     <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                           <AlertCircle className="text-primary" size={24} />
+                           <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Protocol Guidelines</h4>
+                        </div>
+                        <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
+                          Your Anki export must be in <span className="text-white">"Plain Text (.txt)"</span> format. The laboratory will automatically categorize cards by searching for clinical sector keywords in your tags (e.g., "Hematology", "Micro").
+                        </p>
+                     </div>
                   </div>
                 </div>
               </div>
