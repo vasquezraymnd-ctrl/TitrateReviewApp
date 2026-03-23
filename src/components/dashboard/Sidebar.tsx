@@ -3,13 +3,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, PlayCircle, Shield, Archive, Settings, Clock, Zap } from 'lucide-react';
+import { Home, PlayCircle, Shield, Archive, Settings, Clock, Zap, Database } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 
 const mainNav = [
   { icon: Home, label: 'Laboratory Center', href: '/dashboard' },
   { icon: Archive, label: 'Protocol Archives', href: '/library' },
+  { icon: Database, label: 'Data Titration', href: '/import' },
   { icon: Clock, label: 'Study Calibration', href: '/scheduler' },
 ];
 
@@ -119,7 +120,7 @@ export function Sidebar() {
           { icon: Archive, label: 'Archive', href: '/library' },
           { icon: Zap, label: 'Focus', href: '/focus' },
           { icon: PlayCircle, label: 'Assay', href: '/quiz' },
-          { icon: Clock, label: 'Study', href: '/scheduler' },
+          { icon: Database, label: 'Import', href: '/import' },
         ].map((item) => {
           const isActive = pathname === item.href;
           const isFocus = item.label === 'Focus';
