@@ -121,7 +121,7 @@ export default function QuizPage() {
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
     const allProgress = await db.getAll<Progress>('progress');
     
-    // Natural Sort for Chapters
+    // Natural Sort for Chapters (numeric-aware)
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
@@ -279,6 +279,7 @@ export default function QuizPage() {
       .replace(/\s\s+/g, ' ')
       .trim();
     
+    // Deduplicate logic for messy lines
     const mid = Math.floor(clean.length / 2);
     const firstHalf = clean.substring(0, mid).trim();
     const secondHalf = clean.substring(clean.length - mid).trim();
@@ -308,9 +309,12 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 5) continue;
         
-        const qText = scrub(parts[1]);
+        // Unified Titrator Logic: Detect Format
+        // Turgeon/Bishop uses Col 2 for Question
+        const isTurgeon = parts[1].length > 10; 
+        const qText = scrub(isTurgeon ? parts[1] : parts[3]);
         const chapterRaw = scrub(parts[2] || "General Titration");
-        const choicesRaw = [parts[2], parts[3], parts[4], parts[5]];
+        const choicesRaw = isTurgeon ? [parts[2], parts[3], parts[4], parts[5]] : [parts[4], parts[5], parts[6], parts[7]];
         const answerText = scrub(parts[11] || parts[12] || "");
 
         const filteredChoices = choicesRaw
@@ -352,6 +356,52 @@ export default function QuizPage() {
         setImporting(false);
         setImportProgress(0);
       }, 500);
+    }
+  };
+
+  const seedAllProtocols = async () => {
+    setLoading(true);
+    try {
+      const samples: Question[] = [
+        // Turgeon Hematology (Variable Choices, Contextual)
+        {
+          id: 'seed-turgeon-1',
+          subject: 'Hematology',
+          question: 'What is the primary biohazard in the laboratory environment?',
+          choices: [{id: 'A', text: 'Blood and body fluids'}, {id: 'B', text: 'Distilled water'}, {id: 'C', text: 'Latex gloves'}],
+          answerId: 'A',
+          rationale: 'OSHA Safety Guidelines. Answer: Blood and body fluids',
+          tags: ['Safety & Lab Operations']
+        },
+        // Bishop Clinical Chemistry (Units, Math)
+        {
+          id: 'seed-bishop-1',
+          subject: 'Clinical Chemistry',
+          question: 'Which of the following bilirubin fractions is water soluble and can be found in urine?',
+          choices: [{id: 'A', text: 'Unconjugated bilirubin'}, {id: 'B', text: 'Conjugated bilirubin'}, {id: 'C', text: 'Delta bilirubin'}, {id: 'D', text: 'Albumin-bound bilirubin'}],
+          answerId: 'B',
+          rationale: 'Liver Function Analysis. Bilirubin conversion. Answer: Conjugated bilirubin',
+          tags: ['Liver Function']
+        },
+        // Strasinger Clinical Microscopy
+        {
+          id: 'seed-stras-1',
+          subject: 'Clinical Microscopy',
+          question: 'A urine specimen that exhibits a Port Wine color may indicate the presence of:',
+          choices: [{id: 'A', text: 'Melanin'}, {id: 'B', text: 'Porphyrins'}, {id: 'C', text: 'Homogentisic acid'}, {id: 'D', text: 'RBCs'}],
+          answerId: 'B',
+          rationale: 'Strasinger Chapter 4: Physical Examination. Answer: Porphyrins',
+          tags: ['Chapter 4 Physical Examination']
+        }
+      ];
+
+      await db.bulkPut('questions', samples);
+      await loadGlobalStats();
+      toast({ title: "Laboratory Initialized", description: "Clinical protocols from Turgeon, Bishop, and Strasinger are now active." });
+    } catch (err) {
+      toast({ variant: "destructive", title: "Seeding Failed" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -406,9 +456,19 @@ export default function QuizPage() {
           <div className="flex-1">
             {step === 'subject' && (
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
-                <div className="border-b border-white/5 pb-8">
-                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
-                    <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Pick a clinical sector to begin titration.</p>
+                <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/5 pb-8 gap-6">
+                    <div>
+                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
+                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Pick a clinical sector folder to begin titration.</p>
+                    </div>
+                    {Object.values(subjectStats).every(s => s.total === 0) && (
+                      <Button 
+                        onClick={seedAllProtocols}
+                        className="riot-button h-12 xl:h-14 px-8 bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-black font-black text-[10px]"
+                      >
+                        <Database className="mr-2 h-4 w-4" /> INITIALIZE ALL PROTOCOLS
+                      </Button>
+                    )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                   {CORE_SUBJECTS.map((subject) => {
@@ -452,7 +512,7 @@ export default function QuizPage() {
                         <ChevronLeft size={32} />
                       </Button>
                       <div>
-                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">{selectedSubject} Protocols</h2>
+                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">{selectedSubject} Archives</h2>
                         <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Select a chapter archive or PDF protocol.</p>
                       </div>
                   </div>
@@ -506,7 +566,7 @@ export default function QuizPage() {
                      <div className="col-span-full py-20 text-center opacity-30 border border-dashed border-white/10 riot-card">
                        <AlertCircle className="mx-auto mb-4" size={48} />
                        <h3 className="text-2xl font-black italic uppercase">No Titrated Data</h3>
-                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Upload a TXT or PDF file below.</p>
+                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Initialize or upload a protocol above.</p>
                      </div>
                   )}
                 </div>
