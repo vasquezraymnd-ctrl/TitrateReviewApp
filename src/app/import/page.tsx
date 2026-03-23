@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -7,14 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
   Upload, 
-  FileText, 
   CheckCircle2, 
-  AlertTriangle, 
   Loader2, 
   Database, 
   Zap,
   Microscope,
-  BookOpen
+  BookOpen,
+  FileJson
 } from 'lucide-react';
 import { db, Question, CORE_SUBJECTS } from '@/lib/db';
 import { useToast } from '@/hooks/use-toast';
@@ -26,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 export default function ImportPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -41,93 +42,93 @@ export default function ImportPage() {
     }
   };
 
-  const seedSampleQuestions = async () => {
+  const seedHighYieldDeck = async () => {
     setImporting(true);
-    const samples: Question[] = [
+    const medTechDeck: Question[] = [
       {
-        id: 'rodaks-hema-1',
+        id: 'anki-hema-1',
         subject: 'Hematology',
-        question: 'A 24-year-old female presents with a microcytic, hypochromic anemia. Laboratory results show a decreased serum iron, increased TIBC, and decreased ferritin. Which of the following is the most likely diagnosis?',
+        question: 'What is the hallmark cell found in Hodgkin\'s Lymphoma, described as having an "Owl-Eye" appearance?',
         choices: [
-          { id: 'A', text: 'Sideroblastic Anemia' },
-          { id: 'B', text: 'Anemia of Chronic Disease' },
-          { id: 'C', text: 'Iron Deficiency Anemia' },
-          { id: 'D', text: 'Thalassemia Minor' },
-        ],
-        answerId: 'C',
-        rationale: 'In Iron Deficiency Anemia (IDA), the body\'s iron stores (ferritin) are depleted, leading to a compensatory increase in Total Iron Binding Capacity (TIBC) and a decrease in serum iron. Sideroblastic anemia and Thalassemia would typically show normal or increased ferritin.',
-        tags: ['Rodaks', 'Anemia', 'Iron Studies'],
-      },
-      {
-        id: 'rodaks-hema-2',
-        subject: 'Hematology',
-        question: 'Which of the following coagulation factors is the first to decrease in a patient with severe Vitamin K deficiency or early Warfarin therapy?',
-        choices: [
-          { id: 'A', text: 'Factor II' },
-          { id: 'B', text: 'Factor VII' },
-          { id: 'C', text: 'Factor IX' },
-          { id: 'D', text: 'Factor X' },
+          { id: 'A', text: 'Pappenheimer Cell' },
+          { id: 'B', text: 'Reed-Sternberg Cell' },
+          { id: 'C', text: 'Sézary Cell' },
+          { id: 'D', text: 'Pelger-Huet Cell' },
         ],
         answerId: 'B',
-        rationale: 'Factor VII has the shortest half-life (approximately 6 hours) of all the Vitamin K-dependent factors (II, VII, IX, X, Protein C, and Protein S). Therefore, it is the first to show a significant decrease in deficiency or inhibition.',
-        tags: ['Rodaks', 'Coagulation', 'Vitamin K'],
+        rationale: 'Reed-Sternberg cells are large, binucleated or multinucleated cells (typically with prominent nucleoli) essential for the diagnosis of Hodgkin\'s Lymphoma.',
+        tags: ['Anki', 'Lymphoma', 'Morphology'],
       },
       {
-        id: 'stevens-immuno-1',
-        subject: 'Immuno-Serology',
-        question: 'A patient experiences immediate bronchoconstriction and hives after a bee sting. This reaction is mediated by which of the following mechanisms?',
+        id: 'anki-micro-1',
+        subject: 'Microbiology',
+        question: 'Which biochemical test is primarily used to differentiate Staphylococcus (Positive) from Streptococcus (Negative)?',
         choices: [
-          { id: 'A', text: 'Type I Hypersensitivity (IgE)' },
-          { id: 'B', text: 'Type II Hypersensitivity (Cytotoxic)' },
-          { id: 'C', text: 'Type III Hypersensitivity (Immune Complex)' },
-          { id: 'D', text: 'Type IV Hypersensitivity (Delayed)' },
-        ],
-        answerId: 'A',
-        rationale: 'Type I hypersensitivity involves IgE antibodies binding to mast cells and basophils. Upon re-exposure to the allergen, degranulation occurs, releasing histamine and leukotrienes, causing immediate symptoms like anaphylaxis or urticaria.',
-        tags: ['Stevens', 'Hypersensitivity', 'IgE'],
-      },
-      {
-        id: 'stevens-immuno-2',
-        subject: 'Immuno-Serology',
-        question: 'In an Antinuclear Antibody (ANA) test, a "Speckled" pattern is most commonly associated with antibodies against which of the following?',
-        choices: [
-          { id: 'A', text: 'Double-stranded DNA' },
-          { id: 'B', text: 'Histones' },
-          { id: 'C', text: 'Extractable Nuclear Antigens (ENA)' },
-          { id: 'D', text: 'Centromeres' },
+          { id: 'A', text: 'Coagulase' },
+          { id: 'B', text: 'Oxidase' },
+          { id: 'C', text: 'Catalase' },
+          { id: 'D', text: 'Urease' },
         ],
         answerId: 'C',
-        rationale: 'A speckled ANA pattern is associated with antibodies to non-histone proteins or Extractable Nuclear Antigens (ENAs), such as Smith (Sm), RNP, SS-A, and SS-B. Homogeneous is dsDNA/Histones, and Nucleolar is associated with scleroderma.',
-        tags: ['Stevens', 'ANA', 'Autoimmunity'],
+        rationale: 'Staphylococci produce catalase, which breaks down hydrogen peroxide into water and oxygen (causing bubbling). Streptococci lack this enzyme.',
+        tags: ['Anki', 'Biochemical', 'Gram Positives'],
       },
       {
-        id: 'bishop-chem-1',
+        id: 'anki-chem-1',
         subject: 'Clinical Chemistry',
-        question: 'Which of the following biochemical markers is considered the "gold standard" for the early diagnosis of myocardial infarction due to its high cardiac specificity?',
+        question: 'A patient with an extremely elevated blood glucose of 800 mg/dL and no ketones in the urine most likely has:',
         choices: [
-          { id: 'A', text: 'CK-MB' },
-          { id: 'B', text: 'Myoglobin' },
-          { id: 'C', text: 'Cardiac Troponin I (cTnI)' },
-          { id: 'D', text: 'LDH-1/LDH-2 Flip' },
+          { id: 'A', text: 'Type 1 Diabetes (DKA)' },
+          { id: 'B', text: 'Hyperosmolar Hyperglycemic State (HHS)' },
+          { id: 'C', text: 'Gestational Diabetes' },
+          { id: 'D', text: 'Diabetes Insipidus' },
+        ],
+        answerId: 'B',
+        rationale: 'HHS is characterized by profound hyperglycemia (>600 mg/dL) and hyperosmolality WITHOUT significant ketosis, typically seen in Type 2 diabetics.',
+        tags: ['Anki', 'Diabetes', 'Glucose'],
+      },
+      {
+        id: 'anki-serology-1',
+        subject: 'Immuno-Serology',
+        question: 'The "Homogeneous" ANA pattern is most characteristically associated with which auto-antibody?',
+        choices: [
+          { id: 'A', text: 'Anti-Smith' },
+          { id: 'B', text: 'Anti-dsDNA' },
+          { id: 'C', text: 'Anti-Centromere' },
+          { id: 'D', text: 'Anti-Scl-70' },
+        ],
+        answerId: 'B',
+        rationale: 'Homogeneous (diffuse) patterns involve staining of the entire nucleus and are associated with antibodies to dsDNA, histones, or DNP, common in SLE.',
+        tags: ['Anki', 'ANA', 'Autoimmunity'],
+      },
+      {
+        id: 'anki-microscopy-1',
+        subject: 'Clinical Microscopy',
+        question: 'Which of the following crystals found in acidic urine resembles an "Envelope" or "Cross"?',
+        choices: [
+          { id: 'A', text: 'Uric Acid' },
+          { id: 'B', text: 'Triple Phosphate' },
+          { id: 'C', text: 'Calcium Oxalate Dihydrate' },
+          { id: 'D', text: 'Cystine' },
         ],
         answerId: 'C',
-        rationale: 'Cardiac Troponins (I and T) are highly specific for cardiac muscle injury. While CK-MB is also used, Troponin remains elevated longer and is more specific. Myoglobin rises earliest but lacks specificity.',
-        tags: ['Bishop', 'Cardiac Markers', 'Troponin'],
+        rationale: 'Calcium oxalate dihydrate crystals (Weddellite) typically appear as octahedral or "envelope" shapes. Monohydrate (Whewellite) appear as dumbbells.',
+        tags: ['Anki', 'Urine Crystals', 'Microscopy'],
       }
     ];
 
     try {
-      await db.bulkPut('questions', samples);
-      setStats({ count: samples.length, subjects: ['Hematology', 'Immuno-Serology', 'Clinical Chemistry'] });
+      await db.bulkPut('questions', medTechDeck);
+      setStats({ count: medTechDeck.length, subjects: ['Hematology', 'Microbiology', 'Clinical Chemistry', 'Immuno-Serology', 'Clinical Microscopy'] });
       toast({
-        title: "High-Yield Samples Loaded",
-        description: "Standard MedTech assays (Rodaks/Stevens/Bishop) have been synchronized.",
+        title: "MedTech Board Deck Titrated",
+        description: "10 high-yield flashcards have been synchronized for trial review.",
       });
     } catch (err) {
       toast({
         variant: "destructive",
-        title: "Seeding Failed",
-        description: "Could not populate sample data.",
+        title: "Titration Failed",
+        description: "Could not populate sample deck.",
       });
     } finally {
       setImporting(false);
@@ -186,21 +187,21 @@ export default function ImportPage() {
           ],
           answerId: parts[1] || 'A',
           rationale: parts[3] || 'No rationale provided.',
-          tags: [],
+          tags: ['Anki-Import'],
         });
       });
 
       await db.bulkPut('questions', questions);
       setStats({ count: questions.length, subjects: Array.from(subjects) });
       toast({
-        title: "Import Successful",
-        description: `Imported ${questions.length} questions across ${subjects.size} subjects.`,
+        title: "Titration Successful",
+        description: `Imported ${questions.length} cards from Anki archive.`,
       });
     } catch (err) {
       toast({
         variant: "destructive",
-        title: "Import Failed",
-        description: "There was an error processing the file.",
+        title: "Titration Failed",
+        description: "There was an error processing the Anki file.",
       });
     } finally {
       setImporting(false);
@@ -228,10 +229,10 @@ export default function ImportPage() {
                 <Zap className="text-primary mb-6 animate-pulse" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">AI Synthesis</h3>
                 <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest mb-6">
-                  Generate ASCP-style high-yield questions mimicking authoritative review sources like Stevens and Rodak's.
+                  Generate ASCP-style questions mimicking review books like Stevens and Rodak's.
                 </p>
                 <div className="space-y-4">
-                   <Label className="text-[9px] font-black uppercase tracking-widest">Target Clinical Sector</Label>
+                   <Label className="text-[9px] font-black uppercase tracking-widest">Clinical Sector</Label>
                    <Select value={selectedSubject} onValueChange={setSelectedSubject}>
                     <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
                       <SelectValue placeholder="Select Subject" />
@@ -249,35 +250,35 @@ export default function ImportPage() {
                 disabled={generating}
                 className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]"
               >
-                {generating ? <Loader2 className="animate-spin" /> : 'SYNTHESIZE CLINICAL QUESTIONS'}
+                {generating ? <Loader2 className="animate-spin" /> : 'SYNTHESIZE ASSAY'}
               </Button>
             </div>
 
-            {/* Tactical Seeding Card */}
+            {/* Trial MedTech Deck Card */}
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
               <div>
-                <Database className="text-primary mb-6" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">High-Yield Seeding</h3>
+                <FileJson className="text-primary mb-6" size={32} />
+                <h3 className="text-xl font-black italic uppercase mb-2">Trial MedTech Deck</h3>
                 <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                  Synchronize your device with professional board samples from Rodak's, Stevens, and Bishop for immediate access.
+                  Quick-load high-yield clinical cards from core sectors to test the laboratory interface.
                 </p>
               </div>
               <Button 
-                onClick={seedSampleQuestions}
+                onClick={seedHighYieldDeck}
                 disabled={importing}
                 className="riot-button h-12 mt-8 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
               >
-                {importing ? <Loader2 className="animate-spin" /> : 'SEED CORE SAMPLES'}
+                {importing ? <Loader2 className="animate-spin" /> : 'SEED TRIAL DECK'}
               </Button>
             </div>
 
-            {/* Manual Upload Card */}
+            {/* Anki Protocol Upload */}
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
               <div>
                 <Upload className="text-primary mb-6" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">Protocol Upload</h3>
+                <h3 className="text-xl font-black italic uppercase mb-2">Anki Titration</h3>
                 <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                  Import your personal Anki archives (.csv or .txt). Precision titration ensures your library stays local.
+                  Import Anki archives. Use "Notes in Plain Text" export with [Tab] separation for perfect titration.
                 </p>
               </div>
               
@@ -291,7 +292,7 @@ export default function ImportPage() {
                 />
                 <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-white font-black text-[10px]">
                   <label htmlFor="anki-upload" className="cursor-pointer flex items-center justify-center gap-2">
-                    {file ? file.name : 'CHOOSE ARCHIVE FILE'}
+                    {file ? file.name : 'CHOOSE .TXT / .CSV'}
                   </label>
                 </Button>
                 <Button 
@@ -299,34 +300,22 @@ export default function ImportPage() {
                   disabled={!file || importing}
                   onClick={processCsv}
                 >
-                  {importing ? <Loader2 className="animate-spin" /> : 'START TITRATION'}
+                  {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
                 </Button>
               </div>
             </div>
           </div>
 
-          <div className="riot-card p-6 bg-white/[0.02] border border-white/5">
-            <h3 className="text-sm font-black italic uppercase tracking-widest flex items-center gap-2 mb-4 text-primary">
-              <Microscope size={16} />
-              Analyst Guidelines
-            </h3>
-            <ul className="text-[10px] font-bold space-y-2 text-muted-foreground uppercase tracking-widest list-disc pl-5">
-              <li>High-Yield Seeding uses questions mimicking authoritative review books for board-level preparation.</li>
-              <li>Anki Exports must be "Notes in Plain Text" with [Tab] separation.</li>
-              <li>All synthesized and imported data is stored in your device's local clinical archive (IndexedDB).</li>
-            </ul>
-          </div>
-
           {stats && (
             <div className="riot-card p-8 bg-primary/5 border border-primary/20 animate-in slide-in-from-bottom-4 duration-500">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] mb-6 text-primary">Titration Successful</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] mb-6 text-primary">Titration Complete</h4>
               <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Total Assays Recorded</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Total Cards Recorded</p>
                   <p className="text-4xl font-black italic text-white tracking-tighter">{stats.count}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Clinical Sectors Identified</p>
+                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Sectors Identified</p>
                   <p className="text-4xl font-black italic text-white tracking-tighter">{stats.subjects.length}</p>
                 </div>
               </div>
@@ -337,9 +326,3 @@ export default function ImportPage() {
     </div>
   );
 }
-
-const Label = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-  <label className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${className}`}>
-    {children}
-  </label>
-);
