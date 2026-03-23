@@ -188,7 +188,7 @@ export default function QuizPage() {
 
         const cleanAndScrub = (str: string) => {
           let scrubbed = str
-            .replace(/<[^>]*>?/gm, ' ') // Remove HTML tags, replace with space
+            .replace(/<[^>]*>?/gm, ' ') 
             .replace(/&nbsp;/g, ' ')
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>')
@@ -203,6 +203,7 @@ export default function QuizPage() {
             /AUTO\s*SUBMIT/gi,
             /SHUFFLE\s*CHOICES/gi,
             /SUBMIT\s*AND\s*ESC/gi,
+            /\(\s*\)/g, // Remove empty parenthesis clumped with choices
             /\[.*?\]/g, 
             /–/g,
             /—/g
@@ -219,11 +220,6 @@ export default function QuizPage() {
         const rawBack = parts[1];
         const tagsRaw = (parts[2] || 'General').toLowerCase();
 
-        // 1. IMPROVED CHOICE DETECTION LOGIC
-        // We look for patterns like A. A) (A) 1. 1) at the start of blocks
-        const choicePattern = /(?:\s|^)\b([A-D]|[1-4])[\)\.]\s+/gi;
-        
-        // Split front by common delimiters to check for choices line by line
         const frontSegments = rawFront.split(/(?:<br\s*\/?>|<div>|<div>|<p>|\n)/i).map(l => l.trim()).filter(l => l.length > 0);
         
         const detectedChoices: {id: string, text: string}[] = [];
@@ -234,8 +230,8 @@ export default function QuizPage() {
           const scrubbedSeg = cleanAndScrub(seg);
           if (!scrubbedSeg) return;
 
-          // Check if this segment starts with a choice indicator
-          const choiceMatch = scrubbedSeg.match(/^([A-D]|[1-4])[\)\.]\s+(.*)$/i);
+          // Detect line starting with A. or A)
+          const choiceMatch = scrubbedSeg.match(/^([A-D]|[1-4])[\)\.]\s*(.*)$/i);
           
           if (choiceMatch) {
             collectingChoices = true;
@@ -244,47 +240,37 @@ export default function QuizPage() {
               text: choiceMatch[2].trim()
             });
           } else if (!collectingChoices) {
-            // If we haven't hit choices yet, it's still part of the question
             finalQuestionText += (finalQuestionText ? " " : "") + scrubbedSeg;
           } else {
-            // If we are already collecting choices but this line doesn't start with one,
-            // it might be a multi-line choice (rare but possible)
             if (detectedChoices.length > 0) {
               detectedChoices[detectedChoices.length - 1].text += " " + scrubbedSeg;
             }
           }
         });
 
-        // If no choices found via line splitting, try regex search on the whole block
+        // Aggressive Heuristic for clumped choices (e.g., CDC OSHA CLSI CLIA)
+        const scrubbedFullFront = cleanAndScrub(rawFront);
         if (detectedChoices.length === 0) {
-           const scrubbedFullFront = cleanAndScrub(rawFront);
-           // Simple check: does it look like "Question? A. Answer1 B. Answer2"
-           const multiChoiceRegex = /\b([A-D]|[1-4])[\)\.]\s+(.+?)(?=\s+\b[A-D]|[1-4][\)\.]|$)/gi;
-           let m;
-           const matches = [];
-           while ((m = multiChoiceRegex.exec(scrubbedFullFront)) !== null) {
-              matches.push({
-                id: m[1].toUpperCase().replace('1', 'A').replace('2', 'B').replace('3', 'C').replace('4', 'D'),
-                text: m[2].trim()
-              });
-           }
-
-           if (matches.length >= 2) {
-             // Found choices in the string. The question is everything before the first choice.
-             const firstChoiceIndex = scrubbedFullFront.search(/\b([A-D]|[1-4])[\)\.]\s+/i);
-             finalQuestionText = scrubbedFullFront.substring(0, firstChoiceIndex).trim();
-             detectedChoices.push(...matches);
-           } else {
-             finalQuestionText = scrubbedFullFront;
-           }
-        }
-
-        // Final validation: Question shouldn't be empty
-        if (!finalQuestionText && detectedChoices.length > 0) {
-          finalQuestionText = "Clinical Case Study / Question (Refer to choices)";
+          const questionMarkIndex = scrubbedFullFront.lastIndexOf('?');
+          if (questionMarkIndex !== -1 && questionMarkIndex < scrubbedFullFront.length - 5) {
+            const potentialChoiceBlock = scrubbedFullFront.substring(questionMarkIndex + 1).trim();
+            // Split by double spaces or specific word patterns
+            const splitChoices = potentialChoiceBlock.split(/\s{2,}|(?=\b[A-Z]{3,}\b)/).filter(s => s.trim().length > 0);
+            
+            if (splitChoices.length >= 2 && splitChoices.length <= 5) {
+               finalQuestionText = scrubbedFullFront.substring(0, questionMarkIndex + 1).trim();
+               splitChoices.forEach((sc, sidx) => {
+                 detectedChoices.push({
+                   id: String.fromCharCode(65 + sidx),
+                   text: sc.trim()
+                 });
+               });
+            }
+          }
         }
 
         if (detectedChoices.length === 0) {
+          finalQuestionText = scrubbedFullFront;
           detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
         }
 
@@ -309,7 +295,7 @@ export default function QuizPage() {
           subject: subjectMatch,
           question: finalQuestionText,
           choices: detectedChoices,
-          answerId: 'A', // Default to A as Anki doesn't always specify MCQ correctness
+          answerId: 'A', 
           rationale: cleanAndScrub(rawBack),
           tags: tagsRaw.split(' ').filter(t => t.length > 0),
         });
@@ -329,7 +315,7 @@ export default function QuizPage() {
       
       setFile(null);
       if (selectedSubject) handleSubjectSelect(selectedSubject);
-      else window.location.reload(); // Hard refresh to show uncategorized archive count
+      else window.location.reload(); 
     } catch (err) {
       toast({
         variant: "destructive",
