@@ -25,7 +25,8 @@ import {
   FileText,
   Archive,
   RotateCcw,
-  Target
+  Target,
+  Eraser
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -68,7 +69,6 @@ export default function QuizPage() {
   const [modules, setModules] = useState<LabModule[]>([]);
   const [chapters, setChapters] = useState<{ name: string; mastered: number; total: number }[]>([]);
   const [subjectStats, setSubjectStats] = useState<Record<string, SubjectStats>>({});
-  const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
   const [importing, setImporting] = useState(false);
   const [importProgress, setImportProgress] = useState(0);
@@ -89,7 +89,6 @@ export default function QuizPage() {
   const loadGlobalStats = async () => {
     const allQuestions = await db.getAll<Question>('questions');
     const allProgress = await db.getAll<Progress>('progress');
-    setTotalAnkiInDb(allQuestions.length);
 
     const stats: Record<string, SubjectStats> = {};
     
@@ -124,7 +123,7 @@ export default function QuizPage() {
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
     const allProgress = await db.getAll<Progress>('progress');
     
-    // Natural Sort for Chapters
+    // Natural Sort for Chapters (e.g., Chapter 2 before Chapter 10)
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
@@ -199,35 +198,42 @@ export default function QuizPage() {
     }
   };
 
-  const startModuleAssay = async (module: LabModule) => {
+  const purgeSubjectRecords = async () => {
+    if (!selectedSubject) return;
     setLoading(true);
     try {
-      if (!module.extractedText) {
-        toast({ variant: "destructive", title: "Assay Failure", description: "No clinical text found." });
-        setLoading(false);
-        return;
+      const allQuestions = await db.getAll<Question>('questions');
+      const subjectQs = allQuestions.filter(q => q.subject === selectedSubject);
+      
+      for (const q of subjectQs) {
+        await db.delete('questions', q.id);
+        await db.delete('progress', q.id);
       }
-
-      const result = await generateModuleQuiz({
-        subject: module.subject,
-        moduleName: module.name,
-        moduleContent: module.extractedText,
-        count: 5
-      });
-
-      if (result.questions && result.questions.length > 0) {
-        setQuestions(result.questions);
-        setStep('quiz');
-        setCurrentIndex(0);
-        setCompleted(false);
-      } else {
-        throw new Error("AI failed synthesis.");
-      }
+      
+      toast({ title: "Subject Purged", description: `Permanently deleted all ${selectedSubject} archives.` });
+      setStep('subject');
+      loadGlobalStats();
     } catch (err) {
-      toast({ variant: "destructive", title: "Synthesis Error", description: "Lab AI failed titration." });
+      toast({ variant: "destructive", title: "Purge Failed", description: "Could not delete subject data." });
     } finally {
       setLoading(false);
     }
+  };
+
+  const purgeAllRecords = async () => {
+    const allQuestions = await db.getAll<Question>('questions');
+    for (const q of allQuestions) {
+      await db.delete('questions', q.id);
+      await db.delete('progress', q.id);
+    }
+    const allModules = await db.getAll<LabModule>('modules');
+    for (const m of allModules) {
+      await db.delete('modules', m.id);
+    }
+    await loadGlobalStats();
+    toast({ title: "Laboratory Purged", description: "All questions and modules deleted." });
+    setStep('subject');
+    window.dispatchEvent(new Event('archives-purged'));
   };
 
   const handleAnswer = async (quality: number) => {
@@ -291,6 +297,7 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 8) continue;
 
+        // STRICT COLUMN MAPPING (Col 3: Chapter, Col 4: Q, Col 5-8: Choices, Col 12-13: Ans)
         const chapterRaw = parts[2] || "";
         const chapter = scrub(chapterRaw) || "Uncategorized";
         const qText = scrub(parts[3]);
@@ -345,20 +352,35 @@ export default function QuizPage() {
     }
   };
 
-  const purgeAllRecords = async () => {
-    const allQuestions = await db.getAll<Question>('questions');
-    for (const q of allQuestions) {
-      await db.delete('questions', q.id);
-      await db.delete('progress', q.id);
+  const startModuleAssay = async (module: LabModule) => {
+    setLoading(true);
+    try {
+      if (!module.extractedText) {
+        toast({ variant: "destructive", title: "Assay Failure", description: "No clinical text found." });
+        setLoading(false);
+        return;
+      }
+
+      const result = await generateModuleQuiz({
+        subject: module.subject,
+        moduleName: module.name,
+        moduleContent: module.extractedText,
+        count: 5
+      });
+
+      if (result.questions && result.questions.length > 0) {
+        setQuestions(result.questions);
+        setStep('quiz');
+        setCurrentIndex(0);
+        setCompleted(false);
+      } else {
+        throw new Error("AI failed synthesis.");
+      }
+    } catch (err) {
+      toast({ variant: "destructive", title: "Synthesis Error", description: "Lab AI failed titration." });
+    } finally {
+      setLoading(false);
     }
-    const allModules = await db.getAll<LabModule>('modules');
-    for (const m of allModules) {
-      await db.delete('modules', m.id);
-    }
-    await loadGlobalStats();
-    toast({ title: "Laboratory Purged", description: "All questions and modules deleted." });
-    setStep('subject');
-    window.dispatchEvent(new Event('archives-purged'));
   };
 
   if (loading) {
@@ -383,11 +405,9 @@ export default function QuizPage() {
           <div className="flex-1">
             {step === 'subject' && (
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
-                <div className="border-b border-white/5 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                  <div>
+                <div className="border-b border-white/5 pb-8">
                     <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
                     <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Pick a clinical sector to begin titration.</p>
-                  </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                   {CORE_SUBJECTS.map((subject) => {
@@ -405,11 +425,15 @@ export default function QuizPage() {
                         <div className="mt-6 space-y-2 border-t border-white/5 pt-4 group-hover:border-black/10">
                            <div className="flex justify-between items-center text-[9px] xl:text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:text-black">
                              <span>Answered</span>
-                             <span>{stats.mastered} / {stats.total}</span>
+                             <span>{stats.mastered}</span>
                            </div>
                            <div className="flex justify-between items-center text-[9px] xl:text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:text-black">
                              <span>Unanswered</span>
                              <span>{stats.unanswered}</span>
+                           </div>
+                           <div className="flex justify-between items-center text-[9px] xl:text-[11px] font-black uppercase tracking-widest opacity-60 group-hover:text-black border-t border-white/5 pt-1 group-hover:border-black/10">
+                             <span>Total Cards</span>
+                             <span>{stats.total}</span>
                            </div>
                         </div>
                       </button>
@@ -482,7 +506,7 @@ export default function QuizPage() {
                      <div className="col-span-full py-20 text-center opacity-30 border border-dashed border-white/10 riot-card">
                        <AlertCircle className="mx-auto mb-4" size={48} />
                        <h3 className="text-2xl font-black italic uppercase">No Titrated Data</h3>
-                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Upload a PDF or Anki file below.</p>
+                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Upload a TXT or PDF file below.</p>
                      </div>
                   )}
                 </div>
@@ -576,33 +600,43 @@ export default function QuizPage() {
                  <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="ghost" className="text-red-500 hover:bg-red-500/10 font-black text-[10px] uppercase tracking-widest h-12">
-                        <Trash2 className="mr-2 h-4 w-4" /> PURGE ALL LABORATORY RECORDS
+                        <Trash2 className="mr-2 h-4 w-4" /> TOTAL PURGE REQUIRED?
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                       <AlertDialogHeader>
                         <AlertDialogTitle className="font-black italic uppercase text-red-500">TOTAL PURGE REQUIRED?</AlertDialogTitle>
                         <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          Permanently delete all clinical cards and modules.
+                          Permanently delete ALL clinical questions and modules from the entire laboratory database.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel className="uppercase font-black text-[10px]">Abort</AlertDialogCancel>
-                        <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 text-white font-black text-[10px]">CONFIRM</AlertDialogAction>
+                        <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 text-white font-black text-[10px]">CONFIRM PURGE</AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
                   
                   <div className="border-t border-red-500/10 pt-4 flex flex-col gap-2">
                     <p className="text-[8px] font-black uppercase text-red-500/60 tracking-widest text-center">Specific Protocol Calibration</p>
-                    <Button 
-                      variant="ghost" 
-                      className="text-white/40 hover:text-white font-black text-[10px] uppercase tracking-widest h-10 border border-white/5"
-                      onClick={resetSubjectProgress}
-                      disabled={!selectedSubject || step === 'subject'}
-                    >
-                      <Target className="mr-2 h-3 w-3" /> RESET {selectedSubject ? selectedSubject.toUpperCase() : 'SELECTED SECTOR'}
-                    </Button>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button 
+                        variant="ghost" 
+                        className="text-white/40 hover:text-white font-black text-[10px] uppercase tracking-widest h-10 border border-white/5"
+                        onClick={resetSubjectProgress}
+                        disabled={!selectedSubject || step === 'subject'}
+                      >
+                        <RotateCcw className="mr-2 h-3 w-3" /> RESET {selectedSubject ? selectedSubject.toUpperCase() : 'SECTOR'} PROGRESS
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        className="text-red-500/50 hover:text-red-500 font-black text-[10px] uppercase tracking-widest h-10 border border-red-500/10"
+                        onClick={purgeSubjectRecords}
+                        disabled={!selectedSubject || step === 'subject'}
+                      >
+                        <Eraser className="mr-2 h-3 w-3" /> PURGE {selectedSubject ? selectedSubject.toUpperCase() : 'SECTOR'} ARCHIVE
+                      </Button>
+                    </div>
                   </div>
               </div>
             </div>
