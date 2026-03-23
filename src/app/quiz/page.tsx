@@ -121,7 +121,7 @@ export default function QuizPage() {
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
     const allProgress = await db.getAll<Progress>('progress');
     
-    // Natural Sort for Chapters
+    // Numeric-aware Natural Sort for Chapters
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
@@ -257,19 +257,32 @@ export default function QuizPage() {
   const scrub = (str: string) => {
     if (!str) return "";
     let clean = str
-      .replace(/<[^>]*>?/gm, ' ') 
+      .replace(/<[^>]*>?/gm, ' ') // Strip HTML
       .replace(/&nbsp;/g, ' ')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&')
       .replace(/Anki\s*ng\s*RMT/gi, '')
       .replace(/Lelouch/gi, '')
+      .replace(/Auto\s*submit/gi, '')
+      .replace(/Shuffle\s*choices/gi, '')
+      .replace(/Made\s*by\s*[^🧪]*/gi, '')
+      .replace(/🧪\s*Answer:/gi, '')
       .replace(/\s\s+/g, ' ')
       .trim();
     
+    // Deduplicate Rodak's style repeating questions on same line
+    const mid = Math.floor(clean.length / 2);
+    const firstHalf = clean.substring(0, mid).trim();
+    const secondHalf = clean.substring(clean.length - mid).trim();
+    if (firstHalf === secondHalf && firstHalf.length > 10) {
+      clean = firstHalf;
+    }
+
+    // Extraction for Chapter names from Column 3 paths
     if (clean.includes('::')) {
-      const p = clean.split('::');
-      return p[p.length - 1].trim();
+      const parts = clean.split('::');
+      return parts[parts.length - 1].trim();
     }
     return clean;
   };
@@ -289,21 +302,24 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 5) continue;
 
-        // TURGEON 5TH ED PROTOCOL MAPPING
-        // Col 2 (Index 1): Question
-        // Col 3-6 (Index 2-5): Choices
-        // Col 12 (Index 11): Full Answer
+        // Unified Titration Mapping
+        // Question: Column 2 (Index 1)
+        // Chapter: Column 3 (Index 2)
+        // Choices: Column 3-6 (Index 2-5)
+        // Answer: Column 12 (Index 11)
         
         const qText = scrub(parts[1]);
+        const chapterRaw = scrub(parts[2] || "General Review");
         const choicesRaw = [parts[2], parts[3], parts[4], parts[5]];
         const answerText = scrub(parts[11] || parts[12] || "");
-        const chapter = "Hematology - Turgeon 5th Ed";
 
+        // Filter out empty choices (True/False or 3-choice support)
         const filteredChoices = choicesRaw
+          .map(c => scrub(c))
           .filter(c => c && c.trim() !== '')
           .map((text, i) => ({
             id: String.fromCharCode(65 + i),
-            text: scrub(text)
+            text: text
           }));
 
         let answerId = 'A';
@@ -311,13 +327,13 @@ export default function QuizPage() {
         if (match) answerId = match.id;
 
         questionsToImport.push({
-          id: `turgeon-${Date.now()}-${idx}`,
+          id: `titrate-${Date.now()}-${idx}`,
           subject: importSubject,
           question: qText,
           choices: filteredChoices,
           answerId: answerId,
-          rationale: `Source: ${chapter}. Answer: ${answerText}`,
-          tags: [chapter, 'Strict-Titration'],
+          rationale: `Source: ${chapterRaw}. Answer: ${answerText}`,
+          tags: [chapterRaw],
         });
 
         if (idx % 20 === 0 || idx === total - 1) {
@@ -530,11 +546,11 @@ export default function QuizPage() {
               <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-6">
                 <div className="flex items-center gap-3">
                   <Upload className="text-primary" size={32} />
-                  <h3 className="text-xl font-black italic uppercase text-white">Turgeon 5th Ed Titration</h3>
+                  <h3 className="text-xl font-black italic uppercase text-white">Titration Protocol</h3>
                 </div>
                 
                 <div className="space-y-4">
-                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector</Label>
+                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector Target</Label>
                   <Select value={importSubject} onValueChange={setImportSubject}>
                     <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase text-white">
                       <SelectValue placeholder="Select Sector" />
@@ -562,7 +578,7 @@ export default function QuizPage() {
                   <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload-quiz" />
                   <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
                     <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
-                      {file ? file.name : 'CHOOSE .TXT (TURGEON)'}
+                      {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
                     </label>
                   </Button>
                   <Button className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>

@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
@@ -10,15 +10,13 @@ import {
   Upload, 
   Loader2, 
   Zap,
-  FileJson,
-  Database,
   Trash2,
   AlertCircle,
-  RotateCcw
+  RotateCcw,
+  Database
 } from 'lucide-react';
-import { db, Question, LabModule, CORE_SUBJECTS } from '@/lib/db';
+import { db, Question, CORE_SUBJECTS, LabModule } from '@/lib/db';
 import { useToast } from '@/hooks/use-toast';
-import { generateQuestions } from '@/ai/flows/question-generator';
 import {
   Select,
   SelectContent,
@@ -42,43 +40,39 @@ import {
 export default function ImportPage() {
   const [file, setFile] = useState<File | null>(null);
   const [importing, setImporting] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [selectedSubjectAi, setSelectedSubjectAi] = useState<string>('Hematology');
-  const [selectedSubjectAnki, setSelectedSubjectAnki] = useState<string>('Hematology');
+  const [importSubject, setImportSubject] = useState<string>('Hematology');
   const { toast } = useToast();
 
   const scrub = (str: string) => {
     if (!str) return "";
     let clean = str
-      .replace(/<[^>]*>?/gm, ' ') 
+      .replace(/<[^>]*>?/gm, ' ') // Strip HTML
       .replace(/&nbsp;/g, ' ')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&')
       .replace(/Anki\s*ng\s*RMT/gi, '')
       .replace(/Lelouch/gi, '')
+      .replace(/Auto\s*submit/gi, '')
+      .replace(/Shuffle\s*choices/gi, '')
+      .replace(/Made\s*by\s*[^🧪]*/gi, '')
+      .replace(/🧪\s*Answer:/gi, '')
       .replace(/\s\s+/g, ' ')
       .trim();
+    
+    // Deduplicate logic for messy lines
+    const mid = Math.floor(clean.length / 2);
+    const firstHalf = clean.substring(0, mid).trim();
+    const secondHalf = clean.substring(clean.length - mid).trim();
+    if (firstHalf === secondHalf && firstHalf.length > 10) {
+      clean = firstHalf;
+    }
+
     if (clean.includes('::')) {
       const parts = clean.split('::');
       return parts[parts.length - 1].trim();
     }
     return clean;
-  };
-
-  const handleAiGeneration = async () => {
-    setGenerating(true);
-    try {
-      const result = await generateQuestions({ subject: selectedSubjectAi, count: 5 });
-      if (result.questions && result.questions.length > 0) {
-        await db.bulkPut('questions', result.questions);
-        toast({ title: "AI Synthesis Complete", description: `Generated 5 high-yield ${selectedSubjectAi} questions.` });
-      }
-    } catch (error) {
-      toast({ variant: "destructive", title: "Synthesis Error", description: "AI titration failed." });
-    } finally {
-      setGenerating(false);
-    }
   };
 
   const processAnkiExport = async () => {
@@ -87,44 +81,50 @@ export default function ImportPage() {
     try {
       const text = await file.text();
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
-      const questions: Question[] = [];
+      const questionsToImport: Question[] = [];
 
       for (let idx = 0; idx < lines.length; idx++) {
         const parts = lines[idx].split('\t');
         if (parts.length < 5) continue;
 
-        // TURGEON 5TH ED PROTOCOL MAPPING
+        // Unified Titration Rules
+        // Col 2 (parts[1]): Question
+        // Col 3 (parts[2]): Chapter Path / Choice 1
+        // Col 4-6 (parts[3-5]): Choices 2-4
+        // Col 12 (parts[11]): Answer Text
+        
         const qText = scrub(parts[1]);
+        const chapter = scrub(parts[2] || "General Titration");
         const choicesRaw = [parts[2], parts[3], parts[4], parts[5]];
         const answerText = scrub(parts[11] || parts[12] || "");
-        const chapter = "Hematology - Turgeon 5th Ed";
 
         const filteredChoices = choicesRaw
+          .map(c => scrub(c))
           .filter(c => c && c.trim() !== '')
           .map((text, i) => ({
             id: String.fromCharCode(65 + i),
-            text: scrub(text)
+            text: text
           }));
 
         let answerId = 'A';
         const match = filteredChoices.find(c => c.text.toLowerCase() === answerText.toLowerCase());
         if (match) answerId = match.id;
 
-        questions.push({
-          id: `turgeon-${Date.now()}-${idx}`,
-          subject: selectedSubjectAnki,
+        questionsToImport.push({
+          id: `imp-${Date.now()}-${idx}`,
+          subject: importSubject,
           question: qText,
           choices: filteredChoices,
           answerId: answerId,
           rationale: `Source: ${chapter}. Answer: ${answerText}`,
-          tags: [chapter, 'Strict-Titration'],
+          tags: [chapter],
         });
       }
-      await db.bulkPut('questions', questions);
-      toast({ title: "Titration Successful", description: `Imported ${questions.length} cards into ${selectedSubjectAnki}.` });
+      await db.bulkPut('questions', questionsToImport);
+      toast({ title: "Titration Successful", description: `Imported ${questionsToImport.length} cards into ${importSubject}.` });
       setFile(null);
     } catch (err) {
-      toast({ variant: "destructive", title: "Titration Failed", description: "Error processing columns." });
+      toast({ variant: "destructive", title: "Titration Failed", description: "Error processing archive." });
     } finally {
       setImporting(false);
     }
@@ -156,14 +156,14 @@ export default function ImportPage() {
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="outline" className="border-red-500/20 text-red-500 font-black text-[10px] uppercase">
-                  <Trash2 className="mr-2 h-3 w-3" /> Purge archives
+                  <Trash2 className="mr-2 h-3 w-3" /> Purge all archives
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-red-500 font-black uppercase">TOTAL PURGE REQUIRED?</AlertDialogTitle>
                   <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                    This will permanently delete all quiz questions, anki cards, and uploaded modules.
+                    This will permanently delete ALL titrated questions, anki cards, and uploaded modules.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -174,38 +174,18 @@ export default function ImportPage() {
             </AlertDialog>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="riot-card bg-primary/5 border border-primary/20 p-8 flex flex-col justify-between">
-              <div>
-                <Zap className="text-primary mb-6 animate-pulse" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">AI Synthesis</h3>
-                <div className="space-y-4">
-                   <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Target Sector</Label>
-                   <Select value={selectedSubjectAi} onValueChange={setSelectedSubjectAi}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase">
-                      <SelectValue placeholder="Select Subject" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
-                      {CORE_SUBJECTS.map((s) => (
-                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                   </Select>
-                </div>
+          <div className="grid grid-cols-1 gap-8">
+            <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-8">
+              <div className="flex items-center gap-4">
+                <Database className="text-primary" size={32} />
+                <h3 className="text-xl font-black italic uppercase">Titration Protocol</h3>
               </div>
-              <Button onClick={handleAiGeneration} disabled={generating} className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]">
-                {generating ? <Loader2 className="animate-spin" /> : 'SYNTHESIZE ASSAY'}
-              </Button>
-            </div>
-
-            <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
-              <div>
-                <Database className="text-primary mb-6" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">Turgeon Titration</h3>
-                <div className="space-y-4 mt-6">
-                   <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Calibration Sector</Label>
-                   <Select value={selectedSubjectAnki} onValueChange={setSelectedSubjectAnki}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase">
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector Target</Label>
+                  <Select value={importSubject} onValueChange={setImportSubject}>
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase text-white">
                       <SelectValue placeholder="Select Sector" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
@@ -213,20 +193,23 @@ export default function ImportPage() {
                         <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
                       ))}
                     </SelectContent>
-                   </Select>
+                  </Select>
+                </div>
+
+                <div className="space-y-4">
+                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Select TXT Archive</Label>
+                  <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload-center" />
+                  <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
+                    <label htmlFor="anki-upload-center" className="cursor-pointer flex items-center justify-center gap-2">
+                      {file ? file.name : 'CHOOSE .TXT FILE'}
+                    </label>
+                  </Button>
                 </div>
               </div>
-              <div className="mt-8 space-y-4">
-                <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload" />
-                <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
-                  <label htmlFor="anki-upload" className="cursor-pointer flex items-center justify-center gap-2">
-                    {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
-                  </label>
-                </Button>
-                <Button className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
-                  {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
-                </Button>
-              </div>
+
+              <Button className="riot-button w-full h-14 bg-primary text-black font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
+                {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
+              </Button>
             </div>
           </div>
         </div>
