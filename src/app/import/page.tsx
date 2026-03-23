@@ -46,46 +46,23 @@ export default function ImportPage() {
   const [stats, setStats] = useState<{ count: number; subjects: string[] } | null>(null);
   const { toast } = useToast();
 
+  const scrub = (str: string) => {
+    if (!str) return "";
+    return str
+      .replace(/<[^>]*>?/gm, ' ') 
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/Anki\s*ng\s*RMT/gi, '')
+      .replace(/Lelouch/gi, '')
+      .replace(/\s\s+/g, ' ')
+      .trim();
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
-    }
-  };
-
-  const seedHighYieldDeck = async () => {
-    setImporting(true);
-    const medTechDeck: Question[] = [
-      {
-        id: 'anki-hema-1',
-        subject: 'Hematology',
-        question: 'What is the hallmark cell found in Hodgkin\'s Lymphoma, described as having an "Owl-Eye" appearance?',
-        choices: [
-          { id: 'A', text: 'Pappenheimer Cell' },
-          { id: 'B', text: 'Reed-Sternberg Cell' },
-          { id: 'C', text: 'Sézary Cell' },
-          { id: 'D', text: 'Pelger-Huet Cell' },
-        ],
-        answerId: 'B',
-        rationale: 'Reed-Sternberg cells are large, binucleated or multinucleated cells (typically with prominent nucleoli) essential for the diagnosis of Hodgkin\'s Lymphoma.',
-        tags: ['Anki', 'Lymphoma', 'Morphology'],
-      }
-    ];
-
-    try {
-      await db.bulkPut('questions', medTechDeck);
-      setStats({ count: medTechDeck.length, subjects: ['Hematology'] });
-      toast({
-        title: "MedTech Board Deck Titrated",
-        description: "High-yield flashcards have been synchronized.",
-      });
-    } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Titration Failed",
-        description: "Could not populate sample deck.",
-      });
-    } finally {
-      setImporting(false);
     }
   };
 
@@ -96,17 +73,10 @@ export default function ImportPage() {
       if (result.questions && result.questions.length > 0) {
         await db.bulkPut('questions', result.questions);
         setStats({ count: result.questions.length, subjects: [selectedSubject] });
-        toast({
-          title: "AI Synthesis Complete",
-          description: `Generated 5 high-yield ${selectedSubject} board-style questions.`,
-        });
+        toast({ title: "AI Synthesis Complete", description: `Generated 5 high-yield ${selectedSubject} questions.` });
       }
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Synthesis Error",
-        description: "Laboratory AI failed to generate clinical content.",
-      });
+      toast({ variant: "destructive", title: "Synthesis Error", description: "AI titration failed." });
     } finally {
       setGenerating(false);
     }
@@ -118,78 +88,78 @@ export default function ImportPage() {
     
     try {
       const text = await file.text();
-      const lines = text.split('\n').filter(line => line.trim().length > 0);
+      const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questions: Question[] = [];
       const subjects = new Set<string>();
 
-      lines.forEach((line, idx) => {
-        const parts = line.split('\t'); 
-        if (parts.length < 2) return; 
+      for (let idx = 0; idx < lines.length; idx++) {
+        const parts = lines[idx].split('\t');
+        if (parts.length < 8) continue;
 
-        const front = parts[0].trim().replace(/^"|"$/g, '');
-        const back = parts[1].trim().replace(/^"|"$/g, '');
-        const tagsRaw = parts[2] || 'Anki-Import';
-        const tags = tagsRaw.split(' ').filter(t => t.length > 0);
-        
-        const subjectMatch = CORE_SUBJECTS.find(s => 
-          tagsRaw.toLowerCase().includes(s.toLowerCase())
-        ) || 'General';
+        const chapter = scrub(parts[2]);
+        const qText = scrub(parts[3]);
+        const cA = scrub(parts[4]);
+        const cB = scrub(parts[5]);
+        const cC = scrub(parts[6]);
+        const cD = scrub(parts[7]);
+        const ansRaw = scrub(parts[11] || parts[12] || "");
+
+        const choices = [
+          { id: 'A', text: cA },
+          { id: 'B', text: cB },
+          { id: 'C', text: cC },
+          { id: 'D', text: cD },
+        ];
+
+        let answerId = 'A';
+        const match = choices.find(c => c.text.toLowerCase() === ansRaw.toLowerCase());
+        if (match) answerId = match.id;
+        else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
+
+        let subjectMatch = 'General';
+        const context = (chapter + ' ' + qText).toLowerCase();
+        if (/hema|blood|rodak|keohane|harmening|coag|heme/.test(context)) subjectMatch = 'Hematology';
+        else if (/micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(context)) subjectMatch = 'Microbiology';
+        else if (/chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(context)) subjectMatch = 'Clinical Chemistry';
+        else if (/immuno|sero|stevens|turgeon|abbas|bloodbank|harmening_bb/.test(context)) subjectMatch = 'Immuno-Serology';
+        else if (/microscopy|urine|strasinger|bodyfluid|analysis|clinmic/.test(context)) subjectMatch = 'Clinical Microscopy';
+        else if (/histo|path|htmle|gregorio|bancroft|fixative|staining/.test(context)) subjectMatch = 'HTMLE';
 
         subjects.add(subjectMatch);
 
         questions.push({
-          id: `anki-${Date.now()}-${idx}`,
+          id: `strict-${Date.now()}-${idx}`,
           subject: subjectMatch,
-          question: front,
-          choices: [
-            { id: 'A', text: 'REVEAL CLINICAL DATA' },
-            { id: 'B', text: '---' },
-            { id: 'C', text: '---' },
-            { id: 'D', text: '---' },
-          ],
-          answerId: 'A',
-          rationale: back,
-          tags: tags,
+          question: qText,
+          choices: choices,
+          answerId: answerId,
+          rationale: `Chapter: ${chapter}. Answer: ${ansRaw}`,
+          tags: [chapter, 'Strict-Import'],
         });
-      });
-
-      if (questions.length === 0) {
-        throw new Error("No valid flashcards found in the archive.");
       }
 
       await db.bulkPut('questions', questions);
       setStats({ count: questions.length, subjects: Array.from(subjects) });
-      toast({
-        title: "Titration Successful",
-        description: `Imported ${questions.length} cards from Anki archive.`,
-      });
+      toast({ title: "Titration Successful", description: `Imported ${questions.length} strict-format cards.` });
     } catch (err) {
-      toast({
-        variant: "destructive",
-        title: "Titration Failed",
-        description: err instanceof Error ? err.message : "Error processing Anki file.",
-      });
+      toast({ variant: "destructive", title: "Titration Failed", description: "Error processing strict columns." });
     } finally {
       setImporting(false);
     }
   };
 
   const purgeAllRecords = async () => {
-    // Purge Questions and Progress
     const allQuestions = await db.getAll<Question>('questions');
     for (const q of allQuestions) {
       await db.delete('questions', q.id);
       await db.delete('progress', q.id);
     }
-    
-    // Purge Modules (PDFs)
     const allModules = await db.getAll<LabModule>('modules');
     for (const m of allModules) {
       await db.delete('modules', m.id);
     }
-
     setStats(null);
-    toast({ title: "Laboratory Purged", description: "All questions and modules have been deleted." });
+    toast({ title: "Laboratory Purged", description: "Archive cleared." });
   };
 
   return (
@@ -200,135 +170,73 @@ export default function ImportPage() {
         
         <div className="max-w-6xl mx-auto px-8 py-32 space-y-12">
           <div className="border-b border-white/5 pb-8 flex items-center justify-between">
-            <div>
-              <h2 className="text-4xl font-black italic uppercase tracking-tighter">Data Titration</h2>
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">
-                Populate your clinical library via AI synthesis, Anki exports, or high-yield seeding.
-              </p>
-            </div>
-            
+            <h2 className="text-4xl font-black italic uppercase tracking-tighter">Data Titration Center</h2>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" className="border-red-500/20 text-red-500 hover:bg-red-500/10 h-10 px-4 font-black text-[10px] uppercase tracking-widest">
-                  <Trash2 className="mr-2 h-3 w-3" /> Purge Records
+                <Button variant="outline" className="border-red-500/20 text-red-500 font-black text-[10px] uppercase">
+                  <Trash2 className="mr-2 h-3 w-3" /> Purge archives
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                 <AlertDialogHeader>
-                  <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl text-red-500">Total Purge Required?</AlertDialogTitle>
+                  <AlertDialogTitle className="text-red-500 font-black uppercase">TOTAL PURGE REQUIRED?</AlertDialogTitle>
                   <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                    This will permanently delete all clinical cards (Anki/Quiz) and uploaded PDF modules from local storage.
+                    This will permanently delete all clinical records and uploaded protocols.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
-                  <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 text-white hover:bg-red-700 uppercase font-black text-[10px] rounded-none">
-                    CONFIRM PURGE
-                  </AlertDialogAction>
+                  <AlertDialogCancel className="font-black text-[10px] uppercase">Abort</AlertDialogCancel>
+                  <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 font-black text-[10px] uppercase">CONFIRM PURGE</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* AI Generation Card */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="riot-card bg-primary/5 border border-primary/20 p-8 flex flex-col justify-between">
               <div>
                 <Zap className="text-primary mb-6 animate-pulse" size={32} />
                 <h3 className="text-xl font-black italic uppercase mb-2">AI Synthesis</h3>
-                <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest mb-6">
-                  Generate ASCP-style questions mimicking review books like Stevens and Rodak's.
-                </p>
                 <div className="space-y-4">
                    <Label className="text-[9px] font-black uppercase tracking-widest">Clinical Sector</Label>
                    <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase">
                       <SelectValue placeholder="Select Subject" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
                       {CORE_SUBJECTS.map((s) => (
-                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
+                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
                       ))}
                     </SelectContent>
                    </Select>
                 </div>
               </div>
-              <Button 
-                onClick={handleAiGeneration}
-                disabled={generating}
-                className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]"
-              >
+              <Button onClick={handleAiGeneration} disabled={generating} className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]">
                 {generating ? <Loader2 className="animate-spin" /> : 'SYNTHESIZE ASSAY'}
               </Button>
             </div>
 
-            {/* Trial MedTech Deck Card */}
-            <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
-              <div>
-                <FileJson className="text-primary mb-6" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">Trial MedTech Deck</h3>
-                <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                  Quick-load high-yield clinical cards from core sectors to test the laboratory interface.
-                </p>
-              </div>
-              <Button 
-                onClick={seedHighYieldDeck}
-                disabled={importing}
-                className="riot-button h-12 mt-8 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
-              >
-                {importing ? <Loader2 className="animate-spin" /> : 'SEED TRIAL DECK'}
-              </Button>
-            </div>
-
-            {/* Anki Protocol Upload */}
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
               <div>
                 <Database className="text-primary mb-6" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">Anki Titration</h3>
-                <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                  Import Anki archives. Use "Notes in Plain Text" export with [Tab] separation for perfect titration.
+                <h3 className="text-xl font-black italic uppercase mb-2">Strict Anki Titration</h3>
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                  Import "Notes in Plain Text" using strict Column 3-13 alignment.
                 </p>
               </div>
-              
               <div className="mt-8 space-y-4">
-                <Input 
-                  type="file" 
-                  accept=".csv,.txt" 
-                  onChange={handleFileChange} 
-                  className="hidden" 
-                  id="anki-upload"
-                />
-                <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-white font-black text-[10px]">
+                <Input type="file" accept=".txt" onChange={handleFileChange} className="hidden" id="anki-upload" />
+                <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
                   <label htmlFor="anki-upload" className="cursor-pointer flex items-center justify-center gap-2">
                     {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
                   </label>
                 </Button>
-                <Button 
-                  className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
-                  disabled={!file || importing}
-                  onClick={processAnkiExport}
-                >
+                <Button className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
                   {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
                 </Button>
               </div>
             </div>
           </div>
-
-          {stats && (
-            <div className="riot-card p-8 bg-primary/5 border border-primary/20 animate-in slide-in-from-bottom-4 duration-500">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] mb-6 text-primary">Titration Complete</h4>
-              <div className="grid grid-cols-2 gap-8">
-                <div>
-                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Total Cards Recorded</p>
-                  <p className="text-4xl font-black italic text-white tracking-tighter">{stats.count}</p>
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Sectors Identified</p>
-                  <p className="text-4xl font-black italic text-white tracking-tighter">{stats.subjects.length}</p>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </main>
     </div>

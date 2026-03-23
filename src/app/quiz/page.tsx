@@ -182,96 +182,79 @@ export default function QuizPage() {
       if (total === 0) throw new Error("Archive is empty.");
 
       const scrub = (str: string) => {
+        if (!str) return "";
         let result = str
           .replace(/<[^>]*>?/gm, ' ') 
           .replace(/&nbsp;/g, ' ')
           .replace(/&lt;/g, '<')
           .replace(/&gt;/g, '>')
           .replace(/&amp;/g, '&')
-          .replace(/ANKI\s*ng\s*RMT/gi, '')
+          .replace(/Anki\s*ng\s*RMT/gi, '')
+          .replace(/Lelouch/gi, '')
           .replace(/SHOW\s*ANSWERS\s*IMMEDIATELY/gi, '')
           .replace(/SUBMIT\s*AND\s*ESC/gi, '')
-          .replace(/LELOUCH/gi, '')
           .replace(/AUTO\s*SUBMIT/gi, '')
           .replace(/SHUFFLE\s*CHOICES/gi, '')
-          .replace(/\(\s*\)/g, '')
-          .replace(/^"|"$/g, '')
+          .replace(/\s\s+/g, ' ')
           .trim();
-        return result.replace(/\s\s+/g, ' ').trim();
+        return result;
       };
 
       for (let idx = 0; idx < total; idx++) {
         const line = lines[idx];
         const parts = line.split('\t'); 
-        if (parts.length < 2) continue;
+        
+        // STRICT PARSING RULES:
+        // Column 3 (parts[2]): Chapter/Path
+        // Column 4 (parts[3]): Question
+        // Columns 5-8 (parts[4-7]): Choices A, B, C, D
+        // Columns 12-13 (parts[11-12]): Answer
+        
+        if (parts.length < 8) continue;
 
-        const rawFront = parts[0];
-        const rawBack = parts[1];
-        const tagsRaw = (parts[2] || 'General').toLowerCase();
+        const chapter = scrub(parts[2]);
+        const qText = scrub(parts[3]);
+        const cA = scrub(parts[4]);
+        const cB = scrub(parts[5]);
+        const cC = scrub(parts[6]);
+        const cD = scrub(parts[7]);
+        const ansRaw = scrub(parts[11] || parts[12] || "");
 
-        const fullScrubbed = scrub(rawFront);
-        
-        let splitIdx = -1;
-        const qMark = fullScrubbed.indexOf('?');
-        const sColon = fullScrubbed.indexOf(';');
-        
-        if (qMark !== -1 && sColon !== -1) splitIdx = Math.min(qMark, sColon);
-        else if (qMark !== -1) splitIdx = qMark;
-        else if (sColon !== -1) splitIdx = sColon;
-        
-        let qText = fullScrubbed;
-        let cBlock = "";
-        
-        if (splitIdx !== -1 && splitIdx < fullScrubbed.length - 2) {
-          qText = fullScrubbed.substring(0, splitIdx + 1).trim();
-          cBlock = fullScrubbed.substring(splitIdx + 1).trim();
+        const choices = [
+          { id: 'A', text: cA },
+          { id: 'B', text: cB },
+          { id: 'C', text: cC },
+          { id: 'D', text: cD },
+        ];
+
+        // Match answer text to choice ID
+        let answerId = 'A';
+        const match = choices.find(c => c.text.toLowerCase() === ansRaw.toLowerCase());
+        if (match) {
+          answerId = match.id;
+        } else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) {
+          answerId = ansRaw.toUpperCase();
         }
 
-        const detectedChoices: {id: string, text: string}[] = [];
-        const potentialChoices = cBlock.split(/\s{2,}|(?=\b[A-D][\.\)])/).map(p => p.trim()).filter(p => p.length > 0);
-
-        if (potentialChoices.length >= 2) {
-          potentialChoices.forEach((p, pidx) => {
-            if (pidx < 4) {
-              detectedChoices.push({
-                id: String.fromCharCode(65 + pidx),
-                text: p.replace(/^[A-D][\.\)]\s*/i, '').trim()
-              });
-            }
-          });
-        } else if (cBlock) {
-          detectedChoices.push({ id: 'A', text: cBlock });
-        } else {
-          detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
-        }
-
-        while (detectedChoices.length < 4) {
-          detectedChoices.push({ id: String.fromCharCode(65 + detectedChoices.length), text: '---' });
-        }
-
+        // Sector Mapping Logic
         let subjectMatch = 'General';
-        const isHema = /hema|blood|rodak|keohane|harmening|coag|heme/.test(tagsRaw);
-        const isMicro = /micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(tagsRaw);
-        const isChem = /chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(tagsRaw);
-        const isIS = /immuno|sero|stevens|turgeon|abbas|bloodbank|harmening_bb/.test(tagsRaw);
-        const isCM = /microscopy|urine|strasinger|bodyfluid|analysis|clinmic/.test(tagsRaw);
-        const isHTMLE = /histo|path|htmle|gregorio|bancroft|fixative|staining/.test(tagsRaw);
-
-        if (isHema) subjectMatch = 'Hematology';
-        else if (isMicro) subjectMatch = 'Microbiology';
-        else if (isChem) subjectMatch = 'Clinical Chemistry';
-        else if (isIS) subjectMatch = 'Immuno-Serology';
-        else if (isCM) subjectMatch = 'Clinical Microscopy';
-        else if (isHTMLE) subjectMatch = 'HTMLE';
+        const context = (chapter + ' ' + qText).toLowerCase();
+        
+        if (/hema|blood|rodak|keohane|harmening|coag|heme/.test(context)) subjectMatch = 'Hematology';
+        else if (/micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(context)) subjectMatch = 'Microbiology';
+        else if (/chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(context)) subjectMatch = 'Clinical Chemistry';
+        else if (/immuno|sero|stevens|turgeon|abbas|bloodbank|harmening_bb/.test(context)) subjectMatch = 'Immuno-Serology';
+        else if (/microscopy|urine|strasinger|bodyfluid|analysis|clinmic/.test(context)) subjectMatch = 'Clinical Microscopy';
+        else if (/histo|path|htmle|gregorio|bancroft|fixative|staining/.test(context)) subjectMatch = 'HTMLE';
 
         questionsToImport.push({
-          id: `titrate-${Date.now()}-${idx}`,
+          id: `strict-${Date.now()}-${idx}`,
           subject: subjectMatch,
           question: qText,
-          choices: detectedChoices,
-          answerId: 'A', 
-          rationale: scrub(rawBack),
-          tags: tagsRaw.split(' ').filter(t => t.length > 0),
+          choices: choices,
+          answerId: answerId,
+          rationale: `Chapter: ${chapter}. Answer: ${ansRaw}`,
+          tags: [chapter, 'Strict-Titration'],
         });
 
         if (idx % 20 === 0 || idx === total - 1) {
@@ -284,12 +267,11 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards. Metadata purged and clumped choices separated.`,
+        description: `Recorded ${questionsToImport.length} clinical cards following strict column alignment.`,
       });
       
       setFile(null);
       if (selectedSubject) handleSubjectSelect(selectedSubject);
-      else window.location.reload(); 
     } catch (err) {
       toast({
         variant: "destructive",
@@ -305,19 +287,15 @@ export default function QuizPage() {
   };
 
   const purgeAllRecords = async () => {
-    // Purge Questions and Progress
     const allQuestions = await db.getAll<Question>('questions');
     for (const q of allQuestions) {
       await db.delete('questions', q.id);
       await db.delete('progress', q.id);
     }
-    
-    // Purge Modules (PDFs)
     const allModules = await db.getAll<LabModule>('modules');
     for (const m of allModules) {
       await db.delete('modules', m.id);
     }
-
     await countTotalAnki();
     toast({ title: "Laboratory Purged", description: "All clinical cards and modules have been deleted." });
     setStep('subject');
@@ -396,11 +374,6 @@ export default function QuizPage() {
                       <Layers size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
                       <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Anki Archive</h4>
                       <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Imported Data</p>
-                      <div className="mt-6 flex justify-end">
-                         <div className="w-10 h-10 xl:w-14 xl:h-14 bg-black/20 group-hover:bg-black/40 flex items-center justify-center">
-                            <ChevronRight />
-                         </div>
-                      </div>
                     </button>
                   )}
 
@@ -413,11 +386,6 @@ export default function QuizPage() {
                       <BookOpen size={24} className="mb-4 text-primary xl:size-32" />
                       <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white">{m.name}</h4>
                       <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">AI Assay Synthesis</p>
-                      <div className="mt-6 flex justify-end">
-                         <div className="w-10 h-10 xl:w-14 xl:h-14 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
-                            <ChevronRight className="text-black" />
-                         </div>
-                      </div>
                     </button>
                   ))}
 
@@ -425,9 +393,6 @@ export default function QuizPage() {
                     <div className="col-span-full text-center py-24 xl:py-40 riot-card border border-dashed border-white/10 bg-white/[0.02]">
                         <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
                         <h3 className="text-xl xl:text-4xl font-black italic uppercase text-white">No Protocols Found</h3>
-                        <p className="text-xs xl:text-lg font-bold text-muted-foreground uppercase tracking-widest mb-8 px-6">
-                          Titrate an archive below to begin.
-                        </p>
                     </div>
                   )}
                 </div>
@@ -447,19 +412,14 @@ export default function QuizPage() {
 
             {completed && (
               <div className="text-center py-20 xl:py-40 animate-in fade-in zoom-in duration-700">
-                <div className="w-24 h-24 xl:w-32 xl:h-32 bg-primary/20 text-primary rounded-none flex items-center justify-center mx-auto mb-8 border border-primary/30">
-                  <Trophy size={48} className="xl:size-20" />
-                </div>
+                <Trophy size={64} className="mx-auto text-primary mb-8" />
                 <h2 className="text-5xl xl:text-8xl font-black italic uppercase tracking-tighter mb-4 text-white">Assay Finalized</h2>
-                <p className="text-muted-foreground mb-12 text-lg xl:text-2xl italic max-w-2xl mx-auto leading-relaxed">
-                  Your titration levels for this session have been recorded.
-                </p>
                 <div className="flex gap-4 justify-center">
-                  <Button asChild variant="outline" className="riot-button h-16 xl:h-20 px-10 xl:px-16 border-white/10 text-white font-black text-[10px]">
+                  <Button asChild variant="outline" className="riot-button h-16 px-10 border-white/10 text-white font-black text-[10px]">
                     <Link href="/dashboard">BACK TO LABORATORY</Link>
                   </Button>
-                  <Button onClick={() => window.location.reload()} className="riot-button h-16 xl:h-20 px-10 xl:px-16 bg-primary text-black font-black text-[10px]">
-                    NEW ASSAY <ChevronRight className="ml-2" />
+                  <Button onClick={() => window.location.reload()} className="riot-button h-16 px-10 bg-primary text-black font-black text-[10px]">
+                    NEW ASSAY
                   </Button>
                 </div>
               </div>
@@ -467,127 +427,66 @@ export default function QuizPage() {
           </div>
 
           <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
-            <div className="space-y-8">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-6">
                 <div className="flex items-center gap-3">
-                  <Database className="text-primary/70" size={24} />
-                  <div>
-                    <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Laboratory Import Center</h3>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate Anki .txt archives into clinical folders.</p>
-                  </div>
+                  <Upload className="text-primary" size={32} />
+                  <h3 className="text-xl font-black italic uppercase text-white">Strict Titration Import</h3>
                 </div>
-                <div className="bg-primary/10 border border-primary/30 px-6 py-3 flex flex-col items-end shrink-0">
-                   <p className="text-[8px] font-black text-primary uppercase tracking-[0.2em]">TITRATED CARDS</p>
-                   <p className="text-2xl font-black italic text-white leading-none mt-1">{totalAnkiInDb}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between space-y-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <Upload className="text-primary" size={32} />
-                      <h3 className="text-xl font-black italic uppercase text-white">Anki Archive Titration</h3>
+                {importing && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-[10px] font-black uppercase text-primary">
+                      <span>Titrating...</span>
+                      <span>{importProgress}%</span>
                     </div>
-                    <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                      Export from Anki as "Notes in Plain Text (.txt)" with "Include Tags" checked.
-                    </p>
-                  </div>
-                  
-                  {importing && (
-                    <div className="space-y-2 animate-in fade-in duration-300">
-                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-primary">
-                        <span>Titrating Archive...</span>
-                        <span>{importProgress}%</span>
-                      </div>
-                      <div className="h-1 bg-white/5 w-full relative overflow-hidden">
-                        <div className="absolute inset-0 bg-primary transition-all duration-300" style={{ width: `${importProgress}%` }} />
-                      </div>
+                    <div className="h-1 bg-white/5 w-full relative overflow-hidden">
+                      <div className="absolute inset-0 bg-primary transition-all duration-300" style={{ width: `${importProgress}%` }} />
                     </div>
-                  )}
-
-                  <div className="space-y-4">
-                    <Input 
-                      type="file" 
-                      accept=".txt,.csv" 
-                      onChange={(e) => setFile(e.target.files?.[0] || null)} 
-                      className="hidden" 
-                      id="anki-upload-quiz"
-                    />
-                    <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-white font-black text-[10px]">
-                      <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
-                        {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
-                      </label>
-                    </Button>
-                    <Button 
-                      className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
-                      disabled={!file || importing}
-                      onClick={processAnkiExport}
-                    >
-                      {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
-                    </Button>
                   </div>
-                </div>
-
-                <div className="riot-card bg-primary/5 border border-primary/20 p-8">
-                   <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                         <FileText className="text-primary" size={24} />
-                         <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Titration Protocol</h4>
-                      </div>
-                      <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        The lab automatically detects choices following '?' or ';'.
-                      </p>
-                      <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        Unwanted metadata like 'Anki ng RMT' is purged automatically.
-                      </p>
-                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-8">
-              <div className="flex items-center gap-3">
-                <RefreshCw className="text-red-500/50" size={20} />
-                <h3 className="text-sm font-black italic uppercase tracking-[0.3em] text-white/40">Reset Laboratory Assays</h3>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
-                <div className="space-y-2">
-                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
-                  <select 
-                    value={resetSubject} 
-                    onChange={(e) => setResetSubject(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 h-12 xl:h-14 px-4 text-[10px] xl:text-[12px] font-black uppercase tracking-widest outline-none focus:ring-1 focus:ring-primary"
+                )}
+                <div className="space-y-4">
+                  <Input 
+                    type="file" 
+                    accept=".txt" 
+                    onChange={(e) => setFile(e.target.files?.[0] || null)} 
+                    className="hidden" 
+                    id="anki-upload-quiz"
+                  />
+                  <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
+                    <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
+                      {file ? file.name : 'CHOOSE .TXT (STRICT COLS)'}
+                    </label>
+                  </Button>
+                  <Button 
+                    className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]"
+                    disabled={!file || importing}
+                    onClick={processAnkiExport}
                   >
-                    {[...CORE_SUBJECTS, 'General'].map(s => (
-                      <option key={s} value={s} className="bg-[#111a24]">{s}</option>
-                    ))}
-                  </select>
+                    {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
+                  </Button>
                 </div>
-                
-                <div className="flex gap-2 col-span-1 md:col-span-2">
-                  <AlertDialog>
+              </div>
+
+              <div className="riot-card bg-red-500/5 border border-red-500/20 p-8 flex flex-col justify-center text-center">
+                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <Button className="riot-button flex-1 h-12 xl:h-14 bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white font-black text-[10px]">
-                        <Trash2 className="mr-2 h-3 w-3" /> PURGE ALL TITRATED RECORDS
+                      <Button variant="ghost" className="text-red-500 hover:bg-red-500/10 font-black text-[10px] uppercase tracking-widest h-12">
+                        <Trash2 className="mr-2 h-4 w-4" /> PURGE ALL LABORATORY RECORDS
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                       <AlertDialogHeader>
-                        <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl text-red-500">CRITICAL: TOTAL PURGE</AlertDialogTitle>
+                        <AlertDialogTitle className="font-black italic uppercase text-red-500">TOTAL PURGE REQUIRED?</AlertDialogTitle>
                         <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          This will permanently delete ALL imported Anki cards, PDF Modules, and study progress.
+                          Permanently delete all clinical cards and modules.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
-                        <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 text-white hover:bg-red-700 uppercase font-black text-[10px] rounded-none">
-                          CONFIRM TOTAL PURGE
-                        </AlertDialogAction>
+                        <AlertDialogCancel className="uppercase font-black text-[10px]">Abort</AlertDialogCancel>
+                        <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 text-white font-black text-[10px]">CONFIRM</AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-                </div>
               </div>
             </div>
           </div>
