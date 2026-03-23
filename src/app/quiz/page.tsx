@@ -172,11 +172,12 @@ export default function QuizPage() {
     
     try {
       const text = await file.text();
+      // Handle both Windows and Unix line endings
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questionsToImport: Question[] = [];
 
       lines.forEach((line, idx) => {
-        // Handle standard Anki Tab-Separated format
+        // Anki plain text export is Tab-Separated
         const parts = line.split('\t'); 
         if (parts.length < 2) return;
 
@@ -185,9 +186,9 @@ export default function QuizPage() {
         const tagsRaw = parts[2] || 'Anki-Import';
         const tags = tagsRaw.split(' ').filter(t => t.length > 0);
         
-        // Match subject from tags or default to Clinical Chemistry
+        // Search tags for a core subject match, default to General if none found
         const subjectMatch = CORE_SUBJECTS.find(s => 
-          tagsRaw.toLowerCase().includes(s.toLowerCase().replace('-', ''))
+          tagsRaw.toLowerCase().includes(s.toLowerCase().replace('-', '').replace(' ', ''))
         ) || 'Clinical Chemistry';
 
         questionsToImport.push({
@@ -204,7 +205,7 @@ export default function QuizPage() {
       });
 
       if (questionsToImport.length === 0) {
-        throw new Error("No valid flashcards found in the archive. Ensure it is a Tab-Separated .txt file.");
+        throw new Error("No valid flashcards found in the archive. Ensure it is a Tab-Separated export.");
       }
 
       await db.bulkPut('questions', questionsToImport);
@@ -214,9 +215,9 @@ export default function QuizPage() {
       });
       setFile(null);
       
-      // Refresh subject view if we are on that step
-      if (step === 'subject' || step === 'module') {
-        window.location.reload();
+      // Force refresh of subject state
+      if (selectedSubject) {
+        handleSubjectSelect(selectedSubject);
       }
     } catch (err) {
       toast({
