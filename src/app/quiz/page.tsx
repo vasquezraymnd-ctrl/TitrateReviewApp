@@ -4,14 +4,27 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { db, Question, Progress, UserProfile, LabModule, CORE_SUBJECTS } from '@/lib/db';
+import { db, Question, Progress, LabModule, CORE_SUBJECTS } from '@/lib/db';
 import { calculateSM2 } from '@/lib/sm2';
 import { QuestionCard } from '@/components/quiz/QuestionCard';
 import { Button } from '@/components/ui/button';
 import { Progress as ProgressBar } from '@/components/ui/progress';
-import { Trophy, ChevronRight, Loader2, Microscope, BookOpen, Zap, AlertCircle, RefreshCw } from 'lucide-react';
+import { 
+  Trophy, 
+  ChevronRight, 
+  Loader2, 
+  Microscope, 
+  BookOpen, 
+  Zap, 
+  AlertCircle, 
+  RefreshCw,
+  FileJson,
+  Database,
+  Upload
+} from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
+import { generateQuestions } from '@/ai/flows/question-generator';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
@@ -31,6 +44,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function QuizPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -41,6 +56,12 @@ export default function QuizPage() {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [modules, setModules] = useState<LabModule[]>([]);
   
+  // Titration / Import State
+  const [importing, setImporting] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [selectedAiSubject, setSelectedAiSubject] = useState<string>('Hematology');
+  const [file, setFile] = useState<File | null>(null);
+
   // Reset States
   const [resetSubject, setResetSubject] = useState<string>('Hematology');
   const [resetModulesList, setResetModulesList] = useState<LabModule[]>([]);
@@ -118,6 +139,138 @@ export default function QuizPage() {
       setCurrentIndex(prev => prev + 1);
     } else {
       setCompleted(true);
+    }
+  };
+
+  // --- Titration / Import Handlers ---
+
+  const seedHighYieldDeck = async () => {
+    setImporting(true);
+    const medTechDeck: Question[] = [
+      {
+        id: 'anki-hema-1',
+        subject: 'Hematology',
+        question: 'What is the hallmark cell found in Hodgkin\'s Lymphoma, described as having an "Owl-Eye" appearance?',
+        choices: [
+          { id: 'A', text: 'Pappenheimer Cell' },
+          { id: 'B', text: 'Reed-Sternberg Cell' },
+          { id: 'C', text: 'Sézary Cell' },
+          { id: 'D', text: 'Pelger-Huet Cell' },
+        ],
+        answerId: 'B',
+        rationale: 'Reed-Sternberg cells are large, binucleated or multinucleated cells (typically with prominent nucleoli) essential for the diagnosis of Hodgkin\'s Lymphoma.',
+        tags: ['Anki', 'Lymphoma', 'Morphology'],
+      },
+      {
+        id: 'anki-micro-1',
+        subject: 'Microbiology',
+        question: 'Which biochemical test is primarily used to differentiate Staphylococcus aureus from other Staphylococci?',
+        choices: [
+          { id: 'A', text: 'Catalase' },
+          { id: 'B', text: 'Coagulase' },
+          { id: 'C', text: 'Oxidase' },
+          { id: 'D', text: 'Urease' },
+        ],
+        answerId: 'B',
+        rationale: 'Coagulase is the primary enzyme used to differentiate S. aureus (+) from coagulase-negative staphylococci.',
+        tags: ['Anki', 'Staph', 'Biochemical'],
+      }
+    ];
+
+    try {
+      await db.bulkPut('questions', medTechDeck);
+      toast({
+        title: "MedTech Board Deck Titrated",
+        description: "High-yield flashcards have been synchronized.",
+      });
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Titration Failed",
+        description: "Could not populate sample deck.",
+      });
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  const handleAiGeneration = async () => {
+    setGenerating(true);
+    try {
+      const result = await generateQuestions({ subject: selectedAiSubject, count: 5 });
+      if (result.questions && result.questions.length > 0) {
+        await db.bulkPut('questions', result.questions);
+        toast({
+          title: "AI Synthesis Complete",
+          description: `Generated 5 high-yield ${selectedAiSubject} board-style questions.`,
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Synthesis Error",
+        description: "Laboratory AI failed to generate clinical content.",
+      });
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const processAnkiExport = async () => {
+    if (!file) return;
+    setImporting(true);
+    
+    try {
+      const text = await file.text();
+      const lines = text.split('\n').filter(line => line.trim().length > 0);
+      const questions: Question[] = [];
+
+      lines.forEach((line, idx) => {
+        const parts = line.split('\t'); 
+        if (parts.length < 2) return;
+
+        const front = parts[0].trim().replace(/^"|"$/g, '');
+        const back = parts[1].trim().replace(/^"|"$/g, '');
+        const tagsRaw = parts[2] || 'Anki-Import';
+        const tags = tagsRaw.split(' ').filter(t => t.length > 0);
+        
+        const subjectMatch = CORE_SUBJECTS.find(s => 
+          tagsRaw.toLowerCase().includes(s.toLowerCase())
+        ) || 'General';
+
+        questions.push({
+          id: `anki-${Date.now()}-${idx}`,
+          subject: subjectMatch,
+          question: front,
+          choices: [
+            { id: 'A', text: 'REVEAL CLINICAL DATA' },
+            { id: 'B', text: '---' },
+            { id: 'C', text: '---' },
+            { id: 'D', text: '---' },
+          ],
+          answerId: 'A',
+          rationale: back,
+          tags: tags,
+        });
+      });
+
+      if (questions.length === 0) {
+        throw new Error("No valid flashcards found in the archive.");
+      }
+
+      await db.bulkPut('questions', questions);
+      toast({
+        title: "Titration Successful",
+        description: `Imported ${questions.length} cards from Anki archive.`,
+      });
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Titration Failed",
+        description: err instanceof Error ? err.message : "Error processing Anki file.",
+      });
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -274,70 +427,169 @@ export default function QuizPage() {
             )}
           </div>
 
-          {/* Reset Quizzes Section */}
+          {/* Data Titration / Reset Section */}
           {(step === 'subject' || step === 'module') && !loading && (
-            <div className="mt-32 pt-12 border-t border-white/5 space-y-8">
-              <div className="flex items-center gap-3">
-                <RefreshCw className="text-red-500/50" size={20} />
-                <h3 className="text-sm font-black italic uppercase tracking-[0.3em] text-white/40">Reset Laboratory Assays</h3>
-              </div>
+            <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
               
-              <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 items-end">
-                <div className="space-y-2">
-                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
-                  <Select value={resetSubject} onValueChange={setResetSubject}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                      {CORE_SUBJECTS.map(s => (
-                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+              {/* Titration Center */}
+              <div className="space-y-8">
+                <div className="flex items-center gap-3">
+                  <Database className="text-primary/70" size={24} />
+                  <div>
+                    <h3 className="text-xl font-black italic uppercase tracking-tighter">Laboratory Titration Center</h3>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Populate your clinical library via AI synthesis or Anki archives.</p>
+                  </div>
                 </div>
 
-                <div className="space-y-2 lg:col-span-1 xl:col-span-2">
-                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
-                  <Select value={selectedResetModuleId || ""} onValueChange={setSelectedResetModuleId}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
-                      <SelectValue placeholder="SELECT MODULE" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                      {resetModulesList.map(m => (
-                        <SelectItem key={m.id} value={m.id} className="uppercase font-black text-[10px] tracking-widest">{m.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* AI Generation */}
+                  <div className="riot-card bg-primary/5 border border-primary/20 p-8 flex flex-col justify-between">
+                    <div>
+                      <Zap className="text-primary mb-6 animate-pulse" size={32} />
+                      <h3 className="text-xl font-black italic uppercase mb-2">AI Synthesis</h3>
+                      <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest mb-6">
+                        Generate ASCP-style questions mimicking review books like Stevens and Rodak's.
+                      </p>
+                      <div className="space-y-4">
+                         <Label className="text-[9px] font-black uppercase tracking-widest">Clinical Sector</Label>
+                         <Select value={selectedAiSubject} onValueChange={setSelectedAiSubject}>
+                          <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase tracking-widest">
+                            <SelectValue placeholder="Select Subject" />
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                            {CORE_SUBJECTS.map((s) => (
+                              <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
+                            ))}
+                          </SelectContent>
+                         </Select>
+                      </div>
+                    </div>
                     <Button 
-                      disabled={!selectedResetModuleId}
-                      className="riot-button h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/5 font-black text-[10px] xl:text-[12px]"
+                      onClick={handleAiGeneration}
+                      disabled={generating}
+                      className="riot-button h-12 mt-8 bg-primary text-black font-black text-[10px]"
                     >
-                      RESET ASSAY DATA
+                      {generating ? <Loader2 className="animate-spin" /> : 'SYNTHESIZE ASSAY'}
                     </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
-                      <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                        This action will permanently delete all cached questions and spaced repetition progress for the selected protocol. This cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
-                      <AlertDialogAction 
-                        onClick={resetModuleData}
-                        className="bg-red-500 text-white hover:bg-red-600 uppercase font-black text-[10px] rounded-none"
+                  </div>
+
+                  {/* Trial Deck */}
+                  <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
+                    <div>
+                      <FileJson className="text-primary mb-6" size={32} />
+                      <h3 className="text-xl font-black italic uppercase mb-2">Trial MedTech Deck</h3>
+                      <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
+                        Quick-load high-yield clinical cards from core sectors to test the laboratory interface.
+                      </p>
+                    </div>
+                    <Button 
+                      onClick={seedHighYieldDeck}
+                      disabled={importing}
+                      className="riot-button h-12 mt-8 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
+                    >
+                      {importing ? <Loader2 className="animate-spin" /> : 'SEED TRIAL DECK'}
+                    </Button>
+                  </div>
+
+                  {/* Anki Upload */}
+                  <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
+                    <div>
+                      <Upload className="text-primary mb-6" size={32} />
+                      <h3 className="text-xl font-black italic uppercase mb-2">Anki Titration</h3>
+                      <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
+                        Import Anki archives. Use "Notes in Plain Text" export with [Tab] separation.
+                      </p>
+                    </div>
+                    
+                    <div className="mt-8 space-y-4">
+                      <Input 
+                        type="file" 
+                        accept=".csv,.txt" 
+                        onChange={(e) => setFile(e.target.files?.[0] || null)} 
+                        className="hidden" 
+                        id="anki-upload-quiz"
+                      />
+                      <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-white font-black text-[10px]">
+                        <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
+                          {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
+                        </label>
+                      </Button>
+                      <Button 
+                        className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
+                        disabled={!file || importing}
+                        onClick={processAnkiExport}
                       >
-                        PURGE ASSAY DATA
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                        {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Reset Section */}
+              <div className="space-y-8">
+                <div className="flex items-center gap-3">
+                  <RefreshCw className="text-red-500/50" size={20} />
+                  <h3 className="text-sm font-black italic uppercase tracking-[0.3em] text-white/40">Reset Laboratory Assays</h3>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 items-end">
+                  <div className="space-y-2">
+                    <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
+                    <Select value={resetSubject} onValueChange={setResetSubject}>
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                        {CORE_SUBJECTS.map(s => (
+                          <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2 lg:col-span-1 xl:col-span-2">
+                    <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
+                    <Select value={selectedResetModuleId || ""} onValueChange={setSelectedResetModuleId}>
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
+                        <SelectValue placeholder="SELECT MODULE" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                        {resetModulesList.map(m => (
+                          <SelectItem key={m.id} value={m.id} className="uppercase font-black text-[10px] tracking-widest">{m.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button 
+                        disabled={!selectedResetModuleId}
+                        className="riot-button h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/5 font-black text-[10px] xl:text-[12px]"
+                      >
+                        RESET ASSAY DATA
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
+                        <AlertDialogDescription className="text-muted-foreground italic text-sm">
+                          This action will permanently delete all cached questions and spaced repetition progress for the selected protocol. This cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
+                        <AlertDialogAction 
+                          onClick={resetModuleData}
+                          className="bg-red-500 text-white hover:bg-red-600 uppercase font-black text-[10px] rounded-none"
+                        >
+                          PURGE ASSAY DATA
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
               </div>
             </div>
           )}
