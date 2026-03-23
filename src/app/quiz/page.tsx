@@ -61,6 +61,7 @@ export default function QuizPage() {
   
   // Titration / Import State
   const [importing, setImporting] = useState(false);
+  const [importProgress, setImportProgress] = useState(0);
   const [file, setFile] = useState<File | null>(null);
 
   // Reset States
@@ -177,17 +178,24 @@ export default function QuizPage() {
   const processAnkiExport = async () => {
     if (!file) return;
     setImporting(true);
+    setImportProgress(0);
     
     try {
       const text = await file.text();
       // Handle both Windows and Unix line endings
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questionsToImport: Question[] = [];
+      const total = lines.length;
 
-      lines.forEach((line, idx) => {
+      if (total === 0) {
+        throw new Error("Archive is empty.");
+      }
+
+      for (let idx = 0; idx < total; idx++) {
+        const line = lines[idx];
         // Anki plain text export is Tab-Separated
         const parts = line.split('\t'); 
-        if (parts.length < 2) return;
+        if (parts.length < 2) continue;
 
         const front = parts[0].trim().replace(/^"|"$/g, '');
         const back = parts[1].trim().replace(/^"|"$/g, '');
@@ -211,7 +219,12 @@ export default function QuizPage() {
           rationale: back,
           tags: tagsRaw.split(' '),
         });
-      });
+
+        // Update progress state periodically for larger files
+        if (idx % 20 === 0 || idx === total - 1) {
+          setImportProgress(Math.round(((idx + 1) / total) * 100));
+        }
+      }
 
       if (questionsToImport.length === 0) {
         throw new Error("No valid flashcards found. Ensure export is Tab-Separated.");
@@ -241,7 +254,10 @@ export default function QuizPage() {
         description: err instanceof Error ? err.message : "Error processing clinical archive.",
       });
     } finally {
-      setImporting(false);
+      setTimeout(() => {
+        setImporting(false);
+        setImportProgress(0);
+      }, 500);
     }
   };
 
@@ -436,7 +452,7 @@ export default function QuizPage() {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
+                <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between space-y-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <Upload className="text-primary" size={32} />
@@ -447,7 +463,17 @@ export default function QuizPage() {
                     </p>
                   </div>
                   
-                  <div className="mt-8 space-y-4">
+                  {importing && (
+                    <div className="space-y-2 animate-in fade-in duration-300">
+                      <div className="flex justify-between text-[10px] font-black uppercase tracking-widest text-primary">
+                        <span>Titrating Archive...</span>
+                        <span>{importProgress}%</span>
+                      </div>
+                      <ProgressBar value={importProgress} className="h-1 bg-white/5" />
+                    </div>
+                  )}
+
+                  <div className="space-y-4">
                     <Input 
                       type="file" 
                       accept=".txt,.csv" 
