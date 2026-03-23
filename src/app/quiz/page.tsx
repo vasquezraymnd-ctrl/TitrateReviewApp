@@ -113,7 +113,7 @@ export default function QuizPage() {
       setQuestions(filtered);
       setStep('quiz');
     } else {
-      toast({ title: "Archive Empty", description: "No Anki cards found for this sector." });
+      toast({ title: "Archive Empty", description: "No titrated cards found for this sector." });
     }
     setLoading(false);
   };
@@ -198,27 +198,27 @@ export default function QuizPage() {
         const back = parts[1].trim().replace(/^"|"$/g, '');
         const tagsRaw = (parts[2] || 'General').toLowerCase();
         
-        // Advanced MedTech Subject Titration mapping
+        // Authoritative Author & Sector Mapping
         let subjectMatch = 'General';
         
-        if (tagsRaw.includes('hema') || tagsRaw.includes('rodak') || tagsRaw.includes('keohane') || tagsRaw.includes('harmening') || tagsRaw.includes('blood')) {
-          subjectMatch = 'Hematology';
-        } else if (tagsRaw.includes('micro') || tagsRaw.includes('mahon') || tagsRaw.includes('bailey') || tagsRaw.includes('scott') || tagsRaw.includes('tille') || tagsRaw.includes('bact')) {
-          subjectMatch = 'Microbiology';
-        } else if (tagsRaw.includes('chem') || tagsRaw.includes('bishop') || tagsRaw.includes('marshall') || tagsRaw.includes('henry') || tagsRaw.includes('clinchem')) {
-          subjectMatch = 'Clinical Chemistry';
-        } else if (tagsRaw.includes('immuno') || tagsRaw.includes('sero') || tagsRaw.includes('stevens') || tagsRaw.includes('turgeon') || tagsRaw.includes('abbas')) {
-          subjectMatch = 'Immuno-Serology';
-        } else if (tagsRaw.includes('microscopy') || tagsRaw.includes('strasinger') || tagsRaw.includes('urine') || tagsRaw.includes('urinalysis') || tagsRaw.includes('bodyfluid')) {
-          subjectMatch = 'Clinical Microscopy';
-        } else if (tagsRaw.includes('histo') || tagsRaw.includes('path') || tagsRaw.includes('htmle') || tagsRaw.includes('gregorio') || tagsRaw.includes('bancroft')) {
-          subjectMatch = 'HTMLE';
-        }
+        const isHema = /hema|blood|rodak|keohane|harmening|coag|heme/.test(tagsRaw);
+        const isMicro = /micro|bact|mahon|bailey|scott|tille|myco|viro|para/.test(tagsRaw);
+        const isChem = /chem|bishop|henry|marshall|biochem|enzymes|lipids/.test(tagsRaw);
+        const isIS = /immuno|sero|stevens|turgeon|abbas|bloodbank|harmening_bb/.test(tagsRaw);
+        const isCM = /microscopy|urine|strasinger|bodyfluid|analysis|clinmic/.test(tagsRaw);
+        const isHTMLE = /histo|path|htmle|gregorio|bancroft|fixative|staining/.test(tagsRaw);
+
+        if (isHema) subjectMatch = 'Hematology';
+        else if (isMicro) subjectMatch = 'Microbiology';
+        else if (isChem) subjectMatch = 'Clinical Chemistry';
+        else if (isIS) subjectMatch = 'Immuno-Serology';
+        else if (isCM) subjectMatch = 'Clinical Microscopy';
+        else if (isHTMLE) subjectMatch = 'HTMLE';
 
         const tags = tagsRaw.split(' ').filter(t => t.length > 0);
 
         questionsToImport.push({
-          id: `anki-${Date.now()}-${idx}`,
+          id: `titrate-${Date.now()}-${idx}`,
           subject: subjectMatch,
           question: front,
           choices: [{ id: 'A', text: 'REVEAL CLINICAL DATA' }],
@@ -233,7 +233,7 @@ export default function QuizPage() {
       }
 
       if (questionsToImport.length === 0) {
-        throw new Error("No valid flashcards found. Ensure export is Tab-Separated.");
+        throw new Error("No valid data found. Ensure export is Tab-Separated.");
       }
 
       await db.bulkPut('questions', questionsToImport);
@@ -241,7 +241,7 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards organized by subject and tags.`,
+        description: `Recorded ${questionsToImport.length} clinical cards organized by review book and chapter.`,
       });
       
       setFile(null);
@@ -353,7 +353,7 @@ export default function QuizPage() {
                       </Button>
                       <div>
                         <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">{selectedSubject} Assays</h2>
-                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a protocol or your imported archive.</p>
+                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a protocol or your titrated archive.</p>
                       </div>
                   </div>
                 </div>
@@ -365,8 +365,8 @@ export default function QuizPage() {
                       className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group"
                     >
                       <Layers size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Anki Review Archive</h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Imported Cards</p>
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black">Clinical Review Archive</h4>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2 group-hover:text-black">Practice Titrated Cards</p>
                       <div className="mt-6 flex justify-end">
                          <div className="w-10 h-10 xl:w-14 xl:h-14 bg-black/20 group-hover:bg-black/40 flex items-center justify-center">
                             <ChevronRight />
@@ -397,7 +397,7 @@ export default function QuizPage() {
                         <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
                         <h3 className="text-xl xl:text-4xl font-black italic uppercase text-white">No Protocols Found</h3>
                         <p className="text-xs xl:text-lg font-bold text-muted-foreground uppercase tracking-widest mb-8 px-6">
-                          Import an Anki archive below or upload PDFs to the Protocol Archives.
+                          Titrate an archive below or upload PDFs to the Protocol Archives.
                         </p>
                     </div>
                   )}
@@ -456,7 +456,7 @@ export default function QuizPage() {
                   <Database className="text-primary/70" size={24} />
                   <div>
                     <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Laboratory Import Center</h3>
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate your clinical library via Anki archives.</p>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate your clinical library via review book archives.</p>
                   </div>
                 </div>
                 <div className="bg-primary/10 border border-primary/30 px-6 py-3 flex flex-col items-end">
@@ -470,10 +470,10 @@ export default function QuizPage() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <Upload className="text-primary" size={32} />
-                      <h3 className="text-xl font-black italic uppercase text-white">Anki Titration</h3>
+                      <h3 className="text-xl font-black italic uppercase text-white">Archive Titration</h3>
                     </div>
                     <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                      Select your Tab-Separated .txt export from Anki.
+                      Select your Tab-Separated .txt export from your study archive.
                     </p>
                   </div>
                   
@@ -517,7 +517,7 @@ export default function QuizPage() {
                          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Assay Protocol</h4>
                       </div>
                       <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        The lab filters cards by searching your Anki tags for keywords like <span className="text-white">"Rodak", "Mahon", "Bishop", "Strasinger"</span>. Unlabeled cards will be titrated into the <span className="text-white">"Uncategorized Archive"</span> found on the subject selection screen.
+                        The lab filters cards by searching your tags for authoritative authors like <span className="text-white">"Rodak", "Mahon", "Bishop", "Strasinger", "Stevens"</span>. Unlabeled cards will be titrated into the <span className="text-white">"Uncategorized Archive"</span> found on the subject selection screen.
                       </p>
                    </div>
                 </div>
@@ -568,7 +568,7 @@ export default function QuizPage() {
                       <AlertDialogHeader>
                         <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
                         <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          This will permanently delete all cached questions and progress for the selected protocol.
+                          This will permanently delete all study progress for the selected protocol.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
@@ -590,7 +590,7 @@ export default function QuizPage() {
                       <AlertDialogHeader>
                         <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl text-red-500">CRITICAL: TOTAL PURGE</AlertDialogTitle>
                         <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          This will permanently delete ALL imported Anki cards, synthesized questions, and study progress from the laboratory. This action cannot be undone.
+                          This will permanently delete ALL titrated cards and study progress from the laboratory. This action cannot be undone.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
