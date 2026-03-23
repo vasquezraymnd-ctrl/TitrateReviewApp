@@ -254,6 +254,14 @@ export default function QuizPage() {
     }
   };
 
+  const returnToSubjectDirectory = () => {
+    if (selectedSubject) {
+      handleSubjectSelect(selectedSubject);
+    }
+    setCompleted(false);
+    setStep('module');
+  };
+
   const scrub = (str: string) => {
     if (!str) return "";
     let clean = str
@@ -271,7 +279,6 @@ export default function QuizPage() {
       .replace(/\s\s+/g, ' ')
       .trim();
     
-    // Deduplicate logic for messy lines
     const mid = Math.floor(clean.length / 2);
     const firstHalf = clean.substring(0, mid).trim();
     const secondHalf = clean.substring(clean.length - mid).trim();
@@ -300,12 +307,6 @@ export default function QuizPage() {
       for (let idx = 0; idx < total; idx++) {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 5) continue;
-
-        // Unified Titration Rules
-        // Q: Col 2 (Index 1)
-        // Chapter: Col 3 (Index 2)
-        // Choices: Col 3-6 (Index 2-5)
-        // Answer: Col 12 (Index 11)
         
         const qText = scrub(parts[1]);
         const chapterRaw = scrub(parts[2] || "General Titration");
@@ -528,11 +529,11 @@ export default function QuizPage() {
                 <Trophy size={64} className="mx-auto text-primary mb-8" />
                 <h2 className="text-5xl xl:text-8xl font-black italic uppercase tracking-tighter mb-4 text-white">Assay Finalized</h2>
                 <div className="flex gap-4 justify-center">
+                  <Button onClick={returnToSubjectDirectory} className="riot-button h-16 px-10 bg-primary text-black font-black text-[10px]">
+                    CONTINUE {selectedSubject?.toUpperCase()} TITRATION
+                  </Button>
                   <Button asChild variant="outline" className="riot-button h-16 px-10 border-white/10 text-white font-black text-[10px]">
                     <Link href="/dashboard">BACK TO LABORATORY</Link>
-                  </Button>
-                  <Button onClick={() => window.location.reload()} className="riot-button h-16 px-10 bg-primary text-black font-black text-[10px]">
-                    NEW ASSAY
                   </Button>
                 </div>
               </div>
