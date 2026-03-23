@@ -65,7 +65,6 @@ export default function QuizPage() {
 
   const [resetSubject, setResetSubject] = useState<string>('Hematology');
   const [resetModulesList, setResetModulesList] = useState<LabModule[]>([]);
-  const [selectedResetModuleId, setSelectedResetModuleId] = useState<string | null>(null);
 
   const { toast } = useToast();
 
@@ -187,22 +186,43 @@ export default function QuizPage() {
         const parts = line.split('\t'); 
         if (parts.length < 2) continue;
 
-        // Clean HTML tags and entities from Anki export
-        const cleanText = (str: string) => str
-          .replace(/<[^>]*>?/gm, '') // Remove HTML tags
-          .replace(/&nbsp;/g, ' ')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&amp;/g, '&')
-          .replace(/^"|"$/g, '')
-          .trim();
+        // Clean HTML tags and scrubbing patterns
+        const cleanAndScrub = (str: string) => {
+          let scrubbed = str
+            .replace(/<[^>]*>?/gm, '') // Remove HTML tags
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&')
+            .replace(/^"|"$/g, '')
+            .trim();
+
+          // SCRUB JUNK PHRASES
+          const junk = [
+            /ANKI\s*ng\s*RMT/gi,
+            /LELOUCH/gi,
+            /SHOW\s*ANSWERS\s*IMMEDIATELY/gi,
+            /AUTO\s*SUBMIT/gi,
+            /SHUFFLE\s*CHOICES/gi,
+            /SUBMIT\s*AND\s*ESC/gi,
+            /\[.*?\]/g, // Remove brackets
+            /–/g,
+            /—/g
+          ];
+
+          junk.forEach(pattern => {
+            scrubbed = scrubbed.replace(pattern, '');
+          });
+
+          return scrubbed.replace(/\s\s+/g, ' ').trim();
+        };
 
         const rawFront = parts[0];
         const rawBack = parts[1];
         const tagsRaw = (parts[2] || 'General').toLowerCase();
 
-        const front = cleanText(rawFront);
-        const back = cleanText(rawBack);
+        const front = cleanAndScrub(rawFront);
+        const back = cleanAndScrub(rawBack);
         
         // Subject Mapping based on authors or topics
         let subjectMatch = 'General';
@@ -220,9 +240,9 @@ export default function QuizPage() {
         else if (isCM) subjectMatch = 'Clinical Microscopy';
         else if (isHTMLE) subjectMatch = 'HTMLE';
 
-        // Auto-detect multiple choices (Lines starting with A), B), C), D) or A., B., C., D.)
+        // Auto-detect multiple choices
         const choicePattern = /^([A-D]|[1-4])[\).]\s*(.*)$/i;
-        const frontLines = rawFront.split(/<br\s*\/?>|\n/i).map(l => cleanText(l)).filter(l => l.length > 0);
+        const frontLines = rawFront.split(/<br\s*\/?>|\n/i).map(l => cleanAndScrub(l)).filter(l => l.length > 0);
         
         const detectedChoices: {id: string, text: string}[] = [];
         let questionText = front;
@@ -230,8 +250,10 @@ export default function QuizPage() {
         if (frontLines.length > 1) {
           const potentialChoices = frontLines.filter(line => choicePattern.test(line));
           if (potentialChoices.length >= 2) {
-            // We have a multiple choice question
             questionText = frontLines.filter(line => !choicePattern.test(line)).join(' ');
+            // Re-scrub question text to ensure metadata is gone from concatenated lines
+            questionText = cleanAndScrub(questionText);
+            
             potentialChoices.forEach(choiceLine => {
               const match = choiceLine.match(choicePattern);
               if (match) {
@@ -244,7 +266,6 @@ export default function QuizPage() {
           }
         }
 
-        // If no choices detected, add a default for Flashcard Mode
         if (detectedChoices.length === 0) {
           detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
         }
@@ -254,7 +275,7 @@ export default function QuizPage() {
           subject: subjectMatch,
           question: questionText,
           choices: detectedChoices,
-          answerId: 'A', // For flashcards, A is always correct
+          answerId: 'A',
           rationale: back,
           tags: tagsRaw.split(' ').filter(t => t.length > 0),
         });
@@ -269,7 +290,7 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards into the sector archives.`,
+        description: `Recorded ${questionsToImport.length} clinical cards. Metadata purged.`,
       });
       
       setFile(null);
