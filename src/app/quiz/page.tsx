@@ -21,7 +21,8 @@ import {
   Database,
   Upload,
   ChevronLeft,
-  Layers
+  Layers,
+  FileText
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -56,6 +57,7 @@ export default function QuizPage() {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [modules, setModules] = useState<LabModule[]>([]);
   const [hasAnkiCards, setHasAnkiCards] = useState(false);
+  const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
   // Titration / Import State
   const [importing, setImporting] = useState(false);
@@ -70,7 +72,13 @@ export default function QuizPage() {
 
   useEffect(() => {
     loadResetModules();
+    countTotalAnki();
   }, [resetSubject]);
+
+  const countTotalAnki = async () => {
+    const all = await db.getAll<Question>('questions');
+    setTotalAnkiInDb(all.length);
+  };
 
   const loadResetModules = async () => {
     const all = await db.getAll<LabModule>('modules');
@@ -172,58 +180,56 @@ export default function QuizPage() {
     
     try {
       const text = await file.text();
-      // Handle both Windows and Unix line endings
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questionsToImport: Question[] = [];
 
       lines.forEach((line, idx) => {
-        // Anki plain text export is Tab-Separated
         const parts = line.split('\t'); 
         if (parts.length < 2) return;
 
         const front = parts[0].trim().replace(/^"|"$/g, '');
         const back = parts[1].trim().replace(/^"|"$/g, '');
-        const tagsRaw = parts[2] || 'Anki-Import';
-        const tags = tagsRaw.split(' ').filter(t => t.length > 0);
+        const tagsRaw = (parts[2] || 'General').toLowerCase();
         
-        // Search tags for a core subject match, default to General if none found
-        const subjectMatch = CORE_SUBJECTS.find(s => 
-          tagsRaw.toLowerCase().includes(s.toLowerCase().replace('-', '').replace(' ', ''))
-        ) || 'Clinical Chemistry';
+        // Advanced Tag Matching Logic
+        let subjectMatch = 'General';
+        if (tagsRaw.includes('hema')) subjectMatch = 'Hematology';
+        else if (tagsRaw.includes('microbio') || tagsRaw.includes('micro')) subjectMatch = 'Microbiology';
+        else if (tagsRaw.includes('chemistry') || tagsRaw.includes('chem')) subjectMatch = 'Clinical Chemistry';
+        else if (tagsRaw.includes('immuno') || tagsRaw.includes('serology')) subjectMatch = 'Immuno-Serology';
+        else if (tagsRaw.includes('microscopy')) subjectMatch = 'Clinical Microscopy';
+        else if (tagsRaw.includes('histopath') || tagsRaw.includes('htmle')) subjectMatch = 'HTMLE';
 
         questionsToImport.push({
           id: `anki-${Date.now()}-${idx}`,
           subject: subjectMatch,
           question: front,
-          choices: [
-            { id: 'A', text: 'REVEAL CLINICAL DATA' }
-          ],
+          choices: [{ id: 'A', text: 'REVEAL CLINICAL DATA' }],
           answerId: 'A',
           rationale: back,
-          tags: tags,
+          tags: tagsRaw.split(' '),
         });
       });
 
       if (questionsToImport.length === 0) {
-        throw new Error("No valid flashcards found in the archive. Ensure it is a Tab-Separated export.");
+        throw new Error("No valid flashcards found. Ensure export is Tab-Separated.");
       }
 
       await db.bulkPut('questions', questionsToImport);
+      await countTotalAnki();
+      
       toast({
         title: "Titration Successful",
-        description: `Imported ${questionsToImport.length} cards from Anki archive.`,
+        description: `Recorded ${questionsToImport.length} clinical cards.`,
       });
-      setFile(null);
       
-      // Force refresh of subject state
-      if (selectedSubject) {
-        handleSubjectSelect(selectedSubject);
-      }
+      setFile(null);
+      if (selectedSubject) handleSubjectSelect(selectedSubject);
     } catch (err) {
       toast({
         variant: "destructive",
         title: "Titration Failed",
-        description: err instanceof Error ? err.message : "Error processing Anki file.",
+        description: err instanceof Error ? err.message : "Error processing file.",
       });
     } finally {
       setImporting(false);
@@ -244,12 +250,9 @@ export default function QuizPage() {
       await db.delete('questions', q.id);
     }
 
-    toast({
-      title: "Assay Reset Successful",
-      description: `All cached questions and progress for ${module.name} have been cleared.`,
-    });
-    
+    toast({ title: "Assay Reset", description: `Cleared progress for ${module.name}.` });
     setSelectedResetModuleId(null);
+    countTotalAnki();
   };
 
   if (loading) {
@@ -274,9 +277,17 @@ export default function QuizPage() {
           <div className="flex-1">
             {step === 'subject' && (
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
-                <div className="border-b border-white/5 pb-8">
-                  <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">Sector Selection</h2>
-                  <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
+                <div className="border-b border-white/5 pb-8 flex justify-between items-end">
+                  <div>
+                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">Sector Selection</h2>
+                    <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
+                  </div>
+                  {totalAnkiInDb > 0 && (
+                     <button onClick={() => handleSubjectSelect('General')} className="bg-primary/10 border border-primary/30 px-4 py-2 flex items-center gap-2 hover:bg-primary hover:text-black transition-all">
+                       <Layers size={14} />
+                       <span className="text-[10px] font-black uppercase tracking-widest">Uncategorized Archive ({totalAnkiInDb})</span>
+                     </button>
+                  )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                   {CORE_SUBJECTS.map((subject) => (
@@ -303,13 +314,12 @@ export default function QuizPage() {
                       </Button>
                       <div>
                         <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
-                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a PDF protocol or your imported Anki archive.</p>
+                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a protocol or your imported archive.</p>
                       </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {/* Anki Deck Card */}
                   {hasAnkiCards && (
                     <button 
                       onClick={startAnkiReview}
@@ -326,7 +336,6 @@ export default function QuizPage() {
                     </button>
                   )}
 
-                  {/* Module Cards */}
                   {modules.map((m) => (
                     <button 
                       key={m.id} 
@@ -387,14 +396,13 @@ export default function QuizPage() {
                 </div>
                 <h2 className="text-5xl xl:text-8xl font-black italic uppercase tracking-tighter mb-4 text-white">Assay Finalized</h2>
                 <p className="text-muted-foreground mb-12 text-lg xl:text-2xl italic max-w-2xl mx-auto leading-relaxed">
-                  Your titration levels for this session have been recorded. The laboratory algorithm will schedule these protocols for future review.
+                  Your titration levels for this session have been recorded.
                 </p>
-                
                 <div className="flex gap-4 justify-center">
-                  <Button asChild variant="outline" className="riot-button h-16 xl:h-20 px-10 xl:px-16 border-white/10 text-white font-black text-[10px] xl:text-[12px]">
+                  <Button asChild variant="outline" className="riot-button h-16 xl:h-20 px-10 xl:px-16 border-white/10 text-white font-black text-[10px]">
                     <Link href="/dashboard">BACK TO LABORATORY</Link>
                   </Button>
-                  <Button onClick={() => window.location.reload()} className="riot-button h-16 xl:h-20 px-10 xl:px-16 bg-primary text-black font-black text-[10px] xl:text-[12px]">
+                  <Button onClick={() => window.location.reload()} className="riot-button h-16 xl:h-20 px-10 xl:px-16 bg-primary text-black font-black text-[10px]">
                     NEW ASSAY <ChevronRight className="ml-2" />
                   </Button>
                 </div>
@@ -402,11 +410,9 @@ export default function QuizPage() {
             )}
           </div>
 
-          {/* Anki Titration / Reset Section */}
-          {(step === 'subject' || step === 'module') && !loading && (
-            <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
-              
-              <div className="space-y-8">
+          <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Database className="text-primary/70" size={24} />
                   <div>
@@ -414,122 +420,117 @@ export default function QuizPage() {
                     <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Titrate your clinical library via Anki archives.</p>
                   </div>
                 </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Upload className="text-primary" size={32} />
-                        <h3 className="text-xl font-black italic uppercase">Anki Titration</h3>
-                      </div>
-                      <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                        Select your Tab-Separated .txt export from Anki. Ensure "Include Tags" was checked during export.
-                      </p>
-                    </div>
-                    
-                    <div className="mt-8 space-y-4">
-                      <Input 
-                        type="file" 
-                        accept=".txt,.csv" 
-                        onChange={(e) => setFile(e.target.files?.[0] || null)} 
-                        className="hidden" 
-                        id="anki-upload-quiz"
-                      />
-                      <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-white font-black text-[10px]">
-                        <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
-                          {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
-                        </label>
-                      </Button>
-                      <Button 
-                        className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
-                        disabled={!file || importing}
-                        onClick={processAnkiExport}
-                      >
-                        {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="riot-card bg-primary/5 border border-primary/20 p-8">
-                     <div className="space-y-4">
-                        <div className="flex items-center gap-3">
-                           <AlertCircle className="text-primary" size={24} />
-                           <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Assay Protocol</h4>
-                        </div>
-                        <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                          Your Anki export must be in <span className="text-white">"Plain Text (.txt)"</span> format. The laboratory will automatically categorize cards by searching for clinical sector keywords (e.g., "Hematology", "Micro") in your tags.
-                        </p>
-                     </div>
-                  </div>
+                <div className="bg-primary/10 border border-primary/30 px-6 py-3 flex flex-col items-end">
+                   <p className="text-[8px] font-black text-primary uppercase tracking-[0.2em]">TITRATED CARDS IN CACHE</p>
+                   <p className="text-2xl font-black italic text-white leading-none mt-1">{totalAnkiInDb}</p>
                 </div>
               </div>
 
-              <div className="space-y-8">
-                <div className="flex items-center gap-3">
-                  <RefreshCw className="text-red-500/50" size={20} />
-                  <h3 className="text-sm font-black italic uppercase tracking-[0.3em] text-white/40">Reset Laboratory Assays</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Upload className="text-primary" size={32} />
+                      <h3 className="text-xl font-black italic uppercase">Anki Titration</h3>
+                    </div>
+                    <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
+                      Select your Tab-Separated .txt export from Anki.
+                    </p>
+                  </div>
+                  
+                  <div className="mt-8 space-y-4">
+                    <Input 
+                      type="file" 
+                      accept=".txt,.csv" 
+                      onChange={(e) => setFile(e.target.files?.[0] || null)} 
+                      className="hidden" 
+                      id="anki-upload-quiz"
+                    />
+                    <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 hover:border-primary/50 text-white font-black text-[10px]">
+                      <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
+                        {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
+                      </label>
+                    </Button>
+                    <Button 
+                      className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px] hover:bg-white/20"
+                      disabled={!file || importing}
+                      onClick={processAnkiExport}
+                    >
+                      {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
+                    </Button>
+                  </div>
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 items-end">
-                  <div className="space-y-2">
-                    <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
-                    <Select value={resetSubject} onValueChange={setResetSubject}>
-                      <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                        {CORE_SUBJECTS.map(s => (
-                          <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
 
-                  <div className="space-y-2 lg:col-span-1 xl:col-span-2">
-                    <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
-                    <Select value={selectedResetModuleId || ""} onValueChange={setSelectedResetModuleId}>
-                      <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
-                        <SelectValue placeholder="SELECT MODULE" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                        {resetModulesList.map(m => (
-                          <SelectItem key={m.id} value={m.id} className="uppercase font-black text-[10px] tracking-widest">{m.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button 
-                        disabled={!selectedResetModuleId}
-                        className="riot-button h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/5 font-black text-[10px] xl:text-[12px]"
-                      >
-                        RESET ASSAY DATA
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                      <AlertDialogHeader>
-                        <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
-                        <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          This action will permanently delete all cached questions and spaced repetition progress for the selected protocol. This cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
-                        <AlertDialogAction 
-                          onClick={resetModuleData}
-                          className="bg-red-500 text-white hover:bg-red-600 uppercase font-black text-[10px] rounded-none"
-                        >
-                          PURGE ASSAY DATA
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                <div className="riot-card bg-primary/5 border border-primary/20 p-8">
+                   <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                         <AlertCircle className="text-primary" size={24} />
+                         <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Assay Protocol</h4>
+                      </div>
+                      <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
+                        The lab filters cards by searching your Anki tags for keywords like <span className="text-white">"Hema", "Micro", "Chem"</span>. Unlabeled cards will be titrated into the <span className="text-white">"Uncategorized Archive"</span> found on the subject selection screen.
+                      </p>
+                   </div>
                 </div>
               </div>
             </div>
-          )}
+
+            <div className="space-y-8">
+              <div className="flex items-center gap-3">
+                <RefreshCw className="text-red-500/50" size={20} />
+                <h3 className="text-sm font-black italic uppercase tracking-[0.3em] text-white/40">Reset Laboratory Assays</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-6 items-end">
+                <div className="space-y-2">
+                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
+                  <Select value={resetSubject} onValueChange={setResetSubject}>
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                      {[...CORE_SUBJECTS, 'General'].map(s => (
+                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2 lg:col-span-1 xl:col-span-2">
+                  <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Protocol</label>
+                  <Select value={selectedResetModuleId || ""} onValueChange={setSelectedResetModuleId}>
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
+                      <SelectValue placeholder="SELECT MODULE" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                      {resetModulesList.map(m => (
+                        <SelectItem key={m.id} value={m.id} className="uppercase font-black text-[10px] tracking-widest">{m.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button disabled={!selectedResetModuleId} className="riot-button h-12 xl:h-14 bg-white/5 border border-white/10 text-white/40 hover:text-red-500 font-black text-[10px]">
+                      RESET ASSAY DATA
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl">Confirm Data Purge</AlertDialogTitle>
+                      <AlertDialogDescription className="text-muted-foreground italic text-sm">
+                        This will permanently delete all cached questions and progress for the selected protocol.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
+                      <AlertDialogAction onClick={resetModuleData} className="bg-red-500 text-white hover:bg-red-600 uppercase font-black text-[10px] rounded-none">
+                        PURGE ASSAY DATA
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>
