@@ -65,7 +65,7 @@ export default function QuizPage() {
   const [completed, setCompleted] = useState(false);
   const [step, setStep] = useState<'subject' | 'module' | 'quiz'>('subject');
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
-  const [importSubject, setImportSubject] = useState<string>('Clinical Microscopy');
+  const [importSubject, setImportSubject] = useState<string>('Hematology');
   const [modules, setModules] = useState<LabModule[]>([]);
   const [chapters, setChapters] = useState<{ name: string; mastered: number; total: number }[]>([]);
   const [subjectStats, setSubjectStats] = useState<Record<string, SubjectStats>>({});
@@ -113,17 +113,15 @@ export default function QuizPage() {
     setLoading(true);
     setSelectedSubject(subject);
     
-    // Load PDF Modules
     const allModules = await db.getAll<LabModule>('modules');
     const filteredModules = allModules.filter(m => m.subject === subject);
     setModules(filteredModules);
 
-    // Load Anki Chapters and Calculate Scores
     const allQuestions = await db.getAll<Question>('questions');
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
     const allProgress = await db.getAll<Progress>('progress');
     
-    // Natural Sort for Chapters (e.g., Chapter 2 before Chapter 10)
+    // Natural Sort for Chapters
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
@@ -162,11 +160,9 @@ export default function QuizPage() {
     try {
       const allQuestions = await db.getAll<Question>('questions');
       const chapterQs = allQuestions.filter(q => q.subject === selectedSubject && q.tags.includes(chapterName));
-      
       for (const q of chapterQs) {
         await db.delete('progress', q.id);
       }
-      
       toast({ title: "Chapter Calibrated", description: `Reset progress for ${chapterName}.` });
       handleSubjectSelect(selectedSubject);
       loadGlobalStats();
@@ -183,11 +179,9 @@ export default function QuizPage() {
     try {
       const allQuestions = await db.getAll<Question>('questions');
       const subjectQs = allQuestions.filter(q => q.subject === selectedSubject);
-      
       for (const q of subjectQs) {
         await db.delete('progress', q.id);
       }
-      
       toast({ title: "Subject Calibrated", description: `Reset all progress for ${selectedSubject}.` });
       handleSubjectSelect(selectedSubject);
       loadGlobalStats();
@@ -204,12 +198,10 @@ export default function QuizPage() {
     try {
       const allQuestions = await db.getAll<Question>('questions');
       const subjectQs = allQuestions.filter(q => q.subject === selectedSubject);
-      
       for (const q of subjectQs) {
         await db.delete('questions', q.id);
         await db.delete('progress', q.id);
       }
-      
       toast({ title: "Subject Purged", description: `Permanently deleted all ${selectedSubject} archives.` });
       setStep('subject');
       loadGlobalStats();
@@ -295,37 +287,36 @@ export default function QuizPage() {
 
       for (let idx = 0; idx < total; idx++) {
         const parts = lines[idx].split('\t'); 
-        if (parts.length < 8) continue;
+        if (parts.length < 5) continue;
 
-        // STRICT COLUMN MAPPING (Col 3: Chapter, Col 4: Q, Col 5-8: Choices, Col 12-13: Ans)
-        const chapterRaw = parts[2] || "";
-        const chapter = scrub(chapterRaw) || "Uncategorized";
-        const qText = scrub(parts[3]);
-        const cA = scrub(parts[4]);
-        const cB = scrub(parts[5]);
-        const cC = scrub(parts[6]);
-        const cD = scrub(parts[7]);
-        const ansRaw = scrub(parts[11] || parts[12] || "");
+        // TURGEON 5TH ED PROTOCOL MAPPING
+        // Col 2 (Index 1): Question
+        // Col 3-6 (Index 2-5): Choices
+        // Col 12 (Index 11): Full Answer
+        
+        const qText = scrub(parts[1]);
+        const choicesRaw = [parts[2], parts[3], parts[4], parts[5]];
+        const answerText = scrub(parts[11] || parts[12] || "");
+        const chapter = "Hematology - Turgeon 5th Ed";
 
-        const choices = [
-          { id: 'A', text: cA },
-          { id: 'B', text: cB },
-          { id: 'C', text: cC },
-          { id: 'D', text: cD },
-        ];
+        const filteredChoices = choicesRaw
+          .filter(c => c && c.trim() !== '')
+          .map((text, i) => ({
+            id: String.fromCharCode(65 + i),
+            text: scrub(text)
+          }));
 
         let answerId = 'A';
-        const match = choices.find(c => c.text.toLowerCase() === ansRaw.toLowerCase());
+        const match = filteredChoices.find(c => c.text.toLowerCase() === answerText.toLowerCase());
         if (match) answerId = match.id;
-        else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
 
         questionsToImport.push({
-          id: `strict-${Date.now()}-${idx}`,
+          id: `turgeon-${Date.now()}-${idx}`,
           subject: importSubject,
           question: qText,
-          choices: choices,
+          choices: filteredChoices,
           answerId: answerId,
-          rationale: `Source: ${chapter}. Reference: ${ansRaw}`,
+          rationale: `Source: ${chapter}. Answer: ${answerText}`,
           tags: [chapter, 'Strict-Titration'],
         });
 
@@ -338,10 +329,7 @@ export default function QuizPage() {
       await loadGlobalStats();
       toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards into ${importSubject}.` });
       setFile(null);
-      
-      if (selectedSubject === importSubject) {
-        handleSubjectSelect(importSubject);
-      }
+      if (selectedSubject === importSubject) handleSubjectSelect(importSubject);
     } catch (err) {
       toast({ variant: "destructive", title: "Titration Failed", description: "Error processing archive." });
     } finally {
@@ -360,14 +348,12 @@ export default function QuizPage() {
         setLoading(false);
         return;
       }
-
       const result = await generateModuleQuiz({
         subject: module.subject,
         moduleName: module.name,
         moduleContent: module.extractedText,
         count: 5
       });
-
       if (result.questions && result.questions.length > 0) {
         setQuestions(result.questions);
         setStep('quiz');
@@ -475,7 +461,6 @@ export default function QuizPage() {
                           {chapter.name}
                         </h4>
                       </button>
-                      
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
@@ -545,7 +530,7 @@ export default function QuizPage() {
               <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-6">
                 <div className="flex items-center gap-3">
                   <Upload className="text-primary" size={32} />
-                  <h3 className="text-xl font-black italic uppercase text-white">Strict Titration Import</h3>
+                  <h3 className="text-xl font-black italic uppercase text-white">Turgeon 5th Ed Titration</h3>
                 </div>
                 
                 <div className="space-y-4">
@@ -574,23 +559,13 @@ export default function QuizPage() {
                   </div>
                 )}
                 <div className="space-y-4">
-                  <Input 
-                    type="file" 
-                    accept=".txt" 
-                    onChange={(e) => setFile(e.target.files?.[0] || null)} 
-                    className="hidden" 
-                    id="anki-upload-quiz"
-                  />
+                  <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload-quiz" />
                   <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
                     <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
-                      {file ? file.name : 'CHOOSE .TXT (STRICT)'}
+                      {file ? file.name : 'CHOOSE .TXT (TURGEON)'}
                     </label>
                   </Button>
-                  <Button 
-                    className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]"
-                    disabled={!file || importing}
-                    onClick={processAnkiExport}
-                  >
+                  <Button className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
                     {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
                   </Button>
                 </div>
@@ -620,20 +595,10 @@ export default function QuizPage() {
                   <div className="border-t border-red-500/10 pt-4 flex flex-col gap-2">
                     <p className="text-[8px] font-black uppercase text-red-500/60 tracking-widest text-center">Specific Protocol Calibration</p>
                     <div className="grid grid-cols-2 gap-2">
-                      <Button 
-                        variant="ghost" 
-                        className="text-white/40 hover:text-white font-black text-[10px] uppercase tracking-widest h-10 border border-white/5"
-                        onClick={resetSubjectProgress}
-                        disabled={!selectedSubject || step === 'subject'}
-                      >
+                      <Button variant="ghost" className="text-white/40 hover:text-white font-black text-[10px] uppercase tracking-widest h-10 border border-white/5" onClick={resetSubjectProgress} disabled={!selectedSubject || step === 'subject'}>
                         <RotateCcw className="mr-2 h-3 w-3" /> RESET {selectedSubject ? selectedSubject.toUpperCase() : 'SECTOR'} PROGRESS
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        className="text-red-500/50 hover:text-red-500 font-black text-[10px] uppercase tracking-widest h-10 border border-red-500/10"
-                        onClick={purgeSubjectRecords}
-                        disabled={!selectedSubject || step === 'subject'}
-                      >
+                      <Button variant="ghost" className="text-red-500/50 hover:text-red-500 font-black text-[10px] uppercase tracking-widest h-10 border border-red-500/10" onClick={purgeSubjectRecords} disabled={!selectedSubject || step === 'subject'}>
                         <Eraser className="mr-2 h-3 w-3" /> PURGE {selectedSubject ? selectedSubject.toUpperCase() : 'SECTOR'} ARCHIVE
                       </Button>
                     </div>

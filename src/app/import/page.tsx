@@ -13,7 +13,8 @@ import {
   FileJson,
   Database,
   Trash2,
-  AlertCircle
+  AlertCircle,
+  RotateCcw
 } from 'lucide-react';
 import { db, Question, LabModule, CORE_SUBJECTS } from '@/lib/db';
 import { useToast } from '@/hooks/use-toast';
@@ -43,8 +44,7 @@ export default function ImportPage() {
   const [importing, setImporting] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [selectedSubjectAi, setSelectedSubjectAi] = useState<string>('Hematology');
-  const [selectedSubjectAnki, setSelectedSubjectAnki] = useState<string>('Clinical Microscopy');
-  const [stats, setStats] = useState<{ count: number; subjects: string[] } | null>(null);
+  const [selectedSubjectAnki, setSelectedSubjectAnki] = useState<string>('Hematology');
   const { toast } = useToast();
 
   const scrub = (str: string) => {
@@ -59,18 +59,11 @@ export default function ImportPage() {
       .replace(/Lelouch/gi, '')
       .replace(/\s\s+/g, ' ')
       .trim();
-    
     if (clean.includes('::')) {
       const parts = clean.split('::');
       return parts[parts.length - 1].trim();
     }
     return clean;
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
   };
 
   const handleAiGeneration = async () => {
@@ -79,7 +72,6 @@ export default function ImportPage() {
       const result = await generateQuestions({ subject: selectedSubjectAi, count: 5 });
       if (result.questions && result.questions.length > 0) {
         await db.bulkPut('questions', result.questions);
-        setStats({ count: result.questions.length, subjects: [selectedSubjectAi] });
         toast({ title: "AI Synthesis Complete", description: `Generated 5 high-yield ${selectedSubjectAi} questions.` });
       }
     } catch (error) {
@@ -92,7 +84,6 @@ export default function ImportPage() {
   const processAnkiExport = async () => {
     if (!file) return;
     setImporting(true);
-    
     try {
       const text = await file.text();
       const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
@@ -100,45 +91,35 @@ export default function ImportPage() {
 
       for (let idx = 0; idx < lines.length; idx++) {
         const parts = lines[idx].split('\t');
-        if (parts.length < 8) continue;
+        if (parts.length < 5) continue;
 
-        // STRICT COLUMN MAPPING
-        // Col 3 (Index 2): Chapter
-        const chapterRaw = parts[2] || "";
-        const chapter = scrub(chapterRaw) || "Uncategorized";
-        // Col 4 (Index 3): Question
-        const qText = scrub(parts[3]);
-        // Col 5-8 (Index 4-7): Choices
-        const cA = scrub(parts[4]);
-        const cB = scrub(parts[5]);
-        const cC = scrub(parts[6]);
-        const cD = scrub(parts[7]);
-        // Col 12-13 (Index 11-12): Answer
-        const ansRaw = scrub(parts[11] || parts[12] || "");
+        // TURGEON 5TH ED PROTOCOL MAPPING
+        const qText = scrub(parts[1]);
+        const choicesRaw = [parts[2], parts[3], parts[4], parts[5]];
+        const answerText = scrub(parts[11] || parts[12] || "");
+        const chapter = "Hematology - Turgeon 5th Ed";
 
-        const choices = [
-          { id: 'A', text: cA },
-          { id: 'B', text: cB },
-          { id: 'C', text: cC },
-          { id: 'D', text: cD },
-        ];
+        const filteredChoices = choicesRaw
+          .filter(c => c && c.trim() !== '')
+          .map((text, i) => ({
+            id: String.fromCharCode(65 + i),
+            text: scrub(text)
+          }));
 
         let answerId = 'A';
-        const match = choices.find(c => c.text.toLowerCase() === ansRaw.toLowerCase());
+        const match = filteredChoices.find(c => c.text.toLowerCase() === answerText.toLowerCase());
         if (match) answerId = match.id;
-        else if (['A', 'B', 'C', 'D'].includes(ansRaw.toUpperCase())) answerId = ansRaw.toUpperCase();
 
         questions.push({
-          id: `strict-${Date.now()}-${idx}`,
+          id: `turgeon-${Date.now()}-${idx}`,
           subject: selectedSubjectAnki,
           question: qText,
-          choices: choices,
+          choices: filteredChoices,
           answerId: answerId,
-          rationale: `Source: ${chapter}. Reference: ${ansRaw}`,
-          tags: [chapter, 'Strict-Import'],
+          rationale: `Source: ${chapter}. Answer: ${answerText}`,
+          tags: [chapter, 'Strict-Titration'],
         });
       }
-
       await db.bulkPut('questions', questions);
       toast({ title: "Titration Successful", description: `Imported ${questions.length} cards into ${selectedSubjectAnki}.` });
       setFile(null);
@@ -220,7 +201,7 @@ export default function ImportPage() {
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
               <div>
                 <Database className="text-primary mb-6" size={32} />
-                <h3 className="text-xl font-black italic uppercase mb-2">Strict Anki Titration</h3>
+                <h3 className="text-xl font-black italic uppercase mb-2">Turgeon Titration</h3>
                 <div className="space-y-4 mt-6">
                    <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Calibration Sector</Label>
                    <Select value={selectedSubjectAnki} onValueChange={setSelectedSubjectAnki}>
@@ -236,7 +217,7 @@ export default function ImportPage() {
                 </div>
               </div>
               <div className="mt-8 space-y-4">
-                <Input type="file" accept=".txt" onChange={handleFileChange} className="hidden" id="anki-upload" />
+                <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload" />
                 <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
                   <label htmlFor="anki-upload" className="cursor-pointer flex items-center justify-center gap-2">
                     {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
