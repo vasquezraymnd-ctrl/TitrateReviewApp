@@ -92,9 +92,12 @@ export default function QuizPage() {
     // Load Anki Chapters
     const allQuestions = await db.getAll<Question>('questions');
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
-    const uniqueChapters = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized'))).sort();
-    setChapters(uniqueChapters);
     
+    // NATURAL SORT: Chapter 2 comes before Chapter 10
+    const uniqueChapters = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+      
+    setChapters(uniqueChapters);
     setStep('module');
     setLoading(false);
   };
@@ -212,13 +215,17 @@ export default function QuizPage() {
         if (parts.length < 8) continue;
 
         // STRICT COLUMN MAPPING
+        // Col 3 (Index 2): Chapter
         const chapterRaw = parts[2] || "";
         const chapter = scrub(chapterRaw) || "Uncategorized";
+        // Col 4 (Index 3): Question
         const qText = scrub(parts[3]);
+        // Col 5-8 (Index 4-7): Choices
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
         const cC = scrub(parts[6]);
         const cD = scrub(parts[7]);
+        // Col 12-13 (Index 11-12): Answer
         const ansRaw = scrub(parts[11] || parts[12] || "");
 
         const choices = [
@@ -235,11 +242,11 @@ export default function QuizPage() {
 
         questionsToImport.push({
           id: `strict-${Date.now()}-${idx}`,
-          subject: importSubject, // STICK TO USER CHOICE
+          subject: importSubject,
           question: qText,
           choices: choices,
           answerId: answerId,
-          rationale: `Chapter: ${chapter}. Answer: ${ansRaw}`,
+          rationale: `Source: ${chapter}. Reference: ${ansRaw}`,
           tags: [chapter, 'Strict-Titration'],
         });
 
@@ -253,7 +260,6 @@ export default function QuizPage() {
       toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards into ${importSubject}.` });
       setFile(null);
       
-      // If we are currently viewing the subject we just imported into, refresh the list
       if (selectedSubject === importSubject) {
         handleSubjectSelect(importSubject);
       }
@@ -342,7 +348,7 @@ export default function QuizPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {/* List Anki Chapters as Archives */}
+                  {/* Each Chapter is its own archive, sorted ascendingly */}
                   {chapters.map((chapter) => (
                     <button 
                       key={chapter}
@@ -357,7 +363,6 @@ export default function QuizPage() {
                     </button>
                   ))}
 
-                  {/* List PDF Modules */}
                   {modules.map((m) => (
                     <button 
                       key={m.id} 

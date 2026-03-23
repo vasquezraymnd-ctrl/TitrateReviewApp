@@ -103,13 +103,17 @@ export default function ImportPage() {
         if (parts.length < 8) continue;
 
         // STRICT COLUMN MAPPING
+        // Col 3 (Index 2): Chapter
         const chapterRaw = parts[2] || "";
         const chapter = scrub(chapterRaw) || "Uncategorized";
+        // Col 4 (Index 3): Question
         const qText = scrub(parts[3]);
+        // Col 5-8 (Index 4-7): Choices
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
         const cC = scrub(parts[6]);
         const cD = scrub(parts[7]);
+        // Col 12-13 (Index 11-12): Answer
         const ansRaw = scrub(parts[11] || parts[12] || "");
 
         const choices = [
@@ -126,11 +130,11 @@ export default function ImportPage() {
 
         questions.push({
           id: `strict-${Date.now()}-${idx}`,
-          subject: selectedSubjectAnki, // STICK TO USER CHOICE
+          subject: selectedSubjectAnki,
           question: qText,
           choices: choices,
           answerId: answerId,
-          rationale: `Chapter: ${chapter}. Answer: ${ansRaw}`,
+          rationale: `Source: ${chapter}. Reference: ${ansRaw}`,
           tags: [chapter, 'Strict-Import'],
         });
       }
