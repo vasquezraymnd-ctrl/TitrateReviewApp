@@ -188,93 +188,63 @@ export default function QuizPage() {
 
       if (total === 0) throw new Error("Archive is empty.");
 
+      const scrub = (str: string) => {
+        let result = str
+          .replace(/<[^>]*>?/gm, ' ') 
+          .replace(/&nbsp;/g, ' ')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&')
+          .replace(/ANKI\s*ng\s*RMT/gi, '')
+          .replace(/SHOW\s*ANSWERS\s*IMMEDIATELY/gi, '')
+          .replace(/SUBMIT\s*AND\s*ESC/gi, '')
+          .replace(/LELOUCH/gi, '')
+          .replace(/AUTO\s*SUBMIT/gi, '')
+          .replace(/SHUFFLE\s*CHOICES/gi, '')
+          .replace(/\(\s*\)/g, '')
+          .replace(/^"|"$/g, '')
+          .trim();
+        return result.replace(/\s\s+/g, ' ').trim();
+      };
+
       for (let idx = 0; idx < total; idx++) {
         const line = lines[idx];
         const parts = line.split('\t'); 
         if (parts.length < 2) continue;
 
-        const cleanAndScrub = (str: string) => {
-          let scrubbed = str
-            .replace(/<[^>]*>?/gm, ' ') 
-            .replace(/&nbsp;/g, ' ')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&amp;/g, '&')
-            .replace(/^"|"$/g, '')
-            .trim();
-
-          const junk = [
-            /ANKI\s*ng\s*RMT/gi,
-            /LELOUCH/gi,
-            /SHOW\s*ANSWERS\s*IMMEDIATELY/gi,
-            /AUTO\s*SUBMIT/gi,
-            /SHUFFLE\s*CHOICES/gi,
-            /SUBMIT\s*AND\s*ESC/gi,
-            /\(\s*\)/g,
-            /\[.*?\]/g, 
-            /–/g,
-            /—/g
-          ];
-
-          junk.forEach(pattern => {
-            scrubbed = scrubbed.replace(pattern, '');
-          });
-
-          return scrubbed.replace(/\s\s+/g, ' ').trim();
-        };
-
         const rawFront = parts[0];
         const rawBack = parts[1];
         const tagsRaw = (parts[2] || 'General').toLowerCase();
 
-        const frontSegments = rawFront.split(/(?:<br\s*\/?>|<div>|<div>|<p>|\n)/i).map(l => l.trim()).filter(l => l.length > 0);
+        const fullScrubbed = scrub(rawFront);
         
-        const detectedChoices: {id: string, text: string}[] = [];
-        let finalQuestionText = "";
-        let collectingChoices = false;
-
-        frontSegments.forEach((seg) => {
-          const scrubbedSeg = cleanAndScrub(seg);
-          if (!scrubbedSeg) return;
-
-          const choiceMatch = scrubbedSeg.match(/^([A-D]|[1-4])[\)\.]\s*(.*)$/i);
-          
-          if (choiceMatch) {
-            collectingChoices = true;
-            detectedChoices.push({
-              id: choiceMatch[1].toUpperCase().replace('1', 'A').replace('2', 'B').replace('3', 'C').replace('4', 'D'),
-              text: choiceMatch[2].trim()
-            });
-          } else if (!collectingChoices) {
-            finalQuestionText += (finalQuestionText ? " " : "") + scrubbedSeg;
-          } else {
-            if (detectedChoices.length > 0) {
-              detectedChoices[detectedChoices.length - 1].text += " " + scrubbedSeg;
-            }
-          }
-        });
-
-        const scrubbedFullFront = cleanAndScrub(rawFront);
-        if (detectedChoices.length === 0) {
-          const questionMarkIndex = scrubbedFullFront.lastIndexOf('?');
-          if (questionMarkIndex !== -1 && questionMarkIndex < scrubbedFullFront.length - 5) {
-            const potentialChoiceBlock = scrubbedFullFront.substring(questionMarkIndex + 1).trim();
-            const splitChoices = potentialChoiceBlock.split(/\s{2,}|(?=\b[A-Z]{3,}\b)/).filter(s => s.trim().length > 0);
-            
-            if (splitChoices.length >= 2 && splitChoices.length <= 5) {
-               finalQuestionText = scrubbedFullFront.substring(0, questionMarkIndex + 1).trim();
-               splitChoices.forEach((sc, sidx) => {
-                 detectedChoices.push({
-                   id: String.fromCharCode(65 + sidx),
-                   text: sc.trim()
-                 });
-               });
-            }
-          }
+        // Calibrated Splitting: Identify question end via '?' or ';'
+        const lastQ = fullScrubbed.lastIndexOf('?');
+        const lastS = fullScrubbed.lastIndexOf(';');
+        const splitIdx = Math.max(lastQ, lastS);
+        
+        let qText = fullScrubbed;
+        let cBlock = "";
+        
+        if (splitIdx !== -1 && splitIdx < fullScrubbed.length - 2) {
+          qText = fullScrubbed.substring(0, splitIdx + 1).trim();
+          cBlock = fullScrubbed.substring(splitIdx + 1).trim();
         }
 
-        if (detectedChoices.length === 0) {
-          finalQuestionText = scrubbedFullFront;
+        const detectedChoices: {id: string, text: string}[] = [];
+        // Extract choices from the block following the delimiter
+        const potentialChoices = cBlock.split(/\s{2,}|(?=\b[A-D][\.\)])/).map(p => p.trim()).filter(p => p.length > 0);
+
+        if (potentialChoices.length >= 2) {
+          potentialChoices.forEach((p, pidx) => {
+            detectedChoices.push({
+              id: String.fromCharCode(65 + pidx),
+              text: p.replace(/^[A-D][\.\)]\s*/i, '').trim()
+            });
+          });
+        } else if (cBlock) {
+          detectedChoices.push({ id: 'A', text: cBlock });
+        } else {
           detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
         }
 
@@ -296,10 +266,10 @@ export default function QuizPage() {
         questionsToImport.push({
           id: `titrate-${Date.now()}-${idx}`,
           subject: subjectMatch,
-          question: finalQuestionText,
+          question: qText,
           choices: detectedChoices,
           answerId: 'A', 
-          rationale: cleanAndScrub(rawBack),
+          rationale: scrub(rawBack),
           tags: tagsRaw.split(' ').filter(t => t.length > 0),
         });
 
@@ -313,7 +283,7 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards. Metadata purged and choices arranged.`,
+        description: `Recorded ${questionsToImport.length} clinical cards. metadata purged and choices arranged.`,
       });
       
       setFile(null);
@@ -557,10 +527,10 @@ export default function QuizPage() {
                          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Titration Protocol</h4>
                       </div>
                       <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        The lab automatically detects A, B, C, D choices in your text. Cards without choices will trigger <span className="text-white">Flashcard Mode</span>.
+                        The lab automatically detects A, B, C, D choices clumped after '?' or ';'.
                       </p>
                       <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        Tags containing <span className="text-white">Rodak, Mahon, Bishop, Strasinger, or Stevens</span> will auto-sort into their respective sectors.
+                        Metadata like 'Anki ng RMT' is automatically purged from questions.
                       </p>
                    </div>
                 </div>
@@ -575,16 +545,15 @@ export default function QuizPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
                 <div className="space-y-2">
                   <label className="text-[9px] xl:text-[11px] font-black uppercase tracking-widest text-muted-foreground">Select Sector</label>
-                  <Select value={resetSubject} onValueChange={setResetSubject}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 xl:h-14 text-[10px] xl:text-[12px] font-black uppercase tracking-widest">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#111a24] border-white/10 text-white rounded-none">
-                      {[...CORE_SUBJECTS, 'General'].map(s => (
-                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px] tracking-widest">{s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <select 
+                    value={resetSubject} 
+                    onChange={(e) => setResetSubject(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 h-12 xl:h-14 px-4 text-[10px] xl:text-[12px] font-black uppercase tracking-widest outline-none focus:ring-1 focus:ring-primary"
+                  >
+                    {[...CORE_SUBJECTS, 'General'].map(s => (
+                      <option key={s} value={s} className="bg-[#111a24]">{s}</option>
+                    ))}
+                  </select>
                 </div>
                 
                 <div className="flex gap-2 col-span-1 md:col-span-2">

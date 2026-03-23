@@ -25,7 +25,7 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
   };
 
   const handleNext = () => {
-    // Pass a default high quality for progression
+    // Default high quality for linear progression
     onAnswer(5);
   };
 
@@ -48,7 +48,7 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
         />
       </div>
 
-      <div className="riot-card bg-[#111a24] border-l-4 border-primary p-6 md:p-12 shadow-2xl relative overflow-hidden ring-1 ring-white/5">
+      <div className="riot-card bg-[#111a24] border-l-4 border-primary p-6 md:p-12 shadow-2xl relative overflow-hidden ring-1 ring-white/5 min-h-[400px]">
         <div className="absolute top-0 right-0 p-4 opacity-5">
           <ShieldCheck size={150} className="text-primary md:size-[200px]" />
         </div>
@@ -68,7 +68,7 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
             </div>
           </div>
 
-          <h3 className="text-2xl md:text-5xl font-black italic uppercase tracking-tighter mb-8 md:mb-16 leading-tight text-white drop-shadow-sm">
+          <h3 className="text-xl md:text-3xl lg:text-4xl font-black italic uppercase tracking-tighter mb-8 md:mb-16 leading-tight text-white drop-shadow-sm">
             {question.question}
           </h3>
 
@@ -91,7 +91,7 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
                     onClick={() => handleSelect(choice.id)}
                     disabled={!!selectedId}
                     className={cn(
-                      "w-full flex items-center gap-4 md:gap-6 p-4 md:p-7 transition-all duration-300 text-left font-black uppercase tracking-widest border group relative",
+                      "w-full flex items-center gap-4 md:gap-6 p-4 md:p-6 transition-all duration-300 text-left font-black uppercase tracking-widest border group relative",
                       stateClass
                     )}
                     style={{ clipPath: 'polygon(0 0, 100% 0, 100% 80%, 98% 100%, 0 100%)' }}
@@ -99,12 +99,12 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
                     {!selectedId && <div className="absolute top-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500" />}
                     
                     <div className={cn(
-                      "w-8 h-8 md:w-12 md:h-12 flex items-center justify-center shrink-0 border-2 font-black italic transition-colors text-sm md:text-xl",
+                      "w-8 h-8 md:w-10 md:h-10 flex items-center justify-center shrink-0 border-2 font-black italic transition-colors text-xs md:text-lg",
                       selectedId ? (isCorrectChoice ? "border-primary text-primary" : isSelected ? "border-red-500 text-red-500" : "border-muted text-muted-foreground") : "border-white/10 text-white/40 group-hover:border-primary/50 group-hover:text-primary"
                     )}>
                       {choice.id}
                     </div>
-                    <span className="text-sm md:text-xl italic group-hover:translate-x-2 transition-transform line-clamp-2">{choice.text}</span>
+                    <span className="text-sm md:text-lg italic group-hover:translate-x-2 transition-transform line-clamp-2">{choice.text}</span>
                     {!selectedId && <ChevronRight className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-primary hidden md:block" />}
                   </button>
                 );
@@ -122,7 +122,7 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
                ) : (
                  <div className="p-6 md:p-10 bg-primary/10 border border-primary/30 animate-in zoom-in duration-300">
                     <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4">Correct Protocol</p>
-                    <p className="text-2xl md:text-4xl font-black italic text-white uppercase tracking-tight">
+                    <p className="text-xl md:text-3xl font-black italic text-white uppercase tracking-tight">
                       {question.choices.find(c => c.id === question.answerId)?.text}
                     </p>
                  </div>
