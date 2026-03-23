@@ -198,13 +198,24 @@ export default function QuizPage() {
         const back = parts[1].trim().replace(/^"|"$/g, '');
         const tagsRaw = (parts[2] || 'General').toLowerCase();
         
+        // Advanced MedTech Subject Titration mapping
         let subjectMatch = 'General';
-        if (tagsRaw.includes('hema')) subjectMatch = 'Hematology';
-        else if (tagsRaw.includes('microbio') || tagsRaw.includes('micro')) subjectMatch = 'Microbiology';
-        else if (tagsRaw.includes('chemistry') || tagsRaw.includes('chem')) subjectMatch = 'Clinical Chemistry';
-        else if (tagsRaw.includes('immuno') || tagsRaw.includes('serology')) subjectMatch = 'Immuno-Serology';
-        else if (tagsRaw.includes('microscopy')) subjectMatch = 'Clinical Microscopy';
-        else if (tagsRaw.includes('histopath') || tagsRaw.includes('htmle')) subjectMatch = 'HTMLE';
+        
+        if (tagsRaw.includes('hema') || tagsRaw.includes('rodak') || tagsRaw.includes('keohane') || tagsRaw.includes('harmening') || tagsRaw.includes('blood')) {
+          subjectMatch = 'Hematology';
+        } else if (tagsRaw.includes('micro') || tagsRaw.includes('mahon') || tagsRaw.includes('bailey') || tagsRaw.includes('scott') || tagsRaw.includes('tille') || tagsRaw.includes('bact')) {
+          subjectMatch = 'Microbiology';
+        } else if (tagsRaw.includes('chem') || tagsRaw.includes('bishop') || tagsRaw.includes('marshall') || tagsRaw.includes('henry') || tagsRaw.includes('clinchem')) {
+          subjectMatch = 'Clinical Chemistry';
+        } else if (tagsRaw.includes('immuno') || tagsRaw.includes('sero') || tagsRaw.includes('stevens') || tagsRaw.includes('turgeon') || tagsRaw.includes('abbas')) {
+          subjectMatch = 'Immuno-Serology';
+        } else if (tagsRaw.includes('microscopy') || tagsRaw.includes('strasinger') || tagsRaw.includes('urine') || tagsRaw.includes('urinalysis') || tagsRaw.includes('bodyfluid')) {
+          subjectMatch = 'Clinical Microscopy';
+        } else if (tagsRaw.includes('histo') || tagsRaw.includes('path') || tagsRaw.includes('htmle') || tagsRaw.includes('gregorio') || tagsRaw.includes('bancroft')) {
+          subjectMatch = 'HTMLE';
+        }
+
+        const tags = tagsRaw.split(' ').filter(t => t.length > 0);
 
         questionsToImport.push({
           id: `anki-${Date.now()}-${idx}`,
@@ -213,7 +224,7 @@ export default function QuizPage() {
           choices: [{ id: 'A', text: 'REVEAL CLINICAL DATA' }],
           answerId: 'A',
           rationale: back,
-          tags: tagsRaw.split(' '),
+          tags: tags,
         });
 
         if (idx % 20 === 0 || idx === total - 1) {
@@ -230,7 +241,7 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards in laboratory.`,
+        description: `Recorded ${questionsToImport.length} clinical cards organized by subject and tags.`,
       });
       
       setFile(null);
@@ -506,7 +517,7 @@ export default function QuizPage() {
                          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Assay Protocol</h4>
                       </div>
                       <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        The lab filters cards by searching your Anki tags for keywords like <span className="text-white">"Hema", "Micro", "Chem"</span>. Unlabeled cards will be titrated into the <span className="text-white">"Uncategorized Archive"</span> found on the subject selection screen.
+                        The lab filters cards by searching your Anki tags for keywords like <span className="text-white">"Rodak", "Mahon", "Bishop", "Strasinger"</span>. Unlabeled cards will be titrated into the <span className="text-white">"Uncategorized Archive"</span> found on the subject selection screen.
                       </p>
                    </div>
                 </div>
