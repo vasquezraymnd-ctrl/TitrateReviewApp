@@ -211,7 +211,6 @@ export default function QuizPage() {
 
         const fullScrubbed = scrub(rawFront);
         
-        // Find the split point: the first '?' or ';' that likely ends the question
         let splitIdx = -1;
         const qMark = fullScrubbed.indexOf('?');
         const sColon = fullScrubbed.indexOf(';');
@@ -229,7 +228,6 @@ export default function QuizPage() {
         }
 
         const detectedChoices: {id: string, text: string}[] = [];
-        // Split clumped choices by letters or multiple spaces
         const potentialChoices = cBlock.split(/\s{2,}|(?=\b[A-D][\.\)])/).map(p => p.trim()).filter(p => p.length > 0);
 
         if (potentialChoices.length >= 2) {
@@ -247,7 +245,6 @@ export default function QuizPage() {
           detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
         }
 
-        // Fill remaining choices to maintain UI layout
         while (detectedChoices.length < 4) {
           detectedChoices.push({ id: String.fromCharCode(65 + detectedChoices.length), text: '---' });
         }
@@ -308,13 +305,21 @@ export default function QuizPage() {
   };
 
   const purgeAllRecords = async () => {
+    // Purge Questions and Progress
     const allQuestions = await db.getAll<Question>('questions');
     for (const q of allQuestions) {
       await db.delete('questions', q.id);
       await db.delete('progress', q.id);
     }
+    
+    // Purge Modules (PDFs)
+    const allModules = await db.getAll<LabModule>('modules');
+    for (const m of allModules) {
+      await db.delete('modules', m.id);
+    }
+
     await countTotalAnki();
-    toast({ title: "Laboratory Purged", description: "All clinical records deleted." });
+    toast({ title: "Laboratory Purged", description: "All clinical cards and modules have been deleted." });
     setStep('subject');
   };
 
@@ -564,14 +569,14 @@ export default function QuizPage() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button className="riot-button flex-1 h-12 xl:h-14 bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white font-black text-[10px]">
-                        <Trash2 className="mr-2 h-3 w-3" /> PURGE ALL TITRATED CARDS
+                        <Trash2 className="mr-2 h-3 w-3" /> PURGE ALL TITRATED RECORDS
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
                       <AlertDialogHeader>
                         <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl text-red-500">CRITICAL: TOTAL PURGE</AlertDialogTitle>
                         <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                          This will permanently delete ALL imported Anki cards and study progress.
+                          This will permanently delete ALL imported Anki cards, PDF Modules, and study progress.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

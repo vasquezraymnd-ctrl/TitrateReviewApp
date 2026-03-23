@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
@@ -11,9 +11,11 @@ import {
   Loader2, 
   Zap,
   FileJson,
-  Database
+  Database,
+  Trash2,
+  AlertCircle
 } from 'lucide-react';
-import { db, Question, CORE_SUBJECTS } from '@/lib/db';
+import { db, Question, LabModule, CORE_SUBJECTS } from '@/lib/db';
 import { useToast } from '@/hooks/use-toast';
 import { generateQuestions } from '@/ai/flows/question-generator';
 import {
@@ -24,6 +26,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function ImportPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -110,16 +123,14 @@ export default function ImportPage() {
       const subjects = new Set<string>();
 
       lines.forEach((line, idx) => {
-        // Anki plain text export is Tab-Separated
         const parts = line.split('\t'); 
-        if (parts.length < 2) return; // Need at least Front and Back
+        if (parts.length < 2) return; 
 
         const front = parts[0].trim().replace(/^"|"$/g, '');
         const back = parts[1].trim().replace(/^"|"$/g, '');
         const tagsRaw = parts[2] || 'Anki-Import';
         const tags = tagsRaw.split(' ').filter(t => t.length > 0);
         
-        // Search tags for a core subject match
         const subjectMatch = CORE_SUBJECTS.find(s => 
           tagsRaw.toLowerCase().includes(s.toLowerCase())
         ) || 'General';
@@ -163,6 +174,24 @@ export default function ImportPage() {
     }
   };
 
+  const purgeAllRecords = async () => {
+    // Purge Questions and Progress
+    const allQuestions = await db.getAll<Question>('questions');
+    for (const q of allQuestions) {
+      await db.delete('questions', q.id);
+      await db.delete('progress', q.id);
+    }
+    
+    // Purge Modules (PDFs)
+    const allModules = await db.getAll<LabModule>('modules');
+    for (const m of allModules) {
+      await db.delete('modules', m.id);
+    }
+
+    setStats(null);
+    toast({ title: "Laboratory Purged", description: "All questions and modules have been deleted." });
+  };
+
   return (
     <div className="flex h-screen bg-[#050a0f] overflow-hidden text-white">
       <Sidebar />
@@ -170,11 +199,35 @@ export default function ImportPage() {
         <DashboardHeader />
         
         <div className="max-w-6xl mx-auto px-8 py-32 space-y-12">
-          <div className="border-b border-white/5 pb-8">
-            <h2 className="text-4xl font-black italic uppercase tracking-tighter">Data Titration</h2>
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">
-              Populate your clinical library via AI synthesis, Anki exports, or high-yield seeding.
-            </p>
+          <div className="border-b border-white/5 pb-8 flex items-center justify-between">
+            <div>
+              <h2 className="text-4xl font-black italic uppercase tracking-tighter">Data Titration</h2>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-2">
+                Populate your clinical library via AI synthesis, Anki exports, or high-yield seeding.
+              </p>
+            </div>
+            
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" className="border-red-500/20 text-red-500 hover:bg-red-500/10 h-10 px-4 font-black text-[10px] uppercase tracking-widest">
+                  <Trash2 className="mr-2 h-3 w-3" /> Purge Records
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="font-black italic uppercase tracking-tighter text-2xl text-red-500">Total Purge Required?</AlertDialogTitle>
+                  <AlertDialogDescription className="text-muted-foreground italic text-sm">
+                    This will permanently delete all clinical cards (Anki/Quiz) and uploaded PDF modules from local storage.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="uppercase font-black text-[10px] rounded-none">Abort</AlertDialogCancel>
+                  <AlertDialogAction onClick={purgeAllRecords} className="bg-red-600 text-white hover:bg-red-700 uppercase font-black text-[10px] rounded-none">
+                    CONFIRM PURGE
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
