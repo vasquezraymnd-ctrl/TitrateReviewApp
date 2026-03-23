@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -18,7 +19,9 @@ import {
   AlertCircle, 
   RefreshCw,
   Database,
-  Upload
+  Upload,
+  ChevronLeft,
+  Layers
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -52,6 +55,7 @@ export default function QuizPage() {
   const [step, setStep] = useState<'subject' | 'module' | 'quiz'>('subject');
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [modules, setModules] = useState<LabModule[]>([]);
+  const [hasAnkiCards, setHasAnkiCards] = useState(false);
   
   // Titration / Import State
   const [importing, setImporting] = useState(false);
@@ -74,11 +78,36 @@ export default function QuizPage() {
   };
 
   const handleSubjectSelect = async (subject: string) => {
+    setLoading(true);
     setSelectedSubject(subject);
+    
+    // Check for PDF Modules
     const allModules = await db.getAll<LabModule>('modules');
-    const filtered = allModules.filter(m => m.subject === subject);
-    setModules(filtered);
+    const filteredModules = allModules.filter(m => m.subject === subject);
+    setModules(filteredModules);
+    
+    // Check for Anki Questions
+    const allQuestions = await db.getAll<Question>('questions');
+    const filteredQuestions = allQuestions.filter(q => q.subject === subject);
+    setHasAnkiCards(filteredQuestions.length > 0);
+    
     setStep('module');
+    setLoading(false);
+  };
+
+  const startAnkiReview = async () => {
+    if (!selectedSubject) return;
+    setLoading(true);
+    const allQuestions = await db.getAll<Question>('questions');
+    const filtered = allQuestions.filter(q => q.subject === selectedSubject);
+    
+    if (filtered.length > 0) {
+      setQuestions(filtered);
+      setStep('quiz');
+    } else {
+      toast({ title: "Archive Empty", description: "No Anki cards found for this sector." });
+    }
+    setLoading(false);
   };
 
   const startModuleAssay = async (module: LabModule) => {
@@ -143,10 +172,11 @@ export default function QuizPage() {
     
     try {
       const text = await file.text();
-      const lines = text.split('\n').filter(line => line.trim().length > 0);
+      const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
       const questionsToImport: Question[] = [];
 
       lines.forEach((line, idx) => {
+        // Handle standard Anki Tab-Separated format
         const parts = line.split('\t'); 
         if (parts.length < 2) return;
 
@@ -155,19 +185,17 @@ export default function QuizPage() {
         const tagsRaw = parts[2] || 'Anki-Import';
         const tags = tagsRaw.split(' ').filter(t => t.length > 0);
         
+        // Match subject from tags or default to Clinical Chemistry
         const subjectMatch = CORE_SUBJECTS.find(s => 
-          tagsRaw.toLowerCase().includes(s.toLowerCase())
-        ) || 'General';
+          tagsRaw.toLowerCase().includes(s.toLowerCase().replace('-', ''))
+        ) || 'Clinical Chemistry';
 
         questionsToImport.push({
           id: `anki-${Date.now()}-${idx}`,
           subject: subjectMatch,
           question: front,
           choices: [
-            { id: 'A', text: 'REVEAL CLINICAL DATA' },
-            { id: 'B', text: '---' },
-            { id: 'C', text: '---' },
-            { id: 'D', text: '---' },
+            { id: 'A', text: 'REVEAL CLINICAL DATA' }
           ],
           answerId: 'A',
           rationale: back,
@@ -176,7 +204,7 @@ export default function QuizPage() {
       });
 
       if (questionsToImport.length === 0) {
-        throw new Error("No valid flashcards found in the archive.");
+        throw new Error("No valid flashcards found in the archive. Ensure it is a Tab-Separated .txt file.");
       }
 
       await db.bulkPut('questions', questionsToImport);
@@ -185,6 +213,11 @@ export default function QuizPage() {
         description: `Imported ${questionsToImport.length} cards from Anki archive.`,
       });
       setFile(null);
+      
+      // Refresh subject view if we are on that step
+      if (step === 'subject' || step === 'module') {
+        window.location.reload();
+      }
     } catch (err) {
       toast({
         variant: "destructive",
@@ -202,11 +235,9 @@ export default function QuizPage() {
     const module = resetModulesList.find(m => m.id === selectedResetModuleId);
     if (!module) return;
 
-    // 1. Get all questions
     const allQuestions = await db.getAll<Question>('questions');
     const questionsToRemove = allQuestions.filter(q => q.tags?.includes(module.name));
 
-    // 2. Delete progress and questions
     for (const q of questionsToRemove) {
       await db.delete('progress', q.id);
       await db.delete('questions', q.id);
@@ -225,8 +256,8 @@ export default function QuizPage() {
       <div className="flex h-screen bg-[#0b111a] items-center justify-center text-white flex-col gap-6">
         <Zap className="animate-pulse text-primary" size={64} />
         <div className="text-center">
-            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter">AI TITRATION IN PROGRESS</h2>
-            <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Synthesizing clinical assays from protocol text...</p>
+            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter">Laboratory Protocol Sync</h2>
+            <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Accessing local clinical archives...</p>
         </div>
       </div>
     );
@@ -265,42 +296,63 @@ export default function QuizPage() {
             {step === 'module' && (
               <div className="space-y-12 xl:space-y-20 animate-in slide-in-from-right-12 duration-700">
                 <div className="flex items-center justify-between border-b border-white/5 pb-8">
-                  <div>
-                      <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
-                      <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Select an uploaded protocol for AI-driven question synthesis.</p>
+                  <div className="flex items-center gap-4">
+                      <Button variant="ghost" onClick={() => setStep('subject')} className="p-0 hover:bg-transparent text-primary">
+                        <ChevronLeft size={32} />
+                      </Button>
+                      <div>
+                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Assays</h2>
+                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Choose a PDF protocol or your imported Anki archive.</p>
+                      </div>
                   </div>
-                  <Button variant="ghost" onClick={() => setStep('subject')} className="uppercase font-black text-[10px] xl:text-[12px] tracking-widest">Back</Button>
                 </div>
 
-                {modules.length === 0 ? (
-                  <div className="text-center py-24 xl:py-40 riot-card border border-dashed border-white/10 bg-white/[0.02]">
-                      <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
-                      <h3 className="text-xl xl:text-4xl font-black italic uppercase">No Protocols Found</h3>
-                      <p className="text-xs xl:text-lg font-bold text-muted-foreground uppercase tracking-widest mb-8">You must upload modules to the Protocol Archives first.</p>
-                      <Button asChild className="riot-button h-12 xl:h-16 px-8 xl:px-14 bg-primary text-black xl:text-sm">
-                          <Link href="/library">GO TO ARCHIVES</Link>
-                      </Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    {modules.map((m) => (
-                      <button 
-                        key={m.id} 
-                        onClick={() => startModuleAssay(m)}
-                        className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:border-primary/50 text-left group"
-                      >
-                        <BookOpen size={24} className="mb-4 text-primary xl:size-32" />
-                        <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter">{m.name}</h4>
-                        <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">Generate Quiz from PDF</p>
-                        <div className="mt-6 flex justify-end">
-                           <div className="w-10 h-10 xl:w-14 xl:h-14 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
-                              <ChevronRight className="text-black" />
-                           </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                  {/* Anki Deck Card */}
+                  {hasAnkiCards && (
+                    <button 
+                      onClick={startAnkiReview}
+                      className="riot-card p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all group"
+                    >
+                      <Layers size={24} className="mb-4 text-primary group-hover:text-black xl:size-32" />
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter">Anki Review Archive</h4>
+                      <p className="text-[10px] xl:text-[12px] font-bold opacity-60 uppercase tracking-widest mt-2">Practice Imported Cards</p>
+                      <div className="mt-6 flex justify-end">
+                         <div className="w-10 h-10 xl:w-14 xl:h-14 bg-black/20 group-hover:bg-black/40 flex items-center justify-center">
+                            <ChevronRight />
+                         </div>
+                      </div>
+                    </button>
+                  )}
+
+                  {/* Module Cards */}
+                  {modules.map((m) => (
+                    <button 
+                      key={m.id} 
+                      onClick={() => startModuleAssay(m)}
+                      className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:border-primary/50 text-left group"
+                    >
+                      <BookOpen size={24} className="mb-4 text-primary xl:size-32" />
+                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter">{m.name}</h4>
+                      <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">AI Assay Synthesis</p>
+                      <div className="mt-6 flex justify-end">
+                         <div className="w-10 h-10 xl:w-14 xl:h-14 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                            <ChevronRight className="text-black" />
+                         </div>
+                      </div>
+                    </button>
+                  ))}
+
+                  {(!hasAnkiCards && modules.length === 0) && (
+                    <div className="col-span-full text-center py-24 xl:py-40 riot-card border border-dashed border-white/10 bg-white/[0.02]">
+                        <AlertCircle size={48} className="mx-auto text-muted-foreground mb-4 xl:size-24" />
+                        <h3 className="text-xl xl:text-4xl font-black italic uppercase">No Protocols Found</h3>
+                        <p className="text-xs xl:text-lg font-bold text-muted-foreground uppercase tracking-widest mb-8 px-6">
+                          Import an Anki archive below or upload PDFs to the Protocol Archives.
+                        </p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
@@ -334,7 +386,7 @@ export default function QuizPage() {
                 </div>
                 <h2 className="text-5xl xl:text-8xl font-black italic uppercase tracking-tighter mb-4 text-white">Assay Finalized</h2>
                 <p className="text-muted-foreground mb-12 text-lg xl:text-2xl italic max-w-2xl mx-auto leading-relaxed">
-                  Your titration levels for this module have been updated. The laboratory algorithm will schedule these protocols for future review.
+                  Your titration levels for this session have been recorded. The laboratory algorithm will schedule these protocols for future review.
                 </p>
                 
                 <div className="flex gap-4 justify-center">
@@ -349,11 +401,10 @@ export default function QuizPage() {
             )}
           </div>
 
-          {/* Data Titration / Reset Section */}
+          {/* Anki Titration / Reset Section */}
           {(step === 'subject' || step === 'module') && !loading && (
             <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
               
-              {/* Titration Center */}
               <div className="space-y-8">
                 <div className="flex items-center gap-3">
                   <Database className="text-primary/70" size={24} />
@@ -364,7 +415,6 @@ export default function QuizPage() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Anki Titration Card */}
                   <div className="riot-card bg-white/[0.02] border border-white/5 p-8 flex flex-col justify-between">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
@@ -372,14 +422,14 @@ export default function QuizPage() {
                         <h3 className="text-xl font-black italic uppercase">Anki Titration</h3>
                       </div>
                       <p className="text-[10px] font-bold text-muted-foreground leading-relaxed uppercase tracking-widest">
-                        Import Anki archives. Use "Notes in Plain Text" export with [Tab] separation for perfect clinical titration.
+                        Select your Tab-Separated .txt export from Anki. Ensure "Include Tags" was checked during export.
                       </p>
                     </div>
                     
                     <div className="mt-8 space-y-4">
                       <Input 
                         type="file" 
-                        accept=".csv,.txt" 
+                        accept=".txt,.csv" 
                         onChange={(e) => setFile(e.target.files?.[0] || null)} 
                         className="hidden" 
                         id="anki-upload-quiz"
@@ -399,22 +449,20 @@ export default function QuizPage() {
                     </div>
                   </div>
 
-                  {/* Information / Guideline Card */}
                   <div className="riot-card bg-primary/5 border border-primary/20 p-8">
                      <div className="space-y-4">
                         <div className="flex items-center gap-3">
                            <AlertCircle className="text-primary" size={24} />
-                           <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Protocol Guidelines</h4>
+                           <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Assay Protocol</h4>
                         </div>
                         <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                          Your Anki export must be in <span className="text-white">"Plain Text (.txt)"</span> format. The laboratory will automatically categorize cards by searching for clinical sector keywords in your tags (e.g., "Hematology", "Micro").
+                          Your Anki export must be in <span className="text-white">"Plain Text (.txt)"</span> format. The laboratory will automatically categorize cards by searching for clinical sector keywords (e.g., "Hematology", "Micro") in your tags.
                         </p>
                      </div>
                   </div>
                 </div>
               </div>
 
-              {/* Reset Section */}
               <div className="space-y-8">
                 <div className="flex items-center gap-3">
                   <RefreshCw className="text-red-500/50" size={20} />
