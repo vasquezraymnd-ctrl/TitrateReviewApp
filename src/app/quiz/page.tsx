@@ -121,7 +121,7 @@ export default function QuizPage() {
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
     const allProgress = await db.getAll<Progress>('progress');
     
-    // Numeric-aware Natural Sort for Chapters
+    // Natural Sort for Chapters
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
@@ -271,7 +271,7 @@ export default function QuizPage() {
       .replace(/\s\s+/g, ' ')
       .trim();
     
-    // Deduplicate Rodak's style repeating questions on same line
+    // Deduplicate logic for messy lines
     const mid = Math.floor(clean.length / 2);
     const firstHalf = clean.substring(0, mid).trim();
     const secondHalf = clean.substring(clean.length - mid).trim();
@@ -279,7 +279,6 @@ export default function QuizPage() {
       clean = firstHalf;
     }
 
-    // Extraction for Chapter names from Column 3 paths
     if (clean.includes('::')) {
       const parts = clean.split('::');
       return parts[parts.length - 1].trim();
@@ -302,18 +301,17 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 5) continue;
 
-        // Unified Titration Mapping
-        // Question: Column 2 (Index 1)
-        // Chapter: Column 3 (Index 2)
-        // Choices: Column 3-6 (Index 2-5)
-        // Answer: Column 12 (Index 11)
+        // Unified Titration Rules
+        // Q: Col 2 (Index 1)
+        // Chapter: Col 3 (Index 2)
+        // Choices: Col 3-6 (Index 2-5)
+        // Answer: Col 12 (Index 11)
         
         const qText = scrub(parts[1]);
-        const chapterRaw = scrub(parts[2] || "General Review");
+        const chapterRaw = scrub(parts[2] || "General Titration");
         const choicesRaw = [parts[2], parts[3], parts[4], parts[5]];
         const answerText = scrub(parts[11] || parts[12] || "");
 
-        // Filter out empty choices (True/False or 3-choice support)
         const filteredChoices = choicesRaw
           .map(c => scrub(c))
           .filter(c => c && c.trim() !== '')
@@ -343,7 +341,7 @@ export default function QuizPage() {
 
       await db.bulkPut('questions', questionsToImport);
       await loadGlobalStats();
-      toast({ title: "Titration Successful", description: `Recorded ${questionsToImport.length} cards into ${importSubject}.` });
+      toast({ title: "Titration Successful", description: `Imported ${questionsToImport.length} cards into ${importSubject}.` });
       setFile(null);
       if (selectedSubject === importSubject) handleSubjectSelect(importSubject);
     } catch (err) {
