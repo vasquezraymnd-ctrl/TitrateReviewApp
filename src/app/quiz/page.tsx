@@ -38,13 +38,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
 export default function QuizPage() {
@@ -218,10 +211,14 @@ export default function QuizPage() {
 
         const fullScrubbed = scrub(rawFront);
         
-        // Calibrated Splitting: Identify question end via '?' or ';'
-        const lastQ = fullScrubbed.lastIndexOf('?');
-        const lastS = fullScrubbed.lastIndexOf(';');
-        const splitIdx = Math.max(lastQ, lastS);
+        // Find the split point: the first '?' or ';' that likely ends the question
+        let splitIdx = -1;
+        const qMark = fullScrubbed.indexOf('?');
+        const sColon = fullScrubbed.indexOf(';');
+        
+        if (qMark !== -1 && sColon !== -1) splitIdx = Math.min(qMark, sColon);
+        else if (qMark !== -1) splitIdx = qMark;
+        else if (sColon !== -1) splitIdx = sColon;
         
         let qText = fullScrubbed;
         let cBlock = "";
@@ -232,20 +229,27 @@ export default function QuizPage() {
         }
 
         const detectedChoices: {id: string, text: string}[] = [];
-        // Extract choices from the block following the delimiter
+        // Split clumped choices by letters or multiple spaces
         const potentialChoices = cBlock.split(/\s{2,}|(?=\b[A-D][\.\)])/).map(p => p.trim()).filter(p => p.length > 0);
 
         if (potentialChoices.length >= 2) {
           potentialChoices.forEach((p, pidx) => {
-            detectedChoices.push({
-              id: String.fromCharCode(65 + pidx),
-              text: p.replace(/^[A-D][\.\)]\s*/i, '').trim()
-            });
+            if (pidx < 4) {
+              detectedChoices.push({
+                id: String.fromCharCode(65 + pidx),
+                text: p.replace(/^[A-D][\.\)]\s*/i, '').trim()
+              });
+            }
           });
         } else if (cBlock) {
           detectedChoices.push({ id: 'A', text: cBlock });
         } else {
           detectedChoices.push({ id: 'A', text: 'REVEAL CLINICAL DATA' });
+        }
+
+        // Fill remaining choices to maintain UI layout
+        while (detectedChoices.length < 4) {
+          detectedChoices.push({ id: String.fromCharCode(65 + detectedChoices.length), text: '---' });
         }
 
         let subjectMatch = 'General';
@@ -283,7 +287,7 @@ export default function QuizPage() {
       
       toast({
         title: "Titration Successful",
-        description: `Recorded ${questionsToImport.length} clinical cards. metadata purged and choices arranged.`,
+        description: `Recorded ${questionsToImport.length} clinical cards. Metadata purged and clumped choices separated.`,
       });
       
       setFile(null);
@@ -527,10 +531,10 @@ export default function QuizPage() {
                          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Titration Protocol</h4>
                       </div>
                       <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        The lab automatically detects A, B, C, D choices clumped after '?' or ';'.
+                        The lab automatically detects choices following '?' or ';'.
                       </p>
                       <p className="text-[9px] font-medium text-white/60 uppercase tracking-widest leading-relaxed">
-                        Metadata like 'Anki ng RMT' is automatically purged from questions.
+                        Unwanted metadata like 'Anki ng RMT' is purged automatically.
                       </p>
                    </div>
                 </div>

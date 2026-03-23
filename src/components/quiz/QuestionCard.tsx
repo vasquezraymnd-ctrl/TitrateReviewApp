@@ -25,7 +25,7 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
   };
 
   const handleNext = () => {
-    // Default high quality for linear progression
+    // Default quality score of 5 for simple linear navigation
     onAnswer(5);
   };
 
@@ -85,6 +85,9 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
                   else stateClass = "bg-white/[0.01] border-white/5 opacity-30";
                 }
 
+                // Don't show choices marked as empty/placeholder
+                if (choice.text === '---' && !selectedId) return null;
+
                 return (
                   <button
                     key={choice.id}
@@ -123,7 +126,7 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
                  <div className="p-6 md:p-10 bg-primary/10 border border-primary/30 animate-in zoom-in duration-300">
                     <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-4">Correct Protocol</p>
                     <p className="text-xl md:text-3xl font-black italic text-white uppercase tracking-tight">
-                      {question.choices.find(c => c.id === question.answerId)?.text}
+                      {question.choices.find(c => c.id === question.answerId)?.text || "Data Recorded"}
                     </p>
                  </div>
                )}
