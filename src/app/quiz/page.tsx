@@ -60,7 +60,7 @@ export default function QuizPage() {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [importSubject, setImportSubject] = useState<string>('Clinical Microscopy');
   const [modules, setModules] = useState<LabModule[]>([]);
-  const [chapters, setChapters] = useState<{ name: string; score: number }[]>([]);
+  const [chapters, setChapters] = useState<{ name: string; mastered: number; total: number }[]>([]);
   const [totalAnkiInDb, setTotalAnkiInDb] = useState(0);
   
   const [importing, setImporting] = useState(false);
@@ -71,10 +71,12 @@ export default function QuizPage() {
 
   useEffect(() => {
     countTotalAnki();
-    window.addEventListener('archives-purged', () => {
+    const handleArchivePurge = () => {
         countTotalAnki();
         setStep('subject');
-    });
+    };
+    window.addEventListener('archives-purged', handleArchivePurge);
+    return () => window.removeEventListener('archives-purged', handleArchivePurge);
   }, []);
 
   const countTotalAnki = async () => {
@@ -99,16 +101,15 @@ export default function QuizPage() {
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
-    const chaptersWithScores = uniqueChapterNames.map(name => {
+    const chaptersWithData = uniqueChapterNames.map(name => {
         const chapterQs = subjectQuestions.filter(q => q.tags[0] === name);
         const chapterProgress = allProgress.filter(p => chapterQs.some(q => q.id === p.questionId));
-        // Mastery score based on questions with at least 1 repetition
+        // Mastery count based on questions with at least 1 repetition
         const masteredCount = chapterProgress.filter(p => (p.repetition || 0) > 0).length;
-        const score = chapterQs.length > 0 ? Math.round((masteredCount / chapterQs.length) * 100) : 0;
-        return { name, score };
+        return { name, mastered: masteredCount, total: chapterQs.length };
     });
 
-    setChapters(chaptersWithScores);
+    setChapters(chaptersWithData);
     setStep('module');
     setLoading(false);
   };
@@ -141,7 +142,27 @@ export default function QuizPage() {
         await db.delete('progress', q.id);
       }
       
-      toast({ title: "Progress Calibrated", description: `Reset study data for ${chapterName}.` });
+      toast({ title: "Chapter Calibrated", description: `Reset progress for ${chapterName}.` });
+      handleSubjectSelect(selectedSubject); // Refresh scores
+    } catch (err) {
+      toast({ variant: "destructive", title: "Calibration Failed", description: "Could not reset progress." });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetSubjectProgress = async () => {
+    if (!selectedSubject) return;
+    setLoading(true);
+    try {
+      const allQuestions = await db.getAll<Question>('questions');
+      const subjectQs = allQuestions.filter(q => q.subject === selectedSubject);
+      
+      for (const q of subjectQs) {
+        await db.delete('progress', q.id);
+      }
+      
+      toast({ title: "Subject Calibrated", description: `Reset all progress for ${selectedSubject}.` });
       handleSubjectSelect(selectedSubject); // Refresh scores
     } catch (err) {
       toast({ variant: "destructive", title: "Calibration Failed", description: "Could not reset progress." });
@@ -214,6 +235,26 @@ export default function QuizPage() {
     }
   };
 
+  const scrub = (str: string) => {
+    if (!str) return "";
+    let clean = str
+      .replace(/<[^>]*>?/gm, ' ') 
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/Anki\s*ng\s*RMT/gi, '')
+      .replace(/Lelouch/gi, '')
+      .replace(/\s\s+/g, ' ')
+      .trim();
+    
+    if (clean.includes('::')) {
+      const p = clean.split('::');
+      return p[p.length - 1].trim();
+    }
+    return clean;
+  };
+
   const processAnkiExport = async () => {
     if (!file) return;
     setImporting(true);
@@ -225,38 +266,22 @@ export default function QuizPage() {
       const questionsToImport: Question[] = [];
       const total = lines.length;
 
-      const scrub = (str: string) => {
-        if (!str) return "";
-        let clean = str
-          .replace(/<[^>]*>?/gm, ' ') 
-          .replace(/&nbsp;/g, ' ')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&amp;/g, '&')
-          .replace(/Anki\s*ng\s*RMT/gi, '')
-          .replace(/Lelouch/gi, '')
-          .replace(/\s\s+/g, ' ')
-          .trim();
-        
-        if (clean.includes('::')) {
-          const p = clean.split('::');
-          return p[p.length - 1].trim();
-        }
-        return clean;
-      };
-
       for (let idx = 0; idx < total; idx++) {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 8) continue;
 
         // STRICT COLUMN MAPPING (Col 3-13)
+        // Col 3: Chapter/Path
         const chapterRaw = parts[2] || "";
         const chapter = scrub(chapterRaw) || "Uncategorized";
+        // Col 4: Question
         const qText = scrub(parts[3]);
+        // Col 5-8: Choices (Capturing entire text)
         const cA = scrub(parts[4]);
         const cB = scrub(parts[5]);
         const cC = scrub(parts[6]);
         const cD = scrub(parts[7]);
+        // Col 12-13: Answer identification
         const ansRaw = scrub(parts[11] || parts[12] || "");
 
         const choices = [
@@ -325,7 +350,7 @@ export default function QuizPage() {
       <div className="flex h-screen bg-[#0b111a] items-center justify-center text-white flex-col gap-6">
         <Zap className="animate-pulse text-primary" size={64} />
         <div className="text-center">
-            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter">Laboratory Protocol Sync</h2>
+            <h2 className="text-2xl xl:text-5xl font-black italic uppercase tracking-tighter text-white">Laboratory Protocol Sync</h2>
             <p className="text-[10px] xl:text-[14px] font-bold text-muted-foreground uppercase tracking-[0.4em] mt-2">Accessing local archives...</p>
         </div>
       </div>
@@ -344,8 +369,8 @@ export default function QuizPage() {
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
                 <div className="border-b border-white/5 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                   <div>
-                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">Sector Selection</h2>
-                    <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Pick a clinical sector to begin titration.</p>
+                    <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
+                    <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Pick a clinical sector to begin titration.</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
@@ -372,8 +397,8 @@ export default function QuizPage() {
                         <ChevronLeft size={32} />
                       </Button>
                       <div>
-                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter">{selectedSubject} Protocols</h2>
-                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Select a chapter archive or PDF protocol.</p>
+                        <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">{selectedSubject} Protocols</h2>
+                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Select a chapter archive or PDF protocol.</p>
                       </div>
                   </div>
                 </div>
@@ -388,8 +413,8 @@ export default function QuizPage() {
                         <div className="flex justify-between items-start mb-4">
                           <Archive size={24} className="text-primary group-hover:text-black xl:size-32" />
                           <div className="text-right">
-                             <span className="text-2xl xl:text-4xl font-black italic text-primary/50 group-hover:text-black/50">{chapter.score}%</span>
-                             <p className="text-[8px] font-black uppercase tracking-widest opacity-60">Mastery</p>
+                             <span className="text-2xl xl:text-4xl font-black italic text-primary/50 group-hover:text-black/50">{chapter.mastered}/{chapter.total}</span>
+                             <p className="text-[8px] font-black uppercase tracking-widest opacity-60 group-hover:text-black">Score</p>
                           </div>
                         </div>
                         <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white group-hover:text-black truncate w-full">
@@ -421,7 +446,7 @@ export default function QuizPage() {
                       <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white truncate w-full">
                         {m.name}
                       </h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">AI Assay Synthesis</p>
+                      <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">AI Assay Synthesis</p>
                     </button>
                   ))}
                   
@@ -468,13 +493,13 @@ export default function QuizPage() {
               <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-6">
                 <div className="flex items-center gap-3">
                   <Upload className="text-primary" size={32} />
-                  <h3 className="text-xl font-black italic uppercase">Strict Titration Import</h3>
+                  <h3 className="text-xl font-black italic uppercase text-white">Strict Titration Import</h3>
                 </div>
                 
                 <div className="space-y-4">
                   <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector</Label>
                   <Select value={importSubject} onValueChange={setImportSubject}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase">
+                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase text-white">
                       <SelectValue placeholder="Select Sector" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
@@ -545,10 +570,10 @@ export default function QuizPage() {
                     <Button 
                       variant="ghost" 
                       className="text-white/40 hover:text-white font-black text-[10px] uppercase tracking-widest h-10 border border-white/5"
-                      onClick={() => setStep('subject')}
-                      disabled={step === 'subject'}
+                      onClick={resetSubjectProgress}
+                      disabled={!selectedSubject || step === 'subject'}
                     >
-                      <Target className="mr-2 h-3 w-3" /> RESET SPECIFIC SUBJECT
+                      <Target className="mr-2 h-3 w-3" /> RESET {selectedSubject ? selectedSubject.toUpperCase() : 'SELECTED SECTOR'}
                     </Button>
                   </div>
               </div>
