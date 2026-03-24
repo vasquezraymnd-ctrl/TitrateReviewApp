@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState, useRef } from 'react';
@@ -67,7 +66,6 @@ export default function Home() {
   }, [isHolding, isNavigating]);
 
   // Separate effect to handle navigation when progress is complete
-  // This avoids the "Cannot update a component while rendering" error
   useEffect(() => {
     if (holdProgress >= 100 && !isNavigating) {
       setIsNavigating(true);
@@ -105,7 +103,7 @@ export default function Home() {
             </div>
           </div>
           <div className="relative mt-20 md:mt-24 text-center">
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none select-none">
               TITRATE
               <div className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo-word_5s_ease-out_forwards] leading-none">
                 TITRATE
@@ -153,15 +151,15 @@ export default function Home() {
               </svg>
               {holdProgress > 5 && (
                 <div 
-                  className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top transition-all duration-300" 
-                  style={{ height: '800px', opacity: isHolding ? 1 : 0 }} 
+                  className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top transition-all duration-300 pointer-events-none" 
+                  style={{ height: '260px', opacity: isHolding ? 1 : 0 }} 
                 />
               )}
             </div>
           </div>
 
           <div className="relative mt-20 md:mt-24 text-center">
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none select-none">
               TITRATE
               <div 
                 className="absolute inset-0 text-primary overflow-hidden transition-all duration-300 leading-none" 
