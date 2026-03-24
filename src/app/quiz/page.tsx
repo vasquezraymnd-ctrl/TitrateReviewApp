@@ -371,8 +371,7 @@ export default function QuizPage() {
           text: text
         }));
 
-        const answerIdx = item.choices.findIndex((c: string) => c === item.answer);
-        const answerId = answerIdx !== -1 ? String.fromCharCode(65 + answerIdx) : 'A';
+        const answerId = filteredChoices.find(c => c.text.trim() === item.answer.trim())?.id || 'A';
 
         return {
           id: `sys-${Date.now()}-${idx}`,
@@ -388,13 +387,13 @@ export default function QuizPage() {
       await db.bulkPut('questions', questionsToImport);
       await loadGlobalStats();
       
-      // Update local state immediately if viewing a subject
       if (selectedSubject) {
         handleSubjectSelect(selectedSubject);
       }
       
       toast({ title: "Sync Successful", description: `Synchronized ${questionsToImport.length} system protocols.` });
     } catch (err) {
+      console.error(err);
       toast({ variant: "destructive", title: "Sync Failed", description: "Could not access system archives." });
     } finally {
       setImporting(false);
