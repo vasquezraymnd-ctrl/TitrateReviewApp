@@ -4,12 +4,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 3 Introduction to Urinalysis",
     "question": "Which of the following would be least affected in a specimen that has remained unpreserved at room temperature for more than 2 hours?",
-    "choices": [
-      "Urobilinogen",
-      "Ketones",
-      "Protein",
-      "Nitrite"
-    ],
+    "choices": ["Urobilinogen", "Ketones", "Protein", "Nitrite"],
     "answer": "Protein"
   },
   {
@@ -17,12 +12,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 3 Introduction to Urinalysis",
     "question": "Bacterial growth in an unpreserved specimen will:",
-    "choices": [
-      "Decrease clarity",
-      "Increase bilirubin",
-      "Decrease pH",
-      "Increase glucose"
-    ],
+    "choices": ["Decrease clarity", "Increase bilirubin", "Decrease pH", "Increase glucose"],
     "answer": "Decrease clarity"
   },
   {
@@ -30,12 +20,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 3 Introduction to Urinalysis",
     "question": "The most sterile specimen collected is a:",
-    "choices": [
-      "Catheterized",
-      "Midstream clean-catch",
-      "Three-glass",
-      "Suprapubic aspiration"
-    ],
+    "choices": ["Catheterized", "Midstream clean-catch", "Three-glass", "Suprapubic aspiration"],
     "answer": "Suprapubic aspiration"
   },
   {
@@ -43,12 +28,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 3 Introduction to Urinalysis",
     "question": "Which of the following would not be given to a patient before the collection of a midstream clean-catch specimen?",
-    "choices": [
-      "Sterile container",
-      "Iodine cleanser",
-      "Antiseptic towelette",
-      "Instructions"
-    ],
+    "choices": ["Sterile container", "Iodine cleanser", "Antiseptic towelette", "Instructions"],
     "answer": "Iodine cleanser"
   },
   {
@@ -56,12 +36,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 3 Introduction to Urinalysis",
     "question": "Urine specimen collection for drug testing requires the collector to do all of the following except:",
-    "choices": [
-      "Inspect the specimen color",
-      "Perform reagent strip testing",
-      "Read the specimen temperature",
-      "Fill out a chain-of-custody form"
-    ],
+    "choices": ["Inspect the specimen color", "Perform reagent strip testing", "Read the specimen temperature", "Fill out a chain-of-custody form"],
     "answer": "Perform reagent strip testing"
   },
   {
@@ -69,10 +44,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "The type of nephron responsible for renal concentration is the:",
-    "choices": [
-      "Cortical",
-      "Juxtaglomerular"
-    ],
+    "choices": ["Cortical", "Juxtaglomerular"],
     "answer": "Juxtaglomerular"
   },
   {
@@ -80,12 +52,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "The function of the peritubular capillaries is:",
-    "choices": [
-      "reabsorption",
-      "filtration",
-      "secretion",
-      "both a and c"
-    ],
+    "choices": ["reabsorption", "filtration", "secretion", "both a and c"],
     "answer": "both a and c"
   },
   {
@@ -93,12 +60,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Blood flows through the nephron in the following order:",
-    "choices": [
-      "efferent arteriole, peritubular capillaries, vasa recta, afferent arteriole",
-      "peritubular capillaries, afferent arteriole, vasa recta, efferent arteriole",
-      "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole",
-      "efferent arteriole, vasa recta, peritubular capillaries, afferent arteriole"
-    ],
+    "choices": ["efferent arteriole, peritubular capillaries, vasa recta, afferent arteriole", "peritubular capillaries, afferent arteriole, vasa recta, efferent arteriole", "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole", "efferent arteriole, vasa recta, peritubular capillaries, afferent arteriole"],
     "answer": "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole"
   },
   {
@@ -106,12 +68,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Filtration of protein is prevented in the glomerulus by:",
-    "choices": [
-      "hydrostatic pressure",
-      "oncotic pressure",
-      "renin",
-      "the glomerular filtration barrier"
-    ],
+    "choices": ["hydrostatic pressure", "oncotic pressure", "renin", "the glomerular filtration barrier"],
     "answer": "the glomerular filtration barrier"
   },
   {
@@ -119,12 +76,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "The renin-angiotensin-aldosterone system is responsible for all of the following except:",
-    "choices": [
-      "vasoconstriction of the afferent arteriole",
-      "vasoconstriction of the efferent arteriole",
-      "reabsorbing sodium",
-      "releasing aldosterone"
-    ],
+    "choices": ["vasoconstriction of the afferent arteriole", "vasoconstriction of the efferent arteriole", "reabsorbing sodium", "releasing aldosterone"],
     "answer": "vasoconstriction of the afferent arteriole"
   },
   {
@@ -132,12 +84,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "The primary chemical affected by the rein-agiotensin-aldosterone system is",
-    "choices": [
-      "chloride",
-      "sodium",
-      "potassium",
-      "hydrogen"
-    ],
+    "choices": ["chloride", "sodium", "potassium", "hydrogen"],
     "answer": "sodium"
   },
   {
@@ -145,12 +92,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Secretion of renin is stimulated by",
-    "choices": [
-      "juxtaglomerular cells",
-      "angiotensin I and II",
-      "macula densa cells",
-      "circulating angiotensin-converting enzyme"
-    ],
+    "choices": ["juxtaglomerular cells", "angiotensin I and II", "macula densa cells", "circulating angiotensin-converting enzyme"],
     "answer": "macula densa cells"
   },
   {
@@ -158,12 +100,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "The hormone aldosterone is responsible for:",
-    "choices": [
-      "hydrogen ion secretion",
-      "potassium secretion",
-      "chloride retention",
-      "sodium retention"
-    ],
+    "choices": ["hydrogen ion secretion", "potassium secretion", "chloride retention", "sodium retention"],
     "answer": "sodium retention"
   },
   {
@@ -171,12 +108,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "The fluid leaving the glomerulus has a specific gravity of",
-    "choices": [
-      "1.005",
-      "1.01",
-      "1.015",
-      "1.02"
-    ],
+    "choices": ["1.005", "1.01", "1.015", "1.02"],
     "answer": "1.010"
   },
   {
@@ -184,25 +116,15 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "For active transport to occur, a chemical:",
-    "choices": [
-      "must combine with a carrier protein to create electrochemical energy",
-      "must be filtered through the proximal convoluted tubule",
-      "must be in higher concentration in the filtrate than in the blood",
-      "must be in higher concentration in the blood than in filtrate"
-    ],
-    "answer": "must combine with a carrier protein to create electrochemical energy"
+    "choices": ["must combine with a carrier protein to create electrochemical energy", "must be filtered through the proximal convoluted tubule", "must be in higher concentration in the filtrate than in the blood", "must be in higher concentration in the blood than in filtrate"],
+    "answer": "must combine with a carrier protein to create electrochemical engergy"
   },
   {
     "category": "Clinical Microscopy",
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Which of the tubules is impermeable to water?",
-    "choices": [
-      "proximal convoluted tubule",
-      "descending loop of Henle",
-      "ascending loop of Henle",
-      "distal convoluted tubule"
-    ],
+    "choices": ["proximal convoluted tubule", "descending loop of Henle", "ascending loop of Henle", "distal convoluted tubule"],
     "answer": "ascending loop of Henle"
   },
   {
@@ -210,12 +132,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Glucose will appear in the urine when the",
-    "choices": [
-      "blood level of glucose 200 mg/dL",
-      "Tm for glucose is reached",
-      "renal threshold for glucose is exceeded",
-      "all of the above"
-    ],
+    "choices": ["blood level of glucose 200 mg/dL", "Tm for glucose is reached", "renal threshold for glucose is exceeded", "all of the above"],
     "answer": "all of the above"
   },
   {
@@ -223,12 +140,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "concentration of the tubular filtrate by the countercurrent mechanism depends on all of the following except:",
-    "choices": [
-      "high salt concentration in the medulla",
-      "water-impermeable walls of the ascending loop of Henle",
-      "Reabsorption of sodium and chloride from the ascending loop of Henle",
-      "Reabsorption of water in the descending loop of Henle"
-    ],
+    "choices": ["high salt concentration in the medulla", "water-impermeable walls of the ascending loop of Henle", "Reabsorption of sodium and chloride from the ascending loop of Henle", "Reabsorption of water in the descending loop of Henle"],
     "answer": "reabsorption of water in the descending loop of Henle"
   },
   {
@@ -236,12 +148,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "ADH regulates the final urine concentration controlling:",
-    "choices": [
-      "active reabsorption of sodium",
-      "tubular permeability",
-      "passive reabsorption of urea",
-      "passive reabsorption of cholride"
-    ],
+    "choices": ["active reabsorption of sodium", "tubular permeability", "passive reabsorption of urea", "passive reabsorption of cholride"],
     "answer": "tubular permeability"
   },
   {
@@ -249,12 +156,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Decreased production of ADH:",
-    "choices": [
-      "produces a low urine volume",
-      "produces a high urine volume",
-      "increases ammonia excretion",
-      "affects active transport of sodium"
-    ],
+    "choices": ["produces a low urine volume", "produces a high urine volume", "increases ammonia excretion", "affects active transport of sodium"],
     "answer": "produces a high urine volume"
   },
   {
@@ -262,12 +164,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Bicarbonate ions filtered by the glomerulus are returned to the blood:",
-    "choices": [
-      "in the proximal convoluted tubule",
-      "combined with hydrogen ions",
-      "by tubular secretion",
-      "all of the above"
-    ],
+    "choices": ["in the proximal convoluted tubule", "combined with hydrogen ions", "by tubular secretion", "all of the above"],
     "answer": "all of the above"
   },
   {
@@ -275,10 +172,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "If ammonia is not produced by the distal convoluted tubule, the urine pH will be:",
-    "choices": [
-      "acidic",
-      "basic"
-    ],
+    "choices": ["acidic", "basic"],
     "answer": "basic"
   },
   {
@@ -286,10 +180,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "125-Iothalamate",
-    "choices": [
-      "exogenous",
-      "endogenous"
-    ],
+    "choices": ["exogenous", "endogenous"],
     "answer": "exogenous"
   },
   {
@@ -297,12 +188,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "The largest source of error in creatinine clearance tests is:",
-    "choices": [
-      "secretion of creatinine",
-      "improperly timed urine specimens",
-      "refrigeration of the urine",
-      "time of collecting blood sample"
-    ],
+    "choices": ["secretion of creatinine", "improperly timed urine specimens", "refrigeration of the urine", "time of collecting blood sample"],
     "answer": "improperly timed urine specimens"
   },
   {
@@ -310,12 +196,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Given the following information, calculate the creatinine clearance: time = 24-hour urine volume = 1000mL serum creatinine = 2.0 mg/dL urine creatinine = 200 mg/dL",
-    "choices": [
-      "35 mL/min",
-      "50 mL/min",
-      "69 mL/min",
-      "90 mL/min"
-    ],
+    "choices": ["35 mL/min", "50 mL/min", "69 mL/min", "90 mL/min"],
     "answer": "69 mL/min"
   },
   {
@@ -323,12 +204,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Clearance tests used to determine the glomerular filtration rate must measure substances that are:",
-    "choices": [
-      "not filtered by the glomerulus",
-      "completely reabsorbed by the proximal convoluted tubule",
-      "secreted in the distal convoluted tubule",
-      "neither reabsorbed or secreted by the tubules"
-    ],
+    "choices": ["not filtered by the glomerulus", "completely reabsorbed by the proximal convoluted tubule", "secreted in the distal convoluted tubule", "neither reabsorbed or secreted by the tubules"],
     "answer": "neither reabsorbed or secreted by the tubules"
   },
   {
@@ -336,12 +212,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Performing a clearance test using radionucleotides:",
-    "choices": [
-      "eliminates the need to collect urine",
-      "does not require an infusion",
-      "provides visualization of the filtration",
-      "both A and C"
-    ],
+    "choices": ["eliminates the need to collect urine", "does not require an infusion", "provides visualization of the filtration", "both A and C"],
     "answer": "both a and c"
   },
   {
@@ -349,12 +220,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Variables that are included in the MDRD-IDSM estimated creatinine clearance calculations include all of the following except:",
-    "choices": [
-      "serum creatinine",
-      "weight",
-      "age",
-      "gender"
-    ],
+    "choices": ["serum creatinine", "weight", "age", "gender"],
     "answer": "weight"
   },
   {
@@ -362,12 +228,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "An advantage to using cystatin C to monitor GFR is that:",
-    "choices": [
-      "it does not require urine collection",
-      "it is not secreted by the tubules",
-      "it can be measured by immunoassay",
-      "all of the above"
-    ],
+    "choices": ["it does not require urine collection", "it is not secreted by the tubules", "it can be measured by immunoassay", "all of the above"],
     "answer": "all of the above"
   },
   {
@@ -375,12 +236,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Solute dissolved in solvent will:",
-    "choices": [
-      "raise the vapor pressure",
-      "lower the boiling point",
-      "decrease the osmotic pressure",
-      "lower the freezing point"
-    ],
+    "choices": ["raise the vapor pressure", "lower the boiling point", "decrease the osmotic pressure", "lower the freezing point"],
     "answer": "lower the freezing point"
   },
   {
@@ -388,12 +244,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Substances that may interfere with freezing point measurement of urine and serum osmolarity include all of the following except:",
-    "choices": [
-      "ethanol",
-      "lactic acid",
-      "sodium",
-      "lipids"
-    ],
+    "choices": ["ethanol", "lactic acid", "sodium", "lipids"],
     "answer": "sodium"
   },
   {
@@ -401,12 +252,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Clinical osmometers us NaCl as a reference solution because:",
-    "choices": [
-      "1 g molecular weight of NaCl will lower the freezing point 1.86*C",
-      "NaCl is readily frozen",
-      "NaCl is partially ionized similar to the composition of urine",
-      "1 g equivalent weight of NaCl will raise the freezing point 1.86*C"
-    ],
+    "choices": ["1 g molecular weight of NaCl will lower the freezing point 1.86*C", "NaCl is readily frozen", "NaCl is partially ionized similar to the composition of urine", "1 g equivalent weight of NaCl will raise the freezing point 1.86*C"],
     "answer": "NaCl is partially ionized similar to the composition of urine"
   },
   {
@@ -414,12 +260,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "After controlled fluid intake, the urine-to-serum osmolarity ratio should be at least:",
-    "choices": [
-      "1:01",
-      "2:01",
-      "3:01",
-      "4:01"
-    ],
+    "choices": ["1:01", "2:01", "3:01", "4:01"],
     "answer": "1:1"
   },
   {
@@ -427,12 +268,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "To provide an accurate measure of renal blood flow, a test substance should be completely:",
-    "choices": [
-      "filtered by the glomerulus",
-      "reabsorbed by the tubules",
-      "secreted when it reaches the distal convoluted tubule",
-      "cleared on each contact with functional renal tissue"
-    ],
+    "choices": ["filtered by the glomerulus", "reabsorbed by the tubules", "secreted when it reaches the distal convoluted tubule", "cleared on each contact with functional renal tissue"],
     "answer": "cleared on each contact with functional renal tissue"
   },
   {
@@ -440,12 +276,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Renal tubular acidosis can be caused by the:",
-    "choices": [
-      "production of excessively acidic urine due to increased filtration of hydrogen ions",
-      "production of excessively acidic urine due to increased secretion of hydrogen ions",
-      "inability to produce an acidic urine due to impaired production of ammonia",
-      "inability to produce an acidic urine due to increased production of ammonia"
-    ],
+    "choices": ["production of excessively acidic urine due to increased filtration of hydrogen ions", "production of excessively acidic urine due to increased secretion of hydrogen ions", "inability to produce an acidic urine due to impaired production of ammonia", "inability to produce an acidic urine due to increased production of ammonia"],
     "answer": "inability to produce an acidic urine due to impaired production of ammonia"
   },
   {
@@ -453,12 +284,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Tests performed to detect renal tubular acidosis after administering an ammonium chloride load include all of the following except:",
-    "choices": [
-      "urine ammonia",
-      "arterial pH",
-      "urine pH",
-      "titratable acidity"
-    ],
+    "choices": ["urine ammonia", "arterial pH", "urine pH", "titratable acidity"],
     "answer": "arterial pH"
   },
   {
@@ -466,10 +292,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "beta2-microglobulin",
-    "choices": [
-      "exogenous",
-      "endogenous"
-    ],
+    "choices": ["exogenous", "endogenous"],
     "answer": "endogenous"
   },
   {
@@ -477,10 +300,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "creatinine",
-    "choices": [
-      "exogenous",
-      "endogenous"
-    ],
+    "choices": ["exogenous", "endogenous"],
     "answer": "endogenous"
   },
   {
@@ -488,10 +308,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Cystatin C",
-    "choices": [
-      "exogenous",
-      "endogenous"
-    ],
+    "choices": ["exogenous", "endogenous"],
     "answer": "endogenous"
   },
   {
@@ -499,12 +316,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "All of the following contribute to the formation of urinary crystals except:",
-    "choices": [
-      "protein concentration",
-      "pH",
-      "solute concentration",
-      "temperature"
-    ],
+    "choices": ["protein concentration", "pH", "solute concentration", "temperature"],
     "answer": "protein concentration"
   },
   {
@@ -512,12 +324,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "The most valuable initial aid for the identification of crystals in a urine specimen is:",
-    "choices": [
-      "pH",
-      "solubility",
-      "staining",
-      "polarized microscopy"
-    ],
+    "choices": ["pH", "solubility", "staining", "polarized microscopy"],
     "answer": "pH"
   },
   {
@@ -525,12 +332,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Crystals associated with sever liver disease include all of the following except:",
-    "choices": [
-      "bilirubin",
-      "leucine",
-      "cystine",
-      "tyrosine"
-    ],
+    "choices": ["bilirubin", "leucine", "cystine", "tyrosine"],
     "answer": "cystine"
   },
   {
@@ -538,12 +340,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "All of the following crystals routinely polarize except:",
-    "choices": [
-      "uric acid",
-      "cholesterol",
-      "radiographic dye",
-      "cystine"
-    ],
+    "choices": ["uric acid", "cholesterol", "radiographic dye", "cystine"],
     "answer": "cystine"
   },
   {
@@ -551,12 +348,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Differentiation between casts and fibers can usually be made using:",
-    "choices": [
-      "solubility characteristics",
-      "patient history",
-      "polarized light",
-      "fluorescent light"
-    ],
+    "choices": ["solubility characteristics", "patient history", "polarized light", "fluorescent light"],
     "answer": "polarized light"
   },
   {
@@ -564,13 +356,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Calcium Oxalate Dihydrate",
-    "choices": [
-      "Envelopes",
-      "Thin needles",
-      "Yellow-brown, whetstone",
-      "Pink sediment",
-      "Ovoid"
-    ],
+    "choices": ["Envelopes", "Thin needles", "Yellow-brown, whetstone", "Pink sediment", "Ovoid"],
     "answer": "Envelopes"
   },
   {
@@ -578,14 +364,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Calcium Carbonate",
-    "choices": [
-      "Yellow granules",
-      "Thin prisms",
-      "Coffin lids",
-      "Dumbbell shape",
-      "White precipitate",
-      "Thorny apple"
-    ],
+    "choices": ["Yellow granules", "Thin prisms", "Coffin lids", "Dumbbell shape", "White precipitate", "Thorny apple"],
     "answer": "Dumbbell shape"
   },
   {
@@ -593,16 +372,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Bilirubin",
-    "choices": [
-      "Bundles following refrigeration",
-      "Highly alkaline pH",
-      "Bright yellow clumps",
-      "Hexagonal plates",
-      "Flat plates, high specific gravity",
-      "Concentric circles, radial striations",
-      "Notched corners",
-      "Fine needles seen in liver disease"
-    ],
+    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
     "answer": "Bright yellow clumps"
   },
   {
@@ -610,15 +380,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Interference Contrast",
-    "choices": [
-      "Indirect light is reflected off the object",
-      "Object split light into two beams",
-      "Low refractive index objects may be overlooked",
-      "Three-dimensional images",
-      "Forms halo of light around object",
-      "Detects electrons emitted from objects",
-      "Detects specific wavelengths of light emitted from objects"
-    ],
+    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
     "answer": "Three-dimensional images"
   },
   {
@@ -626,13 +388,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Amorphous Urates",
-    "choices": [
-      "Envelopes",
-      "Thin needles",
-      "Yellow-brown, whetstone",
-      "Pink sediment",
-      "Ovoid"
-    ],
+    "choices": ["Envelopes", "Thin needles", "Yellow-brown, whetstone", "Pink sediment", "Ovoid"],
     "answer": "Pink sediment"
   },
   {
@@ -640,13 +396,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Uric Acid",
-    "choices": [
-      "Envelopes",
-      "Thin needles",
-      "Yellow-brown, whetstone",
-      "Pink sediment",
-      "Ovoid"
-    ],
+    "choices": ["Envelopes", "Thin needles", "Yellow-brown, whetstone", "Pink sediment", "Ovoid"],
     "answer": "Yellow-brown, whetstone"
   },
   {
@@ -654,13 +404,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Calcium Oxalate Monohydrate",
-    "choices": [
-      "Envelopes",
-      "Thin needles",
-      "Yellow-brown, whetstone",
-      "Pink sediment",
-      "Ovoid"
-    ],
+    "choices": ["Envelopes", "Thin needles", "Yellow-brown, whetstone", "Pink sediment", "Ovoid"],
     "answer": "Ovoid"
   },
   {
@@ -668,14 +412,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Triple Phosphate",
-    "choices": [
-      "Yellow granules",
-      "Thin prisms",
-      "Coffin lids",
-      "Dumbbell shape",
-      "White precipitate",
-      "Thorny apple"
-    ],
+    "choices": ["Yellow granules", "Thin prisms", "Coffin lids", "Dumbbell shape", "White precipitate", "Thorny apple"],
     "answer": "Coffin lids"
   },
   {
@@ -683,14 +420,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Amorphous Phosphate",
-    "choices": [
-      "Yellow granules",
-      "Thin prisms",
-      "Coffin lids",
-      "Dumbbell shape",
-      "White precipitate",
-      "Thorny apple"
-    ],
+    "choices": ["Yellow granules", "Thin prisms", "Coffin lids", "Dumbbell shape", "White precipitate", "Thorny apple"],
     "answer": "White precipitate"
   },
   {
@@ -698,14 +428,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Calcium Phosphate",
-    "choices": [
-      "Yellow granules",
-      "Thin prisms",
-      "Coffin lids",
-      "Dumbbell shape",
-      "White precipitate",
-      "Thorny apple"
-    ],
+    "choices": ["Yellow granules", "Thin prisms", "Coffin lids", "Dumbbell shape", "White precipitate", "Thorny apple"],
     "answer": "Thin prisms"
   },
   {
@@ -713,14 +436,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Ammonium Biurate",
-    "choices": [
-      "Yellow granules",
-      "Thin prisms",
-      "Coffin lids",
-      "Dumbbell shape",
-      "White precipitate",
-      "Thorny apple"
-    ],
+    "choices": ["Yellow granules", "Thin prisms", "Coffin lids", "Dumbbell shape", "White precipitate", "Thorny apple"],
     "answer": "Thorny apple"
   },
   {
@@ -728,16 +444,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Cystine",
-    "choices": [
-      "Bundles following refrigeration",
-      "Highly alkaline pH",
-      "Bright yellow clumps",
-      "Hexagonal plates",
-      "Flat plates, high specific gravity",
-      "Concentric circles, radial striations",
-      "Notched corners",
-      "Fine needles seen in liver disease"
-    ],
+    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
     "answer": "Hexagonal plates"
   },
   {
@@ -745,16 +452,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Tyrosine",
-    "choices": [
-      "Bundles following refrigeration",
-      "Highly alkaline pH",
-      "Bright yellow clumps",
-      "Hexagonal plates",
-      "Flat plates, high specific gravity",
-      "Concentric circles, radial striations",
-      "Notched corners",
-      "Fine needles seen in liver disease"
-    ],
+    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
     "answer": "Fine needles seen in liver disease"
   },
   {
@@ -762,16 +460,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Cholesterol",
-    "choices": [
-      "Bundles following refrigeration",
-      "Highly alkaline pH",
-      "Bright yellow clumps",
-      "Hexagonal plates",
-      "Flat plates, high specific gravity",
-      "Concentric circles, radial striations",
-      "Notched corners",
-      "Fine needles seen in liver disease"
-    ],
+    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
     "answer": "Notched corners"
   },
   {
@@ -779,16 +468,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Leucine",
-    "choices": [
-      "Bundles following refrigeration",
-      "Highly alkaline pH",
-      "Bright yellow clumps",
-      "Hexagonal plates",
-      "Flat plates, high specific gravity",
-      "Concentric circles, radial striations",
-      "Notched corners",
-      "Fine needles seen in liver disease"
-    ],
+    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
     "answer": "Concentric circles, radial striations"
   },
   {
@@ -796,16 +476,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Ampicillin",
-    "choices": [
-      "Bundles following refrigeration",
-      "Highly alkaline pH",
-      "Bright yellow clumps",
-      "Hexagonal plates",
-      "Flat plates, high specific gravity",
-      "Concentric circles, radial striations",
-      "Notched corners",
-      "Fine needles seen in liver disease"
-    ],
+    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
     "answer": "Bundles following refrigeration"
   },
   {
@@ -813,16 +484,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Radiographic Dye",
-    "choices": [
-      "Bundles following refrigeration",
-      "Highly alkaline pH",
-      "Bright yellow clumps",
-      "Hexagonal plates",
-      "Flat plates, high specific gravity",
-      "Concentric circles, radial striations",
-      "Notched corners",
-      "Fine needles seen in liver disease"
-    ],
+    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
     "answer": "Flat plates, high specific gravity"
   },
   {
@@ -830,15 +492,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Bright-Field",
-    "choices": [
-      "Indirect light is reflected off the object",
-      "Object split light into two beams",
-      "Low refractive index objects may be overlooked",
-      "Three-dimensional images",
-      "Forms halo of light around object",
-      "Detects electrons emitted from objects",
-      "Detects specific wavelengths of light emitted from objects"
-    ],
+    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
     "answer": "Low refractive index objects may be overlooked"
   },
   {
@@ -846,15 +500,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Phase",
-    "choices": [
-      "Indirect light is reflected off the object",
-      "Object split light into two beams",
-      "Low refractive index objects may be overlooked",
-      "Three-dimensional images",
-      "Forms halo of light around object",
-      "Detects electrons emitted from objects",
-      "Detects specific wavelengths of light emitted from objects"
-    ],
+    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
     "answer": "Forms halo of light around object"
   },
   {
@@ -862,15 +508,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Polarized",
-    "choices": [
-      "Indirect light is reflected off the object",
-      "Object split light into two beams",
-      "Low refractive index objects may be overlooked",
-      "Three-dimensional images",
-      "Forms halo of light around object",
-      "Detects electrons emitted from objects",
-      "Detects specific wavelengths of light emitted from objects"
-    ],
+    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
     "answer": "Object split light into two beams"
   },
   {
@@ -878,15 +516,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Dark-Field",
-    "choices": [
-      "Indirect light is reflected off the object",
-      "Object split light into two beams",
-      "Low refractive index objects may be overlooked",
-      "Three-dimensional images",
-      "Forms halo of light around object",
-      "Detects electrons emitted from objects",
-      "Detects specific wavelengths of light emitted from objects"
-    ],
+    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
     "answer": "Indirect light is reflected off the object"
   },
   {
@@ -894,15 +524,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Fluorescent",
-    "choices": [
-      "Indirect light is reflected off the object",
-      "Object split light into two beams",
-      "Low refractive index objects may be overlooked",
-      "Three-dimensional images",
-      "Forms halo of light around object",
-      "Detects electrons emitted from objects",
-      "Detects specific wavelengths of light emitted from objects"
-    ],
+    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
     "answer": "Detects specific wavelengths of light emitted from objects"
   },
   {
@@ -910,12 +532,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Most glomerular disorders are caused by:",
-    "choices": [
-      "Sudden drops in blood pressure",
-      "Immunologic disorders",
-      "Exposure to toxic substances",
-      "Bacterial infections"
-    ],
+    "choices": ["Sudden drops in blood pressure", "Immunologic disorders", "Exposure to toxic substances", "Bacterial infections"],
     "answer": "Immunologic disorders"
   },
   {
@@ -923,12 +540,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Dysmorphic RBC casts would be a significant finding with all of the following except:",
-    "choices": [
-      "Goodpasture syndrome",
-      "Acute glomerulonephritis",
-      "Chronic pyelonephritis",
-      "Henoch-Schönlein purpura"
-    ],
+    "choices": ["Goodpasture syndrome", "Acute glomerulonephritis", "Chronic pyelonephritis", "Henoch-Schönlein purpura"],
     "answer": "Chronic pyelonephritis"
   },
   {
@@ -936,12 +548,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Occasional episodes of macroscopic hematuria over periods of 20 or more years are seen with:",
-    "choices": [
-      "Crescentic glomerulonephritis",
-      "IgA nephropathy",
-      "Nephrotic syndrome",
-      "Wegener granulomatosis"
-    ],
+    "choices": ["Crescentic glomerulonephritis", "IgA nephropathy", "Nephrotic syndrome", "Wegener granulomatosis"],
     "answer": "IgA nephropathy"
   },
   {
@@ -949,12 +556,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Antiglomerular basement membrane antibody is seen with:",
-    "choices": [
-      "Wegener granulomatosis",
-      "IgA nephropathy",
-      "Goodpasture syndrome",
-      "Diabetic nephropathy"
-    ],
+    "choices": ["Wegener granulomatosis", "IgA nephropathy", "Goodpasture syndrome", "Diabetic nephropathy"],
     "answer": "Goodpasture syndrome"
   },
   {
@@ -962,12 +564,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Antineutrophilic cytoplasmic antibody is diagnostic for:",
-    "choices": [
-      "IgA nephropathy",
-      "Wegener granulomatosis",
-      "Henoch-Schönlein purpura",
-      "Goodpasture syndrome"
-    ],
+    "choices": ["IgA nephropathy", "Wegener granulomatosis", "Henoch-Schönlein purpura", "Goodpasture syndrome"],
     "answer": "Wegener granulomatosis"
   },
   {
@@ -975,12 +572,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Respiratory and renal symptoms are associated with all of the following except:",
-    "choices": [
-      "IgA nephropathy",
-      "Wegener granulomatosis",
-      "Henoch-Schönlein purpura",
-      "Goodpasture syndrome"
-    ],
+    "choices": ["IgA nephropathy", "Wegener granulomatosis", "Henoch-Schönlein purpura", "Goodpasture syndrome"],
     "answer": "Goodpasture syndrome"
   },
   {
@@ -988,12 +580,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "The presence of fatty casts is associated with all of the following except:",
-    "choices": [
-      "Nephrotic syndrome",
-      "Focal segmental glomerulosclerosis",
-      "Nephrogenic diabetes insipidus",
-      "Minimal change disease"
-    ],
+    "choices": ["Nephrotic syndrome", "Focal segmental glomerulosclerosis", "Nephrogenic diabetes insipidus", "Minimal change disease"],
     "answer": "Nephrogenic diabetes insipidus"
   },
   {
@@ -1001,12 +588,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "The highest levels of proteinuria are seen with:",
-    "choices": [
-      "Alport syndrome",
-      "Diabetic nephropathy",
-      "IgA nephropathy",
-      "Nephrotic syndrome"
-    ],
+    "choices": ["Alport syndrome", "Diabetic nephropathy", "IgA nephropathy", "Nephrotic syndrome"],
     "answer": "Nephrotic syndrome"
   },
   {
@@ -1014,12 +596,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Ischemia frequently produces:",
-    "choices": [
-      "Acute renal tubular necrosis",
-      "Minimal change disorder",
-      "Renal glycosuria",
-      "Goodpasture's syndrome"
-    ],
+    "choices": ["Acute renal tubular necrosis", "Minimal change disorder", "Renal glycosuria", "Goodpasture's syndrome"],
     "answer": "Acute renal tubular necrosis"
   },
   {
@@ -1027,12 +604,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "A disorder associated with polyuria and low specific gravity is:",
-    "choices": [
-      "Renal glucosuria",
-      "Minimal change disease",
-      "Nephrogenic diabetes insipidus",
-      "Focal segmental glomerulosclerosis"
-    ],
+    "choices": ["Renal glucosuria", "Minimal change disease", "Nephrogenic diabetes insipidus", "Focal segmental glomerulosclerosis"],
     "answer": "Nephrogenic diabetes insipidus"
   },
   {
@@ -1040,12 +612,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "An inherited disorder producing a generalized defect in tubular reabsorption is:",
-    "choices": [
-      "Alport syndrome",
-      "Acute interstitial nephritis",
-      "Fanconi syndrome",
-      "Renal glycosuria"
-    ],
+    "choices": ["Alport syndrome", "Acute interstitial nephritis", "Fanconi syndrome", "Renal glycosuria"],
     "answer": "Fanconi syndrome"
   },
   {
@@ -1053,12 +620,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "A teenage boy who develops gout in his big toe and has a high serum uric acid should be monitored for:",
-    "choices": [
-      "Fanconi syndrome",
-      "Renal calculi",
-      "Uromodulin-associated kidney disease",
-      "Chronic interstitial nephritis"
-    ],
+    "choices": ["Fanconi syndrome", "Renal calculi", "Uromodulin-associated kidney disease", "Chronic interstitial nephritis"],
     "answer": "Uromodulin-associated kidney disease"
   },
   {
@@ -1066,12 +628,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "The only protein produced by the kidney is:",
-    "choices": [
-      "Albumin",
-      "Uromodulin",
-      "Uroprotein",
-      "Globulin"
-    ],
+    "choices": ["Albumin", "Uromodulin", "Uroprotein", "Globulin"],
     "answer": "Uromodulin"
   },
   {
@@ -1079,12 +636,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "The presence of renal tubular epithelial cells and casts is an indication of:",
-    "choices": [
-      "Acute interstitial nephritis",
-      "Chronic glomerulonephritis",
-      "Minimal change disease",
-      "Acute tubular necrosis"
-    ],
+    "choices": ["Acute interstitial nephritis", "Chronic glomerulonephritis", "Minimal change disease", "Acute tubular necrosis"],
     "answer": "Acute tubular necrosis"
   },
   {
@@ -1092,12 +644,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Differentiation between cystitis and pyelonephritis is aided by the presence of:",
-    "choices": [
-      "WBC casts",
-      "RBC casts",
-      "Bacteria",
-      "Granular casts"
-    ],
+    "choices": ["WBC casts", "RBC casts", "Bacteria", "Granular casts"],
     "answer": "WBC casts"
   },
   {
@@ -1105,12 +652,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "The presence of WBCs and WBC casts with no bacteria is indicative of:",
-    "choices": [
-      "Chronic pyelonephritis",
-      "Acute tubular necrosis",
-      "Acute interstitial nephritis",
-      "Both B and C"
-    ],
+    "choices": ["Chronic pyelonephritis", "Acute tubular necrosis", "Acute interstitial nephritis", "Both B and C"],
     "answer": "Acute interstitial nephritis"
   },
   {
@@ -1118,12 +660,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "End-stage renal disease is characterized by all of the following except:",
-    "choices": [
-      "Hypersthenuria",
-      "Isosthenuria",
-      "Azotemia",
-      "Electrolyte imbalance"
-    ],
+    "choices": ["Hypersthenuria", "Isosthenuria", "Azotemia", "Electrolyte imbalance"],
     "answer": "Hypersthenuria"
   },
   {
@@ -1131,12 +668,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Prerenal acute renal failure could be caused by:",
-    "choices": [
-      "Massive hemorrhage",
-      "Acute tubular necrosis",
-      "Acute interstitial nephritis",
-      "Malignant tumors"
-    ],
+    "choices": ["Massive hemorrhage", "Acute tubular necrosis", "Acute interstitial nephritis", "Malignant tumors"],
     "answer": "Massive hemorrhage"
   },
   {
@@ -1144,12 +676,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 8 Renal Disease",
     "question": "Urinalysis on a patient with severe back pain being evaluated for renal calculi would be most beneficial if it showed:",
-    "choices": [
-      "Heavy proteinuria",
-      "Low specific gravity",
-      "Uric acid crystals",
-      "Microscopic hematuria"
-    ],
+    "choices": ["Heavy proteinuria", "Low specific gravity", "Uric acid crystals", "Microscopic hematuria"],
     "answer": "Microscopic hematuria"
   },
   {
@@ -1157,12 +684,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "The primary function of synoviocytes is to:",
-    "choices": [
-      "Provide nutrients for the joints",
-      "Secrete hyaluronic acid",
-      "Regulate glucose filtration",
-      "Prevent crystal formation"
-    ],
+    "choices": ["Provide nutrients for the joints", "Secrete hyaluronic acid", "Regulate glucose filtration", "Prevent crystal formation"],
     "answer": "Provide nutrients for the joints"
   },
   {
@@ -1170,12 +692,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Which of the following is not a frequently performed test on synovial fluid?",
-    "choices": [
-      "Uric acid",
-      "WBC count",
-      "Crystal examination",
-      "Gram stain"
-    ],
+    "choices": ["Uric acid", "WBC count", "Crystal examination", "Gram stain"],
     "answer": "Uric acid"
   },
   {
@@ -1183,12 +700,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "The procedure for collecting synovial fluid is called:",
-    "choices": [
-      "Synovialcentesis",
-      "Arthrocentesis",
-      "Joint puncture",
-      "Arteriocentesis"
-    ],
+    "choices": ["Synovialcentesis", "Arthrocentesis", "Joint puncture", "Arteriocentesis"],
     "answer": "Arthrocentesis"
   },
   {
@@ -1196,12 +708,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "heparin overdose",
-    "choices": [
-      "noninflammatory",
-      "Inflammatory",
-      "Septic",
-      "Hemorrhagic"
-    ],
+    "choices": ["noninflammatory", "Inflammatory", "Septic", "Hemorrhagic"],
     "answer": "Hemorrhagic"
   },
   {
@@ -1209,12 +716,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Normal synovial fluid resembles:",
-    "choices": [
-      "Egg white",
-      "Normal serum",
-      "Dilute urine",
-      "Lipemic serum"
-    ],
+    "choices": ["Egg white", "Normal serum", "Dilute urine", "Lipemic serum"],
     "answer": "Egg white"
   },
   {
@@ -1222,12 +724,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Before testing, very viscous synovial fluid should be treated with:",
-    "choices": [
-      "Normal saline",
-      "Hyaluronidase",
-      "Distilled water",
-      "Hypotonic saline"
-    ],
+    "choices": ["Normal saline", "Hyaluronidase", "Distilled water", "Hypotonic saline"],
     "answer": "Hyaluronidase"
   },
   {
@@ -1235,12 +732,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "The color of the synovial fluid from a patient with a bacterial infection may be:",
-    "choices": [
-      "Yellow tinged",
-      "Green tinged",
-      "Red streaked",
-      "Opalescent"
-    ],
+    "choices": ["Yellow tinged", "Green tinged", "Red streaked", "Opalescent"],
     "answer": "Green tinged"
   },
   {
@@ -1248,12 +740,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Which of the following could be the most significantly affected if a synovial fluid is refrigerated before testing?",
-    "choices": [
-      "Glucose",
-      "Crystal examination",
-      "Mucin clot test",
-      "Differential"
-    ],
+    "choices": ["Glucose", "Crystal examination", "Mucin clot test", "Differential"],
     "answer": "Crystal examination"
   },
   {
@@ -1261,12 +748,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "The highest WBC count can be expected to be seen with:",
-    "choices": [
-      "Noninflammatory arthritis",
-      "Inflammatory arthritis",
-      "Septic arthritis",
-      "Hemorrhagic arthritis"
-    ],
+    "choices": ["Noninflammatory arthritis", "Inflammatory arthritis", "Septic arthritis", "Hemorrhagic arthritis"],
     "answer": "Septic arthritis"
   },
   {
@@ -1274,12 +756,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "When diluting a synovial fluid WBC count, all of the following are acceptable except:",
-    "choices": [
-      "Acetic acid",
-      "Isotonic saline",
-      "Hypotonic saline",
-      "Saline with saponin"
-    ],
+    "choices": ["Acetic acid", "Isotonic saline", "Hypotonic saline", "Saline with saponin"],
     "answer": "Acetic acid"
   },
   {
@@ -1287,12 +764,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "The lowest percentage of neutrophils would be seen in:",
-    "choices": [
-      "Noninflammatory arthritis",
-      "Inflammatory arthritis",
-      "Septic arthritis",
-      "Hemorrhagic arthritis"
-    ],
+    "choices": ["Noninflammatory arthritis", "Inflammatory arthritis", "Septic arthritis", "Hemorrhagic arthritis"],
     "answer": "Noninflammatory arthritis"
   },
   {
@@ -1300,12 +772,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "All of the following are abnormal when seen in synovial fluid except:",
-    "choices": [
-      "Neutrophages",
-      "Ragocytes",
-      "Synovial lining cells",
-      "Lipid droplets"
-    ],
+    "choices": ["Neutrophages", "Ragocytes", "Synovial lining cells", "Lipid droplets"],
     "answer": "Synovial lining cells"
   },
   {
@@ -1313,12 +780,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Synovial fluid crystals that occur as a result of purine metabolism or chemotherapy for leukemia are:",
-    "choices": [
-      "Monosodium urate",
-      "Cholesterol",
-      "Calcium pyrophosphate",
-      "Apatite"
-    ],
+    "choices": ["Monosodium urate", "Cholesterol", "Calcium pyrophosphate", "Apatite"],
     "answer": "Monosodium urate"
   },
   {
@@ -1326,12 +788,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Synovial fluid crystals associated with inflammation in dialysis patients are:",
-    "choices": [
-      "Calcium pyrophosphate dihydrate",
-      "Calcium oxalate",
-      "Corticosteroid",
-      "Monosodium urate"
-    ],
+    "choices": ["Calcium pyrophosphate dihydrate", "Calcium oxalate", "Corticosteroid", "Monosodium urate"],
     "answer": "Calcium oxalate"
   },
   {
@@ -1339,12 +796,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Crystals associated with pseudogout are:",
-    "choices": [
-      "Monosodium urate",
-      "Calcium pyrophosphate dihydrate",
-      "Apatite",
-      "Corticosteroid"
-    ],
+    "choices": ["Monosodium urate", "Calcium pyrophosphate dihydrate", "Apatite", "Corticosteroid"],
     "answer": "Calcium pyrophosphate dihydrate"
   },
   {
@@ -1352,12 +804,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Synovial fluid for crystal examination should be examined as a/an:",
-    "choices": [
-      "Wet preparation",
-      "Wright's stain",
-      "Gram stain",
-      "Acid-fast stain"
-    ],
+    "choices": ["Wet preparation", "Wright's stain", "Gram stain", "Acid-fast stain"],
     "answer": "Wet preparation"
   },
   {
@@ -1365,12 +812,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Crystals that have the ability to polarize light are:",
-    "choices": [
-      "Corticosteroid",
-      "Monosodium urate",
-      "Calcium oxalate",
-      "All of the above"
-    ],
+    "choices": ["Corticosteroid", "Monosodium urate", "Calcium oxalate", "All of the above"],
     "answer": "All of the above"
   },
   {
@@ -1378,12 +820,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "In an examination of synovial fluid under compensated polarized light, rhomboid-shaped crystals are observed. What color would these crystals be when aligned parallel to the slow vibration?",
-    "choices": [
-      "White",
-      "Yellow",
-      "Blue",
-      "Red"
-    ],
+    "choices": ["White", "Yellow", "Blue", "Red"],
     "answer": "Yellow"
   },
   {
@@ -1391,13 +828,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "If crystals shaped like needles are aligned perpendicular to the slow vibration of compensated polarized light, what color are they?",
-    "choices": [
-      "White",
-      "Yellow",
-      "Blue",
-      "Red",
-      "Negative"
-    ],
+    "choices": ["White", "Yellow", "Blue", "Red", "Negative"],
     "answer": "Negative"
   },
   {
@@ -1405,12 +836,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Negative birefringence occurs under red-compensated polarized light when:",
-    "choices": [
-      "Slow light is impeded more than fast light",
-      "Slow light is less impeded than fast light",
-      "Fast light runs against the molecular grain of the crystal",
-      "Both B and C"
-    ],
+    "choices": ["Slow light is impeded more than fast light", "Slow light is less impeded than fast light", "Fast light runs against the molecular grain of the crystal", "Both B and C"],
     "answer": "Fast light runs against the molecular grain of the crystal"
   },
   {
@@ -1418,12 +844,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Synovial fluid cultures are often plated on a chocolate agar to detect the presence of:",
-    "choices": [
-      "Neisseria gonorrhoeae",
-      "Staphylococcus agalactiae",
-      "Streptococcus viridans",
-      "Enterococcus faecalis"
-    ],
+    "choices": ["Neisseria gonorrhoeae", "Staphylococcus agalactiae", "Streptococcus viridans", "Enterococcus faecalis"],
     "answer": "Neisseria gonorrhoeae"
   },
   {
@@ -1431,12 +852,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "The most frequently performed chemical test on synovial fluid is:",
-    "choices": [
-      "Total protein",
-      "Uric acid",
-      "Calcium",
-      "Glucose"
-    ],
+    "choices": ["Total protein", "Uric acid", "Calcium", "Glucose"],
     "answer": "Glucose"
   },
   {
@@ -1444,12 +860,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Which of the following chemistry tests can be performed on synovial fluid to determine the severity of RA?",
-    "choices": [
-      "Glucose",
-      "Protein",
-      "Lactate",
-      "Uric acid"
-    ],
+    "choices": ["Glucose", "Protein", "Lactate", "Uric acid"],
     "answer": "Lactate"
   },
   {
@@ -1457,12 +868,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Serologic tests on patients' serum may be performed to detect antibodies causing arthritis for all of the following disorders except:",
-    "choices": [
-      "Pseudogout",
-      "Rheumatoid arthritis",
-      "Systemic lupus erythematosus",
-      "Lyme arthritis"
-    ],
+    "choices": ["Pseudogout", "Rheumatoid arthritis", "Systemic lupus erythematosus", "Lyme arthritis"],
     "answer": "Pseudogout"
   },
   {
@@ -1470,12 +876,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "gout",
-    "choices": [
-      "noninflammatory",
-      "Inflammatory",
-      "Septic",
-      "Hemorrhagic"
-    ],
+    "choices": ["noninflammatory", "Inflammatory", "Septic", "Hemorrhagic"],
     "answer": "Inflammatory"
   },
   {
@@ -1483,12 +884,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Neisseria gonorrhoeae infection",
-    "choices": [
-      "noninflammatory",
-      "Inflammatory",
-      "Septic",
-      "Hemorrhagic"
-    ],
+    "choices": ["noninflammatory", "Inflammatory", "Septic", "Hemorrhagic"],
     "answer": "Septic"
   },
   {
@@ -1496,12 +892,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "systemic lupus erythematosus",
-    "choices": [
-      "noninflammatory",
-      "Inflammatory",
-      "Septic",
-      "Hemorrhagic"
-    ],
+    "choices": ["noninflammatory", "Inflammatory", "Septic", "Hemorrhagic"],
     "answer": "Inflammatory"
   },
   {
@@ -1509,12 +900,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "osteoarthritis",
-    "choices": [
-      "noninflammatory",
-      "Inflammatory",
-      "Septic",
-      "Hemorrhagic"
-    ],
+    "choices": ["noninflammatory", "Inflammatory", "Septic", "Hemorrhagic"],
     "answer": "noninflammatory"
   },
   {
@@ -1522,12 +908,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "hemophilia",
-    "choices": [
-      "noninflammatory",
-      "Inflammatory",
-      "Septic",
-      "Hemorrhagic"
-    ],
+    "choices": ["noninflammatory", "Inflammatory", "Septic", "Hemorrhagic"],
     "answer": "Hemorrhagic"
   },
   {
@@ -1535,12 +916,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "rheumatoid arthritis",
-    "choices": [
-      "noninflammatory",
-      "Inflammatory",
-      "Septic",
-      "Hemorrhagic"
-    ],
+    "choices": ["noninflammatory", "Inflammatory", "Septic", "Hemorrhagic"],
     "answer": "Inflammatory"
   },
   {
@@ -1548,12 +924,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Where does the reabsorption of water take place in the primary digestive process?",
-    "choices": [
-      "Large intestine",
-      "Pancreas",
-      "Small intestine",
-      "Stomach"
-    ],
+    "choices": ["Large intestine", "Pancreas", "Small intestine", "Stomach"],
     "answer": "Large intestine"
   },
   {
@@ -1561,12 +932,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Which of the following tests is not performed to detect osmotic diarrhea?",
-    "choices": [
-      "Clinitest",
-      "Fecal fats",
-      "Fecal neutrophils",
-      "Muscle fibers"
-    ],
+    "choices": ["Clinitest", "Fecal fats", "Fecal neutrophils", "Muscle fibers"],
     "answer": "Fecal neutrophils"
   },
   {
@@ -1574,12 +940,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "The normal composition of feces includes all of the following except:",
-    "choices": [
-      "Bacteria",
-      "Blood",
-      "Electrolytes",
-      "Water"
-    ],
+    "choices": ["Bacteria", "Blood", "Electrolytes", "Water"],
     "answer": "Blood"
   },
   {
@@ -1587,12 +948,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "What is the fecal test that requires a 3-day specimen?",
-    "choices": [
-      "Fecal occult blood",
-      "APT test",
-      "Elastase I",
-      "Quantitative fecal fat testing"
-    ],
+    "choices": ["Fecal occult blood", "APT test", "Elastase I", "Quantitative fecal fat testing"],
     "answer": "Quantitative fecal fat testing"
   },
   {
@@ -1600,12 +956,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "The normal brown color of the feces is produced by:",
-    "choices": [
-      "Cellulose",
-      "Pancreatic enzymes",
-      "Undigested foodstuffs",
-      "Urobilin"
-    ],
+    "choices": ["Cellulose", "Pancreatic enzymes", "Undigested foodstuffs", "Urobilin"],
     "answer": "Urobilin"
   },
   {
@@ -1613,12 +964,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Diarrhea can result from all of the following except:",
-    "choices": [
-      "Addition of pathogenic organisms to the normal intestinal flora",
-      "Disruption of the normal intestinal bacterial flora",
-      "Increased concentration of fecal electrolytes",
-      "Increased reabsorption of intestinal water and electrolytes"
-    ],
+    "choices": ["Addition of pathogenic organisms to the normal intestinal flora", "Disruption of the normal intestinal bacterial flora", "Increased concentration of fecal electrolytes", "Increased reabsorption of intestinal water and electrolytes"],
     "answer": "Increased reabsorption of intestinal water and electrolytes"
   },
   {
@@ -1626,12 +972,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Stools from people with steatorrhea will contain excess amounts of:",
-    "choices": [
-      "Barium sulfate",
-      "Blood",
-      "Fat",
-      "Mucus"
-    ],
+    "choices": ["Barium sulfate", "Blood", "Fat", "Mucus"],
     "answer": "Fat"
   },
   {
@@ -1639,12 +980,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Which of the following pairings of stool appearance and cause do not match?",
-    "choices": [
-      "Black, tarry: blood",
-      "Pale, frothy: steatorrhea",
-      "Yellow-gray: bile duct obstruction",
-      "Yellow-green: barium sulfate"
-    ],
+    "choices": ["Black, tarry: blood", "Pale, frothy: steatorrhea", "Yellow-gray: bile duct obstruction", "Yellow-green: barium sulfate"],
     "answer": "Yellow-green: barium sulfate"
   },
   {
@@ -1652,12 +988,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Stool specimens that appear ribbon-like are indicative of which condition?",
-    "choices": [
-      "Bile duct obstruction",
-      "Colitis",
-      "Intestinal constriction",
-      "Malignancy"
-    ],
+    "choices": ["Bile duct obstruction", "Colitis", "Intestinal constriction", "Malignancy"],
     "answer": "Intestinal constriction"
   },
   {
@@ -1665,12 +996,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "A black tarry stool is indicative of:",
-    "choices": [
-      "Upper GI bleeding",
-      "Lower GI bleeding",
-      "Excess fat",
-      "Excess carbohydrates"
-    ],
+    "choices": ["Upper GI bleeding", "Lower GI bleeding", "Excess fat", "Excess carbohydrates"],
     "answer": "Upper GI bleeding"
   },
   {
@@ -1678,12 +1004,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Chemical screening tests performed on feces include all of the following except:",
-    "choices": [
-      "APT test",
-      "Clinitest",
-      "Pilocarpine iontophoresis",
-      "Quantitative fecal fats"
-    ],
+    "choices": ["APT test", "Clinitest", "Pilocarpine iontophoresis", "Quantitative fecal fats"],
     "answer": "Pilocarpine iontophoresis"
   },
   {
@@ -1691,12 +1012,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Secretory diarrhea is caused by:",
-    "choices": [
-      "Antibiotic administration",
-      "Lactose intolerance",
-      "Celiac sprue",
-      "Vibrio cholerae"
-    ],
+    "choices": ["Antibiotic administration", "Lactose intolerance", "Celiac sprue", "Vibrio cholerae"],
     "answer": "Vibrio cholerae"
   },
   {
@@ -1704,12 +1020,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "The fecal osmotic gap is elevated in which disorder?",
-    "choices": [
-      "Dumping syndrome",
-      "Osmotic diarrhea",
-      "Secretory diarrhea",
-      "Steatorrhea"
-    ],
+    "choices": ["Dumping syndrome", "Osmotic diarrhea", "Secretory diarrhea", "Steatorrhea"],
     "answer": "Osmotic diarrhea"
   },
   {
@@ -1717,12 +1028,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Microscopic examination of stools provides preliminary information as to the cause of diarrhea because:",
-    "choices": [
-      "Neutrophils are present in conditions caused by toxin-producing bacteria",
-      "Neutrophils are present in conditions that affect the intestinal wall",
-      "Red and white blood cells are present if the cause is bacterial",
-      "Neutrophils are present if the condition is of nonbacterial etiology"
-    ],
+    "choices": ["Neutrophils are present in conditions caused by toxin-producing bacteria", "Neutrophils are present in conditions that affect the intestinal wall", "Red and white blood cells are present if the cause is bacterial", "Neutrophils are present if the condition is of nonbacterial etiology"],
     "answer": "Neutrophils are present in conditions that affect the intestinal wall"
   },
   {
@@ -1730,10 +1036,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "The presence of fecal neutrophils would be expected with diarrhea caused by a rotavirus.",
-    "choices": [
-      "TRUE",
-      "FALSE"
-    ],
+    "choices": ["TRUE", "FALSE"],
     "answer": "False"
   },
   {
@@ -1741,12 +1044,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Large orange-red droplets seen on direct microscopic examination of stools mixed with Sudan III represent:",
-    "choices": [
-      "Cholesterol",
-      "Fatty acids",
-      "Neutral fats",
-      "Soaps"
-    ],
+    "choices": ["Cholesterol", "Fatty acids", "Neutral fats", "Soaps"],
     "answer": "Neutral fats"
   },
   {
@@ -1754,12 +1052,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Microscopic examination of stools mixed with Sudan III and glacial acetic acid and then heated will show small orange-red droplets that represent:",
-    "choices": [
-      "Fatty acids and soaps",
-      "Fatty acids and neutral fats",
-      "Fatty acids, soaps, and neutral fats",
-      "Soaps"
-    ],
+    "choices": ["Fatty acids and soaps", "Fatty acids and neutral fats", "Fatty acids, soaps, and neutral fats", "Soaps"],
     "answer": "Fatty acids, soaps, and neutral fats"
   },
   {
@@ -1767,12 +1060,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "When performing a microscopic stool examination for muscle fibers, the structures that should be counted:",
-    "choices": [
-      "Are coiled and stain blue",
-      "Contain no visible striations",
-      "Have two-dimensional striations",
-      "Have vertical striations and stain red"
-    ],
+    "choices": ["Are coiled and stain blue", "Contain no visible striations", "Have two-dimensional striations", "Have vertical striations and stain red"],
     "answer": "Have two-dimensional striations"
   },
   {
@@ -1780,12 +1068,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "A value of 85% fat retention would indicate:",
-    "choices": [
-      "Dumping syndrome",
-      "Osmotic diarrhea",
-      "Secretory diarrhea",
-      "Steatorrhea"
-    ],
+    "choices": ["Dumping syndrome", "Osmotic diarrhea", "Secretory diarrhea", "Steatorrhea"],
     "answer": "Steatorrhea"
   },
   {
@@ -1793,12 +1076,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Which of the following tests would not be indicative of steatorrhea?",
-    "choices": [
-      "Fecal elastase I",
-      "Fecal occult blood",
-      "Sudan III",
-      "Van de Kamer"
-    ],
+    "choices": ["Fecal elastase I", "Fecal occult blood", "Sudan III", "Van de Kamer"],
     "answer": "Fecal occult blood"
   },
   {
@@ -1806,12 +1084,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "The term “occult” blood describes blood that:",
-    "choices": [
-      "Is produced in the lower GI tract",
-      "Is produced in the upper GI tract",
-      "Is not visibly apparent in the stool specimen",
-      "Produces a black, tarry stool"
-    ],
+    "choices": ["Is produced in the lower GI tract", "Is produced in the upper GI tract", "Is not visibly apparent in the stool specimen", "Produces a black, tarry stool"],
     "answer": "Is not visibly apparent in the stool specimen"
   },
   {
@@ -1819,12 +1092,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "What is the recommended number of specimens that should be tested to confirm a negative occult blood result?",
-    "choices": [
-      "One random specimen",
-      "Two samples taken from different parts of three stool specimens",
-      "Three samples taken from the outermost portion of the stool specimen",
-      "Three samples taken from different parts of two stool specimens"
-    ],
+    "choices": ["One random specimen", "Two samples taken from different parts of three stool specimens", "Three samples taken from the outermost portion of the stool specimen", "Three samples taken from different parts of two stool specimens"],
     "answer": "Two samples taken from different parts of three stool specimens"
   },
   {
@@ -1832,12 +1100,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "The immunochemical tests for occult blood:",
-    "choices": [
-      "Test for human globulin",
-      "Give false-positive reactions with meat hemoglobin",
-      "Can give false-positive reactions with aspirin",
-      "Are inhibited by porphyrin"
-    ],
+    "choices": ["Test for human globulin", "Give false-positive reactions with meat hemoglobin", "Can give false-positive reactions with aspirin", "Are inhibited by porphyrin"],
     "answer": "Test for human globulin"
   },
   {
@@ -1845,12 +1108,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Guaiac tests for detecting occult blood rely on the:",
-    "choices": [
-      "Reaction of hemoglobin with hydrogen peroxide",
-      "Pseudoperoxidase activity of hemoglobin",
-      "Reaction of hemoglobin with ortho-toluidine",
-      "Pseudoperoxidase activity of hydrogen peroxide"
-    ],
+    "choices": ["Reaction of hemoglobin with hydrogen peroxide", "Pseudoperoxidase activity of hemoglobin", "Reaction of hemoglobin with ortho-toluidine", "Pseudoperoxidase activity of hydrogen peroxide"],
     "answer": "Pseudoperoxidase activity of hemoglobin"
   },
   {
@@ -1858,12 +1116,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "What is the significance of an APT test that remains pink after the addition of sodium hydroxide?",
-    "choices": [
-      "Fecal fat is present.",
-      "Fetal hemoglobin is present.",
-      "Fecal trypsin is present.",
-      "Vitamin C is present."
-    ],
+    "choices": ["Fecal fat is present.", "Fetal hemoglobin is present.", "Fecal trypsin is present.", "Vitamin C is present."],
     "answer": "Fetal hemoglobin is present."
   },
   {
@@ -1871,12 +1124,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "In the Van de Kamer method for quantitative fecal fat determinations, fecal lipids are:",
-    "choices": [
-      "Converted to fatty acids before titrating with sodium hydroxide",
-      "Homogenized and titrated to a neutral endpoint with sodium hydroxide",
-      "Measured gravimetrically after washing",
-      "Measured by spectrophotometer after addition of Sudan III"
-    ],
+    "choices": ["Converted to fatty acids before titrating with sodium hydroxide", "Homogenized and titrated to a neutral endpoint with sodium hydroxide", "Measured gravimetrically after washing", "Measured by spectrophotometer after addition of Sudan III"],
     "answer": "Converted to fatty acids before titrating with sodium hydroxide"
   },
   {
@@ -1884,12 +1132,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "A patient whose stool exhibits increased fats, undigested muscle fibers, and the inability to digest gelatin may have:",
-    "choices": [
-      "Bacterial dysentery",
-      "A duodenal ulcer",
-      "Cystic fibrosis",
-      "Lactose intolerance"
-    ],
+    "choices": ["Bacterial dysentery", "A duodenal ulcer", "Cystic fibrosis", "Lactose intolerance"],
     "answer": "Cystic fibrosis"
   },
   {
@@ -1897,12 +1140,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "A stool specimen collected from an infant with diarrhea has a pH of 5.0. This result correlates with a:",
-    "choices": [
-      "Positive APT test",
-      "Negative trypsin test",
-      "Positive Clinitest",
-      "Negative occult blood test"
-    ],
+    "choices": ["Positive APT test", "Negative trypsin test", "Positive Clinitest", "Negative occult blood test"],
     "answer": "Positive Clinitest"
   },
   {
@@ -1910,12 +1148,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Which of the following tests differentiates a malabsorption cause from a maldigestion cause in steatorrhea?",
-    "choices": [
-      "APT test",
-      "D-xylose test",
-      "Lactose tolerance test",
-      "Occult blood test"
-    ],
+    "choices": ["APT test", "D-xylose test", "Lactose tolerance test", "Occult blood test"],
     "answer": "D-xylose test"
   },
   {
@@ -1923,12 +1156,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Which of the following would not be a reason to collect a vaginal fluid for analysis?",
-    "choices": [
-      "Vaginitis",
-      "Complications of pregnancy resulting in preterm delivery",
-      "Forensic testing in a sexual assault",
-      "Pregnancy testing"
-    ],
+    "choices": ["Vaginitis", "Complications of pregnancy resulting in preterm delivery", "Forensic testing in a sexual assault", "Pregnancy testing"],
     "answer": "Pregnancy testing"
   },
   {
@@ -1936,12 +1164,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Which of the following organisms might not be detected if the specimen for vaginal secretion analysis had been refrigerated?",
-    "choices": [
-      "Prevotella bivia",
-      "Lactobacillus acidophilus",
-      "Trichomonas vaginalis",
-      "Candida albicans"
-    ],
+    "choices": ["Prevotella bivia", "Lactobacillus acidophilus", "Trichomonas vaginalis", "Candida albicans"],
     "answer": "Trichomonas vaginalis"
   },
   {
@@ -1949,12 +1172,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "The appearance of the vaginal discharge in vulvovaginal candidiasis is described as:",
-    "choices": [
-      "Clear and colorless",
-      "Thin, homogeneous, white-to-gray discharge",
-      "White, curd-like",
-      "Yellow-green and frothy"
-    ],
+    "choices": ["Clear and colorless", "Thin, homogeneous, white-to-gray discharge", "White, curd-like", "Yellow-green and frothy"],
     "answer": "White, curd-like"
   },
   {
@@ -1962,12 +1180,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "A normal range for a vaginal pH is:",
-    "choices": [
-      "3.8 to 4.5",
-      "5.0 to 6.0",
-      "6.0 to 7.0",
-      "7.0 to 7.4"
-    ],
+    "choices": ["3.8 to 4.5", "5.0 to 6.0", "6.0 to 7.0", "7.0 to 7.4"],
     "answer": "3.8 to 4.5"
   },
   {
@@ -1975,12 +1188,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Which of the following tests differentiates budding yeast cells from RBCs?",
-    "choices": [
-      "pH",
-      "Saline wet mount",
-      "KOH prep",
-      "Whiff test"
-    ],
+    "choices": ["pH", "Saline wet mount", "KOH prep", "Whiff test"],
     "answer": "KOH prep"
   },
   {
@@ -1988,12 +1196,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Which of the following constituents is normal in healthy vaginal fluid secretions?",
-    "choices": [
-      "Lactobacilli",
-      "Basal cells",
-      "Trichomonas vaginalis",
-      "Pseudohyphae"
-    ],
+    "choices": ["Lactobacilli", "Basal cells", "Trichomonas vaginalis", "Pseudohyphae"],
     "answer": "Lactobacilli"
   },
   {
@@ -2001,12 +1204,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Vaginal specimens collected for a saline wet prep should be:",
-    "choices": [
-      "Refrigerated to preserve motility",
-      "Prepared as soon as possible",
-      "Mailed to a reference laboratory",
-      "Preserved with potassium hydroxide"
-    ],
+    "choices": ["Refrigerated to preserve motility", "Prepared as soon as possible", "Mailed to a reference laboratory", "Preserved with potassium hydroxide"],
     "answer": "Prepared as soon as possible"
   },
   {
@@ -2014,12 +1212,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "A positive amine (whiff) test is observed in which of the following syndromes?",
-    "choices": [
-      "Bacterial vaginosis",
-      "Vulvovaginal candidiasis",
-      "Atrophic vaginitis",
-      "Desquamative inflammatory vaginitis"
-    ],
+    "choices": ["Bacterial vaginosis", "Vulvovaginal candidiasis", "Atrophic vaginitis", "Desquamative inflammatory vaginitis"],
     "answer": "Bacterial vaginosis"
   },
   {
@@ -2027,12 +1220,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "A squamous epithelial cell covered with coccobacilli that extends beyond the cytoplasm margin is a:",
-    "choices": [
-      "Basal cell",
-      "Parabasal cell",
-      "Clue cell",
-      "Blastospore"
-    ],
+    "choices": ["Basal cell", "Parabasal cell", "Clue cell", "Blastospore"],
     "answer": "Clue cell"
   },
   {
@@ -2040,12 +1228,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "All of the following are diagnostic of bacterial vaginosis except:",
-    "choices": [
-      "Vaginal pH of 3.8",
-      "Presence of clue cells",
-      "Positive amine (whiff) test",
-      "Thin, homogeneous, white-to-gray vaginal discharge"
-    ],
+    "choices": ["Vaginal pH of 3.8", "Presence of clue cells", "Positive amine (whiff) test", "Thin, homogeneous, white-to-gray vaginal discharge"],
     "answer": "Vaginal pH of 3.8"
   },
   {
@@ -2053,12 +1236,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Which of the following organisms produces lactic acid and hydrogen peroxide to maintain an acidic vaginal environment?",
-    "choices": [
-      "Gardnerella vaginalis",
-      "Mobiluncus spp.",
-      "Lactobacilli spp.",
-      "β-Hemolytic streptococci"
-    ],
+    "choices": ["Gardnerella vaginalis", "Mobiluncus spp.", "Lactobacilli spp.", "β-Hemolytic streptococci"],
     "answer": "β-Hemolytic streptococci"
   },
   {
@@ -2066,12 +1244,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "All of the following are diagnostic of vulvovaginal candidiasis except:",
-    "choices": [
-      "Large numbers of WBCs",
-      "Presence of clue cells",
-      "Positive KOH test",
-      "Vaginal pH of 4.0"
-    ],
+    "choices": ["Large numbers of WBCs", "Presence of clue cells", "Positive KOH test", "Vaginal pH of 4.0"],
     "answer": "Presence of clue cells"
   },
   {
@@ -2079,12 +1252,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "All of the following are diagnostic of trichomoniasis except:",
-    "choices": [
-      "Vaginal pH of 6.0",
-      "Positive amine test",
-      "Positive KOH test",
-      "Motile trichomonads present"
-    ],
+    "choices": ["Vaginal pH of 6.0", "Positive amine test", "Positive KOH test", "Motile trichomonads present"],
     "answer": "Positive KOH test"
   },
   {
@@ -2092,12 +1260,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "The bacteria associated with desquamative inflammatory vaginitis is:",
-    "choices": [
-      "β-Hemolytic streptococci",
-      "Trichomonas vaginalis",
-      "Gardnerella vaginalis",
-      "Mycoplasma hominis"
-    ],
+    "choices": ["β-Hemolytic streptococci", "Trichomonas vaginalis", "Gardnerella vaginalis", "Mycoplasma hominis"],
     "answer": "β-Hemolytic streptococci"
   },
   {
@@ -2105,12 +1268,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "The protein present in vaginal secretions that can identify patients who are at risk for preterm delivery is:",
-    "choices": [
-      "Human chorionic gonadotropin",
-      "Estrogen",
-      "PAMG-1",
-      "Fetal fibronectin"
-    ],
+    "choices": ["Human chorionic gonadotropin", "Estrogen", "PAMG-1", "Fetal fibronectin"],
     "answer": "Fetal fibronectin"
   },
   {
@@ -2118,12 +1276,7 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Which of the following immunochromatographic tests detects both AFP and IGFBP-1 proteins to diagnose PROM?",
-    "choices": [
-      "AmniSure ROM test",
-      "Actim PROM",
-      "ROM Plus",
-      "Fetal fibronectin"
-    ],
+    "choices": ["AmniSure ROM test", "Actim PROM", "ROM Plus", "Fetal fibronectin"],
     "answer": "ROM Plus"
   }
 ]

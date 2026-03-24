@@ -26,7 +26,8 @@ import {
   Archive,
   RotateCcw,
   Target,
-  Eraser
+  Eraser,
+  Download
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -121,7 +122,6 @@ export default function QuizPage() {
     const subjectQuestions = allQuestions.filter(q => q.subject === subject);
     const allProgress = await db.getAll<Progress>('progress');
     
-    // Natural Sort for Chapters (numeric-aware)
     const uniqueChapterNames = Array.from(new Set(subjectQuestions.map(q => q.tags[0] || 'Uncategorized')))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
       
@@ -265,7 +265,7 @@ export default function QuizPage() {
   const scrub = (str: string) => {
     if (!str) return "";
     let clean = str
-      .replace(/<[^>]*>?/gm, ' ') // Strip HTML
+      .replace(/<[^>]*>?/gm, ' ') 
       .replace(/&nbsp;/g, ' ')
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
@@ -277,11 +277,10 @@ export default function QuizPage() {
       .replace(/Shuffle\s*choices/gi, '')
       .replace(/Made\s*by\s*[^🧪]*/gi, '')
       .replace(/🧪\s*Answer:/gi, '')
-      .replace(/[A-Z0-9]{3,}\/&[A-Z0-9]{2,};/gi, '') // Random IDs like Qw1/&Fr;
+      .replace(/[A-Z0-9]{3,}\/&[A-Z0-9]{2,};/gi, '') 
       .replace(/\s\s+/g, ' ')
       .trim();
     
-    // Deduplication logic for messy lines where question/choice repeats
     const mid = Math.floor(clean.length / 2);
     const firstHalf = clean.substring(0, mid).trim();
     const secondHalf = clean.substring(clean.length - mid).trim();
@@ -294,28 +293,6 @@ export default function QuizPage() {
       return parts[parts.length - 1].trim();
     }
     return clean;
-  };
-
-  const categorizeContextually = (question: string, subject: string): string => {
-    const q = question.toLowerCase();
-    
-    if (subject === 'Hematology') {
-      if (q.includes('pt') || q.includes('aptt') || q.includes('platelet') || q.includes('clot') || q.includes('fibrin') || q.includes('hemostasis')) return 'Hemostasis & Coagulation';
-      if (q.includes('rbc') || q.includes('anemia') || q.includes('hemoglobin') || q.includes('erythro')) return 'Erythrocytes & RBC Disorders';
-      if (q.includes('wbc') || q.includes('leukemia') || q.includes('neutrophil') || q.includes('leuko')) return 'Leukocytes & WBC Disorders';
-      if (q.includes('safety') || q.includes('biohazard') || q.includes('osha')) return 'Safety & Lab Operations';
-      if (q.includes('microscope') || q.includes('automation') || q.includes('flow cytometry')) return 'Instrumentation';
-    }
-
-    if (subject === 'Clinical Chemistry') {
-      if (q.includes('bilirubin') || q.includes('albumin') || q.includes('ast') || q.includes('alt')) return 'Liver Function';
-      if (q.includes('creatinine') || q.includes('urea') || q.includes('bun') || q.includes('gfr')) return 'Renal Function';
-      if (q.includes('glucose') || q.includes('hba1c') || q.includes('insulin')) return 'Carbohydrates';
-      if (q.includes('sodium') || q.includes('potassium') || q.includes('ph') || q.includes('acid')) return 'Electrolytes & Acid-Base';
-      if (q.includes('cholesterol') || q.includes('triglyceride') || q.includes('hdl')) return 'Lipids';
-    }
-
-    return 'General Titration';
   };
 
   const processAnkiExport = async () => {
@@ -333,12 +310,9 @@ export default function QuizPage() {
         const parts = lines[idx].split('\t'); 
         if (parts.length < 5) continue;
         
-        // High-Fidelity Unified Column Shift Detection
         const startIdx = parts[0].length < 10 ? 1 : 0;
-        
         const qText = scrub(parts[startIdx]);
         
-        // Choice Titration (Variable Lengths)
         const choicesRaw = [
           parts[startIdx + 1], 
           parts[startIdx + 2], 
@@ -354,14 +328,9 @@ export default function QuizPage() {
             text: text
           }));
 
-        // Answer Identification
         const answerText = scrub(parts[11] || parts[12] || parts[parts.length - 1] || "");
-        
-        // Contextual Grouping
         const metaChapter = scrub(parts[startIdx + 1]);
-        const chapter = (metaChapter.length < 5 || /^\d+$/.test(metaChapter)) 
-          ? categorizeContextually(qText, importSubject) 
-          : metaChapter;
+        const chapter = (metaChapter.length < 5 || /^\d+$/.test(metaChapter)) ? "General Assay" : metaChapter;
 
         let answerId = 'A';
         const match = filteredChoices.find(c => c.text.toLowerCase() === answerText.toLowerCase());
@@ -394,6 +363,44 @@ export default function QuizPage() {
         setImporting(false);
         setImportProgress(0);
       }, 500);
+    }
+  };
+
+  const syncSystemArchives = async () => {
+    setImporting(true);
+    setImportProgress(0);
+    try {
+      const response = await fetch('/lib/archives.json');
+      const systemData = await response.json();
+      
+      const questionsToImport: Question[] = systemData.map((item: any, idx: number) => {
+        const filteredChoices = item.choices.map((text: string, i: number) => ({
+          id: String.fromCharCode(65 + i),
+          text: text
+        }));
+
+        const answerIdx = item.choices.findIndex((c: string) => c === item.answer);
+        const answerId = answerIdx !== -1 ? String.fromCharCode(65 + answerIdx) : 'A';
+
+        return {
+          id: `sys-${Date.now()}-${idx}`,
+          subject: item.category,
+          question: item.question,
+          choices: filteredChoices,
+          answerId: answerId,
+          rationale: `Source: ${item.source}. Chapter: ${item.chapter}. Answer: ${item.answer}`,
+          tags: [item.chapter]
+        };
+      });
+
+      await db.bulkPut('questions', questionsToImport);
+      await loadGlobalStats();
+      toast({ title: "Sync Successful", description: `Synchronized ${questionsToImport.length} system protocols.` });
+      if (selectedSubject) handleSubjectSelect(selectedSubject);
+    } catch (err) {
+      toast({ variant: "destructive", title: "Sync Failed", description: "Could not access system archives." });
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -550,7 +557,7 @@ export default function QuizPage() {
                      <div className="col-span-full py-20 text-center opacity-30 border border-dashed border-white/10 riot-card">
                        <AlertCircle className="mx-auto mb-4" size={48} />
                        <h3 className="text-2xl font-black italic uppercase">No Titrated Data</h3>
-                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Initialize or upload a protocol above.</p>
+                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Initialize or upload a protocol below.</p>
                      </div>
                   )}
                 </div>
@@ -587,47 +594,46 @@ export default function QuizPage() {
           <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-6">
-                <div className="flex items-center gap-3">
-                  <Upload className="text-primary" size={32} />
-                  <h3 className="text-xl font-black italic uppercase text-white">High-Fidelity Titrator</h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Database className="text-primary" size={32} />
+                    <h3 className="text-xl font-black italic uppercase text-white">Clinical Instrumentation</h3>
+                  </div>
+                  <Button onClick={syncSystemArchives} disabled={importing} className="riot-button h-10 px-6 bg-primary text-black text-[9px] font-black">
+                    {importing ? <Loader2 className="animate-spin mr-2" size={12} /> : <RefreshCw className="mr-2" size={12} />}
+                    SYNC TITRATE ARCHIVES
+                  </Button>
                 </div>
                 
-                <div className="space-y-4">
-                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector Target</Label>
-                  <Select value={importSubject} onValueChange={setImportSubject}>
-                    <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase text-white">
-                      <SelectValue placeholder="Select Sector" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
-                      {CORE_SUBJECTS.map((s) => (
-                        <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-4">
+                    <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector Target</Label>
+                    <Select value={importSubject} onValueChange={setImportSubject}>
+                      <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase text-white">
+                        <SelectValue placeholder="Select Sector" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
+                        {CORE_SUBJECTS.map((s) => (
+                          <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-4">
+                    <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Manual TXT Upload</Label>
+                    <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload-quiz" />
+                    <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
+                      <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
+                        {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
+                      </label>
+                    </Button>
+                  </div>
                 </div>
 
-                {importing && (
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-[10px] font-black uppercase text-primary">
-                      <span>Titrating...</span>
-                      <span>{importProgress}%</span>
-                    </div>
-                    <div className="h-1 bg-white/5 w-full relative overflow-hidden">
-                      <div className="absolute inset-0 bg-primary transition-all duration-300" style={{ width: `${importProgress}%` }} />
-                    </div>
-                  </div>
-                )}
-                <div className="space-y-4">
-                  <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload-quiz" />
-                  <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
-                    <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
-                      {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
-                    </label>
-                  </Button>
-                  <Button className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
-                    {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
-                  </Button>
-                </div>
+                <Button className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
+                  {importing ? <Loader2 className="animate-spin" /> : 'TITRATE MANUAL ARCHIVE'}
+                </Button>
               </div>
 
               <div className="riot-card bg-red-500/5 border border-red-500/20 p-8 flex flex-col justify-center space-y-4">
