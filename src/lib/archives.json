@@ -148,7 +148,7 @@
     "choices": [
       "juxtaglomerular cells",
       "angiotensin I and II",
-      "macula densa cells",
+      "macmacula densa cells",
       "circulating angiotensin-converting enzyme"
     ],
     "answer": "macula densa cells"
@@ -493,5 +493,664 @@
       "endogenous"
     ],
     "answer": "endogenous"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "All of the following contribute to the formation of urinary crystals except:",
+    "choices": [
+      "protein concentration",
+      "pH",
+      "solute concentration",
+      "temperature"
+    ],
+    "answer": "protein concentration"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "The most valuable initial aid for the identification of crystals in a urine specimen is:",
+    "choices": [
+      "pH",
+      "solubility",
+      "staining",
+      "polarized microscopy"
+    ],
+    "answer": "pH"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Crystals associated with sever liver disease include all of the following except:",
+    "choices": [
+      "bilirubin",
+      "leucine",
+      "cystine",
+      "tyrosine"
+    ],
+    "answer": "cystine"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "All of the following crystals routinely polarize except:",
+    "choices": [
+      "uric acid",
+      "cholesterol",
+      "radiographic dye",
+      "cystine"
+    ],
+    "answer": "cystine"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Differentiation between casts and fibers can usually be made using:",
+    "choices": [
+      "solubility characteristics",
+      "patient history",
+      "polarized light",
+      "fluorescent light"
+    ],
+    "answer": "polarized light"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Calcium Oxalate Dihydrate",
+    "choices": [
+      "Envelopes",
+      "Thin needles",
+      "Yellow-brown, whetstone",
+      "Pink sediment",
+      "Ovoid"
+    ],
+    "answer": "Envelopes"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Calcium Carbonate",
+    "choices": [
+      "Yellow granules",
+      "Thin prisms",
+      "Coffin lids",
+      "Dumbbell shape",
+      "White precipitate",
+      "Thorny apple"
+    ],
+    "answer": "Dumbbell shape"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Bilirubin",
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
+    "answer": "Bright yellow clumps"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Interference Contrast",
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
+    "answer": "Three-dimensional images"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Amorphous Urates",
+    "choices": [
+      "Envelopes",
+      "Thin needles",
+      "Yellow-brown, whetstone",
+      "Pink sediment",
+      "Ovoid"
+    ],
+    "answer": "Pink sediment"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Uric Acid",
+    "choices": [
+      "Envelopes",
+      "Thin needles",
+      "Yellow-brown, whetstone",
+      "Pink sediment",
+      "Ovoid"
+    ],
+    "answer": "Yellow-brown, whetstone"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Calcium Oxalate Monohydrate",
+    "choices": [
+      "Envelopes",
+      "Thin needles",
+      "Yellow-brown, whetstone",
+      "Pink sediment",
+      "Ovoid"
+    ],
+    "answer": "Ovoid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Triple Phosphate",
+    "choices": [
+      "Yellow granules",
+      "Thin prisms",
+      "Coffin lids",
+      "Dumbbell shape",
+      "White precipitate",
+      "Thorny apple"
+    ],
+    "answer": "Coffin lids"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Amorphous Phosphate",
+    "choices": [
+      "Yellow granules",
+      "Thin prisms",
+      "Coffin lids",
+      "Dumbbell shape",
+      "White precipitate",
+      "Thorny apple"
+    ],
+    "answer": "White precipitate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Calcium Phosphate",
+    "choices": [
+      "Yellow granules",
+      "Thin prisms",
+      "Coffin lids",
+      "Dumbbell shape",
+      "White precipitate",
+      "Thorny apple"
+    ],
+    "answer": "Thin prisms"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Ammonium Biurate",
+    "choices": [
+      "Yellow granules",
+      "Thin prisms",
+      "Coffin lids",
+      "Dumbbell shape",
+      "White precipitate",
+      "Thorny apple"
+    ],
+    "answer": "Thorny apple"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Cystine",
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
+    "answer": "Hexagonal plates"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Tyrosine",
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
+    "answer": "Fine needles seen in liver disease"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Cholesterol",
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
+    "answer": "Notched corners"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Leucine",
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
+    "answer": "Concentric circles, radial striations"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Ampicillin",
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
+    "answer": "Bundles following refrigeration"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Radiographic Dye",
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
+    "answer": "Flat plates, high specific gravity"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Bright-Field",
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
+    "answer": "Low refractive index objects may be overlooked"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Phase",
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
+    "answer": "Forms halo of light around object"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Polarized",
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
+    "answer": "Object split light into two beams"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Dark-Field",
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
+    "answer": "Indirect light is reflected off the object"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 7 Microscopic Examination of Urine",
+    "question": "Fluorescent",
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
+    "answer": "Detects specific wavelengths of light emitted from objects"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Most glomerular disorders are caused by:",
+    "choices": [
+      "Sudden drops in blood pressure",
+      "Immunologic disorders",
+      "Exposure to toxic substances",
+      "Bacterial infections"
+    ],
+    "answer": "Immunologic disorders"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Dysmorphic RBC casts would be a significant finding with all of the following except:",
+    "choices": [
+      "Goodpasture syndrome",
+      "Acute glomerulonephritis",
+      "Chronic pyelonephritis",
+      "Henoch-Schönlein purpura"
+    ],
+    "answer": "Chronic pyelonephritis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Occasional episodes of macroscopic hematuria over periods of 20 or more years are seen with:",
+    "choices": [
+      "Crescentic glomerulonephritis",
+      "IgA nephropathy",
+      "Nephrotic syndrome",
+      "Wegener granulomatosis"
+    ],
+    "answer": "IgA nephropathy"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Antiglomerular basement membrane antibody is seen with:",
+    "choices": [
+      "Wegener granulomatosis",
+      "IgA nephropathy",
+      "Goodpasture syndrome",
+      "Diabetic nephropathy"
+    ],
+    "answer": "Goodpasture syndrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Antineutrophilic cytoplasmic antibody is diagnostic for:",
+    "choices": [
+      "IgA nephropathy",
+      "Wegener granulomatosis",
+      "Henoch-Schönlein purpura",
+      "Goodpasture syndrome"
+    ],
+    "answer": "Wegener granulomatosis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Respiratory and renal symptoms are associated with all of the following except:",
+    "choices": [
+      "IgA nephropathy",
+      "Wegener granulomatosis",
+      "Henoch-Schönlein purpura",
+      "Goodpasture syndrome"
+    ],
+    "answer": "Goodpasture syndrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "The presence of fatty casts is associated with all of the following except:",
+    "choices": [
+      "Nephrotic syndrome",
+      "Focal segmental glomerulosclerosis",
+      "Nephrogenic diabetes insipidus",
+      "Minimal change disease"
+    ],
+    "answer": "Nephrogenic diabetes insipidus"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "The highest levels of proteinuria are seen with:",
+    "choices": [
+      "Alport syndrome",
+      "Diabetic nephropathy",
+      "IgA nephropathy",
+      "Nephrotic syndrome"
+    ],
+    "answer": "Nephrotic syndrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Ischemia frequently produces:",
+    "choices": [
+      "Acute renal tubular necrosis",
+      "Minimal change disorder",
+      "Renal glycosuria",
+      "Goodpasture's syndrome"
+    ],
+    "answer": "Acute renal tubular necrosis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "A disorder associated with polyuria and low specific gravity is:",
+    "choices": [
+      "Renal glucosuria",
+      "Minimal change disease",
+      "Nephrogenic diabetes insipidus",
+      "Focal segmental glomerulosclerosis"
+    ],
+    "answer": "Nephrogenic diabetes insipidus"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "An inherited disorder producing a generalized defect in tubular reabsorption is:",
+    "choices": [
+      "Alport syndrome",
+      "Acute interstitial nephritis",
+      "Fanconi syndrome",
+      "Renal glycosuria"
+    ],
+    "answer": "Fanconi syndrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "A teenage boy who develops gout in his big toe and has a high serum uric acid should be monitored for:",
+    "choices": [
+      "Fanconi syndrome",
+      "Renal calculi",
+      "Uromodulin-associated kidney disease",
+      "Chronic interstitial nephritis"
+    ],
+    "answer": "Uromodulin-associated kidney disease"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "The only protein produced by the kidney is:",
+    "choices": [
+      "Albumin",
+      "Uromodulin",
+      "Uroprotein",
+      "Globulin"
+    ],
+    "answer": "Uromodulin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "The presence of renal tubular epithelial cells and casts is an indication of:",
+    "choices": [
+      "Acute interstitial nephritis",
+      "Chronic glomerulonephritis",
+      "Minimal change disease",
+      "Acute tubular necrosis"
+    ],
+    "answer": "Acute tubular necrosis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Differentiation between cystitis and pyelonephritis is aided by the presence of:",
+    "choices": [
+      "WBC casts",
+      "RBC casts",
+      "Bacteria",
+      "Granular casts"
+    ],
+    "answer": "WBC casts"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "The presence of WBCs and WBC casts with no bacteria is indicative of:",
+    "choices": [
+      "Chronic pyelonephritis",
+      "Acute tubular necrosis",
+      "Acute interstitial nephritis",
+      "Both B and C"
+    ],
+    "answer": "Acute interstitial nephritis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "End-stage renal disease is characterized by all of the following except:",
+    "choices": [
+      "Hypersthenuria",
+      "Isosthenuria",
+      "Azotemia",
+      "Electrolyte imbalance"
+    ],
+    "answer": "Hypersthenuria"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Prerenal acute renal failure could be caused by:",
+    "choices": [
+      "Massive hemorrhage",
+      "Acute tubular necrosis",
+      "Acute interstitial nephritis",
+      "Malignant tumors"
+    ],
+    "answer": "Massive hemorrhage"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 8 Renal Disease",
+    "question": "Urinalysis on a patient with severe back pain being evaluated for renal calculi would be most beneficial if it showed:",
+    "choices": [
+      "Heavy proteinuria",
+      "Low specific gravity",
+      "Uric acid crystals",
+      "Microscopic hematuria"
+    ],
+    "answer": "Microscopic hematuria"
   }
 ]
+    
