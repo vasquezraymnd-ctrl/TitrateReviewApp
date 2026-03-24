@@ -13,10 +13,11 @@ import {
   Highlighter,
   Eraser,
   MousePointer2,
-  Undo2,
-  Trash2
+  Trash2,
+  Settings2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { db, Annotation } from '@/lib/db';
 
@@ -41,12 +42,17 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
   const [currentColor, setCurrentColor] = useState('#00ff7f');
+  
+  // Thickness States
+  const [pencilWidth, setPencilWidth] = useState(3);
+  const [highlighterWidth, setHighlighterWidth] = useState(25);
+  const [eraserWidth, setEraserWidth] = useState(40);
+
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const pageRef = useRef<any>(null);
 
   // Load annotations for current page
   const loadAnnotations = useCallback(async () => {
@@ -72,6 +78,19 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
     if (container) {
       setScale(container.clientWidth / 850);
     }
+  };
+
+  const getCurrentWidth = () => {
+    if (activeTool === 'pencil') return pencilWidth;
+    if (activeTool === 'highlighter') return highlighterWidth;
+    if (activeTool === 'eraser') return eraserWidth;
+    return 3;
+  };
+
+  const handleWidthChange = (val: number) => {
+    if (activeTool === 'pencil') setPencilWidth(val);
+    if (activeTool === 'highlighter') setHighlighterWidth(val);
+    if (activeTool === 'eraser') setEraserWidth(val);
   };
 
   // Canvas Drawing Logic
@@ -108,11 +127,11 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
       ctx.stroke();
     });
 
-    // Draw current stroke
+    // Draw current stroke (Preview)
     if (currentStroke) {
       ctx.beginPath();
       ctx.strokeStyle = currentColor;
-      ctx.lineWidth = (activeTool === 'highlighter' ? 20 : 3) * scale;
+      ctx.lineWidth = getCurrentWidth() * scale;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       
@@ -132,7 +151,7 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
       });
       ctx.stroke();
     }
-  }, [annotations, currentStroke, scale, activeTool, currentColor]);
+  }, [annotations, currentStroke, scale, activeTool, currentColor, pencilWidth, highlighterWidth, eraserWidth]);
 
   useEffect(() => {
     drawAll();
@@ -161,19 +180,7 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (activeTool === 'view') return;
-    if (activeTool === 'eraser') {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const rect = canvas.getBoundingClientRect();
-        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-        const x = (clientX - rect.left) / rect.width;
-        const y = (clientY - rect.top) / rect.height;
-        handleErase(x, y);
-        return;
-    }
-    if (!currentStroke) return;
-
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
@@ -184,6 +191,14 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
     const x = (clientX - rect.left) / rect.width;
     const y = (clientY - rect.top) / rect.height;
 
+    if (activeTool === 'eraser') {
+        if (e.buttons === 1 || 'touches' in e) {
+            handleErase(x, y);
+        }
+        return;
+    }
+
+    if (!currentStroke) return;
     setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
   };
 
@@ -199,7 +214,7 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
       pageNumber,
       tool: activeTool as 'pencil' | 'highlighter',
       color: currentColor,
-      width: activeTool === 'highlighter' ? 20 : 3,
+      width: activeTool === 'highlighter' ? highlighterWidth : pencilWidth,
       points: currentStroke
     };
 
@@ -211,7 +226,9 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
   const handleErase = async (x: number, y: number) => {
     if (!moduleId) return;
     
-    const threshold = 0.02; // Eraser radius
+    // Threshold is derived from eraser size
+    const threshold = (eraserWidth / 1000) + 0.01; 
+    
     const toDelete = annotations.find(ann => 
       ann.points.some(p => Math.abs(p.x - x) < threshold && Math.abs(p.y - y) < threshold)
     );
@@ -234,7 +251,7 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
     <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
       {/* Tactical Annotation & PDF Toolbar */}
       <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-10 shrink-0">
-        {/* Navigation Row */}
+        {/* Navigation & Zoom Row */}
         <div className="h-14 flex items-center justify-between px-6 border-b border-white/5">
           <div className="flex items-center gap-2">
             <Button 
@@ -280,65 +297,89 @@ export function PdfViewer({ url, moduleId }: PdfViewerProps) {
           </div>
         </div>
 
-        {/* Annotation Row */}
-        <div className="h-12 flex items-center justify-center px-6 gap-2 overflow-x-auto no-scrollbar">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => setActiveTool('view')}
-            className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'view' ? "bg-primary text-black" : "text-white/40")}
-          >
-            <MousePointer2 size={12} /> View
-          </Button>
-          <div className="w-px h-4 bg-white/10 mx-1" />
-          
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => setActiveTool('pencil')}
-            className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40")}
-          >
-            <Pencil size={12} /> Pencil
-          </Button>
-          
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => setActiveTool('highlighter')}
-            className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40")}
-          >
-            <Highlighter size={12} /> Marker
-          </Button>
+        {/* Annotation & Tool Calibration Row */}
+        <div className="h-14 lg:h-12 flex items-center px-6 gap-2 overflow-x-auto no-scrollbar border-b border-white/5 lg:border-0">
+          <div className="flex items-center gap-1 shrink-0">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setActiveTool('view')}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'view' ? "bg-primary text-black" : "text-white/40")}
+            >
+              <MousePointer2 size={12} /> View
+            </Button>
+            
+            <div className="w-px h-4 bg-white/10 mx-1" />
+            
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setActiveTool('pencil')}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40")}
+            >
+              <Pencil size={12} /> Pencil
+            </Button>
+            
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setActiveTool('highlighter')}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40")}
+            >
+              <Highlighter size={12} /> Marker
+            </Button>
 
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={() => setActiveTool('eraser')}
-            className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40")}
-          >
-            <Eraser size={12} /> Eraser
-          </Button>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setActiveTool('eraser')}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40")}
+            >
+              <Eraser size={12} /> Eraser
+            </Button>
+          </div>
 
-          <div className="w-px h-4 bg-white/10 mx-1" />
-
-          {activeTool !== 'view' && activeTool !== 'eraser' && (
-            <div className="flex items-center gap-1.5 px-2">
-              {['#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
-                <button
-                  key={color}
-                  onClick={() => setCurrentColor(color)}
-                  className={cn(
-                    "w-5 h-5 rounded-full border border-white/20 transition-transform",
-                    currentColor === color ? "scale-125 border-white" : "hover:scale-110"
-                  )}
-                  style={{ backgroundColor: color }}
+          {activeTool !== 'view' && (
+            <>
+              <div className="w-px h-4 bg-white/10 mx-2" />
+              
+              {/* Thickness Calibration */}
+              <div className="flex items-center gap-3 min-w-[120px] lg:min-w-[180px]">
+                <Settings2 size={12} className="text-white/30" />
+                <Slider 
+                  value={[getCurrentWidth()]}
+                  max={activeTool === 'pencil' ? 10 : activeTool === 'highlighter' ? 60 : 80}
+                  min={1}
+                  step={1}
+                  onValueChange={(vals) => handleWidthChange(vals[0])}
+                  className="w-20 lg:w-32"
                 />
-              ))}
-            </div>
+                <span className="text-[8px] font-black text-primary w-4">{getCurrentWidth()}</span>
+              </div>
+
+              {activeTool !== 'eraser' && (
+                <>
+                  <div className="w-px h-4 bg-white/10 mx-2" />
+                  <div className="flex items-center gap-1.5 px-2">
+                    {['#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
+                      <button
+                        key={color}
+                        onClick={() => setCurrentColor(color)}
+                        className={cn(
+                          "w-5 h-5 rounded-full border border-white/20 transition-transform",
+                          currentColor === color ? "scale-125 border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]" : "hover:scale-110"
+                        )}
+                        style={{ backgroundColor: color }}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
           )}
 
           <div className="ml-auto flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/50 hover:text-red-500">
+            <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/50 hover:text-red-500" title="Clear All Page Annotations">
               <Trash2 size={14} />
             </Button>
           </div>
