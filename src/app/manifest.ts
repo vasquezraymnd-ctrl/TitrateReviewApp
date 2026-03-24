@@ -31,6 +31,24 @@ export default function manifest(): MetadataRoute.Manifest {
     note_handler: {
       new_note_url: "/library"
     },
+    screenshots: [
+      {
+        src: '/icon',
+        sizes: '512x512',
+        type: 'image/png',
+        // @ts-ignore
+        form_factor: 'wide',
+        label: 'TITRATE Laboratory Dashboard'
+      },
+      {
+        src: '/icon',
+        sizes: '512x512',
+        type: 'image/png',
+        // @ts-ignore
+        form_factor: 'narrow',
+        label: 'Active Assay Interface'
+      }
+    ],
     // @ts-ignore - Widget support
     widgets: [
       {
