@@ -1,0 +1,497 @@
+[
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 3 Introduction to Urinalysis",
+    "question": "Which of the following would be least affected in a specimen that has remained unpreserved at room temperature for more than 2 hours?",
+    "choices": [
+      "Urobilinogen",
+      "Ketones",
+      "Protein",
+      "Nitrite"
+    ],
+    "answer": "Protein"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 3 Introduction to Urinalysis",
+    "question": "Bacterial growth in an unpreserved specimen will:",
+    "choices": [
+      "Decrease clarity",
+      "Increase bilirubin",
+      "Decrease pH",
+      "Increase glucose"
+    ],
+    "answer": "Decrease clarity"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 3 Introduction to Urinalysis",
+    "question": "The most sterile specimen collected is a:",
+    "choices": [
+      "Catheterized",
+      "Midstream clean-catch",
+      "Three-glass",
+      "Suprapubic aspiration"
+    ],
+    "answer": "Suprapubic aspiration"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 3 Introduction to Urinalysis",
+    "question": "Which of the following would not be given to a patient before the collection of a midstream clean-catch specimen?",
+    "choices": [
+      "Sterile container",
+      "Iodine cleanser",
+      "Antiseptic towelette",
+      "Instructions"
+    ],
+    "answer": "Iodine cleanser"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 3 Introduction to Urinalysis",
+    "question": "Urine specimen collection for drug testing requires the collector to do all of the following except:",
+    "choices": [
+      "Inspect the specimen color",
+      "Perform reagent strip testing",
+      "Read the specimen temperature",
+      "Fill out a chain-of-custody form"
+    ],
+    "answer": "Perform reagent strip testing"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "The type of nephron responsible for renal concentration is the:",
+    "choices": [
+      "Cortical",
+      "Juxtaglomerular"
+    ],
+    "answer": "Juxtaglomerular"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "The function of the peritubular capillaries is:",
+    "choices": [
+      "reabsorption",
+      "filtration",
+      "secretion",
+      "both a and c"
+    ],
+    "answer": "both a and c"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Blood flows through the nephron in the following order:",
+    "choices": [
+      "efferent arteriole, peritubular capillaries, vasa recta, afferent arteriole",
+      "peritubular capillaries, afferent arteriole, vasa recta, efferent arteriole",
+      "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole",
+      "efferent arteriole, vasa recta, peritubular capillaries, afferent arteriole"
+    ],
+    "answer": "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Filtration of protein is prevented in the glomerulus by:",
+    "choices": [
+      "hydrostatic pressure",
+      "oncotic pressure",
+      "renin",
+      "the glomerular filtration barrier"
+    ],
+    "answer": "the glomerular filtration barrier"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "The renin-angiotensin-aldosterone system is responsible for all of the following except:",
+    "choices": [
+      "vasoconstriction of the afferent arteriole",
+      "vasoconstriction of the efferent arteriole",
+      "reabsorbing sodium",
+      "releasing aldosterone"
+    ],
+    "answer": "vasoconstriction of the afferent arteriole"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "The primary chemical affected by the rein-agiotensin-aldosterone system is",
+    "choices": [
+      "chloride",
+      "sodium",
+      "potassium",
+      "hydrogen"
+    ],
+    "answer": "sodium"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Secretion of renin is stimulated by",
+    "choices": [
+      "juxtaglomerular cells",
+      "angiotensin I and II",
+      "macula densa cells",
+      "circulating angiotensin-converting enzyme"
+    ],
+    "answer": "macula densa cells"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "The hormone aldosterone is responsible for:",
+    "choices": [
+      "hydrogen ion secretion",
+      "potassium secretion",
+      "chloride retention",
+      "sodium retention"
+    ],
+    "answer": "sodium retention"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "The fluid leaving the glomerulus has a specific gravity of",
+    "choices": [
+      "1.005",
+      "1.01",
+      "1.015",
+      "1.02"
+    ],
+    "answer": "1.010"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "For active transport to occur, a chemical:",
+    "choices": [
+      "must combine with a carrier protein to create electrochemical energy",
+      "must be filtered through the proximal convoluted tubule",
+      "must be in higher concentration in the filtrate than in the blood",
+      "must be in higher concentration in the blood than in filtrate"
+    ],
+    "answer": "must combine with a carrier protein to create electrochemical engergy"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Which of the tubules is impermeable to water?",
+    "choices": [
+      "proximal convoluted tubule",
+      "descending loop of Henle",
+      "ascending loop of Henle",
+      "distal convoluted tubule"
+    ],
+    "answer": "ascending loop of Henle"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Glucose will appear in the urine when the",
+    "choices": [
+      "blood level of glucose 200 mg/dL",
+      "Tm for glucose is reached",
+      "renal threshold for glucose is exceeded",
+      "all of the above"
+    ],
+    "answer": "all of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "concentration of the tubular filtrate by the countercurrent mechanism depends on all of the following except:",
+    "choices": [
+      "high salt concentration in the medulla",
+      "water-impermeable walls of the ascending loop of Henle",
+      "Reabsorption of sodium and chloride from the ascending loop of Henle",
+      "Reabsorption of water in the descending loop of Henle"
+    ],
+    "answer": "reabsorption of water in the descending loop of Henle"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "ADH regulates the final urine concentration controlling:",
+    "choices": [
+      "active reabsorption of sodium",
+      "tubular permeability",
+      "passive reabsorption of urea",
+      "passive reabsorption of cholride"
+    ],
+    "answer": "tubular permeability"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Decreased production of ADH:",
+    "choices": [
+      "produces a low urine volume",
+      "produces a high urine volume",
+      "increases ammonia excretion",
+      "affects active transport of sodium"
+    ],
+    "answer": "produces a high urine volume"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Bicarbonate ions filtered by the glomerulus are returned to the blood:",
+    "choices": [
+      "in the proximal convoluted tubule",
+      "combined with hydrogen ions",
+      "by tubular secretion",
+      "all of the above"
+    ],
+    "answer": "all of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "If ammonia is not produced by the distal convoluted tubule, the urine pH will be:",
+    "choices": [
+      "acidic",
+      "basic"
+    ],
+    "answer": "basic"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "125-Iothalamate",
+    "choices": [
+      "exogenous",
+      "endogenous"
+    ],
+    "answer": "exogenous"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "The largest source of error in creatinine clearance tests is:",
+    "choices": [
+      "secretion of creatinine",
+      "improperly timed urine specimens",
+      "refrigeration of the urine",
+      "time of collecting blood sample"
+    ],
+    "answer": "improperly timed urine specimens"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Given the following information, calculate the creatinine clearance: time = 24-hour urine volume = 1000mL serum creatinine = 2.0 mg/dL urine creatinine = 200 mg/dL",
+    "choices": [
+      "35 mL/min",
+      "50 mL/min",
+      "69 mL/min",
+      "90 mL/min"
+    ],
+    "answer": "69 mL/min"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Clearance tests used to determine the glomerular filtration rate must measure substances that are:",
+    "choices": [
+      "not filtered by the glomerulus",
+      "completely reabsorbed by the proximal convoluted tubule",
+      "secreted in the distal convoluted tubule",
+      "neither reabsorbed or secreted by the tubules"
+    ],
+    "answer": "neither reabsorbed or secreted by the tubules"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Performing a clearance test using radionucleotides:",
+    "choices": [
+      "eliminates the need to collect urine",
+      "does not require an infusion",
+      "provides visualization of the filtration",
+      "both A and C"
+    ],
+    "answer": "both a and c"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Variables that are included in the MDRD-IDSM estimated creatinine clearance calculations include all of the following except:",
+    "choices": [
+      "serum creatinine",
+      "weight",
+      "age",
+      "gender"
+    ],
+    "answer": "weight"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "An advantage to using cystatin C to monitor GFR is that:",
+    "choices": [
+      "it does not require urine collection",
+      "it is not secreted by the tubules",
+      "it can be measured by immunoassay",
+      "all of the above"
+    ],
+    "answer": "all of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Solute dissolved in solvent will:",
+    "choices": [
+      "raise the vapor pressure",
+      "lower the boiling point",
+      "decrease the osmotic pressure",
+      "lower the freezing point"
+    ],
+    "answer": "lower the freezing point"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Substances that may interfere with freezing point measurement of urine and serum osmolarity include all of the following except:",
+    "choices": [
+      "ethanol",
+      "lactic acid",
+      "sodium",
+      "lipids"
+    ],
+    "answer": "sodium"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Clinical osmometers us NaCl as a reference solution because:",
+    "choices": [
+      "1 g molecular weight of NaCl will lower the freezing point 1.86*C",
+      "NaCl is readily frozen",
+      "NaCl is partially ionized similar to the composition of urine",
+      "1 g equivalent weight of NaCl will raise the freezing point 1.86*C"
+    ],
+    "answer": "NaCl is partially ionized similar to the composition of urine"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "After controlled fluid intake, the urine-to-serum osmolarity ratio should be at least:",
+    "choices": [
+      "1:01",
+      "2:01",
+      "3:01",
+      "4:01"
+    ],
+    "answer": "1:1"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "To provide an accurate measure of renal blood flow, a test substance should be completely:",
+    "choices": [
+      "filtered by the glomerulus",
+      "reabsorbed by the tubules",
+      "secreted when it reaches the distal convoluted tubule",
+      "cleared on each contact with functional renal tissue"
+    ],
+    "answer": "cleared on each contact with functional renal tissue"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Renal tubular acidosis can be caused by the:",
+    "choices": [
+      "production of excessively acidic urine due to increased filtration of hydrogen ions",
+      "production of excessively acidic urine due to increased secretion of hydrogen ions",
+      "inability to produce an acidic urine due to impaired production of ammonia",
+      "inability to produce an acidic urine due to increased production of ammonia"
+    ],
+    "answer": "inability to produce an acidic urine due to impaired production of ammonia"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Tests performed to detect renal tubular acidosis after administering an ammonium chloride load include all of the following except:",
+    "choices": [
+      "urine ammonia",
+      "arterial pH",
+      "urine pH",
+      "titratable acidity"
+    ],
+    "answer": "arterial pH"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "beta2-microglobulin",
+    "choices": [
+      "exogenous",
+      "endogenous"
+    ],
+    "answer": "endogenous"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "creatinine",
+    "choices": [
+      "exogenous",
+      "endogenous"
+    ],
+    "answer": "endogenous"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 4 Renal Function",
+    "question": "Cystatin C",
+    "choices": [
+      "exogenous",
+      "endogenous"
+    ],
+    "answer": "endogenous"
+  }
+]
