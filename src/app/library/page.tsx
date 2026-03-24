@@ -634,7 +634,7 @@ function LibraryContent() {
             </header>
             <div className="flex-1 overflow-hidden relative">
                {viewingPdfUrl ? (
-                 <PdfViewer url={viewingPdfUrl} />
+                 <PdfViewer url={viewingPdfUrl} moduleId={viewingModule.id} />
                ) : (
                  <div className="flex flex-col items-center justify-center h-full space-y-4 px-6 text-center bg-[#050a0f]">
                     <BookOpen size={48} className="text-primary/20" />

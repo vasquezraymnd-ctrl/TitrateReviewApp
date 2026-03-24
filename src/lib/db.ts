@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 5;
+const DB_VERSION = 6;
 
 export interface Question {
   id: string;
@@ -53,6 +53,16 @@ export interface LabModule {
   extractedText?: string;
 }
 
+export interface Annotation {
+  id: string;
+  moduleId: string;
+  pageNumber: number;
+  tool: 'pencil' | 'highlighter';
+  color: string;
+  width: number;
+  points: { x: number; y: number }[];
+}
+
 export const CORE_SUBJECTS = [
   'Microbiology',
   'Hematology',
@@ -88,6 +98,10 @@ export class TitrateDB {
         }
         if (!db.objectStoreNames.contains('modules')) {
           db.createObjectStore('modules', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('annotations')) {
+          const store = db.createObjectStore('annotations', { keyPath: 'id' });
+          store.createIndex('by_module_page', ['moduleId', 'pageNumber'], { unique: false });
         }
       };
 
@@ -139,6 +153,18 @@ export class TitrateDB {
       const transaction = db.transaction(storeName, 'readonly');
       const store = transaction.objectStore(storeName);
       const request = store.get(id);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async getAnnotations(moduleId: string, pageNumber: number): Promise<Annotation[]> {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction('annotations', 'readonly');
+      const store = transaction.objectStore('annotations');
+      const index = store.index('by_module_page');
+      const request = index.getAll(IDBKeyRange.only([moduleId, pageNumber]));
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
