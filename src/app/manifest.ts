@@ -37,22 +37,6 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: 'maskable',
       },
     ],
-    screenshots: [
-      {
-        src: 'https://picsum.photos/seed/titrate1/1080/1920',
-        sizes: '1080x1920',
-        type: 'image/png',
-        form_factor: 'narrow',
-        label: 'Laboratory Dashboard',
-      },
-      {
-        src: 'https://picsum.photos/seed/titrate2/1920/1080',
-        sizes: '1920x1080',
-        type: 'image/png',
-        form_factor: 'wide',
-        label: 'Clinical Archives',
-      },
-    ],
     shortcuts: [
       {
         name: 'Active Assay',
@@ -65,5 +49,35 @@ export default function manifest(): MetadataRoute.Manifest {
         description: 'View study protocols',
       },
     ],
+    // @ts-ignore - Advanced native properties
+    file_handlers: [
+      {
+        action: '/library',
+        accept: {
+          'application/pdf': ['.pdf']
+        }
+      }
+    ],
+    // @ts-ignore
+    launch_handler: {
+      client_mode: 'focus-existing'
+    },
+    // @ts-ignore
+    protocol_handlers: [
+      {
+        protocol: 'web+titrate',
+        url: '/dashboard?protocol=%s'
+      }
+    ],
+    // @ts-ignore
+    share_target: {
+      action: '/library',
+      method: 'GET',
+      params: {
+        title: 'title',
+        text: 'text',
+        url: 'url'
+      }
+    }
   } as any
 }
