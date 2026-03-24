@@ -190,7 +190,7 @@
       "must be in higher concentration in the filtrate than in the blood",
       "must be in higher concentration in the blood than in filtrate"
     ],
-    "answer": "must combine with a carrier protein to create electrochemical engergy"
+    "answer": "must combine with a carrier protein to create electrochemical energy"
   },
   {
     "category": "Clinical Microscopy",
@@ -1542,5 +1542,588 @@
       "Hemorrhagic"
     ],
     "answer": "Inflammatory"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Where does the reabsorption of water take place in the primary digestive process?",
+    "choices": [
+      "Large intestine",
+      "Pancreas",
+      "Small intestine",
+      "Stomach"
+    ],
+    "answer": "Large intestine"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Which of the following tests is not performed to detect osmotic diarrhea?",
+    "choices": [
+      "Clinitest",
+      "Fecal fats",
+      "Fecal neutrophils",
+      "Muscle fibers"
+    ],
+    "answer": "Fecal neutrophils"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "The normal composition of feces includes all of the following except:",
+    "choices": [
+      "Bacteria",
+      "Blood",
+      "Electrolytes",
+      "Water"
+    ],
+    "answer": "Blood"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "What is the fecal test that requires a 3-day specimen?",
+    "choices": [
+      "Fecal occult blood",
+      "APT test",
+      "Elastase I",
+      "Quantitative fecal fat testing"
+    ],
+    "answer": "Quantitative fecal fat testing"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "The normal brown color of the feces is produced by:",
+    "choices": [
+      "Cellulose",
+      "Pancreatic enzymes",
+      "Undigested foodstuffs",
+      "Urobilin"
+    ],
+    "answer": "Urobilin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Diarrhea can result from all of the following except:",
+    "choices": [
+      "Addition of pathogenic organisms to the normal intestinal flora",
+      "Disruption of the normal intestinal bacterial flora",
+      "Increased concentration of fecal electrolytes",
+      "Increased reabsorption of intestinal water and electrolytes"
+    ],
+    "answer": "Increased reabsorption of intestinal water and electrolytes"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Stools from people with steatorrhea will contain excess amounts of:",
+    "choices": [
+      "Barium sulfate",
+      "Blood",
+      "Fat",
+      "Mucus"
+    ],
+    "answer": "Fat"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Which of the following pairings of stool appearance and cause do not match?",
+    "choices": [
+      "Black, tarry: blood",
+      "Pale, frothy: steatorrhea",
+      "Yellow-gray: bile duct obstruction",
+      "Yellow-green: barium sulfate"
+    ],
+    "answer": "Yellow-green: barium sulfate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Stool specimens that appear ribbon-like are indicative of which condition?",
+    "choices": [
+      "Bile duct obstruction",
+      "Colitis",
+      "Intestinal constriction",
+      "Malignancy"
+    ],
+    "answer": "Intestinal constriction"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "A black tarry stool is indicative of:",
+    "choices": [
+      "Upper GI bleeding",
+      "Lower GI bleeding",
+      "Excess fat",
+      "Excess carbohydrates"
+    ],
+    "answer": "Upper GI bleeding"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Chemical screening tests performed on feces include all of the following except:",
+    "choices": [
+      "APT test",
+      "Clinitest",
+      "Pilocarpine iontophoresis",
+      "Quantitative fecal fats"
+    ],
+    "answer": "Pilocarpine iontophoresis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Secretory diarrhea is caused by:",
+    "choices": [
+      "Antibiotic administration",
+      "Lactose intolerance",
+      "Celiac sprue",
+      "Vibrio cholerae"
+    ],
+    "answer": "Vibrio cholerae"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "The fecal osmotic gap is elevated in which disorder?",
+    "choices": [
+      "Dumping syndrome",
+      "Osmotic diarrhea",
+      "Secretory diarrhea",
+      "Steatorrhea"
+    ],
+    "answer": "Osmotic diarrhea"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Microscopic examination of stools provides preliminary information as to the cause of diarrhea because:",
+    "choices": [
+      "Neutrophils are present in conditions caused by toxin-producing bacteria",
+      "Neutrophils are present in conditions that affect the intestinal wall",
+      "Red and white blood cells are present if the cause is bacterial",
+      "Neutrophils are present if the condition is of nonbacterial etiology"
+    ],
+    "answer": "Neutrophils are present in conditions that affect the intestinal wall"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "The presence of fecal neutrophils would be expected with diarrhea caused by a rotavirus.",
+    "choices": [
+      "TRUE",
+      "FALSE"
+    ],
+    "answer": "False"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Large orange-red droplets seen on direct microscopic examination of stools mixed with Sudan III represent:",
+    "choices": [
+      "Cholesterol",
+      "Fatty acids",
+      "Neutral fats",
+      "Soaps"
+    ],
+    "answer": "Neutral fats"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Microscopic examination of stools mixed with Sudan III and glacial acetic acid and then heated will show small orange-red droplets that represent:",
+    "choices": [
+      "Fatty acids and soaps",
+      "Fatty acids and neutral fats",
+      "Fatty acids, soaps, and neutral fats",
+      "Soaps"
+    ],
+    "answer": "Fatty acids, soaps, and neutral fats"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "When performing a microscopic stool examination for muscle fibers, the structures that should be counted:",
+    "choices": [
+      "Are coiled and stain blue",
+      "Contain no visible striations",
+      "Have two-dimensional striations",
+      "Have vertical striations and stain red"
+    ],
+    "answer": "Have two-dimensional striations"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "A value of 85% fat retention would indicate:",
+    "choices": [
+      "Dumping syndrome",
+      "Osmotic diarrhea",
+      "Secretory diarrhea",
+      "Steatorrhea"
+    ],
+    "answer": "Steatorrhea"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Which of the following tests would not be indicative of steatorrhea?",
+    "choices": [
+      "Fecal elastase I",
+      "Fecal occult blood",
+      "Sudan III",
+      "Van de Kamer"
+    ],
+    "answer": "Fecal occult blood"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "The term “occult” blood describes blood that:",
+    "choices": [
+      "Is produced in the lower GI tract",
+      "Is produced in the upper GI tract",
+      "Is not visibly apparent in the stool specimen",
+      "Produces a black, tarry stool"
+    ],
+    "answer": "Is not visibly apparent in the stool specimen"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "What is the recommended number of specimens that should be tested to confirm a negative occult blood result?",
+    "choices": [
+      "One random specimen",
+      "Two samples taken from different parts of three stool specimens",
+      "Three samples taken from the outermost portion of the stool specimen",
+      "Three samples taken from different parts of two stool specimens"
+    ],
+    "answer": "Two samples taken from different parts of three stool specimens"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "The immunochemical tests for occult blood:",
+    "choices": [
+      "Test for human globulin",
+      "Give false-positive reactions with meat hemoglobin",
+      "Can give false-positive reactions with aspirin",
+      "Are inhibited by porphyrin"
+    ],
+    "answer": "Test for human globulin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Guaiac tests for detecting occult blood rely on the:",
+    "choices": [
+      "Reaction of hemoglobin with hydrogen peroxide",
+      "Pseudoperoxidase activity of hemoglobin",
+      "Reaction of hemoglobin with ortho-toluidine",
+      "Pseudoperoxidase activity of hydrogen peroxide"
+    ],
+    "answer": "Pseudoperoxidase activity of hemoglobin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "What is the significance of an APT test that remains pink after the addition of sodium hydroxide?",
+    "choices": [
+      "Fecal fat is present.",
+      "Fetal hemoglobin is present.",
+      "Fecal trypsin is present.",
+      "Vitamin C is present."
+    ],
+    "answer": "Fetal hemoglobin is present."
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "In the Van de Kamer method for quantitative fecal fat determinations, fecal lipids are:",
+    "choices": [
+      "Converted to fatty acids before titrating with sodium hydroxide",
+      "Homogenized and titrated to a neutral endpoint with sodium hydroxide",
+      "Measured gravimetrically after washing",
+      "Measured by spectrophotometer after addition of Sudan III"
+    ],
+    "answer": "Converted to fatty acids before titrating with sodium hydroxide"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "A patient whose stool exhibits increased fats, undigested muscle fibers, and the inability to digest gelatin may have:",
+    "choices": [
+      "Bacterial dysentery",
+      "A duodenal ulcer",
+      "Cystic fibrosis",
+      "Lactose intolerance"
+    ],
+    "answer": "Cystic fibrosis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "A stool specimen collected from an infant with diarrhea has a pH of 5.0. This result correlates with a:",
+    "choices": [
+      "Positive APT test",
+      "Negative trypsin test",
+      "Positive Clinitest",
+      "Negative occult blood test"
+    ],
+    "answer": "Positive Clinitest"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 16 Fecal Analysis",
+    "question": "Which of the following tests differentiates a malabsorption cause from a maldigestion cause in steatorrhea?",
+    "choices": [
+      "APT test",
+      "D-xylose test",
+      "Lactose tolerance test",
+      "Occult blood test"
+    ],
+    "answer": "D-xylose test"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "Which of the following would not be a reason to collect a vaginal fluid for analysis?",
+    "choices": [
+      "Vaginitis",
+      "Complications of pregnancy resulting in preterm delivery",
+      "Forensic testing in a sexual assault",
+      "Pregnancy testing"
+    ],
+    "answer": "Pregnancy testing"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "Which of the following organisms might not be detected if the specimen for vaginal secretion analysis had been refrigerated?",
+    "choices": [
+      "Prevotella bivia",
+      "Lactobacillus acidophilus",
+      "Trichomonas vaginalis",
+      "Candida albicans"
+    ],
+    "answer": "Trichomonas vaginalis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "The appearance of the vaginal discharge in vulvovaginal candidiasis is described as:",
+    "choices": [
+      "Clear and colorless",
+      "Thin, homogeneous, white-to-gray discharge",
+      "White, curd-like",
+      "Yellow-green and frothy"
+    ],
+    "answer": "White, curd-like"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "A normal range for a vaginal pH is:",
+    "choices": [
+      "3.8 to 4.5",
+      "5.0 to 6.0",
+      "6.0 to 7.0",
+      "7.0 to 7.4"
+    ],
+    "answer": "3.8 to 4.5"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "Which of the following tests differentiates budding yeast cells from RBCs?",
+    "choices": [
+      "pH",
+      "Saline wet mount",
+      "KOH prep",
+      "Whiff test"
+    ],
+    "answer": "KOH prep"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "Which of the following constituents is normal in healthy vaginal fluid secretions?",
+    "choices": [
+      "Lactobacilli",
+      "Basal cells",
+      "Trichomonas vaginalis",
+      "Pseudohyphae"
+    ],
+    "answer": "Lactobacilli"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "Vaginal specimens collected for a saline wet prep should be:",
+    "choices": [
+      "Refrigerated to preserve motility",
+      "Prepared as soon as possible",
+      "Mailed to a reference laboratory",
+      "Preserved with potassium hydroxide"
+    ],
+    "answer": "Prepared as soon as possible"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "A positive amine (whiff) test is observed in which of the following syndromes?",
+    "choices": [
+      "Bacterial vaginosis",
+      "Vulvovaginal candidiasis",
+      "Atrophic vaginitis",
+      "Desquamative inflammatory vaginitis"
+    ],
+    "answer": "Bacterial vaginosis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "A squamous epithelial cell covered with coccobacilli that extends beyond the cytoplasm margin is a:",
+    "choices": [
+      "Basal cell",
+      "Parabasal cell",
+      "Clue cell",
+      "Blastospore"
+    ],
+    "answer": "Clue cell"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "All of the following are diagnostic of bacterial vaginosis except:",
+    "choices": [
+      "Vaginal pH of 3.8",
+      "Presence of clue cells",
+      "Positive amine (whiff) test",
+      "Thin, homogeneous, white-to-gray vaginal discharge"
+    ],
+    "answer": "Vaginal pH of 3.8"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "Which of the following organisms produces lactic acid and hydrogen peroxide to maintain an acidic vaginal environment?",
+    "choices": [
+      "Gardnerella vaginalis",
+      "Mobiluncus spp.",
+      "Lactobacilli spp.",
+      "β-Hemolytic streptococci"
+    ],
+    "answer": "β-Hemolytic streptococci"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "All of the following are diagnostic of vulvovaginal candidiasis except:",
+    "choices": [
+      "Large numbers of WBCs",
+      "Presence of clue cells",
+      "Positive KOH test",
+      "Vaginal pH of 4.0"
+    ],
+    "answer": "Presence of clue cells"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "All of the following are diagnostic of trichomoniasis except:",
+    "choices": [
+      "Vaginal pH of 6.0",
+      "Positive amine test",
+      "Positive KOH test",
+      "Motile trichomonads present"
+    ],
+    "answer": "Positive KOH test"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "The bacteria associated with desquamative inflammatory vaginitis is:",
+    "choices": [
+      "β-Hemolytic streptococci",
+      "Trichomonas vaginalis",
+      "Gardnerella vaginalis",
+      "Mycoplasma hominis"
+    ],
+    "answer": "β-Hemolytic streptococci"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "The protein present in vaginal secretions that can identify patients who are at risk for preterm delivery is:",
+    "choices": [
+      "Human chorionic gonadotropin",
+      "Estrogen",
+      "PAMG-1",
+      "Fetal fibronectin"
+    ],
+    "answer": "Fetal fibronectin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 17 Vaginal Secretions",
+    "question": "Which of the following immunochromatographic tests detects both AFP and IGFBP-1 proteins to diagnose PROM?",
+    "choices": [
+      "AmniSure ROM test",
+      "Actim PROM",
+      "ROM Plus",
+      "Fetal fibronectin"
+    ],
+    "answer": "ROM Plus"
   }
 ]
