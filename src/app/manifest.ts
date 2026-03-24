@@ -27,8 +27,8 @@ export default function manifest(): MetadataRoute.Manifest {
     edge_side_panel: {
       preferred_width: 480
     },
-    // @ts-ignore - Note taking integration
-    note_handler: {
+    // @ts-ignore - Note taking integration (as per PWABuilder specification)
+    note_taking: {
       new_note_url: "/library"
     },
     screenshots: [

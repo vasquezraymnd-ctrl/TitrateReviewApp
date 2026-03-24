@@ -1,6 +1,6 @@
 /**
  * TITRATE PWA Service Worker
- * Handles offline caching for clinical protocols and laboratory tools.
+ * Ensures offline clinical assay availability and fast loading.
  */
 
 const CACHE_NAME = 'titrate-v1';
@@ -11,8 +11,8 @@ const ASSETS_TO_CACHE = [
   '/quiz',
   '/scheduler',
   '/focus',
-  '/icon',
-  '/apple-icon'
+  '/globals.css',
+  '/icon'
 ];
 
 self.addEventListener('install', (event) => {
@@ -28,7 +28,11 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
       );
     })
   );
@@ -36,26 +40,15 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
-  if (event.request.method !== 'GET') return;
-
+  // Check if the request is for an asset we've cached or a page navigation
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request).then((fetchResponse) => {
-        // Don't cache if not a success or if it's a dynamic API call
-        if (!fetchResponse || fetchResponse.status !== 200 || fetchResponse.type !== 'basic') {
-          return fetchResponse;
+      // Return cached response if found, otherwise fetch from network
+      return response || fetch(event.request).catch(() => {
+        // If both fail (offline and not in cache), return the offline fallback if it's a navigation
+        if (event.request.mode === 'navigate') {
+          return caches.match('/');
         }
-        
-        const responseToCache = fetchResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-        
-        return fetchResponse;
-      }).catch(() => {
-        // Fallback for offline mode if fetch fails
-        return caches.match('/');
       });
     })
   );
