@@ -52,15 +52,17 @@ export default function ImportPage() {
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&')
       .replace(/Anki\s*ng\s*RMT/gi, '')
+      .replace(/@AnkiNgRMTOfficial/gi, '')
       .replace(/Lelouch/gi, '')
       .replace(/Auto\s*submit/gi, '')
       .replace(/Shuffle\s*choices/gi, '')
       .replace(/Made\s*by\s*[^🧪]*/gi, '')
       .replace(/🧪\s*Answer:/gi, '')
+      .replace(/[A-Z0-9]{3,}\/&[A-Z0-9]{2,};/gi, '') // Random IDs like Qw1/&Fr;
       .replace(/\s\s+/g, ' ')
       .trim();
     
-    // Deduplicate logic for messy lines
+    // Deduplication logic for messy lines where question/choice repeats
     const mid = Math.floor(clean.length / 2);
     const firstHalf = clean.substring(0, mid).trim();
     const secondHalf = clean.substring(clean.length - mid).trim();
@@ -75,6 +77,28 @@ export default function ImportPage() {
     return clean;
   };
 
+  const categorizeContextually = (question: string, subject: string): string => {
+    const q = question.toLowerCase();
+    
+    if (subject === 'Hematology') {
+      if (q.includes('pt') || q.includes('aptt') || q.includes('platelet') || q.includes('clot') || q.includes('fibrin') || q.includes('hemostasis')) return 'Hemostasis & Coagulation';
+      if (q.includes('rbc') || q.includes('anemia') || q.includes('hemoglobin') || q.includes('erythro')) return 'Erythrocytes & RBC Disorders';
+      if (q.includes('wbc') || q.includes('leukemia') || q.includes('neutrophil') || q.includes('leuko')) return 'Leukocytes & WBC Disorders';
+      if (q.includes('safety') || q.includes('biohazard') || q.includes('osha')) return 'Safety & Lab Operations';
+      if (q.includes('microscope') || q.includes('automation') || q.includes('flow cytometry')) return 'Instrumentation';
+    }
+
+    if (subject === 'Clinical Chemistry') {
+      if (q.includes('bilirubin') || q.includes('albumin') || q.includes('ast') || q.includes('alt')) return 'Liver Function';
+      if (q.includes('creatinine') || q.includes('urea') || q.includes('bun') || q.includes('gfr')) return 'Renal Function';
+      if (q.includes('glucose') || q.includes('hba1c') || q.includes('insulin')) return 'Carbohydrates';
+      if (q.includes('sodium') || q.includes('potassium') || q.includes('ph') || q.includes('acid')) return 'Electrolytes & Acid-Base';
+      if (q.includes('cholesterol') || q.includes('triglyceride') || q.includes('hdl')) return 'Lipids';
+    }
+
+    return 'General Titration';
+  };
+
   const processAnkiExport = async () => {
     if (!file) return;
     setImporting(true);
@@ -87,16 +111,19 @@ export default function ImportPage() {
         const parts = lines[idx].split('\t');
         if (parts.length < 5) continue;
 
-        // Unified Titration Rules
-        // Col 2 (parts[1]): Question
-        // Col 3 (parts[2]): Chapter Path / Choice 1
-        // Col 4-6 (parts[3-5]): Choices 2-4
-        // Col 12 (parts[11]): Answer Text
+        // High-Fidelity Column Shift Detection
+        // If col 1 is very short (ID), move to col 2.
+        const startIdx = parts[0].length < 10 ? 1 : 0;
         
-        const qText = scrub(parts[1]);
-        const chapter = scrub(parts[2] || "General Titration");
-        const choicesRaw = [parts[2], parts[3], parts[4], parts[5]];
-        const answerText = scrub(parts[11] || parts[12] || "");
+        const qText = scrub(parts[startIdx]);
+        
+        // Choice Titration (Variable Lengths)
+        const choicesRaw = [
+          parts[startIdx + 1], 
+          parts[startIdx + 2], 
+          parts[startIdx + 3], 
+          parts[startIdx + 4]
+        ];
 
         const filteredChoices = choicesRaw
           .map(c => scrub(c))
@@ -105,6 +132,15 @@ export default function ImportPage() {
             id: String.fromCharCode(65 + i),
             text: text
           }));
+
+        // Answer is usually in the last columns
+        const answerText = scrub(parts[11] || parts[12] || parts[parts.length - 1] || "");
+        
+        // Contextual Grouping
+        const metaChapter = scrub(parts[startIdx + 1]);
+        const chapter = (metaChapter.length < 5 || /^\d+$/.test(metaChapter)) 
+          ? categorizeContextually(qText, importSubject) 
+          : metaChapter;
 
         let answerId = 'A';
         const match = filteredChoices.find(c => c.text.toLowerCase() === answerText.toLowerCase());
@@ -116,7 +152,7 @@ export default function ImportPage() {
           question: qText,
           choices: filteredChoices,
           answerId: answerId,
-          rationale: `Source: ${chapter}. Answer: ${answerText}`,
+          rationale: `Chapter: ${chapter}. Answer: ${answerText}`,
           tags: [chapter],
         });
       }
@@ -178,7 +214,7 @@ export default function ImportPage() {
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-8">
               <div className="flex items-center gap-4">
                 <Database className="text-primary" size={32} />
-                <h3 className="text-xl font-black italic uppercase">Titration Protocol</h3>
+                <h3 className="text-xl font-black italic uppercase">High-Fidelity Titration Protocol</h3>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
