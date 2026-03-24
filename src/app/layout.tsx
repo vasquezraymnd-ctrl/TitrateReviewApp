@@ -1,5 +1,7 @@
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
+import { PwaRegister } from '@/components/PwaRegister';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'TITRATE | MedTech Review',
@@ -8,6 +10,9 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'TITRATE',
+  },
+  formatDetection: {
+    telephone: false,
   },
 };
 
@@ -31,12 +36,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-        {/* Mobile App specific headers */}
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="format-detection" content="telephone=no" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
+        <PwaRegister />
         {children}
+        <Toaster />
       </body>
     </html>
   );

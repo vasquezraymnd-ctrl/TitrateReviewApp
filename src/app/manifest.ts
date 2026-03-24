@@ -15,9 +15,31 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       {
         src: '/icon',
-        sizes: 'any',
+        sizes: '512x512',
         type: 'image/png',
-        purpose: 'any maskable',
+        purpose: 'any',
+      },
+      {
+        src: '/icon',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+    ],
+    screenshots: [
+      {
+        src: 'https://picsum.photos/seed/titrate1/1080/1920',
+        sizes: '1080x1920',
+        type: 'image/png',
+        form_factor: 'narrow',
+        label: 'Laboratory Dashboard',
+      },
+      {
+        src: 'https://picsum.photos/seed/titrate2/1920/1080',
+        sizes: '1920x1080',
+        type: 'image/png',
+        form_factor: 'wide',
+        label: 'Clinical Archives',
       },
     ],
     shortcuts: [
@@ -30,7 +52,7 @@ export default function manifest(): MetadataRoute.Manifest {
         name: 'Archives',
         url: '/library',
         description: 'View study protocols',
-      }
+      },
     ],
   }
 }
