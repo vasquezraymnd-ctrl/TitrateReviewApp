@@ -7,14 +7,30 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Premium MedTech Board Exam Review App with local-first spaced repetition.',
     start_url: '/',
     display: 'standalone',
+    display_override: ['window-controls-overlay', 'standalone', 'minimal-ui'],
     background_color: '#0b111a',
-    theme_color: '#00ff7f',
+    theme_color: '#0b111a',
+    orientation: 'portrait',
+    categories: ['education', 'medical'],
     icons: [
       {
         src: '/icon',
         sizes: 'any',
         type: 'image/png',
+        purpose: 'any maskable',
       },
+    ],
+    shortcuts: [
+      {
+        name: 'Active Assay',
+        url: '/quiz',
+        description: 'Start a new study session',
+      },
+      {
+        name: 'Archives',
+        url: '/library',
+        description: 'View study protocols',
+      }
     ],
   }
 }
