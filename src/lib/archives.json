@@ -3,6 +3,374 @@
   {
     "category": "Clinical Microscopy",
     "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Which of the following organizations publishes guidelines for writing procedures and policies in the urinalysis?",
+    "choices": ["CDC", "OSHA", "CLSI", "CLIA"],
+    "answer": "CLSI"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Exposure to toxic, carcinogenic, or caustic agents is what type of laboratory safety hazard?",
+    "choices": ["Biological", "Sharps", "Chemical", "Fire/explosive"],
+    "answer": "Chemical"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "In the urinalysis laboratory, the primary source in the chain of infection would be:",
+    "choices": ["Patients", "Needlesticks", "Specimens", "Biohazardous waste"],
+    "answer": "Specimens"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The best way to break the chain of infection is;",
+    "choices": ["Hand sanitizing", "Personal protective equipment", "Aerosol prevention", "Decontamination"],
+    "answer": "Hand sanitizing"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The current routine infection control policy developed by CDC and followed in all health-care settings is:",
+    "choices": ["Universal Precautions", "Isolation Precautions", "Blood & Body Fluid Precautions", "Standard Precautions"],
+    "answer": "Standard Precautions"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "An employee who is accidentally exposed to a possible bloodborne pathogen should immediately:",
+    "choices": ["Report to a supervisor", "Flush the area with water", "Clean the area with disinfectant", "Receive HIV prophylaxis"],
+    "answer": "Report to a supervisor"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Personnel in the urinalysis laboratory should wear lab coats that:",
+    "choices": ["do not have buttons", "are fluid-resistant", "have short sleeves", "have full-length zippers"],
+    "answer": "are fluid-resistant"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "All of the following should be discarded in biohazardous waste containers except:",
+    "choices": ["Urine specimen containers", "Towel used for decontamination", "Disposable laboratory coats", "Blood collection tubes"],
+    "answer": "Urine specimen containers"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "An employer who fails to provide sufficient gloves for the employees may be fined by the:",
+    "choices": ["CDC", "NFPA", "OSHA", "FDA"],
+    "answer": "OSHA"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "An acceptable disinfectant for blood and body fluid decontamination is:",
+    "choices": ["Sodium hydroxide", "Antimicrobial soap", "Hydrogen peroxide", "Sodium hypochlorite"],
+    "answer": "Sodium hypochlorite"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Correct hand washing includes all the following except:",
+    "choices": ["Using warm water", "Rubbing to create a lather", "Rinsing hands in a downward position", "Turning on the water with a paper towel"],
+    "answer": "Turning on the water with a paper towel"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Centrifuging an uncapped specimen may produce a biological hazard in the form of:",
+    "choices": ["vectors", "sharps contamination", "aerosols", "specimen contamination"],
+    "answer": "aerosols"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "An employee who accidentally spills acid on his arm should immediately:",
+    "choices": ["Neutralize the acid with a base", "Hold the arm under running water for 15 minutes", "Consult the SDS", "Wrap the arm in gauze and go to the emergency department"],
+    "answer": "Hold the arm under running water for 15 minutes"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "When combining acid and water, ensure that:",
+    "choices": ["Acid is added to water", "Water is added to acid", "They are added simultaneously", "Water"],
+    "answer": "Acid is added to water"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "An employee can learn the carcinogenic potential of potassium chloride by consulting the:",
+    "choices": ["Chemical Hygiene Plan", "Safety data sheet", "OSHA standards", "Urinalysis procedure manual"],
+    "answer": "Safety data sheet"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Employees should not work with radioisotopes if they are:",
+    "choices": ["Wearing contact lenses", "Allergic to iodine", "Sensitive to latex", "Pregnant"],
+    "answer": "Pregnant"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "All of the following are safe to do when removing the source of an electric shock except:",
+    "choices": ["Pulling the person away from the instrument", "Turning off the circuit breaker", "Using a glass container to move the instrument", "Unplugging the instrument"],
+    "answer": "Pulling the person away from the instrument"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The acronym PASS refers to:",
+    "choices": ["Presence of vital", "Operation of a fire extinguisher", "Labeling of hazardous material", "Presence of radioactive substances"],
+    "answer": "Operation of a fire extinguisher"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The system used by firefighters to assess the risk potential when a fire occurs in the laboratory is:",
+    "choices": ["SDS", "RACE", "NFPA", "PASS"],
+    "answer": "NFPA"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "A class ABC fire extinguisher contains:",
+    "choices": ["Sand", "Water", "Dry chemicals", "Acid"],
+    "answer": "Dry chemicals"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The first thing to do when a fire is discovered is to:",
+    "choices": ["Rescue people in danger", "Activate the alarm system", "Close doors to other areas", "Extinguish the fire if possible"],
+    "answer": "Rescue people in danger"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "If a red rash is observed after removing gloves, the employee:",
+    "choices": ["may be washing her hands too often", "may have developed a latex allergy", "should apply cortisone cream", "should not rub hands so vigorously"],
+    "answer": "may have developed a latex allergy"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Pipetting by mouth is:",
+    "choices": ["Acceptable for urine but not serum", "Not acceptable without proper training", "Acceptable for reagents but not specimens", "Not acceptable in the laboratory"],
+    "answer": "Not acceptable in the laboratory"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The NFPA classification symbol contains information on all of the following except:",
+    "choices": ["Fire hazards", "Biohazards", "Reactivity", "Health hazards"],
+    "answer": "Biohazards"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The GHS requires the following on a chemical label:",
+    "choices": ["Biohazard symbol, warning sign, environmental impact", "Hazard pictogram, signal words, hazard statement", "Biological symbol, hazard pictogram, long-term effects", "Signal words, hazard statement, biological symbol"],
+    "answer": "Hazard pictogram, signal words, hazard statement"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The classification of a fire that can be extinguished with water is:",
+    "choices": ["Class A", "Class B", "Class C", "Class D"],
+    "answer": "Class A"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Employers are required to provide free immunization for:",
+    "choices": ["HIV", "HTLV-1", "HBV", "HCV"],
+    "answer": "HBV"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "A possible physical hazard in the hospital is:",
+    "choices": ["Wearing closed-toed shoes", "Not wearing jewelry", "Having short hair", "Running to answer the telephone"],
+    "answer": "Running to answer the telephone"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "Quality management refers to:",
+    "choices": ["Analysis of testing controls", "Increased productivity", "Precise control results", "Quality of specimens and patient care"],
+    "answer": "Quality of specimens and patient care"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "During laboratory accreditation inspections, procedure manuals are examined for the presence of:",
+    "choices": ["Critical values", "Procedure references", "Procedures for specimen preservation", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "As supervisor of the urinalysis laboratory, you have just adopted a new procedure. You should:",
+    "choices": ["put the package insert in the procedure manual", "put a complete, referenced procedure in the manual", "notify the microbiology department", "put a cost analysis study in the procedure manual"],
+    "answer": "put a complete, referenced procedure in the manual"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "The testing of a specimen from an outside agency and the comparison of results with participating laboratories is called:",
+    "choices": ["External QC", "Electronic QC", "Internal QC", "Proficiency testing"],
+    "answer": "Proficiency testing"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "A color change indicating that a sufficient amount of a patient's specimen or reagent is added correctly to the test system would be an example of:",
+    "choices": ["External QC", "Equivalent QC", "Internal QC", "Proficiency testing"],
+    "answer": "Internal QC"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "What steps are taken when the results of reagent strip QC are outside the stated confidence limits?",
+    "choices": ["Check the expiration date of the reagent strip", "Run a new control", "Open a new reagent strips container", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "When a new bottle of QC material is opened, what information is placed on the label?.",
+    "choices": ["The time the bottle was opened", "The supervisor's initials", "The lot number", "The date and the laboratory worker's initials"],
+    "answer": "The date and the laboratory worker's initials"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 1 Safety and Quality Management",
+    "question": "When a control is run, what information is documented?",
+    "choices": ["The lot number", "Expiration date of the control", "The test results", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "The principle commonly used to measure the concentration of a particular analyte in the chemical examination of urine is:",
+    "choices": ["Reflectance photometry", "Digital imaging", "Flow cytometry", "Auto particle recognition"],
+    "answer": "Reflectance photometry"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "In automated urinalysis, the specific gravity is measured by:",
+    "choices": ["Light transmittance", "Light scattering", "Refractometry", "Turbidity"],
+    "answer": "Refractometry"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "All of the following are true concerning fully automated urine chemistry analyzers, except:",
+    "choices": ["They are designed for a high-volume urinalysis laboratory.", "The reagent strip is dipped into the well-mixed urine.", "The urine tube moves through the instrument.", "A sample probe aspirates the urine."],
+    "answer": "The reagent strip is dipped into the well-mixed urine."
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "The advantages of an automated urine microscopy analyzer over manual microscopy includes:",
+    "choices": ["Cost-effective", "Centrifugation not required", "Standardized results", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "Which of the following is a complete urinalysis automated urinalysis system?",
+    "choices": ["AUTION ELEVEN AE 4022", "Clinitek Atlas", "iQ200 Automated Urine Microscopy", "Clinitek AUWi Pro System"],
+    "answer": "Clinitek AUWi Pro System"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "What two technologies are used for urine sediment analysis?",
+    "choices": ["Light scattering and refractometry", "Light scattering and flow cytometry", "Flow cytometry and digital imaging", "Digital imaging and refractometry"],
+    "answer": "Flow cytometry and digital imaging"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "Which automated urine particle counter combines urine flow cytometry with digital image analysis?",
+    "choices": ["UN-2000", "iRICELL", "UF-1000i", "iQ 200"],
+    "answer": "UN-2000"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "Which of the following urine sediment particles cannot be autovalidated but will be flagged and must be reviewed by laboratory personnel?",
+    "choices": ["RBCs", "WBCs", "RTEs", "Squamous epithelial cells"],
+    "answer": "RTEs"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "Which of the automated body fluid analyzers does not need to dilute or pretreat body fluids before analysis?",
+    "choices": ["ADVIA 2120i", "XN Series", "iQ 200", "None of the above"],
+    "answer": "XN Series"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 2 Urine and Body Fluid Analysis Automation",
+    "question": "What is a disadvantage of counting body fluid cells using an automated instrument versus a Neubauer hemocytometer?",
+    "choices": ["Less labor-intensive and time-consuming", "More precise", "Unable to count low WBC numbers and malignant cells", "Able to perform a WBC differential"],
+    "answer": "Unable to count low WBC numbers and malignant cells"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
     "chapter": "Chapter 3 Introduction to Urinalysis",
     "question": "Which of the following would be least affected in a specimen that has remained unpreserved at room temperature for more than 2 hours?",
     "choices": ["Urobilinogen", "Ketones", "Protein", "Nitrite"],
@@ -61,7 +429,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Blood flows through the nephron in the following order:",
-    "choices": ["efferent arteriole, peritubular capillaries, vasa recta, afferent arteriole", "peritubular capillaries, afferent arteriole, vasa recta, efferent arteriole", "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole", "efferent arteriole, vasa recta, peritubular capillaries, afferent arteriole"],
+    "choices": [
+      "efferent arteriole, peritubular capillaries, vasa recta, afferent arteriole",
+      "peritubular capillaries, afferent arteriole, vasa recta, efferent arteriole",
+      "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole",
+      "efferent arteriole, vasa recta, peritubular capillaries, afferent arteriole"
+    ],
     "answer": "afferent arteriole, peritubular capillaries, vasa recta, efferent arteriole"
   },
   {
@@ -117,7 +490,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "For active transport to occur, a chemical:",
-    "choices": ["must combine with a carrier protein to create electrochemical energy", "must be filtered through the proximal convoluted tubule", "must be in higher concentration in the filtrate than in the blood", "must be in higher concentration in the blood than in filtrate"],
+    "choices": [
+      "must combine with a carrier protein to create electrochemical energy",
+      "must be filtered through the proximal convoluted tubule",
+      "must be in higher concentration in the filtrate than in the blood",
+      "must be in higher concentration in the blood than in filtrate"
+    ],
     "answer": "must combine with a carrier protein to create electrochemical engergy"
   },
   {
@@ -141,7 +519,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "concentration of the tubular filtrate by the countercurrent mechanism depends on all of the following except:",
-    "choices": ["high salt concentration in the medulla", "water-impermeable walls of the ascending loop of Henle", "Reabsorption of sodium and chloride from the ascending loop of Henle", "Reabsorption of water in the descending loop of Henle"],
+    "choices": [
+      "high salt concentration in the medulla",
+      "water-impermeable walls of the ascending loop of Henle",
+      "Reabsorption of sodium and chloride from the ascending loop of Henle",
+      "Reabsorption of water in the descending loop of Henle"
+    ],
     "answer": "reabsorption of water in the descending loop of Henle"
   },
   {
@@ -205,7 +588,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Clearance tests used to determine the glomerular filtration rate must measure substances that are:",
-    "choices": ["not filtered by the glomerulus", "completely reabsorbed by the proximal convoluted tubule", "secreted in the distal convoluted tubule", "neither reabsorbed or secreted by the tubules"],
+    "choices": [
+      "not filtered by the glomerulus",
+      "completely reabsorbed by the proximal convoluted tubule",
+      "secreted in the distal convoluted tubule",
+      "neither reabsorbed or secreted by the tubules"
+    ],
     "answer": "neither reabsorbed or secreted by the tubules"
   },
   {
@@ -253,7 +641,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Clinical osmometers us NaCl as a reference solution because:",
-    "choices": ["1 g molecular weight of NaCl will lower the freezing point 1.86*C", "NaCl is readily frozen", "NaCl is partially ionized similar to the composition of urine", "1 g equivalent weight of NaCl will raise the freezing point 1.86*C"],
+    "choices": [
+      "1 g molecular weight of NaCl will lower the freezing point 1.86*C",
+      "NaCl is readily frozen",
+      "NaCl is partially ionized similar to the composition of urine",
+      "1 g equivalent weight of NaCl will raise the freezing point 1.86*C"
+    ],
     "answer": "NaCl is partially ionized similar to the composition of urine"
   },
   {
@@ -269,7 +662,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "To provide an accurate measure of renal blood flow, a test substance should be completely:",
-    "choices": ["filtered by the glomerulus", "reabsorbed by the tubules", "secreted when it reaches the distal convoluted tubule", "cleared on each contact with functional renal tissue"],
+    "choices": [
+      "filtered by the glomerulus",
+      "reabsorbed by the tubules",
+      "secreted when it reaches the distal convoluted tubule",
+      "cleared on each contact with functional renal tissue"
+    ],
     "answer": "cleared on each contact with functional renal tissue"
   },
   {
@@ -277,7 +675,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 4 Renal Function",
     "question": "Renal tubular acidosis can be caused by the:",
-    "choices": ["production of excessively acidic urine due to increased filtration of hydrogen ions", "production of excessively acidic urine due to increased secretion of hydrogen ions", "inability to produce an acidic urine due to impaired production of ammonia", "inability to produce an acidic urine due to increased production of ammonia"],
+    "choices": [
+      "production of excessively acidic urine due to increased filtration of hydrogen ions",
+      "production of excessively acidic urine due to increased secretion of hydrogen ions",
+      "inability to produce an acidic urine due to impaired production of ammonia",
+      "inability to produce an acidic urine due to increased production of ammonia"
+    ],
     "answer": "inability to produce an acidic urine due to impaired production of ammonia"
   },
   {
@@ -477,7 +880,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 5 Physical Examination of Urine",
     "question": "An osmole contains:",
-    "choices": ["One gram molecular weight of solute dissolved in 1 liter of solvent", "One gram molecular weight of solute dissolved in 1 kilogram of solvent", "Two gram molecular weights of solute dissolved in 1 liter of solvent", "Two gram molecular weights of solute dissolved in 1 kilogram of solvent"],
+    "choices": [
+      "One gram molecular weight of solute dissolved in 1 liter of solvent",
+      "One gram molecular weight of solute dissolved in 1 kilogram of solvent",
+      "Two gram molecular weights of solute dissolved in 1 liter of solvent",
+      "Two gram molecular weights of solute dissolved in 1 kilogram of solvent"
+    ],
     "answer": "One gram molecular weight of solute dissolved in 1 kilogram of solvent"
   },
   {
@@ -493,7 +901,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 5 Physical Examination of Urine",
     "question": "In the reagent strip specific gravity reaction, the polyelectrolyte:",
-    "choices": ["Combines with hydrogen ions in response to ion concentration", "Releases hydrogen ions in response to ion concentration", "Releases hydrogen ions in response to pH", "Combines with sodium ions in response to pH"],
+    "choices": [
+      "Combines with hydrogen ions in response to ion concentration",
+      "Releases hydrogen ions in response to ion concentration",
+      "Releases hydrogen ions in response to pH",
+      "Combines with sodium ions in response to pH"
+    ],
     "answer": "Releases hydrogen ions in response to ion concentration"
   },
   {
@@ -565,7 +978,16 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Bilirubin",
-    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
     "answer": "Bright yellow clumps"
   },
   {
@@ -573,7 +995,15 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Interference Contrast",
-    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
     "answer": "Three-dimensional images"
   },
   {
@@ -637,7 +1067,16 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Cystine",
-    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
     "answer": "Hexagonal plates"
   },
   {
@@ -645,7 +1084,16 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Tyrosine",
-    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
     "answer": "Fine needles seen in liver disease"
   },
   {
@@ -653,7 +1101,16 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Cholesterol",
-    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
     "answer": "Notched corners"
   },
   {
@@ -661,7 +1118,16 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Leucine",
-    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
     "answer": "Concentric circles, radial striations"
   },
   {
@@ -669,7 +1135,16 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Ampicillin",
-    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
     "answer": "Bundles following refrigeration"
   },
   {
@@ -677,7 +1152,16 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Radiographic Dye",
-    "choices": ["Bundles following refrigeration", "Highly alkaline pH", "Bright yellow clumps", "Hexagonal plates", "Flat plates, high specific gravity", "Concentric circles, radial striations", "Notched corners", "Fine needles seen in liver disease"],
+    "choices": [
+      "Bundles following refrigeration",
+      "Highly alkaline pH",
+      "Bright yellow clumps",
+      "Hexagonal plates",
+      "Flat plates, high specific gravity",
+      "Concentric circles, radial striations",
+      "Notched corners",
+      "Fine needles seen in liver disease"
+    ],
     "answer": "Flat plates, high specific gravity"
   },
   {
@@ -685,7 +1169,15 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Bright-Field",
-    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
     "answer": "Low refractive index objects may be overlooked"
   },
   {
@@ -693,7 +1185,15 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Phase",
-    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
     "answer": "Forms halo of light around object"
   },
   {
@@ -701,7 +1201,15 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Polarized",
-    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
     "answer": "Object split light into two beams"
   },
   {
@@ -709,7 +1217,15 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Dark-Field",
-    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
     "answer": "Indirect light is reflected off the object"
   },
   {
@@ -717,7 +1233,15 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 7 Microscopic Examination of Urine",
     "question": "Fluorescent",
-    "choices": ["Indirect light is reflected off the object", "Object split light into two beams", "Low refractive index objects may be overlooked", "Three-dimensional images", "Forms halo of light around object", "Detects electrons emitted from objects", "Detects specific wavelengths of light emitted from objects"],
+    "choices": [
+      "Indirect light is reflected off the object",
+      "Object split light into two beams",
+      "Low refractive index objects may be overlooked",
+      "Three-dimensional images",
+      "Forms halo of light around object",
+      "Detects electrons emitted from objects",
+      "Detects specific wavelengths of light emitted from objects"
+    ],
     "answer": "Detects specific wavelengths of light emitted from objects"
   },
   {
@@ -1029,7 +1553,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 12 Synovial Fluid",
     "question": "Negative birefringence occurs under red-compensated polarized light when:",
-    "choices": ["Slow light is impeded more than fast light", "Slow light is less impeded than fast light", "Fast light runs against the molecular grain of the crystal", "Both B and C"],
+    "choices": [
+      "Slow light is impeded more than fast light",
+      "Slow light is less impeded than fast light",
+      "Fast light runs against the molecular grain of the crystal",
+      "Both B and C"
+    ],
     "answer": "Fast light runs against the molecular grain of the crystal"
   },
   {
@@ -1157,7 +1686,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Diarrhea can result from all of the following except:",
-    "choices": ["Addition of pathogenic organisms to the normal intestinal flora", "Disruption of the normal intestinal bacterial flora", "Increased concentration of fecal electrolytes", "Increased reabsorption of intestinal water and electrolytes"],
+    "choices": [
+      "Addition of pathogenic organisms to the normal intestinal flora",
+      "Disruption of the normal intestinal bacterial flora",
+      "Increased concentration of fecal electrolytes",
+      "Increased reabsorption of intestinal water and electrolytes"
+    ],
     "answer": "Increased reabsorption of intestinal water and electrolytes"
   },
   {
@@ -1221,7 +1755,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "Microscopic examination of stools provides preliminary information as to the cause of diarrhea because:",
-    "choices": ["Neutrophils are present in conditions caused by toxin-producing bacteria", "Neutrophils are present in conditions that affect the intestinal wall", "Red and white blood cells are present if the cause is bacterial", "Neutrophils are present if the condition is of nonbacterial etiology"],
+    "choices": [
+      "Neutrophils are present in conditions caused by toxin-producing bacteria",
+      "Neutrophils are present in conditions that affect the intestinal wall",
+      "Red and white blood cells are present if the cause is bacterial",
+      "Neutrophils are present if the condition is of nonbacterial etiology"
+    ],
     "answer": "Neutrophils are present in conditions that affect the intestinal wall"
   },
   {
@@ -1285,7 +1824,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "What is the recommended number of specimens that should be tested to confirm a negative occult blood result?",
-    "choices": ["One random specimen", "Two samples taken from different parts of three stool specimens", "Three samples taken from the outermost portion of the stool specimen", "Three samples taken from different parts of two stool specimens"],
+    "choices": [
+      "One random specimen",
+      "Two samples taken from different parts of three stool specimens",
+      "Three samples taken from the outermost portion of the stool specimen",
+      "Three samples taken from different parts of two stool specimens"
+    ],
     "answer": "Two samples taken from different parts of three stool specimens"
   },
   {
@@ -1317,7 +1861,12 @@
     "source": "Strasinger 7th Edition",
     "chapter": "Chapter 16 Fecal Analysis",
     "question": "In the Van de Kamer method for quantitative fecal fat determinations, fecal lipids are:",
-    "choices": ["Converted to fatty acids before titrating with sodium hydroxide", "Homogenized and titrated to a neutral endpoint with sodium hydroxide", "Measured gravimetrically after washing", "Measured by spectrophotometer after addition of Sudan III"],
+    "choices": [
+      "Converted to fatty acids before titrating with sodium hydroxide",
+      "Homogenized and titrated to a neutral endpoint with sodium hydroxide",
+      "Measured gravimetrically after washing",
+      "Measured by spectrophotometer after addition of Sudan III"
+    ],
     "answer": "Converted to fatty acids before titrating with sodium hydroxide"
   },
   {
