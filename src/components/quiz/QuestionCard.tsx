@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from 'react';
@@ -142,7 +141,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
           onClick={onExit}
           className="riot-button h-14 md:h-16 px-8 text-white/40 hover:text-white font-black text-[10px] tracking-widest w-full sm:w-auto"
         >
-          <LayoutGrid className="mr-2 h-4 w-4" /> DIRECTORY
+          <LayoutGrid className="mr-2 h-4 w-4" /> RETURN TO CHAPTERS
         </Button>
         <Button 
           variant="outline" 
