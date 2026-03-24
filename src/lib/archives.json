@@ -148,7 +148,7 @@
     "choices": [
       "juxtaglomerular cells",
       "angiotensin I and II",
-      "macmacula densa cells",
+      "macula densa cells",
       "circulating angiotensin-converting enzyme"
     ],
     "answer": "macula densa cells"
@@ -1151,6 +1151,396 @@
       "Microscopic hematuria"
     ],
     "answer": "Microscopic hematuria"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "The primary function of synoviocytes is to:",
+    "choices": [
+      "Provide nutrients for the joints",
+      "Secrete hyaluronic acid",
+      "Regulate glucose filtration",
+      "Prevent crystal formation"
+    ],
+    "answer": "Provide nutrients for the joints"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Which of the following is not a frequently performed test on synovial fluid?",
+    "choices": [
+      "Uric acid",
+      "WBC count",
+      "Crystal examination",
+      "Gram stain"
+    ],
+    "answer": "Uric acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "The procedure for collecting synovial fluid is called:",
+    "choices": [
+      "Synovialcentesis",
+      "Arthrocentesis",
+      "Joint puncture",
+      "Arteriocentesis"
+    ],
+    "answer": "Arthrocentesis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "heparin overdose",
+    "choices": [
+      "noninflammatory",
+      "Inflammatory",
+      "Septic",
+      "Hemorrhagic"
+    ],
+    "answer": "Hemorrhagic"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Normal synovial fluid resembles:",
+    "choices": [
+      "Egg white",
+      "Normal serum",
+      "Dilute urine",
+      "Lipemic serum"
+    ],
+    "answer": "Egg white"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Before testing, very viscous synovial fluid should be treated with:",
+    "choices": [
+      "Normal saline",
+      "Hyaluronidase",
+      "Distilled water",
+      "Hypotonic saline"
+    ],
+    "answer": "Hyaluronidase"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "The color of the synovial fluid from a patient with a bacterial infection may be:",
+    "choices": [
+      "Yellow tinged",
+      "Green tinged",
+      "Red streaked",
+      "Opalescent"
+    ],
+    "answer": "Green tinged"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Which of the following could be the most significantly affected if a synovial fluid is refrigerated before testing?",
+    "choices": [
+      "Glucose",
+      "Crystal examination",
+      "Mucin clot test",
+      "Differential"
+    ],
+    "answer": "Crystal examination"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "The highest WBC count can be expected to be seen with:",
+    "choices": [
+      "Noninflammatory arthritis",
+      "Inflammatory arthritis",
+      "Septic arthritis",
+      "Hemorrhagic arthritis"
+    ],
+    "answer": "Septic arthritis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "When diluting a synovial fluid WBC count, all of the following are acceptable except:",
+    "choices": [
+      "Acetic acid",
+      "Isotonic saline",
+      "Hypotonic saline",
+      "Saline with saponin"
+    ],
+    "answer": "Acetic acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "The lowest percentage of neutrophils would be seen in:",
+    "choices": [
+      "Noninflammatory arthritis",
+      "Inflammatory arthritis",
+      "Septic arthritis",
+      "Hemorrhagic arthritis"
+    ],
+    "answer": "Noninflammatory arthritis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "All of the following are abnormal when seen in synovial fluid except:",
+    "choices": [
+      "Neutrophages",
+      "Ragocytes",
+      "Synovial lining cells",
+      "Lipid droplets"
+    ],
+    "answer": "Synovial lining cells"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Synovial fluid crystals that occur as a result of purine metabolism or chemotherapy for leukemia are:",
+    "choices": [
+      "Monosodium urate",
+      "Cholesterol",
+      "Calcium pyrophosphate",
+      "Apatite"
+    ],
+    "answer": "Monosodium urate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Synovial fluid crystals associated with inflammation in dialysis patients are:",
+    "choices": [
+      "Calcium pyrophosphate dihydrate",
+      "Calcium oxalate",
+      "Corticosteroid",
+      "Monosodium urate"
+    ],
+    "answer": "Calcium oxalate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Crystals associated with pseudogout are:",
+    "choices": [
+      "Monosodium urate",
+      "Calcium pyrophosphate dihydrate",
+      "Apatite",
+      "Corticosteroid"
+    ],
+    "answer": "Calcium pyrophosphate dihydrate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Synovial fluid for crystal examination should be examined as a/an:",
+    "choices": [
+      "Wet preparation",
+      "Wright's stain",
+      "Gram stain",
+      "Acid-fast stain"
+    ],
+    "answer": "Wet preparation"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Crystals that have the ability to polarize light are:",
+    "choices": [
+      "Corticosteroid",
+      "Monosodium urate",
+      "Calcium oxalate",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "In an examination of synovial fluid under compensated polarized light, rhomboid-shaped crystals are observed. What color would these crystals be when aligned parallel to the slow vibration?",
+    "choices": [
+      "White",
+      "Yellow",
+      "Blue",
+      "Red"
+    ],
+    "answer": "Yellow"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "If crystals shaped like needles are aligned perpendicular to the slow vibration of compensated polarized light, what color are they?",
+    "choices": [
+      "White",
+      "Yellow",
+      "Blue",
+      "Red",
+      "Negative"
+    ],
+    "answer": "Negative"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Negative birefringence occurs under red-compensated polarized light when:",
+    "choices": [
+      "Slow light is impeded more than fast light",
+      "Slow light is less impeded than fast light",
+      "Fast light runs against the molecular grain of the crystal",
+      "Both B and C"
+    ],
+    "answer": "Fast light runs against the molecular grain of the crystal"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Synovial fluid cultures are often plated on a chocolate agar to detect the presence of:",
+    "choices": [
+      "Neisseria gonorrhoeae",
+      "Staphylococcus agalactiae",
+      "Streptococcus viridans",
+      "Enterococcus faecalis"
+    ],
+    "answer": "Neisseria gonorrhoeae"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "The most frequently performed chemical test on synovial fluid is:",
+    "choices": [
+      "Total protein",
+      "Uric acid",
+      "Calcium",
+      "Glucose"
+    ],
+    "answer": "Glucose"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Which of the following chemistry tests can be performed on synovial fluid to determine the severity of RA?",
+    "choices": [
+      "Glucose",
+      "Protein",
+      "Lactate",
+      "Uric acid"
+    ],
+    "answer": "Lactate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Serologic tests on patients' serum may be performed to detect antibodies causing arthritis for all of the following disorders except:",
+    "choices": [
+      "Pseudogout",
+      "Rheumatoid arthritis",
+      "Systemic lupus erythematosus",
+      "Lyme arthritis"
+    ],
+    "answer": "Pseudogout"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "gout",
+    "choices": [
+      "noninflammatory",
+      "Inflammatory",
+      "Septic",
+      "Hemorrhagic"
+    ],
+    "answer": "Inflammatory"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "Neisseria gonorrhoeae infection",
+    "choices": [
+      "noninflammatory",
+      "Inflammatory",
+      "Septic",
+      "Hemorrhagic"
+    ],
+    "answer": "Septic"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "systemic lupus erythematosus",
+    "choices": [
+      "noninflammatory",
+      "Inflammatory",
+      "Septic",
+      "Hemorrhagic"
+    ],
+    "answer": "Inflammatory"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "osteoarthritis",
+    "choices": [
+      "noninflammatory",
+      "Inflammatory",
+      "Septic",
+      "Hemorrhagic"
+    ],
+    "answer": "noninflammatory"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "hemophilia",
+    "choices": [
+      "noninflammatory",
+      "Inflammatory",
+      "Septic",
+      "Hemorrhagic"
+    ],
+    "answer": "Hemorrhagic"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 12 Synovial Fluid",
+    "question": "rheumatoid arthritis",
+    "choices": [
+      "noninflammatory",
+      "Inflammatory",
+      "Septic",
+      "Hemorrhagic"
+    ],
+    "answer": "Inflammatory"
   }
 ]
-    
