@@ -7,6 +7,9 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'TITRATE',
     description: 'Premium MedTech Board Exam Review App with local-first spaced repetition.',
     start_url: '/',
+    scope: '/',
+    lang: 'en-US',
+    dir: 'ltr',
     display: 'standalone',
     display_override: ['window-controls-overlay', 'standalone', 'minimal-ui'],
     background_color: '#0b111a',
@@ -16,6 +19,10 @@ export default function manifest(): MetadataRoute.Manifest {
     iarc_rating_id: 'e84c78b4-4d35-4db5-9f0b-479e563bc8fa',
     prefer_related_applications: false,
     related_applications: [],
+    // @ts-ignore - scope_extensions is required for some PWABuilder checks
+    scope_extensions: [
+      { origin: "*.titrate.app" }
+    ],
     icons: [
       {
         src: '/icon',
@@ -58,5 +65,5 @@ export default function manifest(): MetadataRoute.Manifest {
         description: 'View study protocols',
       },
     ],
-  }
+  } as any
 }
