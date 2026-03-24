@@ -36,15 +36,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 
 // Direct import of system archives for offline PWA reliability
 import systemArchives from '@/lib/archives.json';
@@ -62,14 +53,11 @@ export default function QuizPage() {
   const [completed, setCompleted] = useState(false);
   const [step, setStep] = useState<'subject' | 'module' | 'quiz'>('subject');
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
-  const [importSubject, setImportSubject] = useState<string>('Hematology');
   const [modules, setModules] = useState<LabModule[]>([]);
   const [chapters, setChapters] = useState<{ name: string; mastered: number; total: number }[]>([]);
   const [subjectStats, setSubjectStats] = useState<Record<string, SubjectStats>>({});
   
   const [importing, setImporting] = useState(false);
-  const [importProgress, setImportProgress] = useState(0);
-  const [file, setFile] = useState<File | null>(null);
 
   const { toast } = useToast();
 
@@ -262,110 +250,6 @@ export default function QuizPage() {
     }
     setCompleted(false);
     setStep('module');
-  };
-
-  const scrub = (str: string) => {
-    if (!str) return "";
-    let clean = str
-      .replace(/<[^>]*>?/gm, ' ') 
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&')
-      .replace(/Anki\s*ng\s*RMT/gi, '')
-      .replace(/@AnkiNgRMTOfficial/gi, '')
-      .replace(/Lelouch/gi, '')
-      .replace(/Auto\s*submit/gi, '')
-      .replace(/Shuffle\s*choices/gi, '')
-      .replace(/Made\s*by\s*[^🧪]*/gi, '')
-      .replace(/🧪\s*Answer:/gi, '')
-      .replace(/[A-Z0-9]{3,}\/&[A-Z0-9]{2,};/gi, '') 
-      .replace(/\s\s+/g, ' ')
-      .trim();
-    
-    const mid = Math.floor(clean.length / 2);
-    const firstHalf = clean.substring(0, mid).trim();
-    const secondHalf = clean.substring(clean.length - mid).trim();
-    if (firstHalf === secondHalf && firstHalf.length > 10) {
-      clean = firstHalf;
-    }
-
-    if (clean.includes('::')) {
-      const parts = clean.split('::');
-      return parts[parts.length - 1].trim();
-    }
-    return clean;
-  };
-
-  const processAnkiExport = async () => {
-    if (!file) return;
-    setImporting(true);
-    setImportProgress(0);
-    
-    try {
-      const text = await file.text();
-      const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
-      const questionsToImport: Question[] = [];
-      const total = lines.length;
-
-      for (let idx = 0; idx < total; idx++) {
-        const parts = lines[idx].split('\t'); 
-        if (parts.length < 5) continue;
-        
-        const startIdx = parts[0].length < 10 ? 1 : 0;
-        const qText = scrub(parts[startIdx]);
-        
-        const choicesRaw = [
-          parts[startIdx + 1], 
-          parts[startIdx + 2], 
-          parts[startIdx + 3], 
-          parts[startIdx + 4]
-        ];
-
-        const filteredChoices = choicesRaw
-          .map(c => scrub(c))
-          .filter(c => c && c.trim() !== '')
-          .map((text, i) => ({
-            id: String.fromCharCode(65 + i),
-            text: text
-          }));
-
-        const answerText = scrub(parts[11] || parts[12] || parts[parts.length - 1] || "");
-        const metaChapter = scrub(parts[startIdx + 1]);
-        const chapter = (metaChapter.length < 5 || /^\d+$/.test(metaChapter)) ? "General Assay" : metaChapter;
-
-        let answerId = 'A';
-        const match = filteredChoices.find(c => c.text.toLowerCase() === answerText.toLowerCase());
-        if (match) answerId = match.id;
-
-        questionsToImport.push({
-          id: `titrate-${Date.now()}-${idx}`,
-          subject: importSubject,
-          question: qText,
-          choices: filteredChoices,
-          answerId: answerId,
-          rationale: `Chapter: ${chapter}. Answer: ${answerText}`,
-          tags: [chapter],
-        });
-
-        if (idx % 20 === 0 || idx === total - 1) {
-          setImportProgress(Math.round(((idx + 1) / total) * 100));
-        }
-      }
-
-      await db.bulkPut('questions', questionsToImport);
-      await loadGlobalStats();
-      toast({ title: "Titration Successful", description: `Imported ${questionsToImport.length} cards into ${importSubject}.` });
-      setFile(null);
-      if (selectedSubject === importSubject) handleSubjectSelect(importSubject);
-    } catch (err) {
-      toast({ variant: "destructive", title: "Titration Failed", description: "Error processing archive." });
-    } finally {
-      setTimeout(() => {
-        setImporting(false);
-        setImportProgress(0);
-      }, 500);
-    }
   };
 
   const syncSystemArchives = async () => {
@@ -596,46 +480,29 @@ export default function QuizPage() {
 
           <div className="mt-32 pt-12 border-t border-white/5 space-y-16 pb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Database className="text-primary" size={32} />
-                    <h3 className="text-xl font-black italic uppercase text-white">Clinical Instrumentation</h3>
+              <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-8 flex flex-col justify-center items-center text-center">
+                <div className="space-y-4">
+                  <div className="flex justify-center">
+                    <Database className="text-primary" size={48} />
                   </div>
-                  <Button onClick={syncSystemArchives} disabled={importing} className="riot-button h-10 px-6 bg-primary text-black text-[9px] font-black">
-                    {importing ? <Loader2 className="animate-spin mr-2" size={12} /> : <RefreshCw className="mr-2" size={12} />}
-                    SYNC TITRATE ARCHIVES
-                  </Button>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-black italic uppercase text-white">Clinical Instrumentation</h3>
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest max-w-sm">
+                      Synchronize with the high-fidelity system archives to titrate built-in clinical protocols into your device.
+                    </p>
+                  </div>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-4">
-                    <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Laboratory Sector Target</Label>
-                    <Select value={importSubject} onValueChange={setImportSubject}>
-                      <SelectTrigger className="bg-white/5 border-white/10 rounded-none h-12 text-[10px] font-black uppercase text-white">
-                        <SelectValue placeholder="Select Sector" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-[#0A1219] border-white/10 text-white rounded-none">
-                        {CORE_SUBJECTS.map((s) => (
-                          <SelectItem key={s} value={s} className="uppercase font-black text-[10px]">{s}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-4">
-                    <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Manual TXT Upload</Label>
-                    <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload-quiz" />
-                    <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
-                      <label htmlFor="anki-upload-quiz" className="cursor-pointer flex items-center justify-center gap-2">
-                        {file ? file.name : 'CHOOSE .TXT ARCHIVE'}
-                      </label>
-                    </Button>
-                  </div>
-                </div>
-
-                <Button className="riot-button w-full h-12 bg-white/10 text-white font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
-                  {importing ? <Loader2 className="animate-spin" /> : 'TITRATE MANUAL ARCHIVE'}
+                <Button 
+                  onClick={syncSystemArchives} 
+                  disabled={importing} 
+                  className="riot-button w-full max-w-sm h-16 bg-primary text-black font-black text-[11px] tracking-[0.2em]"
+                >
+                  {importing ? (
+                    <><Loader2 className="animate-spin mr-3" size={18} /> TITRATING ARCHIVES...</>
+                  ) : (
+                    <><RefreshCw className="mr-3" size={18} /> SYNC TITRATE ARCHIVES</>
+                  )}
                 </Button>
               </div>
 
