@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: 'com.titrate.app',
     name: 'TITRATE | MedTech Review',
     short_name: 'TITRATE',
     description: 'Premium MedTech Board Exam Review App with local-first spaced repetition.',
@@ -11,7 +12,10 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: '#0b111a',
     theme_color: '#0b111a',
     orientation: 'portrait',
-    categories: ['education', 'medical'],
+    categories: ['education', 'medical', 'productivity'],
+    iarc_rating_id: 'e84c78b4-4d35-4db5-9f0b-479e563bc8fa',
+    prefer_related_applications: false,
+    related_applications: [],
     icons: [
       {
         src: '/icon',
