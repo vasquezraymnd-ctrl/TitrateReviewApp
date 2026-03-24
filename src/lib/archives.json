@@ -1,3 +1,4 @@
+
 [
   {
     "category": "Clinical Microscopy",
@@ -310,6 +311,198 @@
     "question": "Cystatin C",
     "choices": ["exogenous", "endogenous"],
     "answer": "endogenous"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The concentration of a normal urine specimen can be estimated by which of the following?",
+    "choices": ["Color", "Clarity", "Foam", "Odor"],
+    "answer": "Color"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The normal yellow color of urine is produced by:",
+    "choices": ["Bilirubin", "Hemoglobin", "Urobilinogen", "Urochrome"],
+    "answer": "Urochrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The presence of bilirubin in a urine specimen produces a:",
+    "choices": ["Yellow foam when shaken", "White foam when shaken", "Cloudy specimen", "Yellow-red specimen"],
+    "answer": "Yellow foam when shaken"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A urine specimen containing melanin will appear:",
+    "choices": ["Pale pink", "Dark yellow", "Blue-green", "Black"],
+    "answer": "Black"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "Specimens that contain hemoglobin can be visually distinguished from those that contain RBCs because:",
+    "choices": ["Hemoglobin produces a clear yellow specimen", "Hemoglobin produces a cloudy pink specimen", "RBCs produce a cloudy red specimen", "RBCs produce a clear red specimen"],
+    "answer": "RBCs produce a cloudy red specimen"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A patient with a viscous orange specimen may have been:",
+    "choices": ["Treated for a urinary tract infection", "Taking vitamin B pills", "Eating fresh carrots", "Taking antidepressants"],
+    "answer": "Treated for a urinary tract infection"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The presence of a pink precipitate in a refrigerated specimen is caused by:",
+    "choices": ["Hemoglobin", "Urobilin", "Uroerythrin", "Beets"],
+    "answer": "Uroerythrin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "Microscopic examination of a clear urine that produces a white precipitate after refrigeration will show:",
+    "choices": ["Amorphous urates", "Porphyrins", "Amorphous phosphates", "Yeast"],
+    "answer": "Amorphous phosphates"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The color of urine containing porphyrins will be:",
+    "choices": ["Yellow-brown", "Green", "Orange", "Port wine"],
+    "answer": "Port wine"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "Which of the following specific gravities would be most likely to correlate with a urine that is pale yellow?",
+    "choices": ["1.005", "1.01", "1.02", "1.03"],
+    "answer": "1.005"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A urine specific gravity measured by a refractometer is 1.029, and the temperature of the urine is 14°C. The specific gravity should be reported as:",
+    "choices": ["1.023", "1.027", "1.029", "1.032"],
+    "answer": "1.029"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The principle of refractive index is to compare:",
+    "choices": ["Light velocity in solutions with light velocity in solids", "Light velocity in air with light velocity in solutions", "Light scattering by air with light scattering by solutions", "Light scattering by particles in solution"],
+    "answer": "Light velocity in air with light velocity in solutions"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A correlation exists between a specific gravity by a refractometer of 1.050 and a:",
+    "choices": ["2+ glucose", "2+ protein", "First morning specimen", "Radiographic dye infusion"],
+    "answer": "Radiographic dye infusion"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A cloudy urine specimen turns black upon standing and has a specific gravity of 1.012. The major concern about this specimen would be:",
+    "choices": ["Color", "Turbidity", "Specific gravity", "All of the above"],
+    "answer": "Color"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A specimen with a specific gravity of 1.035 would be considered:",
+    "choices": ["Isosthenuric", "Hyposthenuric", "Hypersthenuric", "Not urine"],
+    "answer": "Hypersthenuric"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A specimen with a specific gravity of 1.001 would be considered:",
+    "choices": ["Hyposthenuric", "Not urine", "Hypersthenuric", "Isosthenuric"],
+    "answer": "Not urine"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "A strong odor of ammonia in a urine specimen could indicate:",
+    "choices": ["Ketones", "Normalcy", "Phenylketonuria", "An old specimen"],
+    "answer": "An old specimen"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The microscopic examination of a clear red urine is reported as many WBCs and epithelial cells. What does this suggest?",
+    "choices": ["Urinary tract infection", "Dilute random specimen", "Hematuria", "Possible mix-up of specimen and sediment"],
+    "answer": "Possible mix-up of specimen and sediment"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "Which of the following would contribute the most to a urine osmolality?",
+    "choices": ["One osmole of glucose", "One osmole of urea", "One osmole of sodium chloride", "All contribute equally"],
+    "answer": "One osmole of sodium chloride"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "Which of the following colligative properties is not stated correctly?",
+    "choices": ["The boiling point is raised by solute", "The freezing point is raised by solute", "The vapor pressure is lowered by solute", "The osmotic pressure is raised by solute"],
+    "answer": "The freezing point is raised by solute"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "An osmole contains:",
+    "choices": ["One gram molecular weight of solute dissolved in 1 liter of solvent", "One gram molecular weight of solute dissolved in 1 kilogram of solvent", "Two gram molecular weights of solute dissolved in 1 liter of solvent", "Two gram molecular weights of solute dissolved in 1 kilogram of solvent"],
+    "answer": "One gram molecular weight of solute dissolved in 1 kilogram of solvent"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "The unit of osmolality measured in the clinical laboratory is the:",
+    "choices": ["Osmole", "Milliosmole", "Molecular weight", "Ionic charge"],
+    "answer": "Osmole"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "In the reagent strip specific gravity reaction, the polyelectrolyte:",
+    "choices": ["Combines with hydrogen ions in response to ion concentration", "Releases hydrogen ions in response to ion concentration", "Releases hydrogen ions in response to pH", "Combines with sodium ions in response to pH"],
+    "answer": "Releases hydrogen ions in response to ion concentration"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger 7th Edition",
+    "chapter": "Chapter 5 Physical Examination of Urine",
+    "question": "Which of the following will react in the reagent strip specific gravity test?",
+    "choices": ["Glucose", "Radiographic dye", "Protein", "Chloride"],
+    "answer": "Chloride"
   },
   {
     "category": "Clinical Microscopy",
@@ -1237,7 +1430,7 @@
     "chapter": "Chapter 17 Vaginal Secretions",
     "question": "Which of the following organisms produces lactic acid and hydrogen peroxide to maintain an acidic vaginal environment?",
     "choices": ["Gardnerella vaginalis", "Mobiluncus spp.", "Lactobacilli spp.", "β-Hemolytic streptococci"],
-    "answer": "β-Hemolytic streptococci"
+    "answer": "Lactobacilli spp."
   },
   {
     "category": "Clinical Microscopy",

@@ -10,7 +10,6 @@ import { QuestionCard } from '@/components/quiz/QuestionCard';
 import { Button } from '@/components/ui/button';
 import { 
   Trophy, 
-  ChevronRight, 
   Loader2, 
   Microscope, 
   BookOpen, 
@@ -18,16 +17,10 @@ import {
   AlertCircle, 
   RefreshCw,
   Database,
-  Upload,
   ChevronLeft,
-  Layers,
   Trash2,
-  FileText,
-  Archive,
   RotateCcw,
-  Target,
-  Eraser,
-  Download
+  Eraser
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -52,6 +45,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+
+// Direct import of system archives for offline PWA reliability
+import systemArchives from '@/lib/archives.json';
 
 interface SubjectStats {
   mastered: number;
@@ -368,12 +364,8 @@ export default function QuizPage() {
 
   const syncSystemArchives = async () => {
     setImporting(true);
-    setImportProgress(0);
     try {
-      const response = await fetch('/lib/archives.json');
-      const systemData = await response.json();
-      
-      const questionsToImport: Question[] = systemData.map((item: any, idx: number) => {
+      const questionsToImport: Question[] = systemArchives.map((item: any, idx: number) => {
         const filteredChoices = item.choices.map((text: string, i: number) => ({
           id: String.fromCharCode(65 + i),
           text: text
@@ -395,8 +387,13 @@ export default function QuizPage() {
 
       await db.bulkPut('questions', questionsToImport);
       await loadGlobalStats();
+      
+      // Update local state immediately if viewing a subject
+      if (selectedSubject) {
+        handleSubjectSelect(selectedSubject);
+      }
+      
       toast({ title: "Sync Successful", description: `Synchronized ${questionsToImport.length} system protocols.` });
-      if (selectedSubject) handleSubjectSelect(selectedSubject);
     } catch (err) {
       toast({ variant: "destructive", title: "Sync Failed", description: "Could not access system archives." });
     } finally {
@@ -517,7 +514,7 @@ export default function QuizPage() {
                         className="riot-card w-full p-8 xl:p-12 bg-primary/10 border border-primary/30 hover:bg-primary hover:text-black transition-all text-left"
                       >
                         <div className="flex justify-between items-start mb-4">
-                          <Archive size={24} className="text-primary group-hover:text-black xl:size-32" />
+                          <Database size={24} className="text-primary group-hover:text-black xl:size-32" />
                           <div className="text-right">
                              <span className="text-2xl xl:text-4xl font-black italic text-primary/50 group-hover:text-black/50">{chapter.mastered}/{chapter.total}</span>
                              <p className="text-[8px] font-black uppercase tracking-widest opacity-60 group-hover:text-black">Score</p>
@@ -564,7 +561,7 @@ export default function QuizPage() {
               </div>
             )}
 
-            {step === 'quiz' && !completed && (
+            {step === 'quiz' && questions.length > 0 && !completed && (
               <div className="animate-in fade-in duration-700 max-w-5xl mx-auto w-full">
                 <QuestionCard 
                   key={questions[currentIndex].id}
