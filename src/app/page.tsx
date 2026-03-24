@@ -105,9 +105,9 @@ export default function Home() {
             </div>
           </div>
           <div className="relative mt-20 md:mt-24 text-center">
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none">
               TITRATE
-              <div className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo-word_5s_ease-out_forwards]" style={{ clipPath: 'inset(100% 0 0 0)' }}>
+              <div className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo-word_5s_ease-out_forwards] leading-none">
                 TITRATE
               </div>
             </h1>
@@ -154,17 +154,17 @@ export default function Home() {
               {holdProgress > 5 && (
                 <div 
                   className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top transition-all duration-300" 
-                  style={{ height: '300px', opacity: isHolding ? 1 : 0 }} 
+                  style={{ height: '800px', opacity: isHolding ? 1 : 0 }} 
                 />
               )}
             </div>
           </div>
 
           <div className="relative mt-20 md:mt-24 text-center">
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none">
               TITRATE
               <div 
-                className="absolute inset-0 text-primary overflow-hidden transition-all duration-300" 
+                className="absolute inset-0 text-primary overflow-hidden transition-all duration-300 leading-none" 
                 style={{ clipPath: `inset(${100 - holdProgress}% 0 0 0)` }}
               >
                 TITRATE
