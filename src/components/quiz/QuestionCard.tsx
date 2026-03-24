@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Question } from '@/lib/db';
 import { cn } from '@/lib/utils';
-import { ShieldCheck, Microscope, ChevronRight, Eye, ChevronLeft } from 'lucide-react';
+import { ShieldCheck, Microscope, ChevronRight, Eye, ChevronLeft, LayoutGrid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 
@@ -12,9 +12,10 @@ interface QuestionCardProps {
   question: Question;
   onAnswer: (quality: number) => void;
   onPrevious: () => void;
+  onExit: () => void;
 }
 
-export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardProps) {
+export function QuestionCard({ question, onAnswer, onPrevious, onExit }: QuestionCardProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isFlashcardMode, setIsFlashcardMode] = useState(false);
   const [showFlashcardAnswer, setShowFlashcardAnswer] = useState(false);
@@ -136,6 +137,13 @@ export function QuestionCard({ question, onAnswer, onPrevious }: QuestionCardPro
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-8">
+        <Button 
+          variant="ghost" 
+          onClick={onExit}
+          className="riot-button h-14 md:h-16 px-8 text-white/40 hover:text-white font-black text-[10px] tracking-widest w-full sm:w-auto"
+        >
+          <LayoutGrid className="mr-2 h-4 w-4" /> DIRECTORY
+        </Button>
         <Button 
           variant="outline" 
           onClick={onPrevious}

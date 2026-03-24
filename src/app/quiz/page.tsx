@@ -250,6 +250,12 @@ export default function QuizPage() {
     }
   };
 
+  const handleExitAssay = () => {
+    setStep('module');
+    setCurrentIndex(0);
+    setQuestions([]);
+  };
+
   const returnToSubjectDirectory = () => {
     if (selectedSubject) {
       handleSubjectSelect(selectedSubject);
@@ -567,6 +573,7 @@ export default function QuizPage() {
                   question={questions[currentIndex]} 
                   onAnswer={handleAnswer}
                   onPrevious={handlePrevious}
+                  onExit={handleExitAssay}
                 />
               </div>
             )}
