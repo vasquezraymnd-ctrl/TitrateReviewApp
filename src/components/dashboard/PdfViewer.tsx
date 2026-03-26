@@ -14,9 +14,8 @@ import {
   Eraser,
   MousePointer2,
   Trash2,
-  Zap,
-  Scissors,
-  Plus
+  Plus,
+  Scissors
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -51,7 +50,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
-  const [currentColor, setCurrentColor] = useState('#000000');
+  const [currentColor, setCurrentColor] = useState('#00ff7f');
   
   // Interaction tracking
   const [isInteracting, setIsInteracting] = useState(false);
@@ -386,7 +385,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   return (
     <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
       <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-[100] shrink-0">
-        <div className="h-14 flex items-center justify-between px-6 border-b border-white/5">
+        <div className="h-14 flex items-center justify-between px-6 border-b border-white/5 gap-4">
           <div className="flex items-center gap-2">
             <Button 
               variant="ghost" 
@@ -413,6 +412,41 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             </Button>
           </div>
 
+          {/* Relocated Annotation Controls */}
+          {activeTool !== 'view' && activeTool !== 'lasso' && (
+            <div className="hidden lg:flex items-center gap-4 flex-1 justify-center animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="flex items-center gap-3 bg-white/5 border border-white/10 p-1 px-3 h-10">
+                <Slider 
+                  value={[getCurrentWidth()]}
+                  max={activeTool === 'pencil' ? 10 : 60}
+                  min={1}
+                  step={1}
+                  onValueChange={(vals) => handleWidthChange(vals[0])}
+                  className="w-24 xl:w-32"
+                />
+                <span className="text-[9px] font-black text-primary min-w-[20px]">{getCurrentWidth()}</span>
+              </div>
+
+              <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 p-1 px-2 h-10">
+                {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
+                  <button
+                    key={color}
+                    onClick={() => setCurrentColor(color)}
+                    className={cn(
+                      "w-6 h-6 rounded-none border transition-transform",
+                      currentColor === color ? "scale-110 border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]" : "border-white/10 hover:scale-105"
+                    )}
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+                <div className="w-px h-4 bg-white/10 mx-1" />
+                <Button variant="ghost" size="icon" onClick={savePreset} className="h-7 w-7 text-white/40 hover:text-primary">
+                  <Plus size={14} />
+                </Button>
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center gap-4">
             <div className="flex items-center bg-white/5 border border-white/10 p-1">
                <Button variant="ghost" size="icon" onClick={zoomOut} className="h-8 w-8 text-white/60 hover:text-white">
@@ -437,7 +471,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('view')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'view' ? "bg-primary text-black" : "text-white/40")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'view' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <MousePointer2 size={12} /> View
             </Button>
@@ -446,7 +480,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('pencil')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Pencil size={12} /> Pen
             </Button>
@@ -455,7 +489,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('highlighter')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Highlighter size={12} /> Marker
             </Button>
@@ -464,7 +498,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('lasso')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'lasso' ? "bg-primary text-black" : "text-white/40")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'lasso' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Scissors size={12} /> Lasso
             </Button>
@@ -473,55 +507,23 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('eraser')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Eraser size={12} /> Eraser
             </Button>
           </div>
 
-          {activeTool !== 'view' && activeTool !== 'lasso' && (
-            <>
-              <div className="w-px h-4 bg-white/10 mx-2" />
-              <div className="flex items-center gap-3 min-w-[120px]">
-                <Slider 
-                  value={[getCurrentWidth()]}
-                  max={activeTool === 'pencil' ? 10 : 60}
-                  min={1}
-                  step={1}
-                  onValueChange={(vals) => handleWidthChange(vals[0])}
-                  className="w-20"
-                />
-                <span className="text-[8px] font-black text-primary">{getCurrentWidth()}</span>
-              </div>
+          <div className="w-px h-4 bg-white/10 mx-2" />
 
-              <div className="flex items-center gap-1.5 px-2">
-                {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
-                  <button
-                    key={color}
-                    onClick={() => setCurrentColor(color)}
-                    className={cn(
-                      "w-5 h-5 rounded-full border border-white/20 transition-transform",
-                      currentColor === color ? "scale-125 border-white" : "hover:scale-110"
-                    )}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
-              <Button variant="ghost" size="icon" onClick={savePreset} className="text-white/20 hover:text-primary">
-                <Plus size={14} />
-              </Button>
-            </>
-          )}
-
-          <div className="flex items-center gap-2 ml-4">
+          <div className="flex items-center gap-2">
             {presets.map(p => (
               <button
                 key={p.id}
                 onClick={() => applyPreset(p)}
-                className="w-6 h-6 border border-white/10 rounded-none flex items-center justify-center hover:bg-white/5 transition-all"
+                className="w-8 h-8 border border-white/10 rounded-none flex items-center justify-center hover:bg-white/5 transition-all"
                 style={{ color: p.color }}
               >
-                {p.type === 'pencil' ? <Pencil size={10} /> : <Highlighter size={10} />}
+                {p.type === 'pencil' ? <Pencil size={12} /> : <Highlighter size={12} />}
               </button>
             ))}
           </div>
