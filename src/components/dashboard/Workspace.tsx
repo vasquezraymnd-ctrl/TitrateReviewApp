@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { PdfViewer } from './PdfViewer';
 import { NotebookPanel } from './NotebookPanel';
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,6 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
   const [viewMode, setViewMode] = useState<'split' | 'pdf-only' | 'floating'>('split');
   const [activeNotebook, setActiveNotebook] = useState<Notebook | null>(null);
   const [pdfWidth, setPdfWidth] = useState(50); // Percentage for split view
-  const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
     loadActiveNotebook();
@@ -53,6 +52,21 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
     // Notify notebook panel to refresh
     window.dispatchEvent(new CustomEvent('titrate:clip-captured', { detail: clip }));
   };
+
+  // Create memoized URL to prevent re-generation on every render
+  const pdfUrl = useMemo(() => {
+    if (module.pdfBlob) {
+      return URL.createObjectURL(module.pdfBlob);
+    }
+    return null;
+  }, [module.pdfBlob]);
+
+  // Cleanup URL on unmount
+  useEffect(() => {
+    return () => {
+      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    };
+  }, [pdfUrl]);
 
   return (
     <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
@@ -120,7 +134,7 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
           style={{ width: viewMode === 'split' ? `${pdfWidth}%` : undefined }}
         >
           <PdfViewer 
-            url={module.pdfBlob ? URL.createObjectURL(module.pdfBlob) : ''} 
+            url={pdfUrl} 
             moduleId={module.id} 
             moduleName={module.name}
             activeNotebookId={activeNotebook?.id}

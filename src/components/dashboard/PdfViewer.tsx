@@ -16,7 +16,8 @@ import {
   Trash2,
   Settings2,
   Zap,
-  Scissors
+  Scissors,
+  Plus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -31,7 +32,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface PdfViewerProps {
-  url: string;
+  url: string | null;
   moduleId: string;
   moduleName?: string;
   onClipCaptured?: (clip: WorkspaceClip) => void;
@@ -60,7 +61,6 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const laserTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load annotations and presets
   const loadInitialData = useCallback(async () => {
@@ -105,7 +105,7 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
   };
 
   const applyPreset = (preset: ToolPreset) => {
-    setActiveTool(preset.type);
+    setActiveTool(preset.type === 'pencil' ? 'pencil' : 'highlighter');
     setCurrentColor(preset.color);
     if (preset.type === 'pencil') setPencilWidth(preset.width);
     else setHighlighterWidth(preset.width);
@@ -116,7 +116,7 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
     if (activeTool !== 'pencil' && activeTool !== 'highlighter') return;
     const newPreset: ToolPreset = {
       id: `preset-${Date.now()}`,
-      type: activeTool,
+      type: activeTool === 'pencil' ? 'pencil' : 'highlighter',
       color: currentColor,
       width: getCurrentWidth(),
       opacity: activeTool === 'highlighter' ? 0.3 : 1
@@ -125,7 +125,6 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
     setPresets(prev => [...prev, newPreset]);
   };
 
-  // Canvas Drawing Logic
   const drawAll = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -134,7 +133,6 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw saved annotations
     annotations.forEach(ann => {
       ctx.beginPath();
       ctx.strokeStyle = ann.color;
@@ -159,7 +157,6 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
       ctx.stroke();
     });
 
-    // Draw current stroke
     if (currentStroke) {
       ctx.beginPath();
       ctx.strokeStyle = activeTool === 'lasso' ? '#00ff7f' : currentColor;
@@ -257,7 +254,7 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
       id: `ann-${Date.now()}`,
       moduleId,
       pageNumber,
-      tool: activeTool as 'pencil' | 'highlighter',
+      tool: activeTool === 'highlighter' ? 'highlighter' : 'pencil',
       color: currentColor,
       width: activeTool === 'highlighter' ? highlighterWidth : pencilWidth,
       opacity: activeTool === 'highlighter' ? 0.3 : 1,
@@ -275,19 +272,17 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
       return;
     }
 
-    // Calculate Bounding Box
     const xs = currentStroke.map(p => p.x);
     const ys = currentStroke.map(p => p.y);
-    const minX = Math.min(...xs);
-    const maxX = Math.max(...xs);
-    const minY = Math.min(...ys);
-    const maxY = Math.max(...ys);
+    const minX = Math.max(0, Math.min(...xs));
+    const maxX = Math.min(1, Math.max(...xs));
+    const minY = Math.max(0, Math.min(...ys));
+    const maxY = Math.min(1, Math.max(...ys));
     const width = maxX - minX;
     const height = maxY - minY;
 
-    // Use hidden canvas to crop the PDF page
     const sourceCanvas = document.querySelector('.react-pdf__Page__canvas') as HTMLCanvasElement;
-    if (!sourceCanvas) return;
+    if (!sourceCanvas || width <= 0 || height <= 0) return;
 
     const cropCanvas = document.createElement('canvas');
     cropCanvas.width = width * sourceCanvas.width;
@@ -312,7 +307,7 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
         rect: { x: minX, y: minY, w: width, h: height },
         dataUrl: cropCanvas.toDataURL('image/png'),
         notebookId: activeNotebookId,
-        x: 50, // Default position in notebook
+        x: 50,
         y: 50
       };
 
@@ -344,7 +339,6 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
 
   return (
     <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
-      {/* Tactical Annotation Toolbar */}
       <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-10 shrink-0">
         <div className="h-14 flex items-center justify-between px-6 border-b border-white/5">
           <div className="flex items-center gap-2">
@@ -353,7 +347,7 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
               size="icon" 
               className="text-white/40 hover:text-primary h-9 w-9"
               disabled={pageNumber <= 1}
-              onClick={() => setPageNumber(prev => prev - 1)}
+              onClick={() => { setPageNumber(prev => prev - 1); setIsLoaded(false); }}
             >
               <ChevronLeft size={18} />
             </Button>
@@ -367,7 +361,7 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
               size="icon" 
               className="text-white/40 hover:text-primary h-9 w-9"
               disabled={numPages ? pageNumber >= numPages : true}
-              onClick={() => setPageNumber(prev => prev + 1)}
+              onClick={() => { setPageNumber(prev => prev + 1); setIsLoaded(false); }}
             >
               <ChevronRight size={18} />
             </Button>
@@ -506,39 +500,41 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
       <div id="pdf-viewport" className="flex-1 overflow-auto no-scrollbar flex justify-center bg-[#050a0f] relative p-4 md:p-10">
         <div className="max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           <Document
-            file={url}
+            file={url || null}
             onLoadSuccess={onDocumentLoadSuccess}
-            loading={<div className="py-40"><Loader2 className="animate-spin text-primary" size={48} /></div>}
+            loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
           >
-            <div className="relative bg-white">
-              <Page 
-                pageNumber={pageNumber} 
-                scale={scale} 
-                className="max-w-full"
-                onRenderSuccess={(page) => {
-                  const canvas = canvasRef.current;
-                  if (canvas) {
-                    canvas.width = page.width;
-                    canvas.height = page.height;
-                    drawAll();
-                  }
-                }}
-              />
-              <canvas
-                ref={canvasRef}
-                className={cn(
-                  "absolute inset-0 z-10 touch-none",
-                  activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair"
-                )}
-                onMouseDown={handleStart}
-                onMouseMove={handleMove}
-                onMouseUp={handleEnd}
-                onMouseLeave={handleEnd}
-                onTouchStart={handleStart}
-                onTouchMove={handleMove}
-                onTouchEnd={handleEnd}
-              />
-            </div>
+            {isLoaded && (
+              <div className="relative bg-white">
+                <Page 
+                  pageNumber={pageNumber} 
+                  scale={scale} 
+                  className="max-w-full"
+                  onRenderSuccess={(page) => {
+                    const canvas = canvasRef.current;
+                    if (canvas) {
+                      canvas.width = page.width;
+                      canvas.height = page.height;
+                      drawAll();
+                    }
+                  }}
+                />
+                <canvas
+                  ref={canvasRef}
+                  className={cn(
+                    "absolute inset-0 z-10 touch-none",
+                    activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair"
+                  )}
+                  onMouseDown={handleStart}
+                  onMouseMove={handleMove}
+                  onMouseUp={handleEnd}
+                  onMouseLeave={handleEnd}
+                  onTouchStart={handleStart}
+                  onTouchMove={handleMove}
+                  onTouchEnd={handleEnd}
+                />
+              </div>
+            )}
           </Document>
         </div>
       </div>
