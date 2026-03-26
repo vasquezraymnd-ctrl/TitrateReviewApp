@@ -497,7 +497,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         <div className="max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           {file ? (
             <Document
-              file={file}
+              file={typeof file === 'string' ? file : { data: file }}
               onLoadSuccess={onDocumentLoadSuccess}
               loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
             >
