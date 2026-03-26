@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
@@ -382,96 +383,105 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setAnnotations([]);
   };
 
+  const isAnnotationActive = activeTool === 'pencil' || activeTool === 'highlighter' || activeTool === 'eraser';
+
   return (
     <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
       <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-[100] shrink-0">
-        <div className="h-14 flex items-center justify-between px-6 border-b border-white/5 gap-4">
-          <div className="flex items-center gap-2">
+        {/* Unified Pages, Calibration, and Zoom Tray */}
+        <div className="h-14 flex items-center justify-between px-4 border-b border-white/5 gap-2 md:gap-4 overflow-x-auto no-scrollbar">
+          {/* Page Navigation Area */}
+          <div className="flex items-center gap-1 md:gap-2 shrink-0">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-white/40 hover:text-primary h-9 w-9"
+              className="text-white/40 hover:text-primary h-8 w-8 md:h-9 md:w-9"
               disabled={pageNumber <= 1}
               onClick={() => { setPageNumber(prev => prev - 1); setIsLoaded(false); }}
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={16} />
             </Button>
-            <div className="bg-white/5 border border-white/10 px-3 py-1.5 min-w-[100px] text-center">
-              <span className="text-[10px] font-black italic uppercase tracking-widest text-white">
-                PAGE {pageNumber} <span className="text-muted-foreground mx-1">/</span> {numPages || '--'}
+            <div className="bg-white/5 border border-white/10 px-2 md:px-3 py-1 md:py-1.5 min-w-[80px] md:min-w-[100px] text-center">
+              <span className="text-[9px] md:text-[10px] font-black italic uppercase tracking-widest text-white">
+                PG {pageNumber} <span className="text-muted-foreground mx-0.5 md:mx-1">/</span> {numPages || '--'}
               </span>
             </div>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-white/40 hover:text-primary h-9 w-9"
+              className="text-white/40 hover:text-primary h-8 w-8 md:h-9 md:w-9"
               disabled={numPages ? pageNumber >= numPages : true}
               onClick={() => { setPageNumber(prev => prev + 1); setIsLoaded(false); }}
             >
-              <ChevronRight size={18} />
+              <ChevronRight size={16} />
             </Button>
           </div>
 
-          {/* Relocated Annotation Controls */}
-          {activeTool !== 'view' && activeTool !== 'lasso' && (
-            <div className="hidden lg:flex items-center gap-4 flex-1 justify-center animate-in fade-in slide-in-from-top-2 duration-300">
-              <div className="flex items-center gap-3 bg-white/5 border border-white/10 p-1 px-3 h-10">
+          {/* Tactical Calibration Area (Thickness & Colors) */}
+          {/* Automatically appears when an annotation tool is active */}
+          {isAnnotationActive && (
+            <div className="flex items-center gap-2 md:gap-4 flex-1 justify-center animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="flex items-center gap-2 md:gap-3 bg-white/5 border border-white/10 p-1 px-2 md:px-3 h-10 shrink-0">
                 <Slider 
                   value={[getCurrentWidth()]}
-                  max={activeTool === 'pencil' ? 10 : 60}
+                  max={activeTool === 'pencil' ? 10 : activeTool === 'eraser' ? 100 : 60}
                   min={1}
                   step={1}
                   onValueChange={(vals) => handleWidthChange(vals[0])}
-                  className="w-24 xl:w-32"
+                  className="w-16 md:w-24 xl:w-32"
                 />
-                <span className="text-[9px] font-black text-primary min-w-[20px]">{getCurrentWidth()}</span>
+                <span className="text-[8px] md:text-[9px] font-black text-primary min-w-[15px] md:min-w-[20px]">{getCurrentWidth()}</span>
               </div>
 
-              <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 p-1 px-2 h-10">
-                {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
-                  <button
-                    key={color}
-                    onClick={() => setCurrentColor(color)}
-                    className={cn(
-                      "w-6 h-6 rounded-none border transition-transform",
-                      currentColor === color ? "scale-110 border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]" : "border-white/10 hover:scale-105"
-                    )}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-                <div className="w-px h-4 bg-white/10 mx-1" />
-                <Button variant="ghost" size="icon" onClick={savePreset} className="h-7 w-7 text-white/40 hover:text-primary">
-                  <Plus size={14} />
-                </Button>
-              </div>
+              {activeTool !== 'eraser' && (
+                <div className="flex items-center gap-1 bg-white/5 border border-white/10 p-1 px-1.5 md:px-2 h-10 shrink-0">
+                  {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
+                    <button
+                      key={color}
+                      onClick={() => setCurrentColor(color)}
+                      className={cn(
+                        "w-5 h-5 md:w-6 md:h-6 rounded-none border transition-transform",
+                        currentColor === color ? "scale-110 border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]" : "border-white/10 hover:scale-105"
+                      )}
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                  <div className="w-px h-4 bg-white/10 mx-1" />
+                  <Button variant="ghost" size="icon" onClick={savePreset} className="h-6 w-6 md:h-7 md:w-7 text-white/40 hover:text-primary">
+                    <Plus size={12} />
+                  </Button>
+                </div>
+              )}
             </div>
           )}
 
-          <div className="flex items-center gap-4">
+          {/* Zoom and Display Area */}
+          <div className="flex items-center gap-2 md:gap-4 shrink-0">
             <div className="flex items-center bg-white/5 border border-white/10 p-1">
-               <Button variant="ghost" size="icon" onClick={zoomOut} className="h-8 w-8 text-white/60 hover:text-white">
-                 <ZoomOut size={16} />
+               <Button variant="ghost" size="icon" onClick={zoomOut} className="h-7 w-7 md:h-8 md:w-8 text-white/60 hover:text-white">
+                 <ZoomOut size={14} />
                </Button>
-               <div className="w-16 text-center text-[10px] font-black text-primary uppercase tracking-widest">
+               <div className="w-12 md:w-16 text-center text-[9px] md:text-[10px] font-black text-primary uppercase tracking-widest">
                  {Math.round(scale * 100)}%
                </div>
-               <Button variant="ghost" size="icon" onClick={zoomIn} className="h-8 w-8 text-white/60 hover:text-white">
-                 <ZoomIn size={16} />
+               <Button variant="ghost" size="icon" onClick={zoomIn} className="h-7 w-7 md:h-8 md:w-8 text-white/60 hover:text-white">
+                 <ZoomIn size={14} />
                </Button>
             </div>
-            <Button variant="ghost" size="icon" onClick={fitToWidth} title="Fit to Width" className="text-white/40 hover:text-primary">
+            <Button variant="ghost" size="icon" onClick={fitToWidth} title="Fit to Width" className="hidden sm:flex text-white/40 hover:text-primary">
               <Maximize size={16} />
             </Button>
           </div>
         </div>
 
-        <div className="h-14 flex items-center px-6 gap-2 overflow-x-auto no-scrollbar">
+        {/* Primary Tool Selection Bar */}
+        <div className="h-14 flex items-center px-4 md:px-6 gap-2 overflow-x-auto no-scrollbar border-b border-white/5">
           <div className="flex items-center gap-1 shrink-0">
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('view')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'view' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'view' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <MousePointer2 size={12} /> View
             </Button>
@@ -480,7 +490,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('pencil')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Pencil size={12} /> Pen
             </Button>
@@ -489,7 +499,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('highlighter')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Highlighter size={12} /> Marker
             </Button>
@@ -498,7 +508,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('lasso')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'lasso' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'lasso' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Scissors size={12} /> Lasso
             </Button>
@@ -507,20 +517,21 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               variant="ghost" 
               size="sm" 
               onClick={() => setActiveTool('eraser')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-4", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
+              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
             >
               <Eraser size={12} /> Eraser
             </Button>
           </div>
 
-          <div className="w-px h-4 bg-white/10 mx-2" />
+          <div className="w-px h-4 bg-white/10 mx-1 md:mx-2 shrink-0" />
 
-          <div className="flex items-center gap-2">
+          {/* Quick Presets Area */}
+          <div className="flex items-center gap-1 md:gap-2 shrink-0">
             {presets.map(p => (
               <button
                 key={p.id}
                 onClick={() => applyPreset(p)}
-                className="w-8 h-8 border border-white/10 rounded-none flex items-center justify-center hover:bg-white/5 transition-all"
+                className="w-7 h-7 md:w-8 md:h-8 border border-white/10 rounded-none flex items-center justify-center hover:bg-white/5 transition-all"
                 style={{ color: p.color }}
               >
                 {p.type === 'pencil' ? <Pencil size={12} /> : <Highlighter size={12} />}
@@ -528,7 +539,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             ))}
           </div>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2 shrink-0">
             <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/50 hover:text-red-500">
               <Trash2 size={14} />
             </Button>
@@ -536,6 +547,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         </div>
       </div>
 
+      {/* Main Viewport */}
       <div 
         id="pdf-viewport" 
         className="flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none cursor-grab active:cursor-grabbing"
