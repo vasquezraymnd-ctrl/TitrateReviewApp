@@ -51,7 +51,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
-  const [currentColor, setCurrentColor] = useState('#000000'); // Default to Black
+  const [currentColor, setCurrentColor] = useState('#000000'); // Default to Solid Black
   
   // Interaction tracking
   const pointerCache = useRef<PointerEvent[]>([]);
@@ -234,11 +234,14 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       pinchStartDistance.current = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
       pinchStartScale.current = scale;
       
-      // Capture midpoint relative to viewport center for directed zoom
-      pinchStartCenter.current = {
-        x: (p1.clientX + p2.clientX) / 2,
-        y: (p1.clientY + p2.clientY) / 2
-      };
+      const viewport = document.getElementById('pdf-viewport');
+      if (viewport) {
+        const rect = viewport.getBoundingClientRect();
+        pinchStartCenter.current = {
+          x: (p1.clientX + p2.clientX) / 2,
+          y: (p1.clientY + p2.clientY) / 2
+        };
+      }
       pinchStartTranslation.current = { x: translateX, y: translateY };
       
       setCurrentStroke(null);
@@ -282,7 +285,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         const ratio = dist / pinchStartDistance.current;
         const newScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0);
         
-        // Midpoint relative to viewport center
         const currentCenterX = ((p1.clientX + p2.clientX) / 2) - vCenterX;
         const currentCenterY = ((p1.clientY + p2.clientY) / 2) - vCenterY;
 
@@ -291,11 +293,9 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         const startTx = pinchStartTranslation.current.x;
         const startTy = pinchStartTranslation.current.y;
 
-        // Directed Zoom: Calculate next translation so finger location maps to same document point
         const nextTx = originX - (originX - startTx) * (newScale / pinchStartScale.current);
         const nextTy = originY - (originY - startTy) * (newScale / pinchStartScale.current);
 
-        // Movement of the pinch center itself (simultaneous pan)
         const dx = currentCenterX - originX;
         const dy = currentCenterY - originY;
 
@@ -445,7 +445,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               size="icon" 
               className="text-white/40 hover:text-primary h-8 w-8 md:h-9 md:w-9"
               disabled={pageNumber <= 1}
-              onClick={() => { setPageNumber(prev => prev - 1); setIsLoaded(false); }}
+              onClick={() => setPageNumber(prev => prev - 1)}
             >
               <ChevronLeft size={16} />
             </Button>
@@ -459,7 +459,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               size="icon" 
               className="text-white/40 hover:text-primary h-8 w-8 md:h-9 md:w-9"
               disabled={numPages ? pageNumber >= numPages : true}
-              onClick={() => { setPageNumber(prev => prev + 1); setIsLoaded(false); }}
+              onClick={() => setPageNumber(prev => prev + 1)}
             >
               <ChevronRight size={16} />
             </Button>
@@ -615,6 +615,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               {isLoaded && (
                 <div className="relative bg-white shadow-[0_0_50px_rgba(0,0,0,0.5)]">
                   <Page 
+                    key={`page-${pageNumber}`}
                     pageNumber={pageNumber} 
                     scale={RENDER_QUALITY} 
                     className="max-w-none"
