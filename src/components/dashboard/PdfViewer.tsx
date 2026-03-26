@@ -68,7 +68,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
   const [presets, setPresets] = useState<ToolPreset[]>([]);
   
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
+  const activeCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // High-res rendering scale to ensure ink isn't pixelated when zooming
   const RENDER_QUALITY = 2.5;
@@ -140,8 +141,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setPresets(prev => [...prev, newPreset]);
   };
 
-  const drawAll = useCallback(() => {
-    const canvas = canvasRef.current;
+  const drawPermanent = useCallback(() => {
+    const canvas = permanentCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -173,6 +174,15 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       });
       ctx.stroke();
     });
+  }, [annotations]);
+
+  const drawActive = useCallback(() => {
+    const canvas = activeCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (currentStroke) {
       ctx.beginPath();
@@ -202,22 +212,27 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       });
       ctx.stroke();
     }
-  }, [annotations, currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth, eraserWidth]);
+  }, [currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth]);
 
   useEffect(() => {
-    drawAll();
-  }, [drawAll]);
+    drawPermanent();
+  }, [drawPermanent]);
 
-  const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
+  useEffect(() => {
+    drawActive();
+  }, [drawActive]);
+
+  const handlePointerStart = (e: React.PointerEvent) => {
     setIsInteracting(true);
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
     lastTouchRef.current = { x: clientX, y: clientY };
 
-    if ('touches' in e && e.touches.length === 2) {
+    if (e.pointerType === 'touch' && (e as any).nativeEvent.touches?.length === 2) {
+      const touches = (e as any).nativeEvent.touches;
       const dist = Math.hypot(
-        e.touches[0].pageX - e.touches[1].pageX,
-        e.touches[0].pageY - e.touches[1].pageY
+        touches[0].pageX - touches[1].pageX,
+        touches[0].pageY - touches[1].pageY
       );
       pinchStartDistance.current = dist;
       pinchStartScale.current = scale;
@@ -227,7 +242,10 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
     if (activeTool === 'view') return;
     
-    const canvas = canvasRef.current;
+    // Capture pointer to ensure stroke continues even if pen leaves canvas briefly
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+
+    const canvas = activeCanvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     
@@ -242,16 +260,17 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setCurrentStroke([{ x, y }]);
   };
 
-  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!isInteracting) return;
 
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
-    if ('touches' in e && e.touches.length === 2 && pinchStartDistance.current > 0) {
+    if (e.pointerType === 'touch' && (e as any).nativeEvent.touches?.length === 2 && pinchStartDistance.current > 0) {
+      const touches = (e as any).nativeEvent.touches;
       const dist = Math.hypot(
-        e.touches[0].pageX - e.touches[1].pageX,
-        e.touches[0].pageY - e.touches[1].pageY
+        touches[0].pageX - touches[1].pageX,
+        touches[0].pageY - touches[1].pageY
       );
       const ratio = dist / pinchStartDistance.current;
       setScale(Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0));
@@ -267,7 +286,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       return;
     }
 
-    const canvas = canvasRef.current;
+    const canvas = activeCanvasRef.current;
     if (!canvas || !currentStroke) return;
     const rect = canvas.getBoundingClientRect();
     
@@ -282,7 +301,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
   };
 
-  const handleEnd = async () => {
+  const handlePointerEnd = async (e: React.PointerEvent) => {
     setIsInteracting(false);
     pinchStartDistance.current = 0;
 
@@ -418,7 +437,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
           </div>
 
           {/* Tactical Calibration Area (Thickness & Colors) */}
-          {/* Automatically appears when an annotation tool is active */}
           {isAnnotationActive && (
             <div className="flex items-center gap-2 md:gap-4 flex-1 justify-center animate-in fade-in slide-in-from-top-2 duration-300">
               <div className="flex items-center gap-2 md:gap-3 bg-white/5 border border-white/10 p-1 px-2 md:px-3 h-10 shrink-0">
@@ -551,18 +569,16 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       <div 
         id="pdf-viewport" 
         className="flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none cursor-grab active:cursor-grabbing"
-        onMouseDown={handleStart}
-        onMouseMove={handleMove}
-        onMouseUp={handleEnd}
-        onMouseLeave={handleEnd}
-        onTouchStart={handleStart}
-        onTouchMove={handleMove}
-        onTouchEnd={handleEnd}
+        onPointerDown={handlePointerStart}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerEnd}
+        onPointerLeave={handlePointerEnd}
       >
         <div 
-          className="relative transition-transform duration-75 ease-out will-change-transform"
+          className="relative transition-transform ease-out will-change-transform"
           style={{ 
             transform: `translate3d(${translateX}px, ${translateY}px, 0) scale3d(${scale}, ${scale}, 1)`,
+            transitionDuration: isInteracting ? '0ms' : '75ms'
           }}
         >
           {documentFile ? (
@@ -578,18 +594,26 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                     scale={RENDER_QUALITY} 
                     className="max-w-none"
                     onRenderSuccess={(page) => {
-                      const canvas = canvasRef.current;
-                      if (canvas) {
-                        canvas.width = page.width;
-                        canvas.height = page.height;
-                        drawAll();
+                      const permCanvas = permanentCanvasRef.current;
+                      const activeCanvas = activeCanvasRef.current;
+                      if (permCanvas && activeCanvas) {
+                        permCanvas.width = activeCanvas.width = page.width;
+                        permCanvas.height = activeCanvas.height = page.height;
+                        drawPermanent();
+                        drawActive();
                       }
                     }}
                   />
+                  {/* Permanent Annotations Layer */}
                   <canvas
-                    ref={canvasRef}
+                    ref={permanentCanvasRef}
+                    className="absolute inset-0 z-10 pointer-events-none"
+                  />
+                  {/* Active Drawing/Interaction Layer */}
+                  <canvas
+                    ref={activeCanvasRef}
                     className={cn(
-                      "absolute inset-0 z-10 touch-none",
+                      "absolute inset-0 z-20 touch-none",
                       activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair"
                     )}
                   />

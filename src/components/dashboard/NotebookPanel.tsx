@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -27,7 +28,8 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
   const [activeTool, setActiveTool] = useState<'pencil' | 'highlighter' | 'eraser'>('pencil');
   const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
   
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
+  const activeCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const loadData = useCallback(async () => {
@@ -44,15 +46,14 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     return () => window.removeEventListener('titrate:clip-captured', handleRefresh);
   }, [loadData]);
 
-  const draw = useCallback(() => {
-    const canvas = canvasRef.current;
+  const drawPermanent = useCallback(() => {
+    const canvas = permanentCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw saved annotations
     annotations.forEach(ann => {
       ctx.beginPath();
       ctx.strokeStyle = ann.color;
@@ -69,13 +70,22 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       });
       ctx.stroke();
     });
+  }, [annotations]);
 
-    // Current stroke preview
+  const drawActive = useCallback(() => {
+    const canvas = activeCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     if (currentStroke) {
       ctx.beginPath();
       ctx.strokeStyle = activeTool === 'highlighter' ? '#ffff00' : '#00ff7f';
       ctx.lineWidth = activeTool === 'highlighter' ? 20 : 3;
       ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
       ctx.globalAlpha = activeTool === 'highlighter' ? 0.3 : 1;
       
       currentStroke.forEach((p, i) => {
@@ -86,20 +96,24 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       });
       ctx.stroke();
     }
-  }, [annotations, currentStroke, activeTool]);
+  }, [currentStroke, activeTool]);
 
   useEffect(() => {
-    draw();
-  }, [draw]);
+    drawPermanent();
+  }, [drawPermanent]);
 
-  const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
-    const canvas = canvasRef.current;
+  useEffect(() => {
+    drawActive();
+  }, [drawActive]);
+
+  const handlePointerStart = (e: React.PointerEvent) => {
+    const canvas = activeCanvasRef.current;
     if (!canvas) return;
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+
     const rect = canvas.getBoundingClientRect();
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    const x = (clientX - rect.left) / rect.width;
-    const y = (clientY - rect.top) / rect.height;
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
 
     if (activeTool === 'eraser') {
       handleErase(x, y);
@@ -108,19 +122,22 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     setCurrentStroke([{ x, y }]);
   };
 
-  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!currentStroke) return;
-    const canvas = canvasRef.current;
+    const canvas = activeCanvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    const x = (clientX - rect.left) / rect.width;
-    const y = (clientY - rect.top) / rect.height;
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+
+    if (activeTool === 'eraser') {
+      handleErase(x, y);
+      return;
+    }
     setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
   };
 
-  const handleEnd = async () => {
+  const handlePointerEnd = async () => {
     if (!currentStroke) return;
     const newAnn: Annotation = {
       id: `ann-nb-${Date.now()}`,
@@ -220,17 +237,22 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
             ))}
           </div>
 
-          {/* Canvas Layer */}
+          {/* Static Annotations Layer */}
           <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full touch-none cursor-crosshair z-10"
-            onMouseDown={handleStart}
-            onMouseMove={handleMove}
-            onMouseUp={handleEnd}
-            onMouseLeave={handleEnd}
-            onTouchStart={handleStart}
-            onTouchMove={handleMove}
-            onTouchEnd={handleEnd}
+            ref={permanentCanvasRef}
+            className="absolute inset-0 w-full h-full pointer-events-none z-10"
+            width={800}
+            height={1131}
+          />
+
+          {/* Active Drawing Layer */}
+          <canvas
+            ref={activeCanvasRef}
+            className="absolute inset-0 w-full h-full touch-none cursor-crosshair z-20"
+            onPointerDown={handlePointerStart}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerEnd}
+            onPointerLeave={handlePointerEnd}
             width={800}
             height={1131}
           />
