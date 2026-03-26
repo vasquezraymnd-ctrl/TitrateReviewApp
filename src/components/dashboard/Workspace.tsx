@@ -20,9 +20,10 @@ interface WorkspaceProps {
   modules: LabModule[];
   onCloseModule: (id: string) => void;
   onCloseAll: () => void;
+  onMinimize?: () => void;
 }
 
-export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps) {
+export function Workspace({ modules, onCloseModule, onCloseAll, onMinimize }: WorkspaceProps) {
   // Use ID-based active state for stability during FIFO shifts
   const [activeModuleId, setActiveModuleId] = useState<string | null>(modules[0]?.id || null);
   const [viewMode, setViewMode] = useState<'split' | 'pdf-only' | 'floating'>('split');
@@ -106,7 +107,7 @@ export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps
       {/* Workspace Header - Unified h-12 */}
       <header className="h-12 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 z-[210] shrink-0 gap-4">
         <div className="flex items-center gap-2 shrink-0">
-          <Button variant="ghost" size="icon" onClick={onCloseAll} className="text-white/50 h-8 w-8">
+          <Button variant="ghost" size="icon" onClick={onMinimize} className="text-white/50 h-8 w-8" title="Minimize Workspace">
             <ChevronLeft size={18} />
           </Button>
           <div className="hidden sm:flex items-center gap-2 border-l border-white/10 pl-3">
@@ -171,7 +172,7 @@ export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <Button variant="ghost" size="icon" onClick={onCloseAll} className="text-red-500 h-8 w-8 hover:bg-red-500/10">
+          <Button variant="ghost" size="icon" onClick={onCloseAll} className="text-red-500 h-8 w-8 hover:bg-red-500/10" title="Close All Tabs">
             <X size={18} />
           </Button>
         </div>

@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useEffect, Suspense, useRef } from 'react';
+import { useState, useEffect, Suspense, useRef, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { Sidebar } from '@/components/dashboard/Sidebar';
@@ -25,7 +25,8 @@ import {
   AlertCircle,
   X,
   Loader2,
-  Layout
+  Layout,
+  Play
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -86,9 +87,12 @@ function LibraryContent() {
 
   // Multi-tab Workspace State
   const [activeModules, setActiveModules] = useState<LabModule[]>([]);
+  const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const STORAGE_KEY = 'TITRATE_PERSISTENT_TABS';
 
   useEffect(() => {
     loadLibrary();
@@ -110,6 +114,16 @@ function LibraryContent() {
     }
     setModules(storedModules.sort((a, b) => b.id.localeCompare(a.id)));
 
+    // Re-hydrate persistent tabs
+    const savedIds = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (savedIds.length > 0) {
+      const allModules = await db.getAll<LabModule>('modules');
+      const hydrated = savedIds
+        .map((id: string) => allModules.find(m => m.id === id))
+        .filter(Boolean) as LabModule[];
+      setActiveModules(hydrated);
+    }
+
     const userProfile = await db.getById<UserProfile>('profile', 'current-user');
     if (userProfile) {
       setProfile(userProfile);
@@ -118,6 +132,11 @@ function LibraryContent() {
       setEditExamDate(userProfile.examDate);
     }
     setLoading(false);
+  };
+
+  const persistTabs = (modules: LabModule[]) => {
+    const ids = modules.map(m => m.id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
   };
 
   const updateStreak = async () => {
@@ -166,21 +185,38 @@ function LibraryContent() {
 
   const openPdf = (module: LabModule) => {
     updateStreak();
+    setIsWorkspaceOpen(true);
+    
     setActiveModules(prev => {
       // If already open, just keep current
-      if (prev.find(m => m.id === module.id)) return prev;
+      if (prev.find(m => m.id === module.id)) {
+        return prev;
+      }
       
       // FIFO Replacement Logic: Max 4 tabs
-      if (prev.length >= 4) {
+      let nextList = [...prev, module];
+      if (nextList.length > 4) {
         toast({ title: "FIFO Rotation", description: "Archived oldest tab to make room for new protocol." });
-        return [...prev.slice(1), module];
+        nextList = nextList.slice(1);
       }
-      return [...prev, module];
+      persistTabs(nextList);
+      return nextList;
     });
   };
 
   const handleCloseModule = (moduleId: string) => {
-    setActiveModules(prev => prev.filter(m => m.id !== moduleId));
+    setActiveModules(prev => {
+      const next = prev.filter(m => m.id !== moduleId);
+      persistTabs(next);
+      if (next.length === 0) setIsWorkspaceOpen(false);
+      return next;
+    });
+  };
+
+  const handleClearAll = () => {
+    setActiveModules([]);
+    persistTabs([]);
+    setIsWorkspaceOpen(false);
   };
 
   const filteredModules = modules.filter(m => 
@@ -222,11 +258,19 @@ function LibraryContent() {
           </section>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
+            <div className="flex items-center gap-4">
               <h3 className="text-2xl lg:text-3xl xl:text-5xl font-black italic tracking-tighter uppercase flex items-center gap-2">
                 <Archive className="text-primary" size={22} />
                 {subjectFilter ? `${subjectFilter} Sector` : 'Archives'}
               </h3>
+              {activeModules.length > 0 && !isWorkspaceOpen && (
+                <Button 
+                  onClick={() => setIsWorkspaceOpen(true)}
+                  className="bg-primary/10 border border-primary/30 text-primary hover:bg-primary hover:text-black h-10 px-4 text-[9px] font-black tracking-widest animate-pulse"
+                >
+                  <Play size={12} className="mr-2" /> RESUME SESSION ({activeModules.length})
+                </Button>
+              )}
             </div>
             <div className="flex flex-wrap gap-2 w-full md:w-auto">
               {subjectFilter && <Button onClick={() => router.push('/library')} variant="outline" className="h-10 border-white/10 text-white font-black text-[9px]">DIRECTORY</Button>}
@@ -288,12 +332,13 @@ function LibraryContent() {
           )}
         </div>
 
-        {/* Workspace Integration */}
-        {activeModules.length > 0 && (
+        {/* Workspace Integration - Persistent overlay */}
+        {activeModules.length > 0 && isWorkspaceOpen && (
           <Workspace 
             modules={activeModules} 
             onCloseModule={handleCloseModule}
-            onCloseAll={() => setActiveModules([])} 
+            onCloseAll={handleClearAll} 
+            onMinimize={() => setIsWorkspaceOpen(false)}
           />
         )}
 
