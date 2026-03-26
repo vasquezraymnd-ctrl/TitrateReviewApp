@@ -44,13 +44,22 @@ type Tool = 'view' | 'pencil' | 'highlighter' | 'eraser' | 'laser' | 'lasso';
 export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNotebookId }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [scale, setScale] = useState(1.0); // Functional scale (for rendering)
-  const [displayScale, setDisplayScale] = useState(1.0); // Visual scale (for GPU smoothness)
+  
+  // Transform States
+  const [scale, setScale] = useState(1.0);
+  const [translateX, setTranslateX] = useState(0);
+  const [translateY, setTranslateY] = useState(0);
+  
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
-  const [currentColor, setCurrentColor] = useState('#00ff7f');
-  const [isPinching, setIsPinching] = useState(false);
+  const [currentColor, setCurrentColor] = useState('#000000');
   
+  // Interaction tracking
+  const [isInteracting, setIsInteracting] = useState(false);
+  const lastTouchRef = useRef({ x: 0, y: 0 });
+  const pinchStartDistance = useRef<number>(0);
+  const pinchStartScale = useRef<number>(1.0);
+
   // Thickness States
   const [pencilWidth, setPencilWidth] = useState(3);
   const [highlighterWidth, setHighlighterWidth] = useState(25);
@@ -61,16 +70,15 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [presets, setPresets] = useState<ToolPreset[]>([]);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const pinchStartDistance = useRef<number>(0);
-  const pinchStartScale = useRef<number>(1.0);
 
-  // Memoize the document source to prevent unnecessary reloads
+  // High-res rendering scale (Stable to avoid reloading flash)
+  const RENDER_QUALITY = 1.5;
+
   const documentFile = useMemo(() => {
     if (!file) return null;
     return typeof file === 'string' ? file : { data: file };
   }, [file, moduleId]);
 
-  // Load annotations and presets
   const loadInitialData = useCallback(async () => {
     if (!moduleId) return;
     const annData = await db.getAnnotations(moduleId, pageNumber);
@@ -88,24 +96,15 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setIsLoaded(true);
   }
 
-  const zoomIn = () => {
-    const newScale = Math.min(scale + 0.2, 3.0);
-    setScale(newScale);
-    setDisplayScale(newScale);
-  };
-  
-  const zoomOut = () => {
-    const newScale = Math.max(scale - 0.2, 0.5);
-    setScale(newScale);
-    setDisplayScale(newScale);
-  };
-  
+  const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 4.0));
+  const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.3));
   const fitToWidth = () => {
     const container = document.getElementById('pdf-viewport');
     if (container) {
-      const newScale = container.clientWidth / 850;
+      const newScale = (container.clientWidth - 80) / 850;
       setScale(newScale);
-      setDisplayScale(newScale);
+      setTranslateX(0);
+      setTranslateY(0);
     }
   };
 
@@ -113,7 +112,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     if (activeTool === 'pencil') return pencilWidth;
     if (activeTool === 'highlighter') return highlighterWidth;
     if (activeTool === 'eraser') return eraserWidth;
-    if (activeTool === 'laser') return 5;
     return 3;
   };
 
@@ -154,7 +152,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     annotations.forEach(ann => {
       ctx.beginPath();
       ctx.strokeStyle = ann.color;
-      ctx.lineWidth = ann.width * scale;
+      ctx.lineWidth = ann.width * RENDER_QUALITY;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       
@@ -162,7 +160,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         ctx.globalAlpha = ann.opacity || 0.3;
         ctx.globalCompositeOperation = 'multiply';
       } else {
-        // Pencils are always solid and dark
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
       }
@@ -179,7 +176,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     if (currentStroke) {
       ctx.beginPath();
       ctx.strokeStyle = activeTool === 'lasso' ? '#00ff7f' : currentColor;
-      ctx.lineWidth = activeTool === 'lasso' ? 2 : getCurrentWidth() * scale;
+      ctx.lineWidth = activeTool === 'lasso' ? 2 : getCurrentWidth() * RENDER_QUALITY;
       if (activeTool === 'lasso') ctx.setLineDash([5, 5]);
       else ctx.setLineDash([]);
       
@@ -190,7 +187,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         ctx.globalAlpha = 0.3;
         ctx.globalCompositeOperation = 'multiply';
       } else {
-        // Current pen stroke is solid and dark
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
       }
@@ -203,21 +199,25 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       });
       ctx.stroke();
     }
-  }, [annotations, currentStroke, scale, activeTool, currentColor, pencilWidth, highlighterWidth, eraserWidth]);
+  }, [annotations, currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth, eraserWidth]);
 
   useEffect(() => {
     drawAll();
   }, [drawAll]);
 
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsInteracting(true);
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    lastTouchRef.current = { x: clientX, y: clientY };
+
     if ('touches' in e && e.touches.length === 2) {
       const dist = Math.hypot(
         e.touches[0].pageX - e.touches[1].pageX,
         e.touches[0].pageY - e.touches[1].pageY
       );
       pinchStartDistance.current = dist;
-      pinchStartScale.current = displayScale;
-      setIsPinching(true);
+      pinchStartScale.current = scale;
       setCurrentStroke(null);
       return;
     }
@@ -228,9 +228,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    
+    // Calculate relative coordinates within the current transformed space
     const x = (clientX - rect.left) / rect.width;
     const y = (clientY - rect.top) / rect.height;
 
@@ -243,48 +241,51 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   };
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isInteracting) return;
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    // Handle Pinch Zoom
     if ('touches' in e && e.touches.length === 2 && pinchStartDistance.current > 0) {
       const dist = Math.hypot(
         e.touches[0].pageX - e.touches[1].pageX,
         e.touches[0].pageY - e.touches[1].pageY
       );
       const ratio = dist / pinchStartDistance.current;
-      const newVisualScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.5), 4.0);
-      setDisplayScale(newVisualScale);
+      setScale(Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0));
       return;
     }
 
-    if (activeTool === 'view' || isPinching) return;
-    
+    // Handle Panning (View Mode or space bar held)
+    if (activeTool === 'view') {
+      const dx = clientX - lastTouchRef.current.x;
+      const dy = clientY - lastTouchRef.current.y;
+      setTranslateX(prev => prev + dx);
+      setTranslateY(prev => prev + dy);
+      lastTouchRef.current = { x: clientX, y: clientY };
+      return;
+    }
+
+    // Handle Annotations
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !currentStroke) return;
     const rect = canvas.getBoundingClientRect();
-    
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     
     const x = (clientX - rect.left) / rect.width;
     const y = (clientY - rect.top) / rect.height;
 
     if (activeTool === 'eraser') {
-        if (e.buttons === 1 || 'touches' in e) {
-            handleErase(x, y);
-        }
-        return;
+      handleErase(x, y);
+      return;
     }
 
-    if (!currentStroke) return;
     setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
   };
 
   const handleEnd = async () => {
-    if (isPinching) {
-      // Once pinching ends, we sync the functional scale to re-render PDF at high quality
-      setScale(displayScale);
-      pinchStartDistance.current = 0;
-      setIsPinching(false);
-      return;
-    }
+    setIsInteracting(false);
+    pinchStartDistance.current = 0;
 
     if (activeTool === 'view' || !currentStroke || !moduleId) {
       setCurrentStroke(null);
@@ -293,11 +294,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
     if (activeTool === 'lasso') {
       handleLassoCapture();
-      return;
-    }
-
-    if (activeTool === 'laser') {
-      setCurrentStroke(null);
       return;
     }
 
@@ -424,7 +420,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                  <ZoomOut size={16} />
                </Button>
                <div className="w-16 text-center text-[10px] font-black text-primary uppercase tracking-widest">
-                 {Math.round(displayScale * 100)}%
+                 {Math.round(scale * 100)}%
                </div>
                <Button variant="ghost" size="icon" onClick={zoomIn} className="h-8 w-8 text-white/60 hover:text-white">
                  <ZoomIn size={16} />
@@ -453,7 +449,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               onClick={() => setActiveTool('pencil')}
               className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40")}
             >
-              <Pencil size={12} /> Pencil
+              <Pencil size={12} /> Pen
             </Button>
             
             <Button 
@@ -472,15 +468,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'lasso' ? "bg-primary text-black" : "text-white/40")}
             >
               <Scissors size={12} /> Lasso
-            </Button>
-
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => setActiveTool('laser')}
-              className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest", activeTool === 'laser' ? "bg-primary text-black" : "text-white/40")}
-            >
-              <Zap size={12} /> Laser
             </Button>
 
             <Button 
@@ -550,24 +537,19 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
       <div 
         id="pdf-viewport" 
-        className="flex-1 overflow-auto no-scrollbar flex justify-center bg-[#050a0f] relative p-4 md:p-10 touch-none select-none"
-        onWheel={(e) => {
-          if (e.ctrlKey) {
-            e.preventDefault();
-            const delta = e.deltaY > 0 ? -0.1 : 0.1;
-            const newScale = Math.min(Math.max(displayScale + delta, 0.5), 4.0);
-            setDisplayScale(newScale);
-            setScale(newScale);
-          }
-        }}
+        className="flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none cursor-grab active:cursor-grabbing"
+        onMouseDown={handleStart}
+        onMouseMove={handleMove}
+        onMouseUp={handleEnd}
+        onMouseLeave={handleEnd}
+        onTouchStart={handleStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleEnd}
       >
         <div 
-          className={cn(
-            "max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out will-change-transform origin-top",
-            isPinching && "duration-0" // Disable transition during active pinch for raw responsiveness
-          )}
+          className="relative transition-transform duration-75 ease-out will-change-transform"
           style={{ 
-            transform: `translate3d(0,0,0) scale3d(${displayScale / scale}, ${displayScale / scale}, 1)`,
+            transform: `translate3d(${translateX}px, ${translateY}px, 0) scale3d(${scale}, ${scale}, 1)`,
           }}
         >
           {documentFile ? (
@@ -577,20 +559,11 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
             >
               {isLoaded && (
-                <div 
-                  className="relative bg-white"
-                  onMouseDown={handleStart}
-                  onMouseMove={handleMove}
-                  onMouseUp={handleEnd}
-                  onMouseLeave={handleEnd}
-                  onTouchStart={handleStart}
-                  onTouchMove={handleMove}
-                  onTouchEnd={handleEnd}
-                >
+                <div className="relative bg-white shadow-[0_0_50px_rgba(0,0,0,0.5)]">
                   <Page 
                     pageNumber={pageNumber} 
-                    scale={scale} 
-                    className="max-w-full"
+                    scale={RENDER_QUALITY} 
+                    className="max-w-none"
                     onRenderSuccess={(page) => {
                       const canvas = canvasRef.current;
                       if (canvas) {
