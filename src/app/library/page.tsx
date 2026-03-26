@@ -48,8 +48,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/app/lib/placeholder-images';
+import { cn } from '@/lib/utils';
 
 // Dynamically import the Workspace to handle client-side rendering requirements
 const Workspace = dynamic(() => import('@/components/dashboard/Workspace').then(mod => mod.Workspace), {
@@ -73,6 +84,10 @@ function LibraryContent() {
   const [search, setSearch] = useState('');
   const [profile, setProfile] = useState<UserProfile | null>(null);
   
+  // UI Modes
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [moduleToDelete, setModuleToDelete] = useState<LabModule | null>(null);
+
   // Module Dialog State
   const [isAddModuleOpen, setIsAddModuleOpen] = useState(false);
   const [newModuleName, setNewModuleName] = useState('');
@@ -174,6 +189,23 @@ function LibraryContent() {
     loadLibrary();
   };
 
+  const deleteModule = async () => {
+    if (!moduleToDelete) return;
+    await db.delete('modules', moduleToDelete.id);
+    
+    // Cleanup active tabs
+    setActiveModules(prev => {
+      const next = prev.filter(m => m.id !== moduleToDelete.id);
+      persistTabs(next);
+      if (next.length === 0) setIsWorkspaceOpen(false);
+      return next;
+    });
+
+    setModuleToDelete(null);
+    toast({ title: "Protocol Archived", description: "Document has been permanently removed." });
+    loadLibrary();
+  };
+
   const saveProfile = async () => {
     if (!editName.trim()) return;
     const updatedProfile: UserProfile = { ...profile!, name: editName, proficiencyRank: editYear, examDate: editExamDate };
@@ -184,6 +216,7 @@ function LibraryContent() {
   };
 
   const openPdf = (module: LabModule) => {
+    if (isDeleteMode) return;
     updateStreak();
     setIsWorkspaceOpen(true);
     
@@ -273,6 +306,18 @@ function LibraryContent() {
               )}
             </div>
             <div className="flex flex-wrap gap-2 w-full md:w-auto">
+              <Button 
+                onClick={() => setIsDeleteMode(!isDeleteMode)} 
+                variant="outline" 
+                className={cn(
+                  "h-10 border-white/10 font-black text-[9px] uppercase tracking-widest",
+                  isDeleteMode ? "bg-red-500/20 border-red-500/50 text-red-500 hover:bg-red-500/30" : "text-white/60 hover:text-white"
+                )}
+              >
+                <Trash2 size={12} className="mr-2" />
+                {isDeleteMode ? 'Exit Delete' : 'Delete Mode'}
+              </Button>
+              
               {subjectFilter && <Button onClick={() => router.push('/library')} variant="outline" className="h-10 border-white/10 text-white font-black text-[9px]">DIRECTORY</Button>}
               <div className="relative w-full md:w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" size={14} />
@@ -312,20 +357,33 @@ function LibraryContent() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
               {filteredModules.map((module) => (
-                <div key={module.id} className="group cursor-pointer" onClick={() => openPdf(module)}>
-                  <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all bg-black">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="flex justify-between items-end">
-                        <div className="space-y-1">
-                          <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
-                          <h4 className="text-xl font-black italic uppercase leading-tight text-white truncate">{module.name}</h4>
-                          <div className="flex items-center gap-1.5 mt-1"><Layout size={10} className="text-primary" /><span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Workspace Ready</span></div>
+                <div key={module.id} className="group relative">
+                  <div className="cursor-pointer" onClick={() => openPdf(module)}>
+                    <div className="riot-card aspect-[16/10] relative group-hover:scale-[1.02] transition-all bg-black">
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <div className="flex justify-between items-end">
+                          <div className="space-y-1">
+                            <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em]">{module.subject}</p>
+                            <h4 className="text-xl font-black italic uppercase leading-tight text-white truncate">{module.name}</h4>
+                            <div className="flex items-center gap-1.5 mt-1"><Layout size={10} className="text-primary" /><span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Workspace Ready</span></div>
+                          </div>
+                          {!isDeleteMode && (
+                            <div className="w-8 h-8 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0"><ArrowRight className="text-black" size={14} /></div>
+                          )}
                         </div>
-                        <div className="w-8 h-8 bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0"><ArrowRight className="text-black" size={14} /></div>
                       </div>
                     </div>
                   </div>
+                  {isDeleteMode && (
+                    <button 
+                      onClick={() => setModuleToDelete(module)}
+                      className="absolute top-3 right-3 z-30 w-8 h-8 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-2xl transition-transform active:scale-90"
+                      title="Delete Protocol"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -376,6 +434,21 @@ function LibraryContent() {
             <DialogFooter><Button onClick={saveProfile} className="bg-primary text-black rounded-none font-black text-[9px] tracking-widest px-8">SAVE</Button></DialogFooter>
           </DialogContent>
         </Dialog>
+
+        <AlertDialog open={!!moduleToDelete} onOpenChange={(open) => !open && setModuleToDelete(null)}>
+          <AlertDialogContent className="bg-[#111a24] border-white/10 text-white rounded-none">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="font-black italic uppercase text-red-500">Archive Confirmation</AlertDialogTitle>
+              <AlertDialogDescription className="text-muted-foreground italic text-sm">
+                Permanently delete <span className="text-white font-bold">"{moduleToDelete?.name}"</span>? All annotations and linked data will be purged from the local laboratory.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="uppercase font-black text-[9px] border-white/10 text-white hover:bg-white/5">Abort</AlertDialogCancel>
+              <AlertDialogAction onClick={deleteModule} className="bg-red-600 hover:bg-red-700 text-white font-black text-[9px] uppercase">Confirm Purge</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </main>
     </div>
   );
