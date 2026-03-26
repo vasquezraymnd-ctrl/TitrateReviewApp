@@ -115,3 +115,31 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Protocol Outline Styling */
+.protocol-outline ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0;
+}
+.protocol-outline > ul {
+  padding-left: 0;
+}
+.protocol-outline li {
+  margin: 0.5rem 0;
+}
+.protocol-outline a {
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+  cursor: pointer;
+  display: block;
+  padding: 0.25rem 0;
+}
+.protocol-outline a:hover {
+  color: hsl(var(--primary));
+}

@@ -1,8 +1,7 @@
-
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Document, Page, Outline, pdfjs } from 'react-pdf';
 import { 
   Loader2, 
   ChevronLeft, 
@@ -16,12 +15,27 @@ import {
   MousePointer2,
   Trash2,
   Plus,
-  Scissors
+  Scissors,
+  List,
+  Hash
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 import { db, Annotation, ToolPreset, WorkspaceClip } from '@/lib/db';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
 
 // CSS for text selection and link interaction
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -43,6 +57,7 @@ type Tool = 'view' | 'pencil' | 'highlighter' | 'eraser' | 'laser' | 'lasso';
 export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNotebookId }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [jumpPage, setJumpPage] = useState("");
   
   // Transform States
   const [scale, setScale] = useState(1.0);
@@ -79,7 +94,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const documentFile = useMemo(() => {
     if (!file) return null;
     return typeof file === 'string' ? file : { data: file };
-  }, [file, moduleId]);
+  }, [file]);
 
   const loadInitialData = useCallback(async () => {
     if (!moduleId) return;
@@ -93,10 +108,18 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     loadInitialData();
   }, [loadInitialData]);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+  const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setIsLoaded(true);
-  }
+  }, []);
+
+  const handleJumpPage = () => {
+    const p = parseInt(jumpPage, 10);
+    if (!isNaN(p) && numPages && p >= 1 && p <= numPages) {
+      setPageNumber(p);
+      setJumpPage("");
+    }
+  };
 
   const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 4.0));
   const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.3));
@@ -449,11 +472,32 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             >
               <ChevronLeft size={16} />
             </Button>
-            <div className="bg-white/5 border border-white/10 px-2 md:px-3 py-1 md:py-1.5 min-w-[80px] md:min-w-[100px] text-center">
-              <span className="text-[9px] md:text-[10px] font-black italic uppercase tracking-widest text-white">
-                PG {pageNumber} <span className="text-muted-foreground mx-0.5 md:mx-1">/</span> {numPages || '--'}
-              </span>
-            </div>
+            
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="bg-white/5 border border-white/10 px-2 md:px-3 py-1 md:py-1.5 min-w-[80px] md:min-w-[100px] text-center hover:bg-white/10 transition-colors">
+                  <span className="text-[9px] md:text-[10px] font-black italic uppercase tracking-widest text-white">
+                    PG {pageNumber} <span className="text-muted-foreground mx-0.5 md:mx-1">/</span> {numPages || '--'}
+                  </span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-[#111a24] border-white/10 p-4 w-48 rounded-none">
+                <div className="space-y-3">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-primary">Jump to Page</p>
+                  <div className="flex gap-2">
+                    <Input 
+                      value={jumpPage} 
+                      onChange={(e) => setJumpPage(e.target.value)}
+                      placeholder="Enter #"
+                      className="h-8 bg-white/5 border-white/10 text-xs rounded-none"
+                      onKeyDown={(e) => e.key === 'Enter' && handleJumpPage()}
+                    />
+                    <Button onClick={handleJumpPage} size="sm" className="h-8 bg-primary text-black rounded-none">GO</Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+
             <Button 
               variant="ghost" 
               size="icon" 
@@ -463,6 +507,30 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             >
               <ChevronRight size={16} />
             </Button>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-white/40 hover:text-primary h-8 w-8 ml-1" title="Protocol Index">
+                  <List size={16} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="bg-[#0b111a] border-white/10 text-white w-80 p-0 flex flex-col">
+                <SheetHeader className="p-6 border-b border-white/5 shrink-0">
+                  <SheetTitle className="text-white font-black italic uppercase tracking-tighter flex items-center gap-2">
+                    <List className="text-primary" size={18} />
+                    Protocol Index
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
+                  <Outline 
+                    onItemClick={({ pageNumber }: any) => {
+                      setPageNumber(parseInt(pageNumber, 10));
+                    }}
+                    className="protocol-outline"
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
 
           {isAnnotationActive && (

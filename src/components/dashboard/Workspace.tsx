@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { PdfViewer } from './PdfViewer';
 import { NotebookPanel } from './NotebookPanel';
 import { Button } from '@/components/ui/button';
@@ -28,6 +28,7 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
   const [pdfWidth] = useState(50); // Percentage for split view
   const [pdfData, setPdfData] = useState<Uint8Array | null>(null);
   const [loadingPdf, setLoadingPdf] = useState(true);
+  const lastModuleIdRef = useRef<string | null>(null);
 
   // Memoize data preparation to prevent redundant re-renders in children
   const preparePdfData = useCallback(async () => {
@@ -48,8 +49,12 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
 
   useEffect(() => {
     loadActiveNotebook();
-    preparePdfData();
-  }, [module.pdfBlob, preparePdfData]);
+    // Only prepare if it's a new module or data is missing
+    if (module.id !== lastModuleIdRef.current) {
+      lastModuleIdRef.current = module.id;
+      preparePdfData();
+    }
+  }, [module.id, preparePdfData]);
 
   const loadActiveNotebook = async () => {
     const all = await db.getAll<Notebook>('notebooks');
