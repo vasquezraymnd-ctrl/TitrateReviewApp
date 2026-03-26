@@ -5,9 +5,6 @@ import { PdfViewer } from './PdfViewer';
 import { NotebookPanel } from './NotebookPanel';
 import { Button } from '@/components/ui/button';
 import { 
-  Columns, 
-  Layout, 
-  Maximize2, 
   ChevronLeft, 
   BookOpen,
   FileText,
@@ -76,7 +73,7 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
 
   return (
     <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
-      {/* Workspace Header - Compact h-12 */}
+      {/* Workspace Header - Unified h-12 */}
       <header className="h-12 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 z-[210] shrink-0">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={onClose} className="text-white/50 h-8 w-8">
