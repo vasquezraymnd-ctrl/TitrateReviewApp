@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { PdfViewer } from './PdfViewer';
 import { NotebookPanel } from './NotebookPanel';
 import { Button } from '@/components/ui/button';
@@ -29,10 +29,27 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
   const [pdfData, setPdfData] = useState<Uint8Array | null>(null);
   const [loadingPdf, setLoadingPdf] = useState(true);
 
+  // Memoize data preparation to prevent redundant re-renders in children
+  const preparePdfData = useCallback(async () => {
+    if (module.pdfBlob) {
+      setLoadingPdf(true);
+      try {
+        const buffer = await module.pdfBlob.arrayBuffer();
+        setPdfData(new Uint8Array(buffer));
+      } catch (err) {
+        console.error("Failed to process PDF protocol:", err);
+      } finally {
+        setLoadingPdf(false);
+      }
+    } else {
+      setLoadingPdf(false);
+    }
+  }, [module.pdfBlob]);
+
   useEffect(() => {
     loadActiveNotebook();
     preparePdfData();
-  }, [module.pdfBlob]);
+  }, [module.pdfBlob, preparePdfData]);
 
   const loadActiveNotebook = async () => {
     const all = await db.getAll<Notebook>('notebooks');
@@ -49,27 +66,11 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
     }
   };
 
-  const preparePdfData = async () => {
-    if (module.pdfBlob) {
-      setLoadingPdf(true);
-      try {
-        const buffer = await module.pdfBlob.arrayBuffer();
-        setPdfData(new Uint8Array(buffer));
-      } catch (err) {
-        console.error("Failed to process PDF protocol:", err);
-      } finally {
-        setLoadingPdf(false);
-      }
-    } else {
-      setLoadingPdf(false);
-    }
-  };
-
-  const handleClipCaptured = async (clip: WorkspaceClip) => {
+  const handleClipCaptured = useCallback(async (clip: WorkspaceClip) => {
     await db.put('clips', clip);
     // Notify notebook panel to refresh
     window.dispatchEvent(new CustomEvent('titrate:clip-captured', { detail: clip }));
-  };
+  }, []);
 
   return (
     <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">

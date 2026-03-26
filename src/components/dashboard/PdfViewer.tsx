@@ -60,10 +60,11 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Memoize the document source to prevent unnecessary reloads
+  // We use moduleId as a stable anchor to ensure the file object isn't recreated unless it's a different module
   const documentFile = useMemo(() => {
     if (!file) return null;
     return typeof file === 'string' ? file : { data: file };
-  }, [file]);
+  }, [file, moduleId]);
 
   // Load annotations and presets
   const loadInitialData = useCallback(async () => {
