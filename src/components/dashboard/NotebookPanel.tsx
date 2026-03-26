@@ -12,9 +12,12 @@ import {
   Share2,
   ExternalLink,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Undo,
+  Redo
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 interface NotebookPanelProps {
   notebookId: string;
@@ -23,6 +26,7 @@ interface NotebookPanelProps {
 export function NotebookPanel({ notebookId }: NotebookPanelProps) {
   const [page, setPage] = useState(1);
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
+  const [redoStack, setRedoStack] = useState<Annotation[]>([]);
   const [clips, setClips] = useState<WorkspaceClip[]>([]);
   const [activeTool, setActiveTool] = useState<'pencil' | 'highlighter' | 'eraser'>('pencil');
   const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
@@ -30,14 +34,13 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // High-DPI Quality standard
-  const RENDER_QUALITY = 3.0;
+  const { toast } = useToast();
 
   const loadData = useCallback(async () => {
     const annData = await db.getNotebookAnnotations(notebookId, page);
     const clipData = await db.getNotebookClips(notebookId);
     setAnnotations(annData);
+    setRedoStack([]); // Clear redo on page change
     setClips(clipData.filter(c => c.notebookId === notebookId));
   }, [notebookId, page]);
 
@@ -102,14 +105,12 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     }
   }, [currentStroke, activeTool]);
 
-  // Adjust canvas size for DPR
   useEffect(() => {
     const resize = () => {
       const p = permanentCanvasRef.current;
       const a = activeCanvasRef.current;
       const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
       if (p && a && containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
         // Target high internal resolution
         p.width = a.width = 1600 * dpr;
         p.height = a.height = 2262 * dpr;
@@ -121,6 +122,10 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
   }, [drawPermanent, drawActive]);
+
+  useEffect(() => {
+    drawPermanent();
+  }, [annotations, drawPermanent]);
 
   const handlePointerStart = (e: React.PointerEvent) => {
     const canvas = activeCanvasRef.current;
@@ -139,7 +144,7 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!currentStroke) return;
+    if (!currentStroke && activeTool !== 'eraser') return;
     const canvas = activeCanvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
@@ -147,7 +152,7 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     const y = (e.clientY - rect.top) / rect.height;
 
     if (activeTool === 'eraser') {
-      handleErase(x, y);
+      if (e.buttons === 1) handleErase(x, y);
       return;
     }
     setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
@@ -167,6 +172,7 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     };
     await db.put('annotations', newAnn);
     setAnnotations(prev => [...prev, newAnn]);
+    setRedoStack([]); // New action invalidates redo
     setCurrentStroke(null);
   };
 
@@ -178,6 +184,32 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       await db.delete('annotations', toDelete.id);
       setAnnotations(prev => prev.filter(a => a.id !== toDelete.id));
     }
+  };
+
+  const handleUndo = async () => {
+    if (annotations.length === 0) return;
+    const last = annotations[annotations.length - 1];
+    await db.delete('annotations', last.id);
+    setAnnotations(prev => prev.slice(0, -1));
+    setRedoStack(prev => [...prev, last]);
+  };
+
+  const handleRedo = async () => {
+    if (redoStack.length === 0) return;
+    const last = redoStack[redoStack.length - 1];
+    await db.put('annotations', last);
+    setRedoStack(prev => prev.slice(0, -1));
+    setAnnotations(prev => [...prev, last]);
+  };
+
+  const handleClearPage = async () => {
+    if (annotations.length === 0) return;
+    for (const ann of annotations) {
+      await db.delete('annotations', ann.id);
+    }
+    setAnnotations([]);
+    setRedoStack([]);
+    toast({ title: "Workspace Cleared", description: "All notations removed from this page." });
   };
 
   const deleteClip = async (id: string) => {
@@ -215,7 +247,40 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
           </Button>
         </div>
 
-        <div className="flex items-center gap-1">
+        {/* Revision Controls - CENTER LEFT */}
+        <div className="flex items-center gap-0.5 border-l border-white/5 pl-2">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleUndo}
+            disabled={annotations.length === 0}
+            className="h-8 w-8 text-white/40 disabled:opacity-10"
+            title="Undo"
+          >
+            <Undo size={14} />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleRedo}
+            disabled={redoStack.length === 0}
+            className="h-8 w-8 text-white/40 disabled:opacity-10"
+            title="Redo"
+          >
+            <Redo size={14} />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleClearPage}
+            className="h-8 w-8 text-red-500/40 hover:text-red-500"
+            title="Clear Page"
+          >
+            <Trash2 size={14} />
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-1 mx-auto">
           <Button variant="ghost" size="icon" onClick={() => setPage(p => Math.max(1, p - 1))} className="h-7 w-7 text-white/40">
             <ChevronLeft size={14} />
           </Button>
