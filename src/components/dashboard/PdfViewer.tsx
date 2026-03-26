@@ -44,7 +44,8 @@ type Tool = 'view' | 'pencil' | 'highlighter' | 'eraser' | 'laser' | 'lasso';
 export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNotebookId }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [scale, setScale] = useState(1.0);
+  const [scale, setScale] = useState(1.0); // Functional scale (for rendering)
+  const [displayScale, setDisplayScale] = useState(1.0); // Visual scale (for GPU smoothness)
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
   const [currentColor, setCurrentColor] = useState('#00ff7f');
@@ -87,13 +88,24 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setIsLoaded(true);
   }
 
-  const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 3.0));
-  const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.5));
+  const zoomIn = () => {
+    const newScale = Math.min(scale + 0.2, 3.0);
+    setScale(newScale);
+    setDisplayScale(newScale);
+  };
+  
+  const zoomOut = () => {
+    const newScale = Math.max(scale - 0.2, 0.5);
+    setScale(newScale);
+    setDisplayScale(newScale);
+  };
   
   const fitToWidth = () => {
     const container = document.getElementById('pdf-viewport');
     if (container) {
-      setScale(container.clientWidth / 850);
+      const newScale = container.clientWidth / 850;
+      setScale(newScale);
+      setDisplayScale(newScale);
     }
   };
 
@@ -196,14 +208,13 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   }, [drawAll]);
 
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
-    // Handle pinch start
     if ('touches' in e && e.touches.length === 2) {
       const dist = Math.hypot(
         e.touches[0].pageX - e.touches[1].pageX,
         e.touches[0].pageY - e.touches[1].pageY
       );
       pinchStartDistance.current = dist;
-      pinchStartScale.current = scale;
+      pinchStartScale.current = displayScale;
       setIsPinching(true);
       setCurrentStroke(null);
       return;
@@ -230,15 +241,14 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   };
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
-    // Handle pinch move
     if ('touches' in e && e.touches.length === 2 && pinchStartDistance.current > 0) {
       const dist = Math.hypot(
         e.touches[0].pageX - e.touches[1].pageX,
         e.touches[0].pageY - e.touches[1].pageY
       );
       const ratio = dist / pinchStartDistance.current;
-      const newScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.5), 3.0);
-      setScale(newScale);
+      const newVisualScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.5), 4.0);
+      setDisplayScale(newVisualScale);
       return;
     }
 
@@ -266,8 +276,13 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   };
 
   const handleEnd = async () => {
-    pinchStartDistance.current = 0;
-    setIsPinching(false);
+    if (isPinching) {
+      // Once pinching ends, we sync the functional scale to re-render PDF at high quality
+      setScale(displayScale);
+      pinchStartDistance.current = 0;
+      setIsPinching(false);
+      return;
+    }
 
     if (activeTool === 'view' || !currentStroke || !moduleId) {
       setCurrentStroke(null);
@@ -373,7 +388,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
   return (
     <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
-      <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-10 shrink-0">
+      <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-[100] shrink-0">
         <div className="h-14 flex items-center justify-between px-6 border-b border-white/5">
           <div className="flex items-center gap-2">
             <Button 
@@ -407,7 +422,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                  <ZoomOut size={16} />
                </Button>
                <div className="w-16 text-center text-[10px] font-black text-primary uppercase tracking-widest">
-                 {Math.round(scale * 100)}%
+                 {Math.round(displayScale * 100)}%
                </div>
                <Button variant="ghost" size="icon" onClick={zoomIn} className="h-8 w-8 text-white/60 hover:text-white">
                  <ZoomIn size={16} />
@@ -537,15 +552,22 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         onWheel={(e) => {
           if (e.ctrlKey) {
             e.preventDefault();
-            if (e.deltaY < 0) zoomIn();
-            else zoomOut();
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            const newScale = Math.min(Math.max(displayScale + delta, 0.5), 4.0);
+            setDisplayScale(newScale);
+            setScale(newScale);
           }
         }}
       >
-        <div className={cn(
-          "max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out will-change-transform origin-top",
-          isPinching && "scale-[1.02]"
-        )}>
+        <div 
+          className={cn(
+            "max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out will-change-transform origin-top",
+            isPinching && "duration-0" // Disable transition during active pinch for raw responsiveness
+          )}
+          style={{ 
+            transform: `translate3d(0,0,0) scale3d(${displayScale / scale}, ${displayScale / scale}, 1)`,
+          }}
+        >
           {documentFile ? (
             <Document
               file={documentFile}
