@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { 
   Loader2, 
@@ -58,6 +58,12 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [presets, setPresets] = useState<ToolPreset[]>([]);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Memoize the document source to prevent unnecessary reloads
+  const documentFile = useMemo(() => {
+    if (!file) return null;
+    return typeof file === 'string' ? file : { data: file };
+  }, [file]);
 
   // Load annotations and presets
   const loadInitialData = useCallback(async () => {
@@ -495,9 +501,9 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
       <div id="pdf-viewport" className="flex-1 overflow-auto no-scrollbar flex justify-center bg-[#050a0f] relative p-4 md:p-10">
         <div className="max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-          {file ? (
+          {documentFile ? (
             <Document
-              file={typeof file === 'string' ? file : { data: file }}
+              file={documentFile}
               onLoadSuccess={onDocumentLoadSuccess}
               loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
             >
