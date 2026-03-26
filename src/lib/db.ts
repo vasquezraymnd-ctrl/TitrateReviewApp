@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 7; // Incremented for new workspace stores
+const DB_VERSION = 8; // Incremented to fix missing indices
 
 export interface Question {
   id: string;
@@ -111,6 +111,7 @@ export class TitrateDB {
 
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
+        const transaction = (event.target as IDBOpenDBRequest).transaction;
         
         if (!db.objectStoreNames.contains('questions')) {
           db.createObjectStore('questions', { keyPath: 'id' });
@@ -127,18 +128,38 @@ export class TitrateDB {
         if (!db.objectStoreNames.contains('modules')) {
           db.createObjectStore('modules', { keyPath: 'id' });
         }
+        
+        // Robust handling for annotations store and indices
+        let annStore;
         if (!db.objectStoreNames.contains('annotations')) {
-          const store = db.createObjectStore('annotations', { keyPath: 'id' });
-          store.createIndex('by_module_page', ['moduleId', 'pageNumber'], { unique: false });
-          store.createIndex('by_notebook_page', ['notebookId', 'pageNumber'], { unique: false });
+          annStore = db.createObjectStore('annotations', { keyPath: 'id' });
+        } else {
+          annStore = transaction!.objectStore('annotations');
         }
+        
+        if (!annStore.indexNames.contains('by_module_page')) {
+          annStore.createIndex('by_module_page', ['moduleId', 'pageNumber'], { unique: false });
+        }
+        if (!annStore.indexNames.contains('by_notebook_page')) {
+          annStore.createIndex('by_notebook_page', ['notebookId', 'pageNumber'], { unique: false });
+        }
+
         if (!db.objectStoreNames.contains('notebooks')) {
           db.createObjectStore('notebooks', { keyPath: 'id' });
         }
+
+        // Robust handling for clips store and indices
+        let clipStore;
         if (!db.objectStoreNames.contains('clips')) {
-          const store = db.createObjectStore('clips', { keyPath: 'id' });
-          store.createIndex('by_notebook', 'notebookId', { unique: false });
+          clipStore = db.createObjectStore('clips', { keyPath: 'id' });
+        } else {
+          clipStore = transaction!.objectStore('clips');
         }
+        
+        if (!clipStore.indexNames.contains('by_notebook')) {
+          clipStore.createIndex('by_notebook', 'notebookId', { unique: false });
+        }
+
         if (!db.objectStoreNames.contains('presets')) {
           db.createObjectStore('presets', { keyPath: 'id' });
         }
