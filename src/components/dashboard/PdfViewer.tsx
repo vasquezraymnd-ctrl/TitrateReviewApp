@@ -27,7 +27,7 @@ import { db, Annotation, ToolPreset, WorkspaceClip } from '@/lib/db';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Set up worker for PDF processing with explicit HTTPS protocol
+// Set up worker for PDF processing
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface PdfViewerProps {
@@ -54,7 +54,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [currentColor, setCurrentColor] = useState('#00ff7f');
   
   // Interaction tracking
-  const [isInteracting, setIsInteracting] = useState(false);
+  const pointerCache = useRef<PointerEvent[]>([]);
   const lastTouchRef = useRef({ x: 0, y: 0 });
   const pinchStartDistance = useRef<number>(0);
   const pinchStartScale = useRef<number>(1.0);
@@ -71,7 +71,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // High-res rendering scale to ensure ink isn't pixelated when zooming
+  // High-res rendering scale to ensure ink isn't pixelated
   const RENDER_QUALITY = 2.5;
 
   const documentFile = useMemo(() => {
@@ -223,18 +223,13 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   }, [drawActive]);
 
   const handlePointerStart = (e: React.PointerEvent) => {
-    setIsInteracting(true);
-    const clientX = e.clientX;
-    const clientY = e.clientY;
-    lastTouchRef.current = { x: clientX, y: clientY };
+    pointerCache.current.push(e.nativeEvent);
+    lastTouchRef.current = { x: e.clientX, y: e.clientY };
 
-    if (e.pointerType === 'touch' && (e as any).nativeEvent.touches?.length === 2) {
-      const touches = (e as any).nativeEvent.touches;
-      const dist = Math.hypot(
-        touches[0].pageX - touches[1].pageX,
-        touches[0].pageY - touches[1].pageY
-      );
-      pinchStartDistance.current = dist;
+    if (pointerCache.current.length === 2) {
+      const p1 = pointerCache.current[0];
+      const p2 = pointerCache.current[1];
+      pinchStartDistance.current = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
       pinchStartScale.current = scale;
       setCurrentStroke(null);
       return;
@@ -242,68 +237,67 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
     if (activeTool === 'view') return;
     
-    // Capture pointer to ensure stroke continues even if pen leaves canvas briefly
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
-
     const canvas = activeCanvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    
-    const x = (clientX - rect.left) / rect.width;
-    const y = (clientY - rect.top) / rect.height;
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
 
     if (activeTool === 'eraser') {
       handleErase(x, y);
       return;
     }
-
     setCurrentStroke([{ x, y }]);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isInteracting) return;
+    const index = pointerCache.current.findIndex(p => p.pointerId === e.pointerId);
+    if (index !== -1) {
+      pointerCache.current[index] = e.nativeEvent;
+    }
 
-    const clientX = e.clientX;
-    const clientY = e.clientY;
-
-    if (e.pointerType === 'touch' && (e as any).nativeEvent.touches?.length === 2 && pinchStartDistance.current > 0) {
-      const touches = (e as any).nativeEvent.touches;
-      const dist = Math.hypot(
-        touches[0].pageX - touches[1].pageX,
-        touches[0].pageY - touches[1].pageY
-      );
-      const ratio = dist / pinchStartDistance.current;
-      setScale(Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0));
+    if (pointerCache.current.length === 2) {
+      const p1 = pointerCache.current[0];
+      const p2 = pointerCache.current[1];
+      const dist = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
+      
+      if (pinchStartDistance.current > 0) {
+        const ratio = dist / pinchStartDistance.current;
+        setScale(Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0));
+      }
       return;
     }
 
-    if (activeTool === 'view') {
-      const dx = clientX - lastTouchRef.current.x;
-      const dy = clientY - lastTouchRef.current.y;
-      setTranslateX(prev => prev + dx);
-      setTranslateY(prev => prev + dy);
-      lastTouchRef.current = { x: clientX, y: clientY };
-      return;
+    if (pointerCache.current.length === 1) {
+      const p = pointerCache.current[0];
+      if (activeTool === 'view') {
+        const dx = p.clientX - lastTouchRef.current.x;
+        const dy = p.clientY - lastTouchRef.current.y;
+        setTranslateX(prev => prev + dx);
+        setTranslateY(prev => prev + dy);
+        lastTouchRef.current = { x: p.clientX, y: p.clientY };
+      } else if (currentStroke) {
+        const canvas = activeCanvasRef.current;
+        if (!canvas) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = (p.clientX - rect.left) / rect.width;
+        const y = (p.clientY - rect.top) / rect.height;
+
+        if (activeTool === 'eraser') {
+          handleErase(x, y);
+        } else {
+          setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
+        }
+      }
     }
-
-    const canvas = activeCanvasRef.current;
-    if (!canvas || !currentStroke) return;
-    const rect = canvas.getBoundingClientRect();
-    
-    const x = (clientX - rect.left) / rect.width;
-    const y = (clientY - rect.top) / rect.height;
-
-    if (activeTool === 'eraser') {
-      handleErase(x, y);
-      return;
-    }
-
-    setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
   };
 
   const handlePointerEnd = async (e: React.PointerEvent) => {
-    setIsInteracting(false);
-    pinchStartDistance.current = 0;
+    pointerCache.current = pointerCache.current.filter(p => p.pointerId !== e.pointerId);
+    if (pointerCache.current.length < 2) {
+      pinchStartDistance.current = 0;
+    }
 
     if (activeTool === 'view' || !currentStroke || !moduleId) {
       setCurrentStroke(null);
@@ -407,9 +401,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   return (
     <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
       <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-[100] shrink-0">
-        {/* Unified Pages, Calibration, and Zoom Tray */}
         <div className="h-14 flex items-center justify-between px-4 border-b border-white/5 gap-2 md:gap-4 overflow-x-auto no-scrollbar">
-          {/* Page Navigation Area */}
           <div className="flex items-center gap-1 md:gap-2 shrink-0">
             <Button 
               variant="ghost" 
@@ -436,7 +428,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             </Button>
           </div>
 
-          {/* Tactical Calibration Area (Thickness & Colors) */}
           {isAnnotationActive && (
             <div className="flex items-center gap-2 md:gap-4 flex-1 justify-center animate-in fade-in slide-in-from-top-2 duration-300">
               <div className="flex items-center gap-2 md:gap-3 bg-white/5 border border-white/10 p-1 px-2 md:px-3 h-10 shrink-0">
@@ -473,7 +464,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             </div>
           )}
 
-          {/* Zoom and Display Area */}
           <div className="flex items-center gap-2 md:gap-4 shrink-0">
             <div className="flex items-center bg-white/5 border border-white/10 p-1">
                <Button variant="ghost" size="icon" onClick={zoomOut} className="h-7 w-7 md:h-8 md:w-8 text-white/60 hover:text-white">
@@ -492,7 +482,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
           </div>
         </div>
 
-        {/* Primary Tool Selection Bar */}
         <div className="h-14 flex items-center px-4 md:px-6 gap-2 overflow-x-auto no-scrollbar border-b border-white/5">
           <div className="flex items-center gap-1 shrink-0">
             <Button 
@@ -543,7 +532,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
           <div className="w-px h-4 bg-white/10 mx-1 md:mx-2 shrink-0" />
 
-          {/* Quick Presets Area */}
           <div className="flex items-center gap-1 md:gap-2 shrink-0">
             {presets.map(p => (
               <button
@@ -565,20 +553,20 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         </div>
       </div>
 
-      {/* Main Viewport */}
       <div 
         id="pdf-viewport" 
         className="flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none cursor-grab active:cursor-grabbing"
         onPointerDown={handlePointerStart}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerEnd}
+        onPointerCancel={handlePointerEnd}
         onPointerLeave={handlePointerEnd}
       >
         <div 
           className="relative transition-transform ease-out will-change-transform"
           style={{ 
             transform: `translate3d(${translateX}px, ${translateY}px, 0) scale3d(${scale}, ${scale}, 1)`,
-            transitionDuration: isInteracting ? '0ms' : '75ms'
+            transitionDuration: pointerCache.current.length > 0 ? '0ms' : '75ms'
           }}
         >
           {documentFile ? (
@@ -604,12 +592,10 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                       }
                     }}
                   />
-                  {/* Permanent Annotations Layer */}
                   <canvas
                     ref={permanentCanvasRef}
                     className="absolute inset-0 z-10 pointer-events-none"
                   />
-                  {/* Active Drawing/Interaction Layer */}
                   <canvas
                     ref={activeCanvasRef}
                     className={cn(
