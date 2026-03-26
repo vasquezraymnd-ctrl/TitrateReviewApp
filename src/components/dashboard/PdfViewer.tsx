@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
@@ -58,9 +59,10 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [presets, setPresets] = useState<ToolPreset[]>([]);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pinchStartDistance = useRef<number>(0);
+  const pinchStartScale = useRef<number>(1.0);
 
   // Memoize the document source to prevent unnecessary reloads
-  // We use moduleId as a stable anchor to ensure the file object isn't recreated unless it's a different module
   const documentFile = useMemo(() => {
     if (!file) return null;
     return typeof file === 'string' ? file : { data: file };
@@ -193,6 +195,18 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   }, [drawAll]);
 
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
+    // Handle pinch start
+    if ('touches' in e && e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].pageX - e.touches[1].pageX,
+        e.touches[0].pageY - e.touches[1].pageY
+      );
+      pinchStartDistance.current = dist;
+      pinchStartScale.current = scale;
+      setCurrentStroke(null);
+      return;
+    }
+
     if (activeTool === 'view') return;
     
     const canvas = canvasRef.current;
@@ -214,6 +228,18 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   };
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+    // Handle pinch move
+    if ('touches' in e && e.touches.length === 2 && pinchStartDistance.current > 0) {
+      const dist = Math.hypot(
+        e.touches[0].pageX - e.touches[1].pageX,
+        e.touches[0].pageY - e.touches[1].pageY
+      );
+      const ratio = dist / pinchStartDistance.current;
+      const newScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.5), 3.0);
+      setScale(newScale);
+      return;
+    }
+
     if (activeTool === 'view') return;
     
     const canvas = canvasRef.current;
@@ -238,6 +264,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   };
 
   const handleEnd = async () => {
+    pinchStartDistance.current = 0;
+
     if (activeTool === 'view' || !currentStroke || !moduleId) {
       setCurrentStroke(null);
       return;
@@ -509,7 +537,16 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
             >
               {isLoaded && (
-                <div className="relative bg-white">
+                <div 
+                  className="relative bg-white"
+                  onMouseDown={handleStart}
+                  onMouseMove={handleMove}
+                  onMouseUp={handleEnd}
+                  onMouseLeave={handleEnd}
+                  onTouchStart={handleStart}
+                  onTouchMove={handleMove}
+                  onTouchEnd={handleEnd}
+                >
                   <Page 
                     pageNumber={pageNumber} 
                     scale={scale} 
@@ -529,13 +566,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                       "absolute inset-0 z-10 touch-none",
                       activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair"
                     )}
-                    onMouseDown={handleStart}
-                    onMouseMove={handleMove}
-                    onMouseUp={handleEnd}
-                    onMouseLeave={handleEnd}
-                    onTouchStart={handleStart}
-                    onTouchMove={handleMove}
-                    onTouchEnd={handleEnd}
                   />
                 </div>
               )}
