@@ -14,7 +14,9 @@ import {
   MousePointer2,
   Trash2,
   List,
-  Check
+  Check,
+  Undo,
+  Redo
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -74,6 +76,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [eraserWidth, setEraserWidth] = useState(40);
 
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
+  const [redoStack, setRedoStack] = useState<Annotation[]>([]);
   const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
   
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -95,6 +98,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
   useEffect(() => {
     loadInitialData();
+    setRedoStack([]); // Clear redo on page change
   }, [loadInitialData]);
 
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
@@ -336,6 +340,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
     await db.put('annotations', newAnnotation);
     setAnnotations(prev => [...prev, newAnnotation]);
+    setRedoStack([]); // Clear redo on new action
     setCurrentStroke(null);
   };
 
@@ -351,12 +356,29 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     }
   };
 
+  const handleUndo = async () => {
+    if (annotations.length === 0) return;
+    const last = annotations[annotations.length - 1];
+    await db.delete('annotations', last.id);
+    setAnnotations(prev => prev.slice(0, -1));
+    setRedoStack(prev => [...prev, last]);
+  };
+
+  const handleRedo = async () => {
+    if (redoStack.length === 0) return;
+    const last = redoStack[redoStack.length - 1];
+    await db.put('annotations', last);
+    setRedoStack(prev => prev.slice(0, -1));
+    setAnnotations(prev => [...prev, last]);
+  };
+
   const clearPage = async () => {
     if (!moduleId) return;
     for (const ann of annotations) {
       await db.delete('annotations', ann.id);
     }
     setAnnotations([]);
+    setRedoStack([]);
   };
 
   if (!documentFile) return null;
@@ -473,7 +495,31 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                <span className="text-[8px] font-black text-primary w-10 text-center">{Math.round(scale * 100)}%</span>
                <Button variant="ghost" size="icon" onClick={zoomIn} className="h-7 w-7 text-white/40"><ZoomIn size={12} /></Button>
             </div>
-            <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/40 hover:text-red-500" title="Clear Page"><Trash2 size={14} /></Button>
+            
+            {/* Revision Controls */}
+            <div className="flex items-center gap-0.5 border-l border-white/10 pl-2">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleUndo} 
+                disabled={annotations.length === 0}
+                className="h-8 w-8 text-white/40 hover:text-white disabled:opacity-10"
+                title="Undo"
+              >
+                <Undo size={14} />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleRedo} 
+                disabled={redoStack.length === 0}
+                className="h-8 w-8 text-white/40 hover:text-white disabled:opacity-10"
+                title="Redo"
+              >
+                <Redo size={14} />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/40 hover:text-red-500" title="Clear Page"><Trash2 size={14} /></Button>
+            </div>
           </div>
         </div>
 
