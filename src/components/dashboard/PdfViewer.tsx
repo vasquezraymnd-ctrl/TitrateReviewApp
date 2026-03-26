@@ -51,7 +51,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
-  const [currentColor, setCurrentColor] = useState('#00ff7f');
+  const [currentColor, setCurrentColor] = useState('#000000'); // Default to Black
   
   // Interaction tracking
   const pointerCache = useRef<PointerEvent[]>([]);
@@ -234,7 +234,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       pinchStartDistance.current = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
       pinchStartScale.current = scale;
       
-      // Captured center of pinch for zoom-at-point logic
+      // Capture midpoint relative to viewport center for directed zoom
       pinchStartCenter.current = {
         x: (p1.clientX + p2.clientX) / 2,
         y: (p1.clientY + p2.clientY) / 2
@@ -272,23 +272,30 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       const p2 = pointerCache.current[1];
       const dist = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
       
+      const viewport = document.getElementById('pdf-viewport');
+      if (!viewport) return;
+      const rect = viewport.getBoundingClientRect();
+      const vCenterX = rect.left + rect.width / 2;
+      const vCenterY = rect.top + rect.height / 2;
+
       if (pinchStartDistance.current > 0) {
         const ratio = dist / pinchStartDistance.current;
         const newScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0);
         
-        const currentCenterX = (p1.clientX + p2.clientX) / 2;
-        const currentCenterY = (p1.clientY + p2.clientY) / 2;
+        // Midpoint relative to viewport center
+        const currentCenterX = ((p1.clientX + p2.clientX) / 2) - vCenterX;
+        const currentCenterY = ((p1.clientY + p2.clientY) / 2) - vCenterY;
 
-        const originX = pinchStartCenter.current.x;
-        const originY = pinchStartCenter.current.y;
+        const originX = pinchStartCenter.current.x - vCenterX;
+        const originY = pinchStartCenter.current.y - vCenterY;
         const startTx = pinchStartTranslation.current.x;
         const startTy = pinchStartTranslation.current.y;
 
-        // Directed Zoom calculation
+        // Directed Zoom: Calculate next translation so finger location maps to same document point
         const nextTx = originX - (originX - startTx) * (newScale / pinchStartScale.current);
         const nextTy = originY - (originY - startTy) * (newScale / pinchStartScale.current);
 
-        // Panning movement during zoom
+        // Movement of the pinch center itself (simultaneous pan)
         const dx = currentCenterX - originX;
         const dy = currentCenterY - originY;
 
