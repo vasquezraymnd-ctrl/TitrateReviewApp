@@ -11,7 +11,8 @@ import {
   ChevronLeft, 
   BookOpen,
   FileText,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LabModule, WorkspaceClip, db, Notebook } from '@/lib/db';
@@ -26,6 +27,7 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
   const [activeNotebook, setActiveNotebook] = useState<Notebook | null>(null);
   const [pdfWidth] = useState(50); // Percentage for split view
   const [pdfData, setPdfData] = useState<Uint8Array | null>(null);
+  const [loadingPdf, setLoadingPdf] = useState(true);
 
   useEffect(() => {
     loadActiveNotebook();
@@ -49,12 +51,17 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
 
   const preparePdfData = async () => {
     if (module.pdfBlob) {
+      setLoadingPdf(true);
       try {
         const buffer = await module.pdfBlob.arrayBuffer();
         setPdfData(new Uint8Array(buffer));
       } catch (err) {
         console.error("Failed to process PDF protocol:", err);
+      } finally {
+        setLoadingPdf(false);
       }
+    } else {
+      setLoadingPdf(false);
     }
   };
 
@@ -129,13 +136,22 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
           )}
           style={{ width: viewMode === 'split' ? `${pdfWidth}%` : undefined }}
         >
-          <PdfViewer 
-            file={pdfData} 
-            moduleId={module.id} 
-            moduleName={module.name}
-            activeNotebookId={activeNotebook?.id}
-            onClipCaptured={handleClipCaptured}
-          />
+          {pdfData ? (
+            <PdfViewer 
+              file={pdfData} 
+              moduleId={module.id} 
+              moduleName={module.name}
+              activeNotebookId={activeNotebook?.id}
+              onClipCaptured={handleClipCaptured}
+            />
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center bg-[#050a0f]">
+               <Loader2 className="animate-spin text-primary" size={48} />
+               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mt-4">
+                 {loadingPdf ? 'Decrypting PDF Stream' : 'Missing Protocol Data'}
+               </p>
+            </div>
+          )}
         </div>
 
         {/* Notebook Panel */}

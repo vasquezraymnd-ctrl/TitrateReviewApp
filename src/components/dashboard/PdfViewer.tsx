@@ -31,7 +31,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface PdfViewerProps {
-  file: string | Uint8Array | null;
+  file: Uint8Array | string | null;
   moduleId: string;
   moduleName?: string;
   onClipCaptured?: (clip: WorkspaceClip) => void;
@@ -495,43 +495,50 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
       <div id="pdf-viewport" className="flex-1 overflow-auto no-scrollbar flex justify-center bg-[#050a0f] relative p-4 md:p-10">
         <div className="max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-          <Document
-            file={file}
-            onLoadSuccess={onDocumentLoadSuccess}
-            loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase trackingwidest text-primary/60">Decrypting Archive...</p></div>}
-          >
-            {isLoaded && (
-              <div className="relative bg-white">
-                <Page 
-                  pageNumber={pageNumber} 
-                  scale={scale} 
-                  className="max-w-full"
-                  onRenderSuccess={(page) => {
-                    const canvas = canvasRef.current;
-                    if (canvas) {
-                      canvas.width = page.width;
-                      canvas.height = page.height;
-                      drawAll();
-                    }
-                  }}
-                />
-                <canvas
-                  ref={canvasRef}
-                  className={cn(
-                    "absolute inset-0 z-10 touch-none",
-                    activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair"
-                  )}
-                  onMouseDown={handleStart}
-                  onMouseMove={handleMove}
-                  onMouseUp={handleEnd}
-                  onMouseLeave={handleEnd}
-                  onTouchStart={handleStart}
-                  onTouchMove={handleMove}
-                  onTouchEnd={handleEnd}
-                />
-              </div>
-            )}
-          </Document>
+          {file ? (
+            <Document
+              file={file}
+              onLoadSuccess={onDocumentLoadSuccess}
+              loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
+            >
+              {isLoaded && (
+                <div className="relative bg-white">
+                  <Page 
+                    pageNumber={pageNumber} 
+                    scale={scale} 
+                    className="max-w-full"
+                    onRenderSuccess={(page) => {
+                      const canvas = canvasRef.current;
+                      if (canvas) {
+                        canvas.width = page.width;
+                        canvas.height = page.height;
+                        drawAll();
+                      }
+                    }}
+                  />
+                  <canvas
+                    ref={canvasRef}
+                    className={cn(
+                      "absolute inset-0 z-10 touch-none",
+                      activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair"
+                    )}
+                    onMouseDown={handleStart}
+                    onMouseMove={handleMove}
+                    onMouseUp={handleEnd}
+                    onMouseLeave={handleEnd}
+                    onTouchStart={handleStart}
+                    onTouchMove={handleMove}
+                    onTouchEnd={handleEnd}
+                  />
+                </div>
+              )}
+            </Document>
+          ) : (
+            <div className="py-40 flex flex-col items-center gap-4">
+              <Loader2 className="animate-spin text-primary" size={48} />
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Preparing Protocol Data...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
