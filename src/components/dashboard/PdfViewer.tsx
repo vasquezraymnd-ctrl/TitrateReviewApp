@@ -58,6 +58,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const lastTouchRef = useRef({ x: 0, y: 0 });
   const pinchStartDistance = useRef<number>(0);
   const pinchStartScale = useRef<number>(1.0);
+  const pinchStartCenter = useRef({ x: 0, y: 0 });
+  const pinchStartTranslation = useRef({ x: 0, y: 0 });
 
   // Thickness States
   const [pencilWidth, setPencilWidth] = useState(3);
@@ -101,7 +103,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const fitToWidth = () => {
     const container = document.getElementById('pdf-viewport');
     if (container) {
-      const newScale = (container.clientWidth - 80) / 850;
+      const newScale = (container.clientWidth - 80) / (850 * RENDER_QUALITY / 2.5);
       setScale(newScale);
       setTranslateX(0);
       setTranslateY(0);
@@ -231,6 +233,14 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       const p2 = pointerCache.current[1];
       pinchStartDistance.current = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
       pinchStartScale.current = scale;
+      
+      // Captured center of pinch for zoom-at-point logic
+      pinchStartCenter.current = {
+        x: (p1.clientX + p2.clientX) / 2,
+        y: (p1.clientY + p2.clientY) / 2
+      };
+      pinchStartTranslation.current = { x: translateX, y: translateY };
+      
       setCurrentStroke(null);
       return;
     }
@@ -264,7 +274,27 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       
       if (pinchStartDistance.current > 0) {
         const ratio = dist / pinchStartDistance.current;
-        setScale(Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0));
+        const newScale = Math.min(Math.max(pinchStartScale.current * ratio, 0.3), 4.0);
+        
+        const currentCenterX = (p1.clientX + p2.clientX) / 2;
+        const currentCenterY = (p1.clientY + p2.clientY) / 2;
+
+        const originX = pinchStartCenter.current.x;
+        const originY = pinchStartCenter.current.y;
+        const startTx = pinchStartTranslation.current.x;
+        const startTy = pinchStartTranslation.current.y;
+
+        // Directed Zoom calculation
+        const nextTx = originX - (originX - startTx) * (newScale / pinchStartScale.current);
+        const nextTy = originY - (originY - startTy) * (newScale / pinchStartScale.current);
+
+        // Panning movement during zoom
+        const dx = currentCenterX - originX;
+        const dy = currentCenterY - originY;
+
+        setScale(newScale);
+        setTranslateX(nextTx + dx);
+        setTranslateY(nextTy + dy);
       }
       return;
     }
@@ -430,7 +460,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
           {isAnnotationActive && (
             <div className="flex items-center gap-2 md:gap-4 flex-1 justify-center animate-in fade-in slide-in-from-top-2 duration-300">
-              <div className="flex items-center gap-2 md:gap-3 bg-white/5 border border-white/10 p-1 px-2 md:px-3 h-10 shrink-0">
+              <div className="flex items-center gap-2 md:gap-3 bg-white/10 border border-white/20 p-1 px-2 md:px-3 h-10 shrink-0 rounded-none shadow-[0_0_15px_rgba(0,255,127,0.05)]">
                 <Slider 
                   value={[getCurrentWidth()]}
                   max={activeTool === 'pencil' ? 10 : activeTool === 'eraser' ? 100 : 60}
@@ -443,7 +473,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               </div>
 
               {activeTool !== 'eraser' && (
-                <div className="flex items-center gap-1 bg-white/5 border border-white/10 p-1 px-1.5 md:px-2 h-10 shrink-0">
+                <div className="flex items-center gap-1 bg-white/10 border border-white/20 p-1 px-1.5 md:px-2 h-10 shrink-0">
                   {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
                     <button
                       key={color}
@@ -456,7 +486,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                     />
                   ))}
                   <div className="w-px h-4 bg-white/10 mx-1" />
-                  <Button variant="ghost" size="icon" onClick={savePreset} className="h-6 w-6 md:h-7 md:w-7 text-white/40 hover:text-primary">
+                  <Button variant="ghost" size="icon" onClick={savePreset} title="Save Instrument" className="h-6 w-6 md:h-7 md:w-7 text-white/40 hover:text-primary">
                     <Plus size={12} />
                   </Button>
                 </div>
