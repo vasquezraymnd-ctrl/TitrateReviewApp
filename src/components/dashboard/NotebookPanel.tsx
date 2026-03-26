@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -171,13 +170,13 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
 
   return (
     <div className="flex flex-col h-full bg-[#0d141d]">
-      <div className="h-14 bg-[#16222d] border-b border-white/5 flex items-center justify-between px-4">
-        <div className="flex items-center gap-1">
+      <div className="h-12 bg-[#16222d] border-b border-white/5 flex items-center justify-between px-3 shrink-0">
+        <div className="flex items-center gap-0.5">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => setActiveTool('pencil')}
-            className={cn("h-8 w-8", activeTool === 'pencil' ? "text-primary" : "text-white/20")}
+            className={cn("h-8 w-8", activeTool === 'pencil' ? "text-primary bg-white/5" : "text-white/20")}
           >
             <Pencil size={14} />
           </Button>
@@ -185,7 +184,7 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
             variant="ghost" 
             size="sm" 
             onClick={() => setActiveTool('highlighter')}
-            className={cn("h-8 w-8", activeTool === 'highlighter' ? "text-primary" : "text-white/20")}
+            className={cn("h-8 w-8", activeTool === 'highlighter' ? "text-primary bg-white/5" : "text-white/20")}
           >
             <Highlighter size={14} />
           </Button>
@@ -193,31 +192,30 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
             variant="ghost" 
             size="sm" 
             onClick={() => setActiveTool('eraser')}
-            className={cn("h-8 w-8", activeTool === 'eraser' ? "text-primary" : "text-white/20")}
+            className={cn("h-8 w-8", activeTool === 'eraser' ? "text-primary bg-white/5" : "text-white/20")}
           >
             <Eraser size={14} />
           </Button>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => setPage(p => Math.max(1, p - 1))} className="h-8 w-8 text-white/40">
-            <ChevronLeft size={16} />
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="icon" onClick={() => setPage(p => Math.max(1, p - 1))} className="h-7 w-7 text-white/40">
+            <ChevronLeft size={14} />
           </Button>
-          <span className="text-[10px] font-black text-white">PG {page}</span>
-          <Button variant="ghost" size="icon" onClick={() => setPage(p => p + 1)} className="h-8 w-8 text-white/40">
-            <ChevronRight size={16} />
+          <span className="text-[8px] font-black text-white px-1">PG {page}</span>
+          <Button variant="ghost" size="icon" onClick={() => setPage(p => p + 1)} className="h-7 w-7 text-white/40">
+            <ChevronRight size={14} />
           </Button>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           <Button variant="ghost" size="icon" className="h-8 w-8 text-white/20 hover:text-white"><Download size={14} /></Button>
           <Button variant="ghost" size="icon" className="h-8 w-8 text-white/20 hover:text-white"><Share2 size={14} /></Button>
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar p-6 relative" ref={containerRef}>
+      <div className="flex-1 overflow-y-auto no-scrollbar p-4 relative" ref={containerRef}>
         <div className="aspect-[1/1.414] bg-[#1a2430] shadow-2xl relative">
-          {/* Clips Layer */}
           <div className="absolute inset-0 pointer-events-none">
             {clips.map(clip => (
               <div 
@@ -237,15 +235,7 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
             ))}
           </div>
 
-          {/* Static Annotations Layer */}
-          <canvas
-            ref={permanentCanvasRef}
-            className="absolute inset-0 w-full h-full pointer-events-none z-10"
-            width={800}
-            height={1131}
-          />
-
-          {/* Active Drawing Layer */}
+          <canvas ref={permanentCanvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-10" width={800} height={1131} />
           <canvas
             ref={activeCanvasRef}
             className="absolute inset-0 w-full h-full touch-none cursor-crosshair z-20"

@@ -15,8 +15,9 @@ import {
   MousePointer2,
   Trash2,
   Plus,
-  Scissors,
   List,
+  Sliders,
+  Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -36,11 +37,9 @@ import {
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 
-// CSS for text selection and link interaction
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Set up worker for PDF processing
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface PdfViewerProps {
@@ -51,23 +50,21 @@ interface PdfViewerProps {
   activeNotebookId?: string | null;
 }
 
-type Tool = 'view' | 'pencil' | 'highlighter' | 'eraser' | 'lasso';
+type Tool = 'view' | 'pencil' | 'highlighter' | 'eraser';
 
 export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNotebookId }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [jumpPage, setJumpPage] = useState("");
   
-  // Transform States (Visual only, for smoothness)
   const [scale, setScale] = useState(1.0);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
   
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
-  const [currentColor, setCurrentColor] = useState('#000000'); // Default Solid Black
+  const [currentColor, setCurrentColor] = useState('#000000');
   
-  // Interaction tracking
   const pointerCache = useRef<PointerEvent[]>([]);
   const lastTouchRef = useRef({ x: 0, y: 0 });
   const pinchStartDistance = useRef<number>(0);
@@ -75,7 +72,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const pinchStartCenter = useRef({ x: 0, y: 0 });
   const pinchStartTranslation = useRef({ x: 0, y: 0 });
 
-  // Thickness States
   const [pencilWidth, setPencilWidth] = useState(3);
   const [highlighterWidth, setHighlighterWidth] = useState(25);
   const [eraserWidth, setEraserWidth] = useState(40);
@@ -87,7 +83,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Constant high-res rendering scale to prevent re-renders on zoom
   const RENDER_QUALITY = 2.5;
 
   const documentFile = useMemo(() => {
@@ -122,16 +117,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
   const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 4.0));
   const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.3));
-  const fitToWidth = () => {
-    const container = document.getElementById('pdf-viewport');
-    if (container) {
-      const newScale = (container.clientWidth - 80) / (850 * RENDER_QUALITY / 2.5);
-      setScale(newScale);
-      setTranslateX(0);
-      setTranslateY(0);
-    }
-  };
-
+  
   const getCurrentWidth = () => {
     if (activeTool === 'pencil') return pencilWidth;
     if (activeTool === 'highlighter') return highlighterWidth;
@@ -210,8 +196,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
     if (currentStroke) {
       ctx.beginPath();
-      ctx.strokeStyle = activeTool === 'lasso' ? '#00ff7f' : currentColor;
-      ctx.lineWidth = activeTool === 'lasso' ? 2 : getCurrentWidth() * RENDER_QUALITY;
+      ctx.strokeStyle = currentColor;
+      ctx.lineWidth = getCurrentWidth() * RENDER_QUALITY;
       
       if (activeTool === 'highlighter') {
         ctx.lineCap = 'square';
@@ -225,9 +211,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         ctx.globalCompositeOperation = 'source-over';
       }
 
-      if (activeTool === 'lasso') ctx.setLineDash([5, 5]);
-      else ctx.setLineDash([]);
-
       currentStroke.forEach((p, index) => {
         const x = p.x * canvas.width;
         const y = p.y * canvas.height;
@@ -236,7 +219,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       });
       ctx.stroke();
     }
-  }, [currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth]);
+  }, [currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth, eraserWidth]);
 
   useEffect(() => {
     drawPermanent();
@@ -256,13 +239,10 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       pinchStartDistance.current = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
       pinchStartScale.current = scale;
       
-      const viewport = document.getElementById('pdf-viewport');
-      if (viewport) {
-        pinchStartCenter.current = {
-          x: (p1.clientX + p2.clientX) / 2,
-          y: (p1.clientY + p2.clientY) / 2
-        };
-      }
+      pinchStartCenter.current = {
+        x: (p1.clientX + p2.clientX) / 2,
+        y: (p1.clientY + p2.clientY) / 2
+      };
       pinchStartTranslation.current = { x: translateX, y: translateY };
       
       setCurrentStroke(null);
@@ -398,220 +378,147 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setAnnotations([]);
   };
 
-  const isAnnotationActive = activeTool === 'pencil' || activeTool === 'highlighter' || activeTool === 'eraser';
-
-  if (!documentFile) {
-    return (
-      <div className="flex-1 flex flex-col items-center justify-center bg-[#050a0f]">
-        <Loader2 className="animate-spin text-primary" size={48} />
-        <p className="text-[10px] font-black uppercase tracking-widest text-primary/60 mt-4">Preparing Protocol Data...</p>
-      </div>
-    );
-  }
+  if (!documentFile) return null;
 
   return (
     <Document 
       file={documentFile} 
       onLoadSuccess={onDocumentLoadSuccess}
-      loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
+      loading={<div className="py-20 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={32} /><p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
     >
       <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
-        <div className="bg-[#111a24] border-b border-white/5 flex flex-col z-[100] shrink-0">
-          <div className="h-14 flex items-center justify-between px-4 border-b border-white/5 gap-2 md:gap-4 overflow-x-auto no-scrollbar">
-            <div className="flex items-center gap-1 md:gap-2 shrink-0">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-white/40 hover:text-primary h-8 w-8 md:h-9 md:w-9"
-                disabled={pageNumber <= 1}
-                onClick={() => setPageNumber(prev => prev - 1)}
-              >
-                <ChevronLeft size={16} />
+        {/* Compact Single-Row Instrument Dock - h-12 */}
+        <div className="h-12 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-3 z-[100] shrink-0 gap-2 overflow-x-auto no-scrollbar">
+          
+          {/* Group 1: Navigation & TOC */}
+          <div className="flex items-center gap-1 shrink-0">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-white/40 hover:text-primary h-8 w-8" title="Index">
+                  <List size={16} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="bg-[#0b111a] border-white/10 text-white w-80 p-0 flex flex-col">
+                <SheetHeader className="p-6 border-b border-white/5 shrink-0">
+                  <SheetTitle className="text-white font-black italic uppercase tracking-tighter flex items-center gap-2">
+                    <List className="text-primary" size={18} />
+                    Protocol Index
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
+                  <Outline 
+                    onItemClick={({ pageNumber }: any) => setPageNumber(parseInt(pageNumber, 10))}
+                    className="protocol-outline"
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            <div className="flex items-center gap-0.5 bg-white/5 border border-white/10 p-0.5">
+              <Button variant="ghost" size="icon" className="text-white/40 h-7 w-7" disabled={pageNumber <= 1} onClick={() => setPageNumber(prev => prev - 1)}>
+                <ChevronLeft size={14} />
               </Button>
-              
               <Popover>
                 <PopoverTrigger asChild>
-                  <button className="bg-white/5 border border-white/10 px-2 md:px-3 py-1 md:py-1.5 min-w-[80px] md:min-w-[100px] text-center hover:bg-white/10 transition-colors">
-                    <span className="text-[9px] md:text-[10px] font-black italic uppercase tracking-widest text-white">
-                      PG {pageNumber} <span className="text-muted-foreground mx-0.5 md:mx-1">/</span> {numPages || '--'}
+                  <button className="px-2 h-7 min-w-[60px] text-center hover:bg-white/5 transition-colors">
+                    <span className="text-[8px] font-black uppercase tracking-widest text-white">
+                      {pageNumber} / {numPages || '--'}
                     </span>
                   </button>
                 </PopoverTrigger>
-                <PopoverContent className="bg-[#111a24] border-white/10 p-4 w-48 rounded-none">
-                  <div className="space-y-3">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-primary">Jump to Page</p>
-                    <div className="flex gap-2">
-                      <Input 
-                        value={jumpPage} 
-                        onChange={(e) => setJumpPage(e.target.value)}
-                        placeholder="Enter #"
-                        className="h-8 bg-white/5 border-white/10 text-xs rounded-none"
-                        onKeyDown={(e) => e.key === 'Enter' && handleJumpPage()}
-                      />
-                      <Button onClick={handleJumpPage} size="sm" className="h-8 bg-primary text-black rounded-none">GO</Button>
-                    </div>
+                <PopoverContent className="bg-[#111a24] border-white/10 p-3 w-40 rounded-none">
+                  <div className="flex gap-2">
+                    <Input value={jumpPage} onChange={(e) => setJumpPage(e.target.value)} placeholder="PG #" className="h-7 bg-white/5 border-white/10 text-[10px] rounded-none" onKeyDown={(e) => e.key === 'Enter' && handleJumpPage()} />
+                    <Button onClick={handleJumpPage} size="sm" className="h-7 bg-primary text-black rounded-none text-[8px]">GO</Button>
                   </div>
                 </PopoverContent>
               </Popover>
-
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-white/40 hover:text-primary h-8 w-8 md:h-9 md:w-9"
-                disabled={numPages ? pageNumber >= numPages : true}
-                onClick={() => setPageNumber(prev => prev + 1)}
-              >
-                <ChevronRight size={16} />
-              </Button>
-
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-white/40 hover:text-primary h-8 w-8 ml-1" title="Protocol Index">
-                    <List size={16} />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="bg-[#0b111a] border-white/10 text-white w-80 p-0 flex flex-col">
-                  <SheetHeader className="p-6 border-b border-white/5 shrink-0">
-                    <SheetTitle className="text-white font-black italic uppercase tracking-tighter flex items-center gap-2">
-                      <List className="text-primary" size={18} />
-                      Protocol Index
-                    </SheetTitle>
-                  </SheetHeader>
-                  <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
-                    <Outline 
-                      onItemClick={({ pageNumber }: any) => {
-                        setPageNumber(parseInt(pageNumber, 10));
-                      }}
-                      className="protocol-outline"
-                    />
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-
-            {isAnnotationActive && (
-              <div className="flex items-center gap-2 md:gap-4 flex-1 justify-center animate-in fade-in slide-in-from-top-2 duration-300">
-                <div className="flex items-center gap-2 md:gap-3 bg-white/10 border border-white/20 p-1 px-2 md:px-3 h-10 shrink-0 rounded-none shadow-[0_0_15px_rgba(0,255,127,0.05)]">
-                  <Slider 
-                    value={[getCurrentWidth()]}
-                    max={activeTool === 'pencil' ? 10 : activeTool === 'eraser' ? 100 : 60}
-                    min={1}
-                    step={1}
-                    onValueChange={(vals) => handleWidthChange(vals[0])}
-                    className="w-16 md:w-24 xl:w-32"
-                  />
-                  <span className="text-[8px] md:text-[9px] font-black text-primary min-w-[15px] md:min-w-[20px]">{getCurrentWidth()}</span>
-                </div>
-
-                {activeTool !== 'eraser' && (
-                  <div className="flex items-center gap-1 bg-white/10 border border-white/20 p-1 px-1.5 md:px-2 h-10 shrink-0">
-                    {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
-                      <button
-                        key={color}
-                        onClick={() => setCurrentColor(color)}
-                        className={cn(
-                          "w-5 h-5 md:w-6 md:h-6 rounded-none border transition-transform",
-                          currentColor === color ? "scale-110 border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]" : "border-white/10 hover:scale-105"
-                        )}
-                        style={{ backgroundColor: color }}
-                      />
-                    ))}
-                    <div className="w-px h-4 bg-white/10 mx-1" />
-                    <Button variant="ghost" size="icon" onClick={savePreset} title="Save Instrument" className="h-6 w-6 md:h-7 md:w-7 text-white/40 hover:text-primary">
-                      <Plus size={12} />
-                    </Button>
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="flex items-center gap-2 md:gap-4 shrink-0">
-              <div className="flex items-center bg-white/5 border border-white/10 p-1">
-                 <Button variant="ghost" size="icon" onClick={zoomOut} className="h-7 w-7 md:h-8 md:w-8 text-white/60 hover:text-white">
-                   <ZoomOut size={14} />
-                 </Button>
-                 <div className="w-12 md:w-16 text-center text-[9px] md:text-[10px] font-black text-primary uppercase tracking-widest">
-                   {Math.round(scale * 100)}%
-                 </div>
-                 <Button variant="ghost" size="icon" onClick={zoomIn} className="h-7 w-7 md:h-8 md:w-8 text-white/60 hover:text-white">
-                   <ZoomIn size={14} />
-                 </Button>
-              </div>
-              <Button variant="ghost" size="icon" onClick={fitToWidth} title="Fit to Width" className="hidden sm:flex text-white/40 hover:text-primary">
-                <Maximize size={16} />
+              <Button variant="ghost" size="icon" className="text-white/40 h-7 w-7" disabled={numPages ? pageNumber >= numPages : true} onClick={() => setPageNumber(prev => prev + 1)}>
+                <ChevronRight size={14} />
               </Button>
             </div>
           </div>
 
-          <div className="h-14 flex items-center px-4 md:px-6 gap-2 overflow-x-auto no-scrollbar border-b border-white/5">
-            <div className="flex items-center gap-1 shrink-0">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setActiveTool('view')}
-                className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'view' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
-              >
-                <MousePointer2 size={12} /> View
-              </Button>
-              
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setActiveTool('pencil')}
-                className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
-              >
-                <Pencil size={12} /> Pen
-              </Button>
-              
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setActiveTool('highlighter')}
-                className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
-              >
-                <Highlighter size={12} /> Marker
-              </Button>
+          {/* Group 2: Diagnostic Tools (Icon-only) */}
+          <div className="flex items-center gap-1 bg-white/5 p-0.5 rounded-none border border-white/5 shrink-0">
+            <Button variant="ghost" size="icon" onClick={() => setActiveTool('view')} className={cn("h-8 w-8", activeTool === 'view' ? "bg-primary text-black" : "text-white/40")}>
+              <MousePointer2 size={14} />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setActiveTool('pencil')} className={cn("h-8 w-8", activeTool === 'pencil' ? "bg-primary text-black" : "text-white/40")}>
+              <Pencil size={14} />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setActiveTool('highlighter')} className={cn("h-8 w-8", activeTool === 'highlighter' ? "bg-primary text-black" : "text-white/40")}>
+              <Highlighter size={14} />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => setActiveTool('eraser')} className={cn("h-8 w-8", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40")}>
+              <Eraser size={14} />
+            </Button>
+          </div>
 
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setActiveTool('eraser')}
-                className={cn("h-8 gap-2 font-black text-[9px] uppercase tracking-widest px-3 md:px-4", activeTool === 'eraser' ? "bg-primary text-black" : "text-white/40 hover:bg-white/5")}
-              >
-                <Eraser size={12} /> Eraser
-              </Button>
+          {/* Group 3: Calibration Popover (Only for Pen/Marker/Eraser) */}
+          {activeTool !== 'view' && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-primary border border-primary/20 animate-in zoom-in duration-300">
+                  <Sliders size={14} />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-[#111a24] border-white/10 w-64 p-4 rounded-none shadow-2xl">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <p className="text-[8px] font-black uppercase text-primary tracking-widest">Thickness: {getCurrentWidth()}</p>
+                    <Slider value={[getCurrentWidth()]} max={activeTool === 'pencil' ? 10 : activeTool === 'eraser' ? 100 : 60} min={1} onValueChange={(v) => handleWidthChange(v[0])} />
+                  </div>
+                  {activeTool !== 'eraser' && (
+                    <>
+                      <div className="space-y-2">
+                        <p className="text-[8px] font-black uppercase text-primary tracking-widest">Tactical Palette</p>
+                        <div className="grid grid-cols-5 gap-2">
+                          {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(c => (
+                            <button key={c} onClick={() => setCurrentColor(c)} className={cn("aspect-square border border-white/10 flex items-center justify-center", currentColor === c && "ring-1 ring-white ring-offset-1 ring-offset-[#111a24]")} style={{ backgroundColor: c }}>
+                              {currentColor === c && <Check size={10} className={c === '#ffff00' || c === '#00ff7f' ? "text-black" : "text-white"} />}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="pt-2 border-t border-white/5 space-y-2">
+                        <p className="text-[8px] font-black uppercase text-primary tracking-widest">Saved Presets</p>
+                        <div className="flex flex-wrap gap-2">
+                          {presets.map(p => (
+                            <button key={p.id} onClick={() => applyPreset(p)} className="w-7 h-7 border border-white/10 flex items-center justify-center" style={{ color: p.color }}>
+                              {p.type === 'pencil' ? <Pencil size={10} /> : <Highlighter size={10} />}
+                            </button>
+                          ))}
+                          <Button variant="ghost" size="icon" onClick={savePreset} className="h-7 w-7 text-white/20 border border-dashed border-white/10">
+                            <Plus size={10} />
+                          </Button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
+
+          {/* Group 4: Zoom & Workspace Actions */}
+          <div className="flex items-center gap-2 ml-auto shrink-0">
+            <div className="flex items-center bg-white/5 border border-white/10 p-0.5">
+               <Button variant="ghost" size="icon" onClick={zoomOut} className="h-7 w-7 text-white/40"><ZoomOut size={12} /></Button>
+               <span className="text-[8px] font-black text-primary w-10 text-center">{Math.round(scale * 100)}%</span>
+               <Button variant="ghost" size="icon" onClick={zoomIn} className="h-7 w-7 text-white/40"><ZoomIn size={12} /></Button>
             </div>
-
-            <div className="w-px h-4 bg-white/10 mx-1 md:mx-2 shrink-0" />
-
-            <div className="flex items-center gap-1 md:gap-2 shrink-0">
-              {presets.map(p => (
-                <button
-                  key={p.id}
-                  onClick={() => applyPreset(p)}
-                  className="w-7 h-7 md:w-8 md:h-8 border border-white/10 rounded-none flex items-center justify-center hover:bg-white/5 transition-all"
-                  style={{ color: p.color }}
-                >
-                  {p.type === 'pencil' ? <Pencil size={12} /> : <Highlighter size={12} />}
-                </button>
-              ))}
-            </div>
-
-            <div className="ml-auto flex items-center gap-2 shrink-0">
-              <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/50 hover:text-red-500">
-                <Trash2 size={14} />
-              </Button>
-            </div>
+            <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/40 hover:text-red-500"><Trash2 size={14} /></Button>
           </div>
         </div>
 
+        {/* PDF Viewport */}
         <div 
           id="pdf-viewport" 
-          className="flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none cursor-grab active:cursor-grabbing"
+          className="flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none"
           onPointerDown={handlePointerStart}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerEnd}
-          onPointerCancel={handlePointerEnd}
           onPointerLeave={handlePointerEnd}
         >
           <div 
@@ -639,17 +546,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                     }
                   }}
                 />
-                <canvas
-                  ref={permanentCanvasRef}
-                  className="absolute inset-0 z-10 pointer-events-none"
-                />
-                <canvas
-                  ref={activeCanvasRef}
-                  className={cn(
-                    "absolute inset-0 z-20 touch-none",
-                    activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair"
-                  )}
-                />
+                <canvas ref={permanentCanvasRef} className="absolute inset-0 z-10 pointer-events-none" />
+                <canvas ref={activeCanvasRef} className={cn("absolute inset-0 z-20 touch-none", activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair")} />
               </div>
             )}
           </div>

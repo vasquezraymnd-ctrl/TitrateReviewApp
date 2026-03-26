@@ -30,7 +30,6 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
   const [loadingPdf, setLoadingPdf] = useState(true);
   const lastModuleIdRef = useRef<string | null>(null);
 
-  // Memoize data preparation to prevent redundant re-renders in children
   const preparePdfData = useCallback(async () => {
     if (module.pdfBlob) {
       setLoadingPdf(true);
@@ -49,7 +48,6 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
 
   useEffect(() => {
     loadActiveNotebook();
-    // Only prepare if it's a new module or data is missing
     if (module.id !== lastModuleIdRef.current) {
       lastModuleIdRef.current = module.id;
       preparePdfData();
@@ -73,68 +71,66 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
 
   const handleClipCaptured = useCallback(async (clip: WorkspaceClip) => {
     await db.put('clips', clip);
-    // Notify notebook panel to refresh
     window.dispatchEvent(new CustomEvent('titrate:clip-captured', { detail: clip }));
   }, []);
 
   return (
     <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
-      {/* Workspace Header */}
-      <header className="h-16 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 z-[210]">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-white/50">
-            <ChevronLeft size={20} />
+      {/* Workspace Header - Compact h-12 */}
+      <header className="h-12 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 z-[210] shrink-0">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={onClose} className="text-white/50 h-8 w-8">
+            <ChevronLeft size={18} />
           </Button>
           <div className="flex items-center gap-2">
-            <FileText className="text-primary" size={16} />
-            <h2 className="text-sm font-black italic uppercase tracking-widest text-white truncate max-w-[200px]">
+            <FileText className="text-primary" size={14} />
+            <h2 className="text-[10px] font-black italic uppercase tracking-widest text-white truncate max-w-[150px]">
               {module.name}
             </h2>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 bg-black/40 border border-white/5 p-1">
+        <div className="flex items-center gap-1 bg-black/40 border border-white/5 p-0.5">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => setViewMode('pdf-only')}
-            className={cn("h-8 px-3 text-[9px] font-black uppercase tracking-widest", viewMode === 'pdf-only' ? "bg-primary text-black" : "text-white/40")}
+            className={cn("h-7 px-2 text-[8px] font-black uppercase tracking-widest", viewMode === 'pdf-only' ? "bg-primary text-black" : "text-white/40")}
           >
-            <Maximize2 size={12} className="mr-2" /> Reader
+            Reader
           </Button>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => setViewMode('split')}
-            className={cn("h-8 px-3 text-[9px] font-black uppercase tracking-widest", viewMode === 'split' ? "bg-primary text-black" : "text-white/40")}
+            className={cn("h-7 px-2 text-[8px] font-black uppercase tracking-widest", viewMode === 'split' ? "bg-primary text-black" : "text-white/40")}
           >
-            <Columns size={12} className="mr-2" /> Split
+            Split
           </Button>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => setViewMode('floating')}
-            className={cn("h-8 px-3 text-[9px] font-black uppercase tracking-widest", viewMode === 'floating' ? "bg-primary text-black" : "text-white/40")}
+            className={cn("h-7 px-2 text-[8px] font-black uppercase tracking-widest", viewMode === 'floating' ? "bg-primary text-black" : "text-white/40")}
           >
-            <Layout size={12} className="mr-2" /> Notes
+            Notes
           </Button>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-2 px-4 border-l border-white/5">
-             <BookOpen className="text-primary/40" size={14} />
-             <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
+        <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2 px-3 border-l border-white/5">
+             <BookOpen className="text-primary/40" size={12} />
+             <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">
                {activeNotebook?.title || 'No Notebook'}
              </span>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-red-500 h-10 w-10">
-            <X size={20} />
+          <Button variant="ghost" size="icon" onClick={onClose} className="text-red-500 h-8 w-8 hover:bg-red-500/10">
+            <X size={18} />
           </Button>
         </div>
       </header>
 
       <div className="flex-1 flex overflow-hidden relative">
-        {/* PDF Panel */}
         <div 
           className={cn(
             "h-full border-r border-white/5 transition-all duration-300 relative",
@@ -152,7 +148,7 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
             />
           ) : (
             <div className="h-full flex flex-col items-center justify-center bg-[#050a0f]">
-               <Loader2 className="animate-spin text-primary" size={48} />
+               <Loader2 className="animate-spin text-primary" size={40} />
                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mt-4">
                  {loadingPdf ? 'Decrypting PDF Stream' : 'Missing Protocol Data'}
                </p>
@@ -160,12 +156,11 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
           )}
         </div>
 
-        {/* Notebook Panel */}
         {viewMode !== 'pdf-only' && (
           <div 
             className={cn(
               "h-full bg-[#0d141d] z-20 overflow-hidden shadow-[-20px_0_50px_rgba(0,0,0,0.5)]",
-              viewMode === 'floating' ? "fixed top-20 right-6 w-[400px] h-[80vh] rounded-none border border-primary/20" : "flex-1"
+              viewMode === 'floating' ? "fixed top-16 right-6 w-[380px] h-[75vh] border border-primary/20" : "flex-1"
             )}
           >
             {activeNotebook && (
