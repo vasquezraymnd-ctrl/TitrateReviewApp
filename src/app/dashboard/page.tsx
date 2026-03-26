@@ -119,14 +119,14 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d141d] via-[#0d141d]/80 to-transparent" />
           </div>
 
-          <div className="relative z-10 w-full max-w-7xl xl:max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-20 items-center">
-            <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-left-12 duration-1000">
+          <div className="relative z-10 w-full max-w-7xl xl:max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 xl:gap-24 items-center">
+            <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-left-12 duration-1000 max-w-full overflow-hidden">
               <div className="flex items-center gap-2">
                 <Microscope className="text-primary animate-pulse" size={14} />
                 <span className="text-primary font-black tracking-[0.4em] uppercase text-[10px]">Status: Active</span>
               </div>
               
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[10rem] font-black italic uppercase tracking-tighter leading-none">
+              <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-8xl 2xl:text-[10rem] font-black italic uppercase tracking-tighter leading-[0.9] lg:leading-none">
                 Welcome <br /> <span className="text-primary">{profile?.name || 'Future RMT'}</span>
               </h2>
 
