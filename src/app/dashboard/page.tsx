@@ -131,10 +131,10 @@ export default function Dashboard() {
               </h2>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                <Button asChild className="riot-button h-12 md:h-14 lg:h-16 px-6 md:px-10 lg:px-12 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest text-[10px] md:text-[11px]">
+                <Button asChild className="riot-button h-12 md:h-14 lg:h-16 px-6 md:px-6 lg:px-8 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest text-[10px] md:text-[11px]">
                   <Link href="/quiz">START ASSAY</Link>
                 </Button>
-                <Button asChild variant="outline" className="riot-button h-12 md:h-14 lg:h-16 px-6 md:px-10 lg:px-12 border-white/10 hover:bg-white/5 rounded-none uppercase font-black tracking-widest text-[10px] md:text-[11px]">
+                <Button asChild variant="outline" className="riot-button h-12 md:h-14 lg:h-16 px-6 md:px-6 lg:px-8 border-white/10 hover:bg-white/5 rounded-none uppercase font-black tracking-widest text-[10px] md:text-[11px]">
                   <Link href="/library">PROTOCOL ARCHIVES</Link>
                 </Button>
               </div>
@@ -166,24 +166,24 @@ export default function Dashboard() {
                           )}
                         >
                           <div className={cn(
-                            "w-2 transition-colors h-14 md:h-16 lg:h-24 xl:h-28",
+                            "w-2 transition-colors h-14 md:h-12 lg:h-16 xl:h-28",
                             index === 0 ? "bg-primary shadow-[0_0_20px_rgba(0,255,127,0.8)]" : "bg-primary/20 group-hover/item:bg-primary"
                           )} />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-2">
-                              <p className="text-[11px] md:text-[14px] font-black text-muted-foreground uppercase tracking-[0.2em]">
+                              <p className="text-[11px] md:text-[12px] font-black text-muted-foreground uppercase tracking-[0.2em]">
                                 {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
                               </p>
                               {index === 0 && (
-                                <span className="text-[9px] md:text-[12px] xl:text-[14px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
+                                <span className="text-[9px] md:text-[10px] xl:text-[14px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
                               )}
                             </div>
-                            <h4 className="text-2xl md:text-2xl lg:text-3xl xl:text-6xl font-black italic uppercase tracking-tighter text-white truncate">
+                            <h4 className="text-2xl md:text-xl lg:text-2xl xl:text-6xl font-black italic uppercase tracking-tighter text-white truncate">
                               {protocol.title}
                             </h4>
                             <div className="flex items-center gap-3 mt-3">
                               <Calendar size={18} className="text-primary/60" />
-                              <span className="text-[16px] md:text-lg lg:text-xl xl:text-3xl font-bold text-muted-foreground uppercase tracking-tight">
+                              <span className="text-[16px] md:text-sm lg:text-base xl:text-3xl font-bold text-muted-foreground uppercase tracking-tight">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd, yyyy') : protocol.dayOfWeek} • {protocol.startTime} - {protocol.endTime}
                               </span>
                             </div>
@@ -234,7 +234,7 @@ export default function Dashboard() {
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                      <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:left-6 flex justify-between items-end">
+                      <div className="absolute bottom-4 lg:bottom-6 left-4 lg:text-6 right-4 lg:right-6 flex justify-between items-end">
                         <div className="space-y-1">
                           <p className="text-[10px] lg:text-[11px] font-black text-primary uppercase tracking-[0.3em]">{subject}</p>
                           <h4 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-black italic uppercase text-white leading-tight truncate max-w-[180px] lg:max-w-none">
