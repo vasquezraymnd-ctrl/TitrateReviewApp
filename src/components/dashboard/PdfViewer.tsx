@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
@@ -71,8 +70,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // High-res rendering scale (Stable to avoid reloading flash)
-  const RENDER_QUALITY = 1.5;
+  // High-res rendering scale to ensure ink isn't pixelated when zooming
+  const RENDER_QUALITY = 2.5;
 
   const documentFile = useMemo(() => {
     if (!file) return null;
@@ -153,13 +152,15 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       ctx.beginPath();
       ctx.strokeStyle = ann.color;
       ctx.lineWidth = ann.width * RENDER_QUALITY;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
       
       if (ann.tool === 'highlighter') {
+        ctx.lineCap = 'square';
+        ctx.lineJoin = 'miter';
         ctx.globalAlpha = ann.opacity || 0.3;
         ctx.globalCompositeOperation = 'multiply';
       } else {
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
       }
@@ -177,19 +178,21 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       ctx.beginPath();
       ctx.strokeStyle = activeTool === 'lasso' ? '#00ff7f' : currentColor;
       ctx.lineWidth = activeTool === 'lasso' ? 2 : getCurrentWidth() * RENDER_QUALITY;
-      if (activeTool === 'lasso') ctx.setLineDash([5, 5]);
-      else ctx.setLineDash([]);
-      
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
       
       if (activeTool === 'highlighter') {
+        ctx.lineCap = 'square';
+        ctx.lineJoin = 'miter';
         ctx.globalAlpha = 0.3;
         ctx.globalCompositeOperation = 'multiply';
       } else {
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
       }
+
+      if (activeTool === 'lasso') ctx.setLineDash([5, 5]);
+      else ctx.setLineDash([]);
 
       currentStroke.forEach((p, index) => {
         const x = p.x * canvas.width;
@@ -228,7 +231,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     
-    // Calculate relative coordinates within the current transformed space
     const x = (clientX - rect.left) / rect.width;
     const y = (clientY - rect.top) / rect.height;
 
@@ -246,7 +248,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-    // Handle Pinch Zoom
     if ('touches' in e && e.touches.length === 2 && pinchStartDistance.current > 0) {
       const dist = Math.hypot(
         e.touches[0].pageX - e.touches[1].pageX,
@@ -257,7 +258,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       return;
     }
 
-    // Handle Panning (View Mode or space bar held)
     if (activeTool === 'view') {
       const dx = clientX - lastTouchRef.current.x;
       const dy = clientY - lastTouchRef.current.y;
@@ -267,7 +267,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       return;
     }
 
-    // Handle Annotations
     const canvas = canvasRef.current;
     if (!canvas || !currentStroke) return;
     const rect = canvas.getBoundingClientRect();
