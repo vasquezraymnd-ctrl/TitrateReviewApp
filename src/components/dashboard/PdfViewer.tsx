@@ -48,6 +48,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
   const [currentColor, setCurrentColor] = useState('#00ff7f');
+  const [isPinching, setIsPinching] = useState(false);
   
   // Thickness States
   const [pencilWidth, setPencilWidth] = useState(3);
@@ -203,6 +204,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       );
       pinchStartDistance.current = dist;
       pinchStartScale.current = scale;
+      setIsPinching(true);
       setCurrentStroke(null);
       return;
     }
@@ -240,7 +242,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       return;
     }
 
-    if (activeTool === 'view') return;
+    if (activeTool === 'view' || isPinching) return;
     
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -265,6 +267,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
   const handleEnd = async () => {
     pinchStartDistance.current = 0;
+    setIsPinching(false);
 
     if (activeTool === 'view' || !currentStroke || !moduleId) {
       setCurrentStroke(null);
@@ -528,8 +531,21 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         </div>
       </div>
 
-      <div id="pdf-viewport" className="flex-1 overflow-auto no-scrollbar flex justify-center bg-[#050a0f] relative p-4 md:p-10">
-        <div className="max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+      <div 
+        id="pdf-viewport" 
+        className="flex-1 overflow-auto no-scrollbar flex justify-center bg-[#050a0f] relative p-4 md:p-10 touch-none select-none"
+        onWheel={(e) => {
+          if (e.ctrlKey) {
+            e.preventDefault();
+            if (e.deltaY < 0) zoomIn();
+            else zoomOut();
+          }
+        }}
+      >
+        <div className={cn(
+          "max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out will-change-transform origin-top",
+          isPinching && "scale-[1.02]"
+        )}>
           {documentFile ? (
             <Document
               file={documentFile}
