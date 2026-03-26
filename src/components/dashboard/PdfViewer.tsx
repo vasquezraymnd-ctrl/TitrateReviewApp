@@ -19,7 +19,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
-import { db, Annotation, ToolPreset, WorkspaceClip } from '@/lib/db';
+import { db, Annotation, WorkspaceClip } from '@/lib/db';
 import {
   Sheet,
   SheetContent,
@@ -79,7 +79,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  const RENDER_QUALITY = 2.5;
+  // INCREASED RENDER QUALITY FOR ANTI-PIXELATION (3.5x)
+  const RENDER_QUALITY = 3.5;
 
   const documentFile = useMemo(() => {
     if (!file) return null;
@@ -131,12 +132,17 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Clear with high-precision clear
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
     annotations.forEach(ann => {
       ctx.beginPath();
       ctx.strokeStyle = ann.color;
-      ctx.lineWidth = ann.width * RENDER_QUALITY;
+      
+      // Multiply width by RENDER_QUALITY and DPR for crisp lines
+      ctx.lineWidth = ann.width * RENDER_QUALITY * dpr;
       
       if (ann.tool === 'highlighter') {
         ctx.lineCap = 'square';
@@ -169,9 +175,10 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (currentStroke) {
+      const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
       ctx.beginPath();
       ctx.strokeStyle = activeTool === 'eraser' ? '#ffffff' : currentColor;
-      ctx.lineWidth = getCurrentWidth() * RENDER_QUALITY;
+      ctx.lineWidth = getCurrentWidth() * RENDER_QUALITY * dpr;
       
       if (activeTool === 'highlighter') {
         ctx.lineCap = 'square';
@@ -416,8 +423,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
           </div>
 
           {/* Group 2: Tools & Adaptive Calibration (CENTER) */}
-          <div className="flex items-center gap-3 bg-black/20 p-1 border border-white/5">
-            <div className="flex items-center gap-0.5 border-r border-white/10 pr-2">
+          <div className="flex items-center gap-3 bg-black/20 p-1 border border-white/5 flex-1 max-w-2xl justify-center">
+            <div className="flex items-center gap-0.5 border-r border-white/10 pr-2 shrink-0">
               <Button variant="ghost" size="icon" onClick={() => setActiveTool('view')} className={cn("h-8 w-8", activeTool === 'view' ? "bg-primary text-black" : "text-white/40")}>
                 <MousePointer2 size={14} />
               </Button>
@@ -433,13 +440,13 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             </div>
 
             {isDrawingTool && (
-              <div className="flex items-center gap-4 animate-in fade-in slide-in-from-left-2 duration-300">
-                <div className="flex flex-col w-20 md:w-32 gap-1">
-                  <p className="text-[7px] font-black text-primary/60 uppercase tracking-widest text-center">Thickness: {getCurrentWidth()}</p>
-                  <Slider value={[getCurrentWidth()]} max={activeTool === 'pencil' ? 10 : activeTool === 'eraser' ? 100 : 60} min={1} onValueChange={(v) => handleWidthChange(v[0])} />
+              <div className="flex items-center gap-4 animate-in fade-in slide-in-from-left-2 duration-300 overflow-hidden">
+                <div className="flex flex-col w-20 md:w-32 gap-1 shrink-0">
+                  <p className="text-[7px] font-black text-primary uppercase tracking-widest text-center truncate">Size: {getCurrentWidth()}</p>
+                  <Slider value={[getCurrentWidth()]} max={activeTool === 'pencil' ? 15 : activeTool === 'eraser' ? 100 : 60} min={1} onValueChange={(v) => handleWidthChange(v[0])} />
                 </div>
                 {activeTool !== 'eraser' && (
-                  <div className="flex items-center gap-1.5 border-l border-white/10 pl-3">
+                  <div className="flex items-center gap-1.5 border-l border-white/10 pl-3 shrink-0">
                     {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(c => (
                       <button 
                         key={c} 
@@ -466,7 +473,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                <span className="text-[8px] font-black text-primary w-10 text-center">{Math.round(scale * 100)}%</span>
                <Button variant="ghost" size="icon" onClick={zoomIn} className="h-7 w-7 text-white/40"><ZoomIn size={12} /></Button>
             </div>
-            <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/40 hover:text-red-500"><Trash2 size={14} /></Button>
+            <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/40 hover:text-red-500" title="Clear Page"><Trash2 size={14} /></Button>
           </div>
         </div>
 
@@ -497,15 +504,33 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                     const permCanvas = permanentCanvasRef.current;
                     const activeCanvas = activeCanvasRef.current;
                     if (permCanvas && activeCanvas) {
-                      permCanvas.width = activeCanvas.width = page.width;
-                      permCanvas.height = activeCanvas.height = page.height;
+                      // Apply Device Pixel Ratio for High-DPI anti-pixelation
+                      const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+                      
+                      // Set internal canvas resolution
+                      permCanvas.width = activeCanvas.width = page.width * dpr;
+                      permCanvas.height = activeCanvas.height = page.height * dpr;
+                      
+                      // Set visual CSS size
+                      permCanvas.style.width = activeCanvas.style.width = `${page.width}px`;
+                      permCanvas.style.height = activeCanvas.style.height = `${page.height}px`;
+                      
                       drawPermanent();
                       drawActive();
                     }
                   }}
                 />
-                <canvas ref={permanentCanvasRef} className="absolute inset-0 z-10 pointer-events-none" />
-                <canvas ref={activeCanvasRef} className={cn("absolute inset-0 z-20 touch-none", activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair")} />
+                {/* Visual Canvas Layers */}
+                <canvas 
+                  ref={permanentCanvasRef} 
+                  className="absolute inset-0 z-10 pointer-events-none"
+                  style={{ imageRendering: 'auto' }} 
+                />
+                <canvas 
+                  ref={activeCanvasRef} 
+                  className={cn("absolute inset-0 z-20 touch-none", activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair")}
+                  style={{ imageRendering: 'auto' }}
+                />
               </div>
             )}
           </div>

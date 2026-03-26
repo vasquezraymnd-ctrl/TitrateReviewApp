@@ -31,6 +31,9 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // High-DPI Quality standard
+  const RENDER_QUALITY = 3.0;
+
   const loadData = useCallback(async () => {
     const annData = await db.getNotebookAnnotations(notebookId, page);
     const clipData = await db.getNotebookClips(notebookId);
@@ -52,11 +55,12 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
     annotations.forEach(ann => {
       ctx.beginPath();
       ctx.strokeStyle = ann.color;
-      ctx.lineWidth = ann.width;
+      ctx.lineWidth = ann.width * dpr;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.globalAlpha = ann.tool === 'highlighter' ? 0.3 : 1;
@@ -80,9 +84,10 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (currentStroke) {
+      const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
       ctx.beginPath();
       ctx.strokeStyle = activeTool === 'highlighter' ? '#ffff00' : '#00ff7f';
-      ctx.lineWidth = activeTool === 'highlighter' ? 20 : 3;
+      ctx.lineWidth = (activeTool === 'highlighter' ? 20 : 3) * dpr;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.globalAlpha = activeTool === 'highlighter' ? 0.3 : 1;
@@ -97,13 +102,25 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     }
   }, [currentStroke, activeTool]);
 
+  // Adjust canvas size for DPR
   useEffect(() => {
-    drawPermanent();
-  }, [drawPermanent]);
-
-  useEffect(() => {
-    drawActive();
-  }, [drawActive]);
+    const resize = () => {
+      const p = permanentCanvasRef.current;
+      const a = activeCanvasRef.current;
+      const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+      if (p && a && containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        // Target high internal resolution
+        p.width = a.width = 1600 * dpr;
+        p.height = a.height = 2262 * dpr;
+        drawPermanent();
+        drawActive();
+      }
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
+  }, [drawPermanent, drawActive]);
 
   const handlePointerStart = (e: React.PointerEvent) => {
     const canvas = activeCanvasRef.current;
@@ -215,8 +232,8 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto no-scrollbar p-4 relative" ref={containerRef}>
-        <div className="aspect-[1/1.414] bg-[#1a2430] shadow-2xl relative">
-          <div className="absolute inset-0 pointer-events-none">
+        <div className="aspect-[1/1.414] bg-[#1a2430] shadow-2xl relative mx-auto max-w-[800px]">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {clips.map(clip => (
               <div 
                 key={clip.id} 
@@ -235,7 +252,7 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
             ))}
           </div>
 
-          <canvas ref={permanentCanvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-10" width={800} height={1131} />
+          <canvas ref={permanentCanvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-10" />
           <canvas
             ref={activeCanvasRef}
             className="absolute inset-0 w-full h-full touch-none cursor-crosshair z-20"
@@ -243,8 +260,6 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerEnd}
             onPointerLeave={handlePointerEnd}
-            width={800}
-            height={1131}
           />
         </div>
       </div>
