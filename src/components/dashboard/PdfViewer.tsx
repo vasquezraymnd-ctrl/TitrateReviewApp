@@ -14,7 +14,6 @@ import {
   Eraser,
   MousePointer2,
   Trash2,
-  Settings2,
   Zap,
   Scissors,
   Plus
@@ -28,11 +27,11 @@ import { db, Annotation, ToolPreset, WorkspaceClip } from '@/lib/db';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 
-// Set up worker for PDF processing
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// Set up worker for PDF processing with explicit HTTPS protocol
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface PdfViewerProps {
-  url: string | null;
+  file: string | Uint8Array | null;
   moduleId: string;
   moduleName?: string;
   onClipCaptured?: (clip: WorkspaceClip) => void;
@@ -41,7 +40,7 @@ interface PdfViewerProps {
 
 type Tool = 'view' | 'pencil' | 'highlighter' | 'eraser' | 'laser' | 'lasso';
 
-export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNotebookId }: PdfViewerProps) {
+export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNotebookId }: PdfViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
@@ -53,14 +52,12 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
   const [pencilWidth, setPencilWidth] = useState(3);
   const [highlighterWidth, setHighlighterWidth] = useState(25);
   const [eraserWidth, setEraserWidth] = useState(40);
-  const [opacity, setOpacity] = useState(1);
 
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
   const [presets, setPresets] = useState<ToolPreset[]>([]);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   // Load annotations and presets
   const loadInitialData = useCallback(async () => {
@@ -109,7 +106,6 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
     setCurrentColor(preset.color);
     if (preset.type === 'pencil') setPencilWidth(preset.width);
     else setHighlighterWidth(preset.width);
-    setOpacity(preset.opacity);
   };
 
   const savePreset = async () => {
@@ -500,9 +496,9 @@ export function PdfViewer({ url, moduleId, moduleName, onClipCaptured, activeNot
       <div id="pdf-viewport" className="flex-1 overflow-auto no-scrollbar flex justify-center bg-[#050a0f] relative p-4 md:p-10">
         <div className="max-w-full relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
           <Document
-            file={url || null}
+            file={file}
             onLoadSuccess={onDocumentLoadSuccess}
-            loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
+            loading={<div className="py-40 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={48} /><p className="text-[10px] font-black uppercase trackingwidest text-primary/60">Decrypting Archive...</p></div>}
           >
             {isLoaded && (
               <div className="relative bg-white">

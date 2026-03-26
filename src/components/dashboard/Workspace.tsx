@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { PdfViewer } from './PdfViewer';
 import { NotebookPanel } from './NotebookPanel';
 import { Button } from '@/components/ui/button';
@@ -8,9 +8,7 @@ import {
   Columns, 
   Layout, 
   Maximize2, 
-  Minimize2, 
   ChevronLeft, 
-  ChevronRight,
   BookOpen,
   FileText,
   X
@@ -26,11 +24,13 @@ interface WorkspaceProps {
 export function Workspace({ module, onClose }: WorkspaceProps) {
   const [viewMode, setViewMode] = useState<'split' | 'pdf-only' | 'floating'>('split');
   const [activeNotebook, setActiveNotebook] = useState<Notebook | null>(null);
-  const [pdfWidth, setPdfWidth] = useState(50); // Percentage for split view
+  const [pdfWidth] = useState(50); // Percentage for split view
+  const [pdfData, setPdfData] = useState<Uint8Array | null>(null);
 
   useEffect(() => {
     loadActiveNotebook();
-  }, []);
+    preparePdfData();
+  }, [module.pdfBlob]);
 
   const loadActiveNotebook = async () => {
     const all = await db.getAll<Notebook>('notebooks');
@@ -47,26 +47,22 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
     }
   };
 
+  const preparePdfData = async () => {
+    if (module.pdfBlob) {
+      try {
+        const buffer = await module.pdfBlob.arrayBuffer();
+        setPdfData(new Uint8Array(buffer));
+      } catch (err) {
+        console.error("Failed to process PDF protocol:", err);
+      }
+    }
+  };
+
   const handleClipCaptured = async (clip: WorkspaceClip) => {
     await db.put('clips', clip);
     // Notify notebook panel to refresh
     window.dispatchEvent(new CustomEvent('titrate:clip-captured', { detail: clip }));
   };
-
-  // Create memoized URL to prevent re-generation on every render
-  const pdfUrl = useMemo(() => {
-    if (module.pdfBlob) {
-      return URL.createObjectURL(module.pdfBlob);
-    }
-    return null;
-  }, [module.pdfBlob]);
-
-  // Cleanup URL on unmount
-  useEffect(() => {
-    return () => {
-      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-    };
-  }, [pdfUrl]);
 
   return (
     <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
@@ -134,7 +130,7 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
           style={{ width: viewMode === 'split' ? `${pdfWidth}%` : undefined }}
         >
           <PdfViewer 
-            url={pdfUrl} 
+            file={pdfData} 
             moduleId={module.id} 
             moduleName={module.name}
             activeNotebookId={activeNotebook?.id}
