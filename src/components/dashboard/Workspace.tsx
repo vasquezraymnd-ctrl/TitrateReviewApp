@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -9,47 +10,34 @@ import {
   BookOpen,
   FileText,
   X,
-  Loader2
+  Loader2,
+  Layers
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LabModule, WorkspaceClip, db, Notebook } from '@/lib/db';
 
 interface WorkspaceProps {
-  module: LabModule;
-  onClose: () => void;
+  modules: LabModule[];
+  onCloseModule: (id: string) => void;
+  onCloseAll: () => void;
 }
 
-export function Workspace({ module, onClose }: WorkspaceProps) {
+export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps) {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [viewMode, setViewMode] = useState<'split' | 'pdf-only' | 'floating'>('split');
   const [activeNotebook, setActiveNotebook] = useState<Notebook | null>(null);
   const [pdfWidth] = useState(50); // Percentage for split view
-  const [pdfData, setPdfData] = useState<Uint8Array | null>(null);
-  const [loadingPdf, setLoadingPdf] = useState(true);
-  const lastModuleIdRef = useRef<string | null>(null);
+  
+  // Track multiple PDF data streams
+  const [pdfDataMap, setPdfDataStreamMap] = useState<Record<string, Uint8Array>>({});
+  const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
 
-  const preparePdfData = useCallback(async () => {
-    if (module.pdfBlob) {
-      setLoadingPdf(true);
-      try {
-        const buffer = await module.pdfBlob.arrayBuffer();
-        setPdfData(new Uint8Array(buffer));
-      } catch (err) {
-        console.error("Failed to process PDF protocol:", err);
-      } finally {
-        setLoadingPdf(false);
-      }
-    } else {
-      setLoadingPdf(false);
-    }
-  }, [module.pdfBlob]);
-
+  // Correct index if module list shrinks
   useEffect(() => {
-    loadActiveNotebook();
-    if (module.id !== lastModuleIdRef.current) {
-      lastModuleIdRef.current = module.id;
-      preparePdfData();
+    if (activeTabIndex >= modules.length) {
+      setActiveTabIndex(Math.max(0, modules.length - 1));
     }
-  }, [module.id, preparePdfData]);
+  }, [modules.length, activeTabIndex]);
 
   const loadActiveNotebook = async () => {
     const all = await db.getAll<Notebook>('notebooks');
@@ -66,28 +54,76 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
     }
   };
 
+  const preparePdfData = useCallback(async (module: LabModule) => {
+    if (!module.pdfBlob || pdfDataMap[module.id]) return;
+    
+    setLoadingMap(prev => ({ ...prev, [module.id]: true }));
+    try {
+      const buffer = await module.pdfBlob.arrayBuffer();
+      const data = new Uint8Array(buffer);
+      setPdfDataStreamMap(prev => ({ ...prev, [module.id]: data }));
+    } catch (err) {
+      console.error(`Failed to process PDF protocol ${module.name}:`, err);
+    } finally {
+      setLoadingMap(prev => ({ ...prev, [module.id]: false }));
+    }
+  }, [pdfDataMap]);
+
+  useEffect(() => {
+    loadActiveNotebook();
+    modules.forEach(m => preparePdfData(m));
+  }, [modules, preparePdfData]);
+
   const handleClipCaptured = useCallback(async (clip: WorkspaceClip) => {
     await db.put('clips', clip);
     window.dispatchEvent(new CustomEvent('titrate:clip-captured', { detail: clip }));
   }, []);
 
+  const activeModule = modules[activeTabIndex] || null;
+
   return (
     <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
       {/* Workspace Header - Unified h-12 */}
-      <header className="h-12 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 z-[210] shrink-0">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-white/50 h-8 w-8">
+      <header className="h-12 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-4 z-[210] shrink-0 gap-4">
+        <div className="flex items-center gap-2 shrink-0">
+          <Button variant="ghost" size="icon" onClick={onCloseAll} className="text-white/50 h-8 w-8">
             <ChevronLeft size={18} />
           </Button>
-          <div className="flex items-center gap-2">
-            <FileText className="text-primary" size={14} />
-            <h2 className="text-[10px] font-black italic uppercase tracking-widest text-white truncate max-w-[150px]">
-              {module.name}
-            </h2>
+          <div className="hidden sm:flex items-center gap-2 border-l border-white/10 pl-3">
+            <Layers className="text-primary/40" size={14} />
+            <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground">Assay Tabs</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 bg-black/40 border border-white/5 p-0.5">
+        {/* Clinical Tabs Area */}
+        <div className="flex-1 flex items-center gap-1 overflow-x-auto no-scrollbar justify-start">
+          {modules.map((m, idx) => (
+            <div 
+              key={m.id}
+              onClick={() => setActiveTabIndex(idx)}
+              className={cn(
+                "h-8 px-3 flex items-center gap-2 cursor-pointer transition-all border-b-2 relative group min-w-[100px] max-w-[180px]",
+                activeTabIndex === idx 
+                  ? "border-primary bg-primary/5 text-white" 
+                  : "border-transparent text-white/30 hover:text-white/60"
+              )}
+            >
+              <FileText size={12} className={activeTabIndex === idx ? "text-primary" : ""} />
+              <span className="text-[9px] font-black uppercase tracking-widest truncate">{m.name}</span>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCloseModule(m.id);
+                }}
+                className="opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity p-0.5"
+              >
+                <X size={10} />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-1 bg-black/40 border border-white/5 p-0.5 shrink-0">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -114,14 +150,8 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
           </Button>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 px-3 border-l border-white/5">
-             <BookOpen className="text-primary/40" size={12} />
-             <span className="text-[8px] font-black text-muted-foreground uppercase tracking-widest">
-               {activeNotebook?.title || 'No Notebook'}
-             </span>
-          </div>
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-red-500 h-8 w-8 hover:bg-red-500/10">
+        <div className="flex items-center gap-3 shrink-0">
+          <Button variant="ghost" size="icon" onClick={onCloseAll} className="text-red-500 h-8 w-8 hover:bg-red-500/10">
             <X size={18} />
           </Button>
         </div>
@@ -135,22 +165,35 @@ export function Workspace({ module, onClose }: WorkspaceProps) {
           )}
           style={{ width: viewMode === 'split' ? `${pdfWidth}%` : undefined }}
         >
-          {pdfData ? (
-            <PdfViewer 
-              file={pdfData} 
-              moduleId={module.id} 
-              moduleName={module.name}
-              activeNotebookId={activeNotebook?.id}
-              onClipCaptured={handleClipCaptured}
-            />
-          ) : (
-            <div className="h-full flex flex-col items-center justify-center bg-[#050a0f]">
-               <Loader2 className="animate-spin text-primary" size={40} />
-               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mt-4">
-                 {loadingPdf ? 'Decrypting PDF Stream' : 'Missing Protocol Data'}
-               </p>
-            </div>
-          )}
+          {modules.map((m, idx) => {
+            const isVisible = activeTabIndex === idx;
+            const data = pdfDataMap[m.id];
+            const isLoading = loadingMap[m.id];
+
+            return (
+              <div 
+                key={`viewer-${m.id}`} 
+                className={cn("absolute inset-0", isVisible ? "z-10 opacity-100" : "z-0 opacity-0 pointer-events-none")}
+              >
+                {data ? (
+                  <PdfViewer 
+                    file={data} 
+                    moduleId={m.id} 
+                    moduleName={m.name}
+                    activeNotebookId={activeNotebook?.id}
+                    onClipCaptured={handleClipCaptured}
+                  />
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center bg-[#050a0f]">
+                     <Loader2 className="animate-spin text-primary" size={40} />
+                     <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mt-4">
+                       {isLoading ? `Initializing ${m.name}` : 'Missing Protocol Data'}
+                     </p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {viewMode !== 'pdf-only' && (

@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, Suspense, useRef } from 'react';
@@ -83,7 +84,8 @@ function LibraryContent() {
   const [editYear, setEditYear] = useState('');
   const [editExamDate, setEditExamDate] = useState('');
 
-  const [viewingModule, setViewingModule] = useState<LabModule | null>(null);
+  // Multi-tab Workspace State
+  const [activeModules, setActiveModules] = useState<LabModule[]>([]);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -164,7 +166,20 @@ function LibraryContent() {
 
   const openPdf = (module: LabModule) => {
     updateStreak();
-    setViewingModule(module);
+    setActiveModules(prev => {
+      // If already open, just keep current
+      if (prev.find(m => m.id === module.id)) return prev;
+      // Max 3 modules
+      if (prev.length >= 3) {
+        toast({ title: "Workspace Full", description: "Close a protocol before opening another." });
+        return prev;
+      }
+      return [...prev, module];
+    });
+  };
+
+  const handleCloseModule = (moduleId: string) => {
+    setActiveModules(prev => prev.filter(m => m.id !== moduleId));
   };
 
   const filteredModules = modules.filter(m => 
@@ -273,8 +288,12 @@ function LibraryContent() {
         </div>
 
         {/* Workspace Integration */}
-        {viewingModule && (
-          <Workspace module={viewingModule} onClose={() => setViewingModule(null)} />
+        {activeModules.length > 0 && (
+          <Workspace 
+            modules={activeModules} 
+            onCloseModule={handleCloseModule}
+            onCloseAll={() => setActiveModules([])} 
+          />
         )}
 
         <Dialog open={isAddModuleOpen} onOpenChange={setIsAddModuleOpen}>
