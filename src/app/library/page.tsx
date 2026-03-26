@@ -169,10 +169,11 @@ function LibraryContent() {
     setActiveModules(prev => {
       // If already open, just keep current
       if (prev.find(m => m.id === module.id)) return prev;
-      // Max 3 modules
-      if (prev.length >= 3) {
-        toast({ title: "Workspace Full", description: "Close a protocol before opening another." });
-        return prev;
+      
+      // FIFO Replacement Logic: Max 4 tabs
+      if (prev.length >= 4) {
+        toast({ title: "FIFO Rotation", description: "Archived oldest tab to make room for new protocol." });
+        return [...prev.slice(1), module];
       }
       return [...prev, module];
     });

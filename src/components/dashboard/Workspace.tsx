@@ -23,7 +23,8 @@ interface WorkspaceProps {
 }
 
 export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps) {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  // Use ID-based active state for stability during FIFO shifts
+  const [activeModuleId, setActiveModuleId] = useState<string | null>(modules[0]?.id || null);
   const [viewMode, setViewMode] = useState<'split' | 'pdf-only' | 'floating'>('split');
   const [activeNotebook, setActiveNotebook] = useState<Notebook | null>(null);
   const [pdfWidth] = useState(50); // Percentage for split view
@@ -32,12 +33,33 @@ export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps
   const [pdfDataMap, setPdfDataStreamMap] = useState<Record<string, Uint8Array>>({});
   const [loadingMap, setLoadingMap] = useState<Record<string, boolean>>({});
 
-  // Correct index if module list shrinks
+  // Auto-select newly added module or first available
   useEffect(() => {
-    if (activeTabIndex >= modules.length) {
-      setActiveTabIndex(Math.max(0, modules.length - 1));
+    if (modules.length > 0) {
+      const latestModule = modules[modules.length - 1];
+      // If the current active module is gone, or if a new module was just added to the list
+      if (!activeModuleId || !modules.find(m => m.id === activeModuleId)) {
+        setActiveModuleId(latestModule.id);
+      }
+    } else {
+      setActiveModuleId(null);
     }
-  }, [modules.length, activeTabIndex]);
+  }, [modules, activeModuleId]);
+
+  // Memory Cleanup: Remove binary data for closed modules
+  useEffect(() => {
+    setPdfDataStreamMap(prev => {
+      const nextMap = { ...prev };
+      let changed = false;
+      Object.keys(nextMap).forEach(id => {
+        if (!modules.find(m => m.id === id)) {
+          delete nextMap[id];
+          changed = true;
+        }
+      });
+      return changed ? nextMap : prev;
+    });
+  }, [modules]);
 
   const loadActiveNotebook = async () => {
     const all = await db.getAll<Notebook>('notebooks');
@@ -79,8 +101,6 @@ export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps
     window.dispatchEvent(new CustomEvent('titrate:clip-captured', { detail: clip }));
   }, []);
 
-  const activeModule = modules[activeTabIndex] || null;
-
   return (
     <div className="fixed inset-0 z-[200] bg-[#0b111a] flex flex-col animate-in fade-in duration-300">
       {/* Workspace Header - Unified h-12 */}
@@ -95,20 +115,20 @@ export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps
           </div>
         </div>
 
-        {/* Clinical Tabs Area */}
+        {/* Clinical Tabs Area - Max 4 Tabs support */}
         <div className="flex-1 flex items-center gap-1 overflow-x-auto no-scrollbar justify-start">
-          {modules.map((m, idx) => (
+          {modules.map((m) => (
             <div 
               key={m.id}
-              onClick={() => setActiveTabIndex(idx)}
+              onClick={() => setActiveModuleId(m.id)}
               className={cn(
-                "h-8 px-3 flex items-center gap-2 cursor-pointer transition-all border-b-2 relative group min-w-[100px] max-w-[180px]",
-                activeTabIndex === idx 
+                "h-8 px-3 flex items-center gap-2 cursor-pointer transition-all border-b-2 relative group min-w-[90px] max-w-[160px]",
+                activeModuleId === m.id 
                   ? "border-primary bg-primary/5 text-white" 
                   : "border-transparent text-white/30 hover:text-white/60"
               )}
             >
-              <FileText size={12} className={activeTabIndex === idx ? "text-primary" : ""} />
+              <FileText size={12} className={activeModuleId === m.id ? "text-primary" : ""} />
               <span className="text-[9px] font-black uppercase tracking-widest truncate">{m.name}</span>
               <button 
                 onClick={(e) => {
@@ -165,8 +185,8 @@ export function Workspace({ modules, onCloseModule, onCloseAll }: WorkspaceProps
           )}
           style={{ width: viewMode === 'split' ? `${pdfWidth}%` : undefined }}
         >
-          {modules.map((m, idx) => {
-            const isVisible = activeTabIndex === idx;
+          {modules.map((m) => {
+            const isVisible = activeModuleId === m.id;
             const data = pdfDataMap[m.id];
             const isLoading = loadingMap[m.id];
 
