@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const DB_NAME = 'TITRATE_DB';
-const DB_VERSION = 6;
+const DB_VERSION = 7; // Incremented for new workspace stores
 
 export interface Question {
   id: string;
@@ -55,12 +55,40 @@ export interface LabModule {
 
 export interface Annotation {
   id: string;
-  moduleId: string;
+  moduleId?: string; // If drawn on PDF
+  notebookId?: string; // If drawn on Notebook
   pageNumber: number;
-  tool: 'pencil' | 'highlighter';
+  tool: 'pencil' | 'highlighter' | 'laser' | 'lasso';
   color: string;
   width: number;
+  opacity: number;
   points: { x: number; y: number }[];
+}
+
+export interface WorkspaceClip {
+  id: string;
+  sourceModuleId: string;
+  sourceModuleName: string;
+  pageNumber: number;
+  rect: { x: number; y: number; w: number; h: number };
+  dataUrl: string; // The captured image fragment
+  notebookId: string;
+  x: number; // Position in notebook page
+  y: number;
+}
+
+export interface Notebook {
+  id: string;
+  title: string;
+  lastModified: number;
+}
+
+export interface ToolPreset {
+  id: string;
+  type: 'pencil' | 'highlighter';
+  color: string;
+  width: number;
+  opacity: number;
 }
 
 export const CORE_SUBJECTS = [
@@ -102,6 +130,17 @@ export class TitrateDB {
         if (!db.objectStoreNames.contains('annotations')) {
           const store = db.createObjectStore('annotations', { keyPath: 'id' });
           store.createIndex('by_module_page', ['moduleId', 'pageNumber'], { unique: false });
+          store.createIndex('by_notebook_page', ['notebookId', 'pageNumber'], { unique: false });
+        }
+        if (!db.objectStoreNames.contains('notebooks')) {
+          db.createObjectStore('notebooks', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('clips')) {
+          const store = db.createObjectStore('clips', { keyPath: 'id' });
+          store.createIndex('by_notebook', 'notebookId', { unique: false });
+        }
+        if (!db.objectStoreNames.contains('presets')) {
+          db.createObjectStore('presets', { keyPath: 'id' });
         }
       };
 
@@ -165,6 +204,30 @@ export class TitrateDB {
       const store = transaction.objectStore('annotations');
       const index = store.index('by_module_page');
       const request = index.getAll(IDBKeyRange.only([moduleId, pageNumber]));
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async getNotebookAnnotations(notebookId: string, pageNumber: number): Promise<Annotation[]> {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction('annotations', 'readonly');
+      const store = transaction.objectStore('annotations');
+      const index = store.index('by_notebook_page');
+      const request = index.getAll(IDBKeyRange.only([notebookId, pageNumber]));
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async getNotebookClips(notebookId: string): Promise<WorkspaceClip[]> {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction('clips', 'readonly');
+      const store = transaction.objectStore('clips');
+      const index = store.index('by_notebook');
+      const request = index.getAll(IDBKeyRange.only(notebookId));
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
