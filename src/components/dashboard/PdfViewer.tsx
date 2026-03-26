@@ -162,6 +162,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         ctx.globalAlpha = ann.opacity || 0.3;
         ctx.globalCompositeOperation = 'multiply';
       } else {
+        // Pencils are always solid and dark
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
       }
@@ -189,6 +190,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         ctx.globalAlpha = 0.3;
         ctx.globalCompositeOperation = 'multiply';
       } else {
+        // Current pen stroke is solid and dark
         ctx.globalAlpha = 1.0;
         ctx.globalCompositeOperation = 'source-over';
       }
@@ -507,7 +509,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               </div>
 
               <div className="flex items-center gap-1.5 px-2">
-                {['#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
+                {['#000000', '#00ff7f', '#ff4d4d', '#3399ff', '#ffff00'].map(color => (
                   <button
                     key={color}
                     onClick={() => setCurrentColor(color)}
