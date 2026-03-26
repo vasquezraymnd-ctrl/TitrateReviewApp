@@ -119,14 +119,14 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d141d] via-[#0d141d]/80 to-transparent" />
           </div>
 
-          <div className="relative z-10 w-full max-w-7xl xl:max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 xl:gap-24 items-center">
+          <div className="relative z-10 w-full max-w-7xl xl:max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-24 items-center">
             <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-left-12 duration-1000 max-w-full overflow-hidden">
               <div className="flex items-center gap-2">
                 <Microscope className="text-primary animate-pulse" size={14} />
                 <span className="text-primary font-black tracking-[0.4em] uppercase text-[10px]">Status: Active</span>
               </div>
               
-              <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-8xl 2xl:text-[10rem] font-black italic uppercase tracking-tighter leading-[0.9] lg:leading-none">
+              <h2 className="text-4xl sm:text-5xl md:text-4xl lg:text-5xl xl:text-8xl 2xl:text-[10rem] font-black italic uppercase tracking-tighter leading-[0.9] lg:leading-none">
                 Welcome <br /> <span className="text-primary">{profile?.name || 'Future RMT'}</span>
               </h2>
 
@@ -169,7 +169,7 @@ export default function Dashboard() {
                             "w-2 transition-colors h-14 md:h-16 lg:h-24 xl:h-28",
                             index === 0 ? "bg-primary shadow-[0_0_20px_rgba(0,255,127,0.8)]" : "bg-primary/20 group-hover/item:bg-primary"
                           )} />
-                          <div className="flex-1">
+                          <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-[14px] font-black text-muted-foreground uppercase tracking-[0.2em]">
                                 {protocol.type === 'exam' ? 'Exam Milestone' : protocol.type === 'class' ? 'Class Rotation' : 'Study Block'}
@@ -178,12 +178,12 @@ export default function Dashboard() {
                                 <span className="text-[9px] md:text-[12px] xl:text-[14px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">Imminent</span>
                               )}
                             </div>
-                            <h4 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-black italic uppercase tracking-tighter text-white truncate">
+                            <h4 className="text-2xl md:text-2xl lg:text-3xl xl:text-6xl font-black italic uppercase tracking-tighter text-white truncate">
                               {protocol.title}
                             </h4>
                             <div className="flex items-center gap-3 mt-3">
                               <Calendar size={18} className="text-primary/60" />
-                              <span className="text-[16px] md:text-2xl xl:text-3xl font-bold text-muted-foreground uppercase tracking-tight">
+                              <span className="text-[16px] md:text-lg lg:text-xl xl:text-3xl font-bold text-muted-foreground uppercase tracking-tight">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd, yyyy') : protocol.dayOfWeek} • {protocol.startTime} - {protocol.endTime}
                               </span>
                             </div>
