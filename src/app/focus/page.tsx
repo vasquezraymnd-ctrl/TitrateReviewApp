@@ -69,30 +69,30 @@ export default function FocusPage() {
   // FULLSCREEN FOCUS VIEW
   if (timerActive) {
     return (
-      <div className="fixed inset-0 z-[1000] bg-[#0b111a] flex flex-col items-center justify-center text-white overflow-hidden animate-in fade-in duration-500 p-6 md:p-12">
+      <div className="fixed inset-0 z-[1000] bg-[#0b111a] flex flex-col items-center justify-center text-white overflow-hidden animate-in fade-in duration-500 p-6 md:p-10 lg:p-12">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none overflow-hidden">
           <Zap size={800} className="text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         </div>
 
-        <div className="relative z-10 text-center space-y-8 md:space-y-12 w-full max-w-4xl">
-          <div className="flex flex-col items-center gap-4">
-            <Zap className={cn("text-primary size-8 md:size-12", !isPaused && "animate-pulse")} />
-            <span className="text-primary font-black uppercase tracking-[0.6em] text-[10px] md:text-sm">
+        <div className="relative z-10 text-center space-y-6 md:space-y-8 lg:space-y-12 w-full max-w-5xl">
+          <div className="flex flex-col items-center gap-3">
+            <Zap className={cn("text-primary size-8 md:size-10 lg:size-12", !isPaused && "animate-pulse")} />
+            <span className="text-primary font-black uppercase tracking-[0.6em] text-[10px] md:text-xs lg:text-sm">
               {isPaused ? 'Assay Suspended' : 'Titrating Deep Focus'}
             </span>
           </div>
           
-          <div className="riot-card p-12 md:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-xl shadow-[0_0_100px_rgba(0,255,127,0.05)]">
+          <div className="riot-card p-10 md:p-12 lg:p-16 xl:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-xl shadow-[0_0_100px_rgba(0,255,127,0.05)]">
              <div className={cn(
-               "text-8xl md:text-[15rem] font-black italic tracking-tighter tabular-nums leading-none transition-all duration-700",
+               "text-7xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[15rem] font-black italic tracking-tighter tabular-nums leading-none transition-all duration-700",
                isPaused ? "text-white/10 scale-95 blur-sm" : "text-white scale-100"
              )}>
                {formatTime(timeLeft)}
              </div>
           </div>
 
-          <div className="space-y-10">
-            <p className="text-muted-foreground font-medium italic text-lg md:text-xl max-w-md mx-auto px-6">
+          <div className="space-y-6 md:space-y-8 lg:space-y-10">
+            <p className="text-muted-foreground font-medium italic text-base md:text-lg lg:text-xl max-w-md mx-auto px-6">
               {isPaused 
                 ? "Assay interrupted. Resume when laboratory silence is restored."
                 : "Focus locked. Maintain analytical precision until protocol completion."
@@ -102,7 +102,7 @@ export default function FocusPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center px-6">
               <Button 
                 onClick={() => setIsPaused(!isPaused)}
-                className="riot-button h-16 md:h-20 px-16 bg-primary text-black font-black text-xs md:text-sm tracking-widest"
+                className="riot-button h-14 md:h-16 lg:h-20 px-12 md:px-16 bg-primary text-black font-black text-xs md:text-sm tracking-widest"
               >
                 {isPaused ? (
                   <><Play className="mr-3 h-5 w-5" /> RESUME</>
@@ -113,7 +113,7 @@ export default function FocusPage() {
               <Button 
                 onClick={handleAbort}
                 variant="outline"
-                className="riot-button h-16 md:h-20 px-16 border-red-500/50 text-red-500 hover:bg-red-500/10 font-black text-xs md:text-sm tracking-widest"
+                className="riot-button h-14 md:h-16 lg:h-20 px-12 md:px-16 border-red-500/50 text-red-500 hover:bg-red-500/10 font-black text-xs md:text-sm tracking-widest"
               >
                 <X className="mr-3 h-5 w-5" /> ABORT
               </Button>
