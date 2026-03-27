@@ -32,8 +32,8 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
   const isRevealed = !!selectedId || showFlashcardAnswer;
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-6 md:space-y-8 animate-in fade-in zoom-in duration-500">
-      <div className="flex items-center justify-between bg-white/[0.02] border border-white/5 p-4 mb-2">
+    <div className="w-full max-w-3xl mx-auto space-y-4 md:space-y-6 lg:space-y-8 animate-in fade-in zoom-in duration-500">
+      <div className="flex items-center justify-between bg-white/[0.02] border border-white/5 p-3 md:p-4 mb-1">
         <div className="flex items-center gap-2">
           <Eye size={14} className="text-primary" />
           <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Flashcard Mode</span>
@@ -48,13 +48,13 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
         />
       </div>
 
-      <div className="riot-card bg-[#111a24] border-l-4 border-primary p-6 md:p-12 shadow-2xl relative overflow-hidden ring-1 ring-white/5 min-h-[400px]">
+      <div className="riot-card bg-[#111a24] border-l-4 border-primary p-6 md:p-8 lg:p-12 shadow-2xl relative overflow-hidden ring-1 ring-white/5 min-h-[350px] md:min-h-[400px]">
         <div className="absolute top-0 right-0 p-4 opacity-5">
           <ShieldCheck size={150} className="text-primary md:size-[200px]" />
         </div>
 
         <div className="relative z-10">
-          <div className="flex items-center justify-between mb-8 md:mb-12">
+          <div className="flex items-center justify-between mb-6 md:mb-10 lg:mb-12">
             <div className="flex items-center gap-2 md:gap-3">
               <Microscope className="text-primary" size={16} />
               <span className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.5em] text-primary">
@@ -68,7 +68,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
             </div>
           </div>
 
-          <h3 className="text-xl md:text-3xl lg:text-4xl font-black italic uppercase tracking-tighter mb-8 md:mb-16 leading-tight text-white drop-shadow-sm">
+          <h3 className="text-xl md:text-2xl lg:text-4xl font-black italic uppercase tracking-tighter mb-6 md:mb-10 lg:mb-16 leading-tight text-white drop-shadow-sm">
             {question.question}
           </h3>
 
@@ -94,7 +94,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
                     onClick={() => handleSelect(choice.id)}
                     disabled={!!selectedId}
                     className={cn(
-                      "w-full flex items-center gap-4 md:gap-6 p-4 md:p-6 transition-all duration-300 text-left font-black uppercase tracking-widest border group relative",
+                      "w-full flex items-center gap-4 md:gap-5 lg:gap-6 p-4 md:p-5 lg:p-6 transition-all duration-300 text-left font-black uppercase tracking-widest border group relative",
                       stateClass
                     )}
                     style={{ clipPath: 'polygon(0 0, 100% 0, 100% 80%, 98% 100%, 0 100%)' }}
@@ -102,12 +102,12 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
                     {!selectedId && <div className="absolute top-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500" />}
                     
                     <div className={cn(
-                      "w-8 h-8 md:w-10 md:h-10 flex items-center justify-center shrink-0 border-2 font-black italic transition-colors text-xs md:text-lg",
+                      "w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 flex items-center justify-center shrink-0 border-2 font-black italic transition-colors text-xs md:text-sm lg:text-lg",
                       selectedId ? (isCorrectChoice ? "border-primary text-primary" : isSelected ? "border-red-500 text-red-500" : "border-muted text-muted-foreground") : "border-white/10 text-white/40 group-hover:border-primary/50 group-hover:text-primary"
                     )}>
                       {choice.id}
                     </div>
-                    <span className="text-sm md:text-lg italic group-hover:translate-x-2 transition-transform line-clamp-2">{choice.text}</span>
+                    <span className="text-sm md:text-base lg:text-lg italic group-hover:translate-x-2 transition-transform line-clamp-2">{choice.text}</span>
                     {!selectedId && <ChevronRight className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-primary hidden md:block" />}
                   </button>
                 );
@@ -135,7 +135,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-8">
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-4 md:py-6 lg:py-8">
         <Button 
           variant="ghost" 
           onClick={onExit}

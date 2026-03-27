@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -337,7 +336,7 @@ export default function QuizPage() {
       <main className="flex-1 overflow-y-auto no-scrollbar relative">
         <DashboardHeader />
         
-        <div className="max-w-7xl xl:max-w-[1600px] mx-auto px-8 lg:px-16 py-32 flex flex-col min-h-full">
+        <div className="max-w-7xl xl:max-w-[1600px] mx-auto px-8 lg:px-16 py-24 md:py-28 lg:py-32 flex flex-col min-h-full">
           <div className="flex-1">
             {step === 'subject' && (
               <div className="space-y-12 xl:space-y-20 animate-in fade-in duration-700">
