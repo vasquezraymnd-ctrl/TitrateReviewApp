@@ -56,13 +56,14 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [pageNumber, setPageNumber] = useState(1);
   const [jumpPage, setJumpPage] = useState("");
   
-  const [scale, setScale] = useState(1.0);
-  const [translateX, setTranslateX] = useState(0);
-  const [translateY, setTranslateY] = useState(0);
-  
+  // PERFORMANCE REFS: Direct DOM manipulation for maximum smoothness
+  const transformLayerRef = useRef<HTMLDivElement>(null);
+  const transformState = useRef({ x: 0, y: 0, scale: 1.0 });
+  const [uiScale, setUiScale] = useState(1.0); // For header display
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
   const [currentColor, setCurrentColor] = useState('#000000');
+  const [isDragging, setIsDragging] = useState(false);
   
   const pointerCache = useRef<PointerEvent[]>([]);
   const lastTouchRef = useRef({ x: 0, y: 0 });
@@ -70,6 +71,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const pinchStartScale = useRef<number>(1.0);
   const pinchStartCenter = useRef({ x: 0, y: 0 });
   const pinchStartTranslation = useRef({ x: 0, y: 0 });
+  const rafRequestRef = useRef<number>(null);
 
   const [pencilWidth, setPencilWidth] = useState(3);
   const [highlighterWidth, setHighlighterWidth] = useState(25);
@@ -82,7 +84,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // INCREASED RENDER QUALITY FOR ANTI-PIXELATION (3.5x)
   const RENDER_QUALITY = 3.5;
 
   const documentFile = useMemo(() => {
@@ -98,13 +99,23 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
   useEffect(() => {
     loadInitialData();
-    setRedoStack([]); // Clear redo on page change
+    setRedoStack([]);
   }, [loadInitialData]);
+
+  const applyTransform = useCallback((hasTransition = false) => {
+    if (transformLayerRef.current) {
+      const { x, y, scale } = transformState.current;
+      transformLayerRef.current.style.transition = hasTransition ? 'transform 150ms ease-out' : 'none';
+      transformLayerRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) scale3d(${scale}, ${scale}, 1)`;
+    }
+  }, []);
 
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setIsLoaded(true);
-  }, []);
+    // Ensure initial transform is set
+    requestAnimationFrame(() => applyTransform());
+  }, [applyTransform]);
 
   const handleJumpPage = () => {
     const p = parseInt(jumpPage, 10);
@@ -114,8 +125,17 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     }
   };
 
-  const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 4.0));
-  const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.3));
+  const zoomIn = () => {
+    transformState.current.scale = Math.min(transformState.current.scale + 0.2, 4.0);
+    setUiScale(transformState.current.scale);
+    applyTransform(true);
+  };
+
+  const zoomOut = () => {
+    transformState.current.scale = Math.max(transformState.current.scale - 0.2, 0.3);
+    setUiScale(transformState.current.scale);
+    applyTransform(true);
+  };
   
   const getCurrentWidth = () => {
     if (activeTool === 'pencil') return pencilWidth;
@@ -136,16 +156,12 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Clear with high-precision clear
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
     annotations.forEach(ann => {
       ctx.beginPath();
       ctx.strokeStyle = ann.color;
-      
-      // Multiply width by RENDER_QUALITY and DPR for crisp lines
       ctx.lineWidth = ann.width * RENDER_QUALITY * dpr;
       
       if (ann.tool === 'highlighter') {
@@ -206,13 +222,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     }
   }, [currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth, eraserWidth]);
 
-  useEffect(() => {
-    drawPermanent();
-  }, [drawPermanent]);
-
-  useEffect(() => {
-    drawActive();
-  }, [drawActive]);
+  useEffect(() => { drawPermanent(); }, [drawPermanent]);
+  useEffect(() => { drawActive(); }, [drawActive]);
 
   const handlePointerStart = (e: React.PointerEvent) => {
     pointerCache.current.push(e.nativeEvent);
@@ -222,19 +233,24 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       const p1 = pointerCache.current[0];
       const p2 = pointerCache.current[1];
       pinchStartDistance.current = Math.hypot(p1.clientX - p2.clientX, p1.clientY - p2.clientY);
-      pinchStartScale.current = scale;
+      pinchStartScale.current = transformState.current.scale;
       
       pinchStartCenter.current = {
         x: (p1.clientX + p2.clientX) / 2,
         y: (p1.clientY + p2.clientY) / 2
       };
-      pinchStartTranslation.current = { x: translateX, y: translateY };
+      pinchStartTranslation.current = { x: transformState.current.x, y: transformState.current.y };
       
       setCurrentStroke(null);
+      setIsDragging(true);
       return;
     }
 
-    if (activeTool === 'view') return;
+    if (activeTool === 'view') {
+      setIsDragging(true);
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      return;
+    }
     
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     const canvas = activeCanvasRef.current;
@@ -250,12 +266,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setCurrentStroke([{ x, y }]);
   };
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    const index = pointerCache.current.findIndex(p => p.pointerId === e.pointerId);
-    if (index !== -1) {
-      pointerCache.current[index] = e.nativeEvent;
-    }
-
+  const performMoveUpdates = useCallback(() => {
     if (pointerCache.current.length === 2) {
       const p1 = pointerCache.current[0];
       const p2 = pointerCache.current[1];
@@ -285,20 +296,23 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         const dx = currentCenterX - originX;
         const dy = currentCenterY - originY;
 
-        setScale(newScale);
-        setTranslateX(nextTx + dx);
-        setTranslateY(nextTy + dy);
+        transformState.current.scale = newScale;
+        transformState.current.x = nextTx + dx;
+        transformState.current.y = nextTy + dy;
+        setUiScale(newScale);
+        applyTransform();
       }
       return;
     }
 
     if (pointerCache.current.length === 1) {
       const p = pointerCache.current[0];
-      if (activeTool === 'view') {
+      if (activeTool === 'view' && isDragging) {
         const dx = p.clientX - lastTouchRef.current.x;
         const dy = p.clientY - lastTouchRef.current.y;
-        setTranslateX(prev => prev + dx);
-        setTranslateY(prev => prev + dy);
+        transformState.current.x += dx;
+        transformState.current.y += dy;
+        applyTransform();
         lastTouchRef.current = { x: p.clientX, y: p.clientY };
       } else if (currentStroke) {
         const canvas = activeCanvasRef.current;
@@ -314,6 +328,20 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         }
       }
     }
+  }, [activeTool, isDragging, currentStroke, applyTransform]);
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    const index = pointerCache.current.findIndex(p => p.pointerId === e.pointerId);
+    if (index !== -1) {
+      pointerCache.current[index] = e.nativeEvent;
+    }
+
+    if (!rafRequestRef.current) {
+      rafRequestRef.current = requestAnimationFrame(() => {
+        performMoveUpdates();
+        rafRequestRef.current = null;
+      });
+    }
   };
 
   const handlePointerEnd = async (e: React.PointerEvent) => {
@@ -321,6 +349,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     if (pointerCache.current.length < 2) {
       pinchStartDistance.current = 0;
     }
+    setIsDragging(false);
 
     if (activeTool === 'view' || !currentStroke || !moduleId) {
       setCurrentStroke(null);
@@ -340,7 +369,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
     await db.put('annotations', newAnnotation);
     setAnnotations(prev => [...prev, newAnnotation]);
-    setRedoStack([]); // Clear redo on new action
+    setRedoStack([]);
     setCurrentStroke(null);
   };
 
@@ -383,8 +412,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
   if (!documentFile) return null;
 
-  const isDrawingTool = activeTool !== 'view';
-
   return (
     <Document 
       file={documentFile} 
@@ -392,10 +419,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       loading={<div className="py-20 flex flex-col items-center gap-4"><Loader2 className="animate-spin text-primary" size={32} /><p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Decrypting Archive...</p></div>}
     >
       <div className="flex flex-col h-full bg-[#050a0f] relative overflow-hidden">
-        {/* Unified Instrument Dock - h-12 */}
         <div className="h-12 bg-[#111a24] border-b border-white/5 flex items-center justify-between px-2 z-[100] shrink-0 gap-2 overflow-x-auto no-scrollbar">
-          
-          {/* Group 1: Navigation & TOC */}
           <div className="flex items-center gap-1 shrink-0">
             <Sheet>
               <SheetTrigger asChild>
@@ -406,15 +430,11 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               <SheetContent side="left" className="bg-[#0b111a] border-white/10 text-white w-80 p-0 flex flex-col">
                 <SheetHeader className="p-6 border-b border-white/5 shrink-0">
                   <SheetTitle className="text-white font-black italic uppercase tracking-tighter flex items-center gap-2">
-                    <List className="text-primary" size={18} />
-                    Protocol Index
+                    <List className="text-primary" size={18} /> Protocol Index
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
-                  <Outline 
-                    onItemClick={({ pageNumber }: any) => setPageNumber(parseInt(pageNumber, 10))}
-                    className="protocol-outline"
-                  />
+                  <Outline onItemClick={({ pageNumber }: any) => setPageNumber(parseInt(pageNumber, 10))} className="protocol-outline" />
                 </div>
               </SheetContent>
             </Sheet>
@@ -426,9 +446,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               <Popover>
                 <PopoverTrigger asChild>
                   <button className="px-2 h-7 min-w-[50px] text-center hover:bg-white/5 transition-colors">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-white">
-                      {pageNumber} / {numPages || '--'}
-                    </span>
+                    <span className="text-[8px] font-black uppercase tracking-widest text-white">{pageNumber} / {numPages || '--'}</span>
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="bg-[#111a24] border-white/10 p-3 w-40 rounded-none">
@@ -444,7 +462,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             </div>
           </div>
 
-          {/* Group 2: Tools & Adaptive Calibration (CENTER) */}
           <div className="flex items-center gap-3 bg-black/20 p-1 border border-white/5 flex-1 max-w-2xl justify-center">
             <div className="flex items-center gap-0.5 border-r border-white/10 pr-2 shrink-0">
               <Button variant="ghost" size="icon" onClick={() => setActiveTool('view')} className={cn("h-8 w-8", activeTool === 'view' ? "bg-primary text-black" : "text-white/40")}>
@@ -461,7 +478,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
               </Button>
             </div>
 
-            {isDrawingTool && (
+            {activeTool !== 'view' && (
               <div className="flex items-center gap-4 animate-in fade-in slide-in-from-left-2 duration-300 overflow-hidden">
                 <div className="flex flex-col w-20 md:w-32 gap-1 shrink-0">
                   <p className="text-[7px] font-black text-primary uppercase tracking-widest text-center truncate">Size: {getCurrentWidth()}</p>
@@ -473,10 +490,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                       <button 
                         key={c} 
                         onClick={() => setCurrentColor(c)} 
-                        className={cn(
-                          "w-5 h-5 rounded-full border border-white/10 transition-transform active:scale-90 flex items-center justify-center", 
-                          currentColor === c && "ring-1 ring-white ring-offset-1 ring-offset-[#111a24] scale-110"
-                        )} 
+                        className={cn("w-5 h-5 rounded-full border border-white/10 transition-transform active:scale-90 flex items-center justify-center", currentColor === c && "ring-1 ring-white ring-offset-1 ring-offset-[#111a24] scale-110")} 
                         style={{ backgroundColor: c }}
                       >
                         {currentColor === c && <Check size={8} className={c === '#ffff00' || c === '#00ff7f' ? "text-black" : "text-white"} />}
@@ -488,56 +502,35 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
             )}
           </div>
 
-          {/* Group 3: Zoom & Actions (RIGHT) */}
           <div className="flex items-center gap-2 ml-auto shrink-0">
             <div className="flex items-center bg-white/5 border border-white/10 p-0.5">
                <Button variant="ghost" size="icon" onClick={zoomOut} className="h-7 w-7 text-white/40"><ZoomOut size={12} /></Button>
-               <span className="text-[8px] font-black text-primary w-10 text-center">{Math.round(scale * 100)}%</span>
+               <span className="text-[8px] font-black text-primary w-10 text-center">{Math.round(uiScale * 100)}%</span>
                <Button variant="ghost" size="icon" onClick={zoomIn} className="h-7 w-7 text-white/40"><ZoomIn size={12} /></Button>
             </div>
             
-            {/* Revision Controls */}
             <div className="flex items-center gap-0.5 border-l border-white/10 pl-2">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={handleUndo} 
-                disabled={annotations.length === 0}
-                className="h-8 w-8 text-white/40 hover:text-white disabled:opacity-10"
-                title="Undo"
-              >
-                <Undo size={14} />
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={handleRedo} 
-                disabled={redoStack.length === 0}
-                className="h-8 w-8 text-white/40 hover:text-white disabled:opacity-10"
-                title="Redo"
-              >
-                <Redo size={14} />
-              </Button>
+              <Button variant="ghost" size="icon" onClick={handleUndo} disabled={annotations.length === 0} className="h-8 w-8 text-white/40 hover:text-white disabled:opacity-10" title="Undo"><Undo size={14} /></Button>
+              <Button variant="ghost" size="icon" onClick={handleRedo} disabled={redoStack.length === 0} className="h-8 w-8 text-white/40 hover:text-white disabled:opacity-10" title="Redo"><Redo size={14} /></Button>
               <Button variant="ghost" size="icon" onClick={clearPage} className="h-8 w-8 text-red-500/40 hover:text-red-500" title="Clear Page"><Trash2 size={14} /></Button>
             </div>
           </div>
         </div>
 
-        {/* PDF Viewport */}
         <div 
           id="pdf-viewport" 
-          className="flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none"
+          className={cn(
+            "flex-1 overflow-hidden flex justify-center items-center bg-[#050a0f] relative touch-none select-none",
+            activeTool === 'view' && (isDragging ? "cursor-grabbing" : "cursor-grab")
+          )}
           onPointerDown={handlePointerStart}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerEnd}
           onPointerLeave={handlePointerEnd}
         >
           <div 
-            className="relative transition-transform ease-out will-change-transform"
-            style={{ 
-              transform: `translate3d(${translateX}px, ${translateY}px, 0) scale3d(${scale}, ${scale}, 1)`,
-              transitionDuration: pointerCache.current.length > 0 ? '0ms' : '75ms'
-            }}
+            ref={transformLayerRef}
+            className="relative will-change-transform"
           >
             {isLoaded && (
               <div className="relative bg-white shadow-[0_0_50px_rgba(0,0,0,0.5)]">
@@ -550,33 +543,18 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                     const permCanvas = permanentCanvasRef.current;
                     const activeCanvas = activeCanvasRef.current;
                     if (permCanvas && activeCanvas) {
-                      // Apply Device Pixel Ratio for High-DPI anti-pixelation
                       const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-                      
-                      // Set internal canvas resolution
                       permCanvas.width = activeCanvas.width = page.width * dpr;
                       permCanvas.height = activeCanvas.height = page.height * dpr;
-                      
-                      // Set visual CSS size
                       permCanvas.style.width = activeCanvas.style.width = `${page.width}px`;
                       permCanvas.style.height = activeCanvas.style.height = `${page.height}px`;
-                      
                       drawPermanent();
                       drawActive();
                     }
                   }}
                 />
-                {/* Visual Canvas Layers */}
-                <canvas 
-                  ref={permanentCanvasRef} 
-                  className="absolute inset-0 z-10 pointer-events-none"
-                  style={{ imageRendering: 'auto' }} 
-                />
-                <canvas 
-                  ref={activeCanvasRef} 
-                  className={cn("absolute inset-0 z-20 touch-none", activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair")}
-                  style={{ imageRendering: 'auto' }}
-                />
+                <canvas ref={permanentCanvasRef} className="absolute inset-0 z-10 pointer-events-none" style={{ imageRendering: 'auto' }} />
+                <canvas ref={activeCanvasRef} className={cn("absolute inset-0 z-20 touch-none", activeTool === 'view' ? "pointer-events-none" : "cursor-crosshair")} style={{ imageRendering: 'auto' }} />
               </div>
             )}
           </div>
