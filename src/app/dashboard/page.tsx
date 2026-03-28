@@ -1,10 +1,9 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity, Target, Shield, Info } from 'lucide-react';
+import { Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity, Shield, Info } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -142,10 +141,6 @@ export default function Dashboard() {
 
             <div className="animate-in fade-in slide-in-from-right-12 duration-1000 delay-300">
               <div className="riot-card p-6 md:p-8 lg:p-10 xl:p-14 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-100 transition-opacity hidden lg:block">
-                  <Target size={160} className="text-primary" />
-                </div>
-                
                 <div className="relative z-10 space-y-6 lg:space-y-8">
                   <div className="flex items-center justify-between border-b border-white/5 pb-4">
                     <h3 className="text-xs lg:text-sm font-black italic uppercase tracking-[0.3em] flex items-center gap-2 text-primary">
