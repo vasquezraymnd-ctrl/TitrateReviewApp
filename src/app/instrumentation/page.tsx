@@ -3,7 +3,7 @@
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { Shield, Cpu, Database, Zap, BookOpen, User, Github, Linkedin, Mail } from 'lucide-react';
+import { Shield, User, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -64,40 +64,13 @@ export default function InstrumentationPage() {
                   <span className="text-[10px] font-black uppercase text-muted-foreground">Database</span>
                   <span className="text-[10px] font-black text-white">IndexedDB (Local-First)</span>
                 </div>
-                <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                <div className="flex items-center justify-between">
                   <span className="text-[10px] font-black uppercase text-muted-foreground">Engine</span>
                   <span className="text-[10px] font-black text-white">SM-2 Spaced Repetition</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase text-muted-foreground">AI Core</span>
-                  <span className="text-[10px] font-black text-white">Genkit / Gemini 2.5</span>
                 </div>
               </div>
             </div>
           </div>
-
-          <section className="space-y-8">
-            <h3 className="text-2xl font-black italic uppercase tracking-tighter flex items-center gap-3">
-              <Cpu size={24} className="text-primary" /> Architectural Modules
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 bg-white/[0.02] border border-white/5 space-y-3">
-                <Database className="text-primary/60" size={20} />
-                <h4 className="font-black uppercase text-xs tracking-widest">Laboratory Archives</h4>
-                <p className="text-xs text-muted-foreground italic">Encrypted local storage for clinical protocols and study metrics.</p>
-              </div>
-              <div className="p-6 bg-white/[0.02] border border-white/5 space-y-3">
-                <Zap className="text-primary/60" size={20} />
-                <h4 className="font-black uppercase text-xs tracking-widest">Assay Engine</h4>
-                <p className="text-xs text-muted-foreground italic">High-performance MCQ and flashcard titration with SM-2 logic.</p>
-              </div>
-              <div className="p-6 bg-white/[0.02] border border-white/5 space-y-3">
-                <BookOpen className="text-primary/60" size={20} />
-                <h4 className="font-black uppercase text-xs tracking-widest">Protocol Workspace</h4>
-                <p className="text-xs text-muted-foreground italic">Multi-tab PDF workstation with revision and clipping capabilities.</p>
-              </div>
-            </div>
-          </section>
 
           <footer className="pt-12 border-t border-white/5 text-center opacity-40">
             <p className="text-[9px] font-black uppercase tracking-[0.5em]">TITRATE // Designed for the Growth of the MedTech Profession</p>
