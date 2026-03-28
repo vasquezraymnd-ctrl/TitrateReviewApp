@@ -1,9 +1,8 @@
-
 "use client"
 
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { Shield, User, Github, Linkedin, Mail } from 'lucide-react';
+import { Shield, User, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -37,14 +36,6 @@ export default function InstrumentationPage() {
                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Architect Profile</p>
                   <h3 className="text-2xl md:text-3xl font-black italic uppercase text-white">Raymond Vasquez</h3>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Registered Medical Technologist (RMT)</p>
-                </div>
-                <p className="text-sm text-white/70 italic leading-relaxed">
-                  Raymond built TITRATE to provide students with a professional-grade, local-first environment for board examination preparation.
-                </p>
-                <div className="flex gap-4 pt-2">
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-white/40 hover:text-primary"><Mail size={18} /></Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-white/40 hover:text-primary"><Linkedin size={18} /></Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-white/40 hover:text-primary"><Github size={18} /></Button>
                 </div>
               </div>
             </div>
