@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
@@ -61,7 +62,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [uiScale, setUiScale] = useState(1.0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
-  const [currentColor, setCurrentColor] = useState('#000000');
+  const [currentColor, setCurrentColor] = useState('#00ff7f');
   const [isDragging, setIsDragging] = useState(false);
   
   const pointerCache = useRef<PointerEvent[]>([]);
@@ -70,7 +71,11 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const pinchStartScale = useRef<number>(1.0);
   const pinchStartCenter = useRef({ x: 0, y: 0 });
   const pinchStartTranslation = useRef({ x: 0, y: 0 });
-  const rafRequestRef = useRef<number>(null);
+  const rafRequestRef = useRef<number | null>(null);
+
+  // High responsiveness drawing refs
+  const isDrawingRef = useRef(false);
+  const pointsRef = useRef<{ x: number; y: number }[]>([]);
 
   const [pencilWidth, setPencilWidth] = useState(3);
   const [highlighterWidth, setHighlighterWidth] = useState(25);
@@ -78,7 +83,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [redoStack, setRedoStack] = useState<Annotation[]>([]);
-  const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
   
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -135,12 +139,12 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     applyTransform(true);
   };
   
-  const getCurrentWidth = () => {
+  const getCurrentWidth = useCallback(() => {
     if (activeTool === 'pencil') return pencilWidth;
     if (activeTool === 'highlighter') return highlighterWidth;
     if (activeTool === 'eraser') return eraserWidth;
     return 3;
-  };
+  }, [activeTool, pencilWidth, highlighterWidth, eraserWidth]);
 
   const handleWidthChange = (val: number) => {
     if (activeTool === 'pencil') setPencilWidth(val);
@@ -170,7 +174,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
-    // First, draw all saved annotations
     annotations.forEach(ann => {
       ctx.save();
       if (ann.tool === 'eraser') {
@@ -195,30 +198,38 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       drawPath(ctx, ann.points, ann.width * RENDER_QUALITY * dpr, canvas);
       ctx.restore();
     });
+  }, [annotations]);
 
-    // Handle LIVE eraser feedback (subtract from permanent ink while drawing)
-    if (currentStroke && activeTool === 'eraser') {
-      ctx.save();
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.strokeStyle = 'rgba(0,0,0,1)';
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      drawPath(ctx, currentStroke, eraserWidth * RENDER_QUALITY * dpr, canvas);
-      ctx.restore();
-    }
-  }, [annotations, currentStroke, activeTool, eraserWidth]);
-
-  const drawActive = useCallback(() => {
+  const drawActiveStrokeManually = useCallback(() => {
     const canvas = activeCanvasRef.current;
-    if (!canvas) return;
+    const points = pointsRef.current;
+    if (!canvas || points.length < 2) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
-    // Only draw preview for non-eraser tools (eraser is shown on permanent canvas directly)
-    if (currentStroke && activeTool !== 'eraser') {
-      const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+    if (activeTool === 'eraser') {
+      const pCanvas = permanentCanvasRef.current;
+      if (pCanvas) {
+        const pCtx = pCanvas.getContext('2d');
+        if (pCtx) {
+          pCtx.save();
+          pCtx.globalCompositeOperation = 'destination-out';
+          pCtx.lineWidth = eraserWidth * RENDER_QUALITY * dpr;
+          pCtx.lineCap = 'round';
+          pCtx.lineJoin = 'round';
+          const p1 = points[points.length - 2];
+          const p2 = points[points.length - 1];
+          pCtx.beginPath();
+          pCtx.moveTo(p1.x * pCanvas.width, p1.y * pCanvas.height);
+          pCtx.lineTo(p2.x * pCanvas.width, p2.y * pCanvas.height);
+          pCtx.stroke();
+          pCtx.restore();
+        }
+      }
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       if (activeTool === 'highlighter') {
         ctx.globalCompositeOperation = 'multiply';
@@ -233,14 +244,12 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
       }
-
-      drawPath(ctx, currentStroke, getCurrentWidth() * RENDER_QUALITY * dpr, canvas);
+      drawPath(ctx, points, getCurrentWidth() * RENDER_QUALITY * dpr, canvas);
       ctx.restore();
     }
-  }, [currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth]);
+  }, [activeTool, currentColor, eraserWidth, getCurrentWidth]);
 
   useEffect(() => { drawPermanent(); }, [drawPermanent]);
-  useEffect(() => { drawActive(); }, [drawActive]);
 
   const handlePointerStart = (e: React.PointerEvent) => {
     pointerCache.current.push(e.nativeEvent);
@@ -258,7 +267,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       };
       pinchStartTranslation.current = { x: transformState.current.x, y: transformState.current.y };
       
-      setCurrentStroke(null);
+      isDrawingRef.current = false;
+      pointsRef.current = [];
       setIsDragging(true);
       return;
     }
@@ -269,6 +279,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       return;
     }
     
+    // Start drawing
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     const canvas = activeCanvasRef.current;
     if (!canvas) return;
@@ -276,7 +287,8 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
 
-    setCurrentStroke([{ x, y }]);
+    isDrawingRef.current = true;
+    pointsRef.current = [{ x, y }];
   };
 
   const performMoveUpdates = useCallback(() => {
@@ -327,16 +339,23 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         transformState.current.y += dy;
         applyTransform();
         lastTouchRef.current = { x: p.clientX, y: p.clientY };
-      } else if (currentStroke) {
+      } else if (isDrawingRef.current) {
         const canvas = activeCanvasRef.current;
         if (!canvas) return;
         const rect = canvas.getBoundingClientRect();
-        const x = (p.clientX - rect.left) / rect.width;
-        const y = (p.clientY - rect.top) / rect.height;
-        setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
+        
+        // Coalesced events check
+        const events = (p as any).getCoalescedEvents ? (p as any).getCoalescedEvents() : [p];
+        for (const ev of events) {
+          const x = (ev.clientX - rect.left) / rect.width;
+          const y = (ev.clientY - rect.top) / rect.height;
+          pointsRef.current.push({ x, y });
+        }
+        
+        drawActiveStrokeManually();
       }
     }
-  }, [activeTool, isDragging, currentStroke, applyTransform]);
+  }, [activeTool, isDragging, applyTransform, drawActiveStrokeManually]);
 
   const handlePointerMove = (e: React.PointerEvent) => {
     const index = pointerCache.current.findIndex(p => p.pointerId === e.pointerId);
@@ -359,9 +378,21 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     }
     setIsDragging(false);
 
-    if (activeTool === 'view' || !currentStroke || !moduleId) {
-      setCurrentStroke(null);
+    if (activeTool === 'view' || !isDrawingRef.current || !moduleId) {
+      isDrawingRef.current = false;
+      pointsRef.current = [];
       return;
+    }
+
+    isDrawingRef.current = false;
+    const finalPoints = [...pointsRef.current];
+    pointsRef.current = [];
+
+    // Clear active preview
+    const canvas = activeCanvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      ctx?.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     const newAnnotation: Annotation = {
@@ -372,13 +403,12 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       color: activeTool === 'eraser' ? '#000000' : currentColor,
       width: getCurrentWidth(),
       opacity: activeTool === 'highlighter' ? 0.3 : 1,
-      points: currentStroke
+      points: finalPoints
     };
 
     await db.put('annotations', newAnnotation);
     setAnnotations(prev => [...prev, newAnnotation]);
     setRedoStack([]);
-    setCurrentStroke(null);
   };
 
   const handleUndo = async () => {
@@ -545,7 +575,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
                       permCanvas.style.width = activeCanvas.style.width = `${page.width}px`;
                       permCanvas.style.height = activeCanvas.style.height = `${page.height}px`;
                       drawPermanent();
-                      drawActive();
                     }
                   }}
                 />

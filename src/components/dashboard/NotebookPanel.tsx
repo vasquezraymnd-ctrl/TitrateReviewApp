@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -29,18 +30,21 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
   const [redoStack, setRedoStack] = useState<Annotation[]>([]);
   const [clips, setClips] = useState<WorkspaceClip[]>([]);
   const [activeTool, setActiveTool] = useState<'pencil' | 'highlighter' | 'eraser'>('pencil');
-  const [currentStroke, setCurrentStroke] = useState<{ x: number; y: number }[] | null>(null);
   
   const permanentCanvasRef = useRef<HTMLCanvasElement>(null);
   const activeCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // High-responsiveness refs
+  const isDrawingRef = useRef(false);
+  const pointsRef = useRef<{ x: number; y: number }[]>([]);
   const { toast } = useToast();
 
   const loadData = useCallback(async () => {
     const annData = await db.getNotebookAnnotations(notebookId, page);
     const clipData = await db.getNotebookClips(notebookId);
     setAnnotations(annData);
-    setRedoStack([]); // Clear redo on page change
+    setRedoStack([]);
     setClips(clipData.filter(c => c.notebookId === notebookId));
   }, [notebookId, page]);
 
@@ -80,7 +84,7 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
         ctx.strokeStyle = 'rgba(0,0,0,1)';
         ctx.globalAlpha = 1.0;
       } else if (ann.tool === 'highlighter') {
-        ctx.globalCompositeOperation = 'source-over'; // Dark background uses standard composite
+        ctx.globalCompositeOperation = 'source-over';
         ctx.strokeStyle = ann.color;
         ctx.globalAlpha = 0.3;
       } else {
@@ -94,39 +98,58 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       drawPath(ctx, ann.points, ann.width * dpr, canvas);
       ctx.restore();
     });
+  }, [annotations]);
 
-    // Handle LIVE eraser feedback on permanent ink
-    if (currentStroke && activeTool === 'eraser') {
-      ctx.save();
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.strokeStyle = 'rgba(0,0,0,1)';
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      drawPath(ctx, currentStroke, 40 * dpr, canvas);
-      ctx.restore();
-    }
-  }, [annotations, currentStroke, activeTool]);
-
-  const drawActive = useCallback(() => {
+  // Direct manual draw function for zero latency
+  const drawActiveStrokeManually = useCallback(() => {
     const canvas = activeCanvasRef.current;
-    if (!canvas) return;
+    const points = pointsRef.current;
+    if (!canvas || points.length < 2) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const dpr = window.devicePixelRatio || 1;
 
-    if (currentStroke && activeTool !== 'eraser') {
-      const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+    if (activeTool === 'eraser') {
+      const pCanvas = permanentCanvasRef.current;
+      if (pCanvas) {
+        const pCtx = pCanvas.getContext('2d');
+        if (pCtx) {
+          pCtx.save();
+          pCtx.globalCompositeOperation = 'destination-out';
+          pCtx.lineWidth = 40 * dpr;
+          pCtx.lineCap = 'round';
+          pCtx.lineJoin = 'round';
+          
+          const p1 = points[points.length - 2];
+          const p2 = points[points.length - 1];
+          pCtx.beginPath();
+          pCtx.moveTo(p1.x * pCanvas.width, p1.y * pCanvas.height);
+          pCtx.lineTo(p2.x * pCanvas.width, p2.y * pCanvas.height);
+          pCtx.stroke();
+          pCtx.restore();
+        }
+      }
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       ctx.strokeStyle = activeTool === 'highlighter' ? '#ffff00' : '#00ff7f';
       ctx.lineWidth = (activeTool === 'highlighter' ? 20 : 3) * dpr;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.globalAlpha = activeTool === 'highlighter' ? 0.3 : 1;
-      drawPath(ctx, currentStroke, (activeTool === 'highlighter' ? 20 : 3) * dpr, canvas);
+      
+      ctx.beginPath();
+      points.forEach((p, i) => {
+        const x = p.x * canvas.width;
+        const y = p.y * canvas.height;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
       ctx.restore();
     }
-  }, [currentStroke, activeTool]);
+  }, [activeTool]);
 
   useEffect(() => {
     const resize = () => {
@@ -137,13 +160,12 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
         p.width = a.width = 1600 * dpr;
         p.height = a.height = 2262 * dpr;
         drawPermanent();
-        drawActive();
       }
     };
     resize();
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
-  }, [drawPermanent, drawActive]);
+  }, [drawPermanent]);
 
   useEffect(() => {
     drawPermanent();
@@ -158,22 +180,39 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
 
-    setCurrentStroke([{ x, y }]);
+    isDrawingRef.current = true;
+    pointsRef.current = [{ x, y }];
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!currentStroke) return;
+    if (!isDrawingRef.current) return;
     const canvas = activeCanvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
 
-    setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
+    // Use coalesced events for smoothness
+    const events = (e.nativeEvent as any).getCoalescedEvents 
+      ? (e.nativeEvent as any).getCoalescedEvents() 
+      : [e.nativeEvent];
+
+    for (const ev of events) {
+      const x = (ev.clientX - rect.left) / rect.width;
+      const y = (ev.clientY - rect.top) / rect.height;
+      pointsRef.current.push({ x, y });
+    }
+
+    drawActiveStrokeManually();
   };
 
   const handlePointerEnd = async () => {
-    if (!currentStroke) return;
+    if (!isDrawingRef.current) return;
+    isDrawingRef.current = false;
+    
+    if (pointsRef.current.length < 2) {
+      pointsRef.current = [];
+      return;
+    }
+
     const newAnn: Annotation = {
       id: `ann-nb-${Date.now()}`,
       notebookId,
@@ -182,12 +221,20 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       color: activeTool === 'highlighter' ? '#ffff00' : (activeTool === 'eraser' ? '#000000' : '#00ff7f'),
       width: activeTool === 'highlighter' ? 20 : (activeTool === 'eraser' ? 40 : 3),
       opacity: activeTool === 'highlighter' ? 0.3 : 1,
-      points: currentStroke
+      points: [...pointsRef.current]
     };
+
+    // Clear active canvas preview
+    const canvas = activeCanvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
     await db.put('annotations', newAnn);
     setAnnotations(prev => [...prev, newAnn]);
     setRedoStack([]);
-    setCurrentStroke(null);
+    pointsRef.current = [];
   };
 
   const handleUndo = async () => {
