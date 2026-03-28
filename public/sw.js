@@ -1,18 +1,13 @@
-/**
- * TITRATE PWA Service Worker
- * Ensures offline clinical assay availability and fast loading.
- */
 
-const CACHE_NAME = 'titrate-v1';
+const CACHE_NAME = 'titrate-lab-cache-v1';
+const OFFLINE_URL = '/';
+
 const ASSETS_TO_CACHE = [
   '/',
-  '/dashboard',
-  '/library',
-  '/quiz',
-  '/scheduler',
-  '/focus',
-  '/globals.css',
-  '/icon'
+  '/manifest.webmanifest',
+  '/icon',
+  '/apple-icon',
+  'https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Inter:wght@400;500;600;700&display=swap'
 ];
 
 self.addEventListener('install', (event) => {
@@ -28,11 +23,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
-          }
-        })
+        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
       );
     })
   );
@@ -40,15 +31,39 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Check if the request is for an asset we've cached or a page navigation
+  if (event.request.method !== 'GET') return;
+
+  // Prioritize PDF Worker and static assets for offline use
+  const isExternalAsset = event.request.url.includes('unpkg.com') || event.request.url.includes('fonts.gstatic.com');
+
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Return cached response if found, otherwise fetch from network
-      return response || fetch(event.request).catch(() => {
-        // If both fail (offline and not in cache), return the offline fallback if it's a navigation
-        if (event.request.mode === 'navigate') {
-          return caches.match('/');
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      return fetch(event.request).then((response) => {
+        if (!response || response.status !== 200) {
+          return response;
         }
+
+        // Cache successful requests dynamically
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          // Avoid caching large binary blobs like raw PDFs unless requested, 
+          // but cache the UI and scripts
+          if (!event.request.url.includes('blob:')) {
+            cache.put(event.request, responseToCache);
+          }
+        });
+
+        return response;
+      }).catch(() => {
+        // Offline Fallback
+        if (event.request.mode === 'navigate') {
+          return caches.match(OFFLINE_URL);
+        }
+        return null;
       });
     })
   );
