@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -104,7 +105,10 @@ export function Sidebar() {
         </div>
 
         <div className="mt-auto p-6 border-t border-white/5 bg-black/40">
-          <Link href="/dashboard" className="flex items-center gap-3 text-[11px] font-black text-muted-foreground hover:text-white transition-colors uppercase tracking-widest">
+          <Link href="/instrumentation" className={cn(
+            "flex items-center gap-3 text-[11px] font-black transition-colors uppercase tracking-widest",
+            pathname === '/instrumentation' ? "text-primary" : "text-muted-foreground hover:text-white"
+          )}>
             <Settings size={16} />
             <span className={isMobileMode ? "hidden" : "block"}>Instrumentation</span>
           </Link>

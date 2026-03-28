@@ -4,7 +4,7 @@
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { Button } from '@/components/ui/button';
-import { Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity, Target } from 'lucide-react';
+import { Microscope, AlertCircle, Calendar, Clock, BookOpen, Activity, Target, Shield, Info } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -183,7 +183,7 @@ export default function Dashboard() {
                             </h4>
                             <div className="flex items-center gap-3 mt-3">
                               <Calendar size={18} className="text-primary/60" />
-                              <span className="text-[16px] md:text-sm lg:text-base xl:text-3xl font-bold text-muted-foreground uppercase tracking-tight">
+                              <span className="text-[16px] md:sm lg:base xl:text-3xl font-bold text-muted-foreground uppercase tracking-tight">
                                 {protocol.date ? format(parseISO(protocol.date), 'MMM dd, yyyy') : protocol.dayOfWeek} • {protocol.startTime} - {protocol.endTime}
                               </span>
                             </div>
@@ -263,6 +263,32 @@ export default function Dashboard() {
               <BookOpen className="text-black mb-2" size={32} />
               <p className="text-4xl md:text-6xl lg:text-8xl xl:text-[10rem] font-black italic uppercase tracking-tighter text-black">ACTIVE</p>
               <p className="text-[10px] lg:text-[14px] font-black text-black/60 uppercase tracking-widest">Laboratory Protocol Status</p>
+            </div>
+          </section>
+
+          {/* Laboratory Manifest (About Section) */}
+          <section className="pt-12 border-t border-white/5 max-w-4xl mx-auto text-center space-y-8 animate-in fade-in duration-1000">
+            <div className="flex flex-col items-center gap-4">
+              <Shield className="text-primary/40" size={40} />
+              <h3 className="text-2xl md:text-4xl font-black italic uppercase tracking-tighter">Laboratory Manifest</h3>
+            </div>
+            
+            <div className="space-y-6">
+              <p className="text-sm md:text-lg text-muted-foreground italic leading-relaxed">
+                "TITRATE was engineered as a high-fidelity, all-in-one clinical workstation for the next generation of Medical Technologists. In an era where MedTech is a rapidly evolving and vital profession, precision in study is as critical as precision in the laboratory."
+              </p>
+              
+              <div className="riot-card bg-white/[0.02] border border-white/5 p-6 md:p-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
+                <div className="space-y-1">
+                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Lead Systems Architect</p>
+                  <h4 className="text-xl md:text-2xl font-black italic uppercase text-white">Raymond Vasquez</h4>
+                  <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Registered Medical Technologist</p>
+                </div>
+                <div className="h-px w-12 bg-white/10 md:h-12 md:w-px" />
+                <Button asChild variant="link" className="text-primary font-black uppercase text-[10px] tracking-widest">
+                  <Link href="/instrumentation">VIEW SYSTEM SPECS <Info className="ml-2 h-3 w-3" /></Link>
+                </Button>
+              </div>
             </div>
           </section>
 
