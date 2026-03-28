@@ -93,17 +93,16 @@ export default function Home() {
     return (
       <div className="fixed inset-0 bg-[#0b111a] flex flex-col items-center justify-center z-[500] overflow-hidden px-6">
         <div className="relative flex flex-col items-center w-full max-w-lg">
-          <div className="absolute -top-32 md:-top-48 left-1/2 -translate-x-1/2 scale-75 md:scale-100">
-            <div className="relative flex flex-col items-center">
-              <svg width="80" height="160" viewBox="0 0 60 120" className="animate-[tilt-and-pour_5s_ease-in-out_infinite] origin-[30px_20px]">
-                <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
-                <path d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="currentColor" className="text-primary animate-[liquid-drain_5s_infinite]" />
-              </svg>
-              <div className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
-            </div>
+          <div className="relative flex flex-col items-center mb-12 md:mb-16 lg:mb-20 scale-75 md:scale-80 lg:scale-[0.85]">
+            <svg width="80" height="160" viewBox="0 0 60 120" className="animate-[tilt-and-pour_5s_ease-in-out_infinite] origin-[30px_20px]">
+              <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
+              <path d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="currentColor" className="text-primary animate-[liquid-drain_5s_infinite]" />
+            </svg>
+            <div className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top animate-[stream-flow_5s_infinite]" />
           </div>
-          <div className="relative mt-20 md:mt-24 text-center">
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none select-none">
+          
+          <div className="relative text-center">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black italic tracking-tighter text-white/5 relative leading-none select-none">
               TITRATE
               <div className="absolute inset-0 text-primary overflow-hidden animate-[fill-logo-word_5s_ease-out_forwards] leading-none">
                 TITRATE
@@ -132,34 +131,32 @@ export default function Home() {
       >
         <div className="relative flex flex-col items-center w-full max-w-lg">
           
-          <div className="absolute -top-32 md:-top-48 left-1/2 -translate-x-1/2 scale-75 md:scale-100 transition-transform duration-500">
-            <div className="relative flex flex-col items-center">
-              <svg 
-                width="80" 
-                height="160" 
-                viewBox="0 0 60 120" 
-                className="origin-[30px_20px] transition-transform duration-300"
-                style={{ transform: `rotate(${-65 * (holdProgress / 100)}deg)` }}
-              >
-                <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
-                <path 
-                  d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
-                  fill="currentColor" 
-                  className="text-primary transition-transform duration-300"
-                  style={{ transform: `scaleY(${Math.max(0.2, 1 - (holdProgress / 100))})`, transformOrigin: 'bottom' }}
-                />
-              </svg>
-              {holdProgress > 5 && (
-                <div 
-                  className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top transition-all duration-300 pointer-events-none" 
-                  style={{ height: '260px', opacity: isHolding ? 1 : 0 }} 
-                />
-              )}
-            </div>
+          <div className="relative flex flex-col items-center mb-12 md:mb-16 lg:mb-20 scale-75 md:scale-80 lg:scale-[0.85] transition-transform duration-500">
+            <svg 
+              width="80" 
+              height="160" 
+              viewBox="0 0 60 120" 
+              className="origin-[30px_20px] transition-transform duration-300"
+              style={{ transform: `rotate(${-65 * (holdProgress / 100)}deg)` }}
+            >
+              <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
+              <path 
+                d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" 
+                fill="currentColor" 
+                className="text-primary transition-transform duration-300"
+                style={{ transform: `scaleY(${Math.max(0.2, 1 - (holdProgress / 100))})`, transformOrigin: 'bottom' }}
+              />
+            </svg>
+            {holdProgress > 5 && (
+              <div 
+                className="absolute top-[20px] left-1/2 -translate-x-1/2 w-[2px] md:w-[3px] bg-primary origin-top transition-all duration-300 pointer-events-none" 
+                style={{ height: '260px', opacity: isHolding ? 1 : 0 }} 
+              />
+            )}
           </div>
 
-          <div className="relative mt-20 md:mt-24 text-center">
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black italic tracking-tighter text-white/5 relative leading-none select-none">
+          <div className="relative text-center">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-black italic tracking-tighter text-white/5 relative leading-none select-none">
               TITRATE
               <div 
                 className="absolute inset-0 text-primary overflow-hidden transition-all duration-300 leading-none" 
