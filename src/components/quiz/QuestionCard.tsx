@@ -68,7 +68,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
             </div>
           </div>
 
-          <h3 className="text-xl md:text-lg lg:text-xl xl:text-4xl font-black italic uppercase tracking-tighter mb-6 md:mb-6 lg:mb-8 xl:mb-16 leading-tight text-white drop-shadow-sm">
+          <h3 className="text-xl md:text-lg lg:text-xl xl:text-4xl font-black italic tracking-tight mb-6 md:mb-6 lg:mb-8 xl:mb-16 leading-tight text-white drop-shadow-sm">
             {question.question}
           </h3>
 
@@ -94,7 +94,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
                     onClick={() => handleSelect(choice.id)}
                     disabled={!!selectedId}
                     className={cn(
-                      "w-full flex items-center gap-3 md:gap-4 lg:gap-6 p-3 md:p-4 lg:p-5 xl:p-6 transition-all duration-300 text-left font-black uppercase tracking-widest border group relative",
+                      "w-full flex items-center gap-3 md:gap-4 lg:gap-6 p-3 md:p-4 lg:p-5 xl:p-6 transition-all duration-300 text-left font-black border group relative",
                       stateClass
                     )}
                     style={{ clipPath: 'polygon(0 0, 100% 0, 100% 80%, 98% 100%, 0 100%)' }}
@@ -125,7 +125,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
                ) : (
                  <div className="p-6 md:p-6 lg:p-10 bg-primary/10 border border-primary/30 animate-in zoom-in duration-300">
                     <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2 md:mb-4">Correct Protocol</p>
-                    <p className="text-xl md:text-xl lg:text-3xl font-black italic text-white uppercase tracking-tight">
+                    <p className="text-xl md:text-xl lg:text-3xl font-black italic text-white tracking-tight">
                       {question.choices.find(c => c.id === question.answerId)?.text || "Data Recorded"}
                     </p>
                  </div>
