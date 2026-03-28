@@ -1,7 +1,9 @@
+
 import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { PwaRegister } from '@/components/PwaRegister';
 import { Toaster } from '@/components/ui/toaster';
+import { NotificationManager } from '@/components/NotificationManager';
 
 export const metadata: Metadata = {
   title: 'TITRATE | MedTech Review',
@@ -40,6 +42,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background text-foreground">
         <PwaRegister />
+        <NotificationManager />
         {children}
         <Toaster />
       </body>

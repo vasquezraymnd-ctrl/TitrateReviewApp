@@ -14,6 +14,8 @@ import {
   CalendarDays,
   Database,
   Clock,
+  Bell,
+  BellOff
 } from 'lucide-react';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
@@ -27,12 +29,15 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { NotificationEngine } from '@/lib/notifications';
+import { cn } from '@/lib/utils';
 
 export default function SchedulerPage() {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<ScheduleType>('class');
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [newItem, setNewItem] = useState<Partial<Schedule>>({
     title: '',
     startTime: '08:00',
@@ -45,6 +50,9 @@ export default function SchedulerPage() {
 
   useEffect(() => {
     loadSchedules();
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      setNotificationsEnabled(Notification.permission === 'granted');
+    }
   }, []);
 
   const loadSchedules = async () => {
@@ -53,6 +61,16 @@ export default function SchedulerPage() {
     setSchedules(data);
     setLoading(false);
     window.dispatchEvent(new Event('schedule-updated'));
+  };
+
+  const handleEnableNotifications = async () => {
+    const granted = await NotificationEngine.requestPermission();
+    setNotificationsEnabled(granted);
+    if (granted) {
+      toast({ title: "Clearance Granted", description: "Timed study reminders are now active." });
+    } else {
+      toast({ variant: "destructive", title: "Clearance Denied", description: "Manual browser settings update required." });
+    }
   };
 
   const saveScheduleItem = async () => {
@@ -100,6 +118,16 @@ export default function SchedulerPage() {
               <h2 className="text-3xl md:text-5xl xl:text-7xl font-black italic uppercase tracking-tighter">Study Calibration</h2>
               <p className="text-[10px] md:text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2">Manage course rotations and exam milestones.</p>
             </div>
+            <Button 
+              onClick={handleEnableNotifications}
+              variant="outline"
+              className={cn(
+                "riot-button h-12 px-6 border-white/10 font-black text-[9px] uppercase tracking-widest",
+                notificationsEnabled ? "text-primary border-primary/20 bg-primary/5" : "text-white/40"
+              )}
+            >
+              {notificationsEnabled ? <><Bell className="mr-2 h-3 w-3" /> Reminders Active</> : <><BellOff className="mr-2 h-3 w-3" /> Enable Reminders</>}
+            </Button>
           </div>
 
           <Tabs defaultValue="class" className="w-full" onValueChange={(v) => setActiveTab(v as ScheduleType)}>
