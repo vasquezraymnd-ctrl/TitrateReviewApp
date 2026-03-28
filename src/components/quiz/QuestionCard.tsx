@@ -69,7 +69,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
             </div>
           </div>
 
-          <h3 className="text-xl md:text-lg lg:text-xl xl:text-4xl font-black italic tracking-tight mb-6 md:mb-6 lg:mb-8 xl:mb-16 leading-tight text-white drop-shadow-sm normal-case">
+          <h3 className="text-xl md:text-lg lg:text-xl xl:text-4xl font-black tracking-tight mb-6 md:mb-6 lg:mb-8 xl:mb-16 leading-tight text-white drop-shadow-sm normal-case not-italic">
             {question.question}
           </h3>
 
@@ -103,12 +103,12 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
                     {!selectedId && <div className="absolute top-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500" />}
                     
                     <div className={cn(
-                      "w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 flex items-center justify-center shrink-0 border-2 font-black italic transition-colors text-xs md:text-xs lg:text-sm xl:text-lg",
+                      "w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 flex items-center justify-center shrink-0 border-2 font-black transition-colors text-xs md:text-xs lg:text-sm xl:text-lg",
                       selectedId ? (isCorrectChoice ? "border-primary text-primary" : isSelected ? "border-red-500 text-red-500" : "border-muted text-muted-foreground") : "border-white/10 text-white/40 group-hover:border-primary/50 group-hover:text-primary"
                     )}>
                       {choice.id}
                     </div>
-                    <span className="text-sm md:text-xs lg:text-base xl:text-lg italic group-hover:translate-x-2 transition-transform line-clamp-2">{choice.text}</span>
+                    <span className="text-sm md:text-xs lg:text-base xl:text-lg group-hover:translate-x-2 transition-transform line-clamp-2">{choice.text}</span>
                     {!selectedId && <ChevronRight className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-primary hidden md:block" />}
                   </button>
                 );
@@ -126,7 +126,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
                ) : (
                  <div className="p-6 md:p-6 lg:p-10 bg-primary/10 border border-primary/30 animate-in zoom-in duration-300">
                     <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-2 md:mb-4">Correct Protocol</p>
-                    <p className="text-xl md:text-xl lg:text-3xl font-black italic text-white tracking-tight">
+                    <p className="text-xl md:text-xl lg:text-3xl font-black text-white tracking-tight">
                       {question.choices.find(c => c.id === question.answerId)?.text || "Data Recorded"}
                     </p>
                  </div>
