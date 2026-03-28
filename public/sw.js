@@ -1,19 +1,28 @@
+/**
+ * TITRATE Laboratory Service Worker
+ * Strategy: Stale-While-Revalidate for App Shell & External Dependencies
+ */
 
-const CACHE_NAME = 'titrate-lab-cache-v1';
+const CACHE_NAME = 'titrate-lab-v1';
 const OFFLINE_URL = '/';
 
-const ASSETS_TO_CACHE = [
+const STATIC_ASSETS = [
   '/',
-  '/manifest.webmanifest',
+  '/dashboard',
+  '/library',
+  '/quiz',
+  '/scheduler',
+  '/focus',
+  '/instrumentation',
+  '/manifest.json',
   '/icon',
-  '/apple-icon',
-  'https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Inter:wght@400;500;600;700&display=swap'
+  '/apple-icon'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      return cache.addAll(STATIC_ASSETS);
     })
   );
   self.skipWaiting();
@@ -21,9 +30,9 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then((keys) => {
       return Promise.all(
-        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
       );
     })
   );
@@ -31,39 +40,38 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  // Navigation strategy: Try network, fallback to cached root index
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        return caches.match(OFFLINE_URL);
+      })
+    );
+    return;
+  }
 
-  // Prioritize PDF Worker and static assets for offline use
-  const isExternalAsset = event.request.url.includes('unpkg.com') || event.request.url.includes('fonts.gstatic.com');
-
+  // Asset strategy: Cache-First for static/external dependencies
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
 
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200) {
-          return response;
+      return fetch(event.request).then((networkResponse) => {
+        // Cache external clinical dependencies (PDF Worker, Fonts)
+        if (
+          event.request.url.includes('unpkg.com') ||
+          event.request.url.includes('fonts.googleapis.com') ||
+          event.request.url.includes('fonts.gstatic.com') ||
+          event.request.url.includes('picsum.photos') ||
+          event.request.url.includes('unsplash.com')
+        ) {
+          const cacheCopy = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, cacheCopy);
+          });
         }
-
-        // Cache successful requests dynamically
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          // Avoid caching large binary blobs like raw PDFs unless requested, 
-          // but cache the UI and scripts
-          if (!event.request.url.includes('blob:')) {
-            cache.put(event.request, responseToCache);
-          }
-        });
-
-        return response;
-      }).catch(() => {
-        // Offline Fallback
-        if (event.request.mode === 'navigate') {
-          return caches.match(OFFLINE_URL);
-        }
-        return null;
+        return networkResponse;
       });
     })
   );

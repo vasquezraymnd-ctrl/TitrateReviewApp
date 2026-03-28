@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -20,7 +19,8 @@ import {
   ChevronLeft,
   Trash2,
   RotateCcw,
-  Eraser
+  Eraser,
+  WifiOff
 } from 'lucide-react';
 import Link from 'next/link';
 import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
@@ -56,6 +56,7 @@ export default function QuizPage() {
   const [modules, setModules] = useState<LabModule[]>([]);
   const [chapters, setChapters] = useState<{ name: string; mastered: number; total: number }[]>([]);
   const [subjectStats, setSubjectStats] = useState<Record<string, SubjectStats>>({});
+  const [isOnline, setIsOnline] = useState(true);
   
   const [importing, setImporting] = useState(false);
 
@@ -63,12 +64,25 @@ export default function QuizPage() {
 
   useEffect(() => {
     loadGlobalStats();
+    
+    // Online Status Monitoring
+    setIsOnline(navigator.onLine);
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
     const handleArchivePurge = () => {
         loadGlobalStats();
         setStep('subject');
     };
     window.addEventListener('archives-purged', handleArchivePurge);
-    return () => window.removeEventListener('archives-purged', handleArchivePurge);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('archives-purged', handleArchivePurge);
+    };
   }, []);
 
   const loadGlobalStats = async () => {
@@ -291,6 +305,15 @@ export default function QuizPage() {
   };
 
   const startModuleAssay = async (module: LabModule) => {
+    if (!isOnline) {
+      toast({ 
+        variant: "destructive", 
+        title: "Link Severed", 
+        description: "AI synthesis requires an active network connection. Please reconnect to initialize AI assays." 
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       if (!module.extractedText) {
@@ -346,6 +369,12 @@ export default function QuizPage() {
                         <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">Sector Selection</h2>
                         <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Pick a clinical sector folder to begin titration.</p>
                     </div>
+                    {!isOnline && (
+                      <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-none animate-pulse">
+                        <WifiOff size={14} className="text-red-500" />
+                        <span className="text-[10px] font-black uppercase text-red-500 tracking-widest">Laboratory Offline</span>
+                      </div>
+                    )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                   {CORE_SUBJECTS.map((subject) => {
@@ -429,13 +458,18 @@ export default function QuizPage() {
                     <button 
                       key={m.id} 
                       onClick={() => startModuleAssay(m)}
-                      className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:border-primary/50 text-left group"
+                      className={cn(
+                        "riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 transition-all text-left group",
+                        isOnline ? "hover:border-primary/50" : "opacity-50 cursor-not-allowed"
+                      )}
                     >
-                      <BookOpen size={24} className="mb-4 text-primary xl:size-32" />
+                      <BookOpen size={24} className={cn("mb-4 xl:size-32", isOnline ? "text-primary" : "text-muted-foreground")} />
                       <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white truncate w-full">
                         {m.name}
                       </h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">AI Assay Synthesis</p>
+                      <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">
+                        {isOnline ? 'AI Assay Synthesis' : 'Requires Network Link'}
+                      </p>
                     </button>
                   ))}
                   

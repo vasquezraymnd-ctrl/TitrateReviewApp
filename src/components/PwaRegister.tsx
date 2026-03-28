@@ -1,7 +1,11 @@
-
 "use client"
 
 import { useEffect } from 'react'
+
+/**
+ * @fileOverview PWA Initialization
+ * Registers the TITRATE Service Worker to enable offline laboratory access.
+ */
 
 export function PwaRegister() {
   useEffect(() => {
