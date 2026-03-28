@@ -164,14 +164,19 @@ function LibraryContent() {
     const yesterdayStr = yesterday.toISOString().split('T')[0];
     let newStreak = userProfile.currentStreak || 0;
     newStreak = userProfile.lastActivityDate === yesterdayStr ? newStreak + 1 : 1;
-    const updatedProfile = { ...userProfile, currentStreak: newStreak, lastActivityDate: today };
+    const updatedProfile: UserProfile = { 
+      ...userProfile, 
+      id: 'current-user',
+      currentStreak: newStreak, 
+      lastActivityDate: today 
+    };
     await db.put('profile', updatedProfile);
     setProfile(updatedProfile);
     window.dispatchEvent(new Event('profile-updated'));
   };
 
   const createModule = async () => {
-    if (!newModuleName.trim() || !selectedFile) {
+    if (!newModuleName.trim() || !selectedSubject) {
       toast({ variant: "destructive", title: "Missing Information" });
       return;
     }
@@ -181,7 +186,7 @@ function LibraryContent() {
       subject: selectedSubject,
       imageKey: 'med-lab',
       mastery: 0,
-      pdfBlob: selectedFile
+      pdfBlob: selectedFile || undefined
     };
     await db.put('modules', newModule);
     toast({ title: "Module Created" });
@@ -208,7 +213,15 @@ function LibraryContent() {
 
   const saveProfile = async () => {
     if (!editName.trim()) return;
-    const updatedProfile: UserProfile = { ...profile!, name: editName, proficiencyRank: editYear, examDate: editExamDate };
+    // Ensure the ID is explicitly set to 'current-user' to match the database keyPath
+    const updatedProfile: UserProfile = { 
+      id: 'current-user',
+      name: editName, 
+      proficiencyRank: editYear || 'Future RMT', 
+      examDate: editExamDate || '',
+      currentStreak: profile?.currentStreak || 0,
+      lastActivityDate: profile?.lastActivityDate || ''
+    };
     await db.put('profile', updatedProfile);
     setProfile(updatedProfile);
     setIsEditProfileOpen(false);
@@ -284,8 +297,8 @@ function LibraryContent() {
                </div>
                <div>
                  <p className="text-[9px] font-black text-primary uppercase tracking-[0.4em] mb-1">Future RMT</p>
-                 <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">{profile?.name}</h2>
-                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank}</p>
+                 <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">{profile?.name || 'Future RMT'}</h2>
+                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{profile?.proficiencyRank || 'Rank Unassigned'}</p>
                </div>
              </div>
           </section>
@@ -429,6 +442,10 @@ function LibraryContent() {
               <div className="space-y-1.5">
                 <Label className="text-[9px] font-black uppercase tracking-widest">Analyst Name</Label>
                 <Input value={editName} onChange={(e) => setEditName(e.target.value)} className="bg-white/5 border-white/10 rounded-none h-10 text-sm" />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-[9px] font-black uppercase tracking-widest">Proficiency Rank</Label>
+                <Input value={editYear} onChange={(e) => setEditYear(e.target.value)} placeholder="e.g. 4th Year / Intern" className="bg-white/5 border-white/10 rounded-none h-10 text-sm" />
               </div>
             </div>
             <DialogFooter><Button onClick={saveProfile} className="bg-primary text-black rounded-none font-black text-[9px] tracking-widest px-8">SAVE</Button></DialogFooter>

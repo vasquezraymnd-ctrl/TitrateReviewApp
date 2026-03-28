@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -68,7 +69,7 @@ export function QuestionCard({ question, onAnswer, onPrevious, onExit }: Questio
             </div>
           </div>
 
-          <h3 className="text-xl md:text-lg lg:text-xl xl:text-4xl font-black italic tracking-tight mb-6 md:mb-6 lg:mb-8 xl:mb-16 leading-tight text-white drop-shadow-sm">
+          <h3 className="text-xl md:text-lg lg:text-xl xl:text-4xl font-black italic tracking-tight mb-6 md:mb-6 lg:mb-8 xl:mb-16 leading-tight text-white drop-shadow-sm normal-case">
             {question.question}
           </h3>
 
