@@ -19,12 +19,10 @@ export default function Home() {
 
   useEffect(() => {
     const startupSequence = async () => {
-      // Check if we already have device preference and profile
       const storedDevice = localStorage.getItem('TITRATE_DEVICE_MODE');
       const userProfile = await db.getById<UserProfile>('profile', 'current-user');
       const isInitialized = userProfile && userProfile.name && userProfile.name !== 'Future RMT';
 
-      // Intro animation runs for 5 seconds
       await new Promise(resolve => setTimeout(resolve, 5000));
 
       if (storedDevice && isInitialized) {
@@ -44,7 +42,7 @@ export default function Home() {
           if (prev >= 100) {
             return 100;
           }
-          return prev + 1.5; // Titration speed
+          return prev + 1.5;
         });
       }, 20);
     } else {
@@ -65,7 +63,6 @@ export default function Home() {
     };
   }, [isHolding, isNavigating]);
 
-  // Separate effect to handle navigation when progress is complete
   useEffect(() => {
     if (holdProgress >= 100 && !isNavigating) {
       setIsNavigating(true);
@@ -88,12 +85,11 @@ export default function Home() {
     }
   };
 
-  // Stage 1: Initial Titration Animation
   if (stage === 'animating') {
     return (
       <div className="fixed inset-0 bg-[#0b111a] flex flex-col items-center justify-center z-[500] overflow-hidden px-6">
         <div className="relative flex flex-col items-center w-full max-w-lg">
-          <div className="relative flex flex-col items-center mb-12 md:mb-16 lg:mb-20 scale-75 md:scale-80 lg:scale-[0.85]">
+          <div className="relative flex flex-col items-center mb-12 md:mb-16 scale-75 md:scale-[0.65] lg:scale-[0.7]">
             <svg width="80" height="160" viewBox="0 0 60 120" className="animate-[tilt-and-pour_5s_ease-in-out_infinite] origin-[30px_20px]">
               <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
               <path d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="currentColor" className="text-primary animate-[liquid-drain_5s_infinite]" />
@@ -119,7 +115,6 @@ export default function Home() {
     );
   }
 
-  // Stage: Interactive Titration (For returning users)
   if (stage === 'ready-to-hold') {
     return (
       <div 
@@ -130,8 +125,7 @@ export default function Home() {
         onTouchEnd={() => setIsHolding(false)}
       >
         <div className="relative flex flex-col items-center w-full max-w-lg">
-          
-          <div className="relative flex flex-col items-center mb-12 md:mb-16 lg:mb-20 scale-75 md:scale-80 lg:scale-[0.85] transition-transform duration-500">
+          <div className="relative flex flex-col items-center mb-12 md:mb-16 scale-75 md:scale-[0.65] lg:scale-[0.7] transition-transform duration-500">
             <svg 
               width="80" 
               height="160" 

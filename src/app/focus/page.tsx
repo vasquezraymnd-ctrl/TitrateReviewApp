@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -67,7 +66,6 @@ export default function FocusPage() {
     setTimeLeft(1800);
   };
 
-  // FULLSCREEN FOCUS VIEW
   if (timerActive) {
     return (
       <div className="fixed inset-0 z-[1000] bg-[#0b111a] flex flex-col items-center justify-center text-white overflow-hidden animate-in fade-in duration-500 p-6 md:p-8 lg:p-10">
@@ -85,7 +83,7 @@ export default function FocusPage() {
           
           <div className="riot-card p-8 md:p-10 lg:p-12 xl:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-xl shadow-[0_0_100px_rgba(0,255,127,0.05)] mx-auto w-fit">
              <div className={cn(
-               "text-7xl sm:text-8xl md:text-8xl lg:text-[10rem] xl:text-[15rem] font-black italic tracking-tighter tabular-nums leading-none transition-all duration-700",
+               "text-7xl sm:text-8xl md:text-7xl lg:text-8xl xl:text-[15rem] font-black italic tracking-tighter tabular-nums leading-none transition-all duration-700",
                isPaused ? "text-white/10 scale-95 blur-sm" : "text-white scale-100"
              )}>
                {formatTime(timeLeft)}
@@ -93,7 +91,7 @@ export default function FocusPage() {
           </div>
 
           <div className="space-y-4 md:space-y-6 lg:space-y-8">
-            <p className="text-muted-foreground font-medium italic text-base md:text-base lg:text-lg max-w-md mx-auto px-6">
+            <p className="text-muted-foreground font-medium italic text-sm md:text-base lg:text-lg max-w-md mx-auto px-6">
               {isPaused 
                 ? "Assay interrupted. Resume when laboratory silence is restored."
                 : "Focus locked. Maintain analytical precision until protocol completion."
@@ -125,7 +123,6 @@ export default function FocusPage() {
     );
   }
 
-  // STANDARD APP VIEW (SETUP)
   return (
     <div className="flex h-screen bg-[#111a24] overflow-hidden text-white">
       <Sidebar />
