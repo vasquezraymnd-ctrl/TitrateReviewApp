@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
@@ -57,10 +56,9 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const [pageNumber, setPageNumber] = useState(1);
   const [jumpPage, setJumpPage] = useState("");
   
-  // PERFORMANCE REFS: Direct DOM manipulation for maximum smoothness
   const transformLayerRef = useRef<HTMLDivElement>(null);
   const transformState = useRef({ x: 0, y: 0, scale: 1.0 });
-  const [uiScale, setUiScale] = useState(1.0); // For header display
+  const [uiScale, setUiScale] = useState(1.0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>('view');
   const [currentColor, setCurrentColor] = useState('#000000');
@@ -114,7 +112,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
   const onDocumentLoadSuccess = useCallback(({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
     setIsLoaded(true);
-    // Ensure initial transform is set
     requestAnimationFrame(() => applyTransform());
   }, [applyTransform]);
 
@@ -151,6 +148,19 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     if (activeTool === 'eraser') setEraserWidth(val);
   };
 
+  const drawPath = (ctx: CanvasRenderingContext2D, points: {x: number, y: number}[], width: number, canvas: HTMLCanvasElement) => {
+    if (points.length < 2) return;
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    points.forEach((p, index) => {
+      const x = p.x * canvas.width;
+      const y = p.y * canvas.height;
+      if (index === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  };
+
   const drawPermanent = useCallback(() => {
     const canvas = permanentCanvasRef.current;
     if (!canvas) return;
@@ -160,32 +170,43 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
+    // First, draw all saved annotations
     annotations.forEach(ann => {
-      ctx.beginPath();
-      ctx.strokeStyle = ann.color;
-      ctx.lineWidth = ann.width * RENDER_QUALITY * dpr;
-      
-      if (ann.tool === 'highlighter') {
-        ctx.lineCap = 'square';
-        ctx.lineJoin = 'miter';
-        ctx.globalAlpha = ann.opacity || 0.3;
-        ctx.globalCompositeOperation = 'multiply';
-      } else {
+      ctx.save();
+      if (ann.tool === 'eraser') {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.globalAlpha = 1.0;
+      } else if (ann.tool === 'highlighter') {
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.strokeStyle = ann.color;
+        ctx.globalAlpha = ann.opacity || 0.3;
+        ctx.lineCap = 'square';
+        ctx.lineJoin = 'miter';
+      } else {
         ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = ann.color;
+        ctx.globalAlpha = 1.0;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
       }
 
-      ann.points.forEach((p, index) => {
-        const x = p.x * canvas.width;
-        const y = p.y * canvas.height;
-        if (index === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
+      drawPath(ctx, ann.points, ann.width * RENDER_QUALITY * dpr, canvas);
+      ctx.restore();
     });
-  }, [annotations]);
+
+    // Handle LIVE eraser feedback (subtract from permanent ink while drawing)
+    if (currentStroke && activeTool === 'eraser') {
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.strokeStyle = 'rgba(0,0,0,1)';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      drawPath(ctx, currentStroke, eraserWidth * RENDER_QUALITY * dpr, canvas);
+      ctx.restore();
+    }
+  }, [annotations, currentStroke, activeTool, eraserWidth]);
 
   const drawActive = useCallback(() => {
     const canvas = activeCanvasRef.current;
@@ -195,33 +216,28 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (currentStroke) {
+    // Only draw preview for non-eraser tools (eraser is shown on permanent canvas directly)
+    if (currentStroke && activeTool !== 'eraser') {
       const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-      ctx.beginPath();
-      ctx.strokeStyle = activeTool === 'eraser' ? '#ffffff' : currentColor;
-      ctx.lineWidth = getCurrentWidth() * RENDER_QUALITY * dpr;
-      
+      ctx.save();
       if (activeTool === 'highlighter') {
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.strokeStyle = currentColor;
+        ctx.globalAlpha = 0.3;
         ctx.lineCap = 'square';
         ctx.lineJoin = 'miter';
-        ctx.globalAlpha = 0.3;
-        ctx.globalCompositeOperation = 'multiply';
       } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = currentColor;
+        ctx.globalAlpha = 1.0;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.globalAlpha = activeTool === 'eraser' ? 0.5 : 1.0;
-        ctx.globalCompositeOperation = 'source-over';
       }
 
-      currentStroke.forEach((p, index) => {
-        const x = p.x * canvas.width;
-        const y = p.y * canvas.height;
-        if (index === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
+      drawPath(ctx, currentStroke, getCurrentWidth() * RENDER_QUALITY * dpr, canvas);
+      ctx.restore();
     }
-  }, [currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth, eraserWidth]);
+  }, [currentStroke, activeTool, currentColor, pencilWidth, highlighterWidth]);
 
   useEffect(() => { drawPermanent(); }, [drawPermanent]);
   useEffect(() => { drawActive(); }, [drawActive]);
@@ -260,10 +276,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
 
-    if (activeTool === 'eraser') {
-      handleErase(x, y);
-      return;
-    }
     setCurrentStroke([{ x, y }]);
   };
 
@@ -321,12 +333,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         const rect = canvas.getBoundingClientRect();
         const x = (p.clientX - rect.left) / rect.width;
         const y = (p.clientY - rect.top) / rect.height;
-
-        if (activeTool === 'eraser') {
-          handleErase(x, y);
-        } else {
-          setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
-        }
+        setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
       }
     }
   }, [activeTool, isDragging, currentStroke, applyTransform]);
@@ -361,9 +368,9 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
       id: `ann-${Date.now()}`,
       moduleId,
       pageNumber,
-      tool: activeTool === 'highlighter' ? 'highlighter' : 'pencil',
-      color: currentColor,
-      width: activeTool === 'highlighter' ? highlighterWidth : pencilWidth,
+      tool: activeTool === 'eraser' ? 'eraser' : (activeTool === 'highlighter' ? 'highlighter' : 'pencil'),
+      color: activeTool === 'eraser' ? '#000000' : currentColor,
+      width: getCurrentWidth(),
       opacity: activeTool === 'highlighter' ? 0.3 : 1,
       points: currentStroke
     };
@@ -372,18 +379,6 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     setAnnotations(prev => [...prev, newAnnotation]);
     setRedoStack([]);
     setCurrentStroke(null);
-  };
-
-  const handleErase = async (x: number, y: number) => {
-    if (!moduleId) return;
-    const threshold = (eraserWidth / 1000) + 0.01; 
-    const toDelete = annotations.find(ann => 
-      ann.points.some(p => Math.abs(p.x - x) < threshold && Math.abs(p.y - y) < threshold)
-    );
-    if (toDelete) {
-      await db.delete('annotations', toDelete.id);
-      setAnnotations(prev => prev.filter(a => a.id !== toDelete.id));
-    }
   };
 
   const handleUndo = async () => {

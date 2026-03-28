@@ -58,7 +58,7 @@ export interface Annotation {
   moduleId?: string; // If drawn on PDF
   notebookId?: string; // If drawn on Notebook
   pageNumber: number;
-  tool: 'pencil' | 'highlighter' | 'laser' | 'lasso';
+  tool: 'pencil' | 'highlighter' | 'eraser' | 'laser' | 'lasso';
   color: string;
   width: number;
   opacity: number;

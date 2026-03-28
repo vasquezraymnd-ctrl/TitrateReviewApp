@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -52,6 +51,19 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     return () => window.removeEventListener('titrate:clip-captured', handleRefresh);
   }, [loadData]);
 
+  const drawPath = (ctx: CanvasRenderingContext2D, points: {x: number, y: number}[], width: number, canvas: HTMLCanvasElement) => {
+    if (points.length < 2) return;
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    points.forEach((p, i) => {
+      const x = p.x * canvas.width;
+      const y = p.y * canvas.height;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  };
+
   const drawPermanent = useCallback(() => {
     const canvas = permanentCanvasRef.current;
     if (!canvas) return;
@@ -62,22 +74,38 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
     annotations.forEach(ann => {
-      ctx.beginPath();
-      ctx.strokeStyle = ann.color;
-      ctx.lineWidth = ann.width * dpr;
+      ctx.save();
+      if (ann.tool === 'eraser') {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+        ctx.globalAlpha = 1.0;
+      } else if (ann.tool === 'highlighter') {
+        ctx.globalCompositeOperation = 'source-over'; // Dark background uses standard composite
+        ctx.strokeStyle = ann.color;
+        ctx.globalAlpha = 0.3;
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = ann.color;
+        ctx.globalAlpha = 1.0;
+      }
+      
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      ctx.globalAlpha = ann.tool === 'highlighter' ? 0.3 : 1;
-      
-      ann.points.forEach((p, i) => {
-        const x = p.x * canvas.width;
-        const y = p.y * canvas.height;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
+      drawPath(ctx, ann.points, ann.width * dpr, canvas);
+      ctx.restore();
     });
-  }, [annotations]);
+
+    // Handle LIVE eraser feedback on permanent ink
+    if (currentStroke && activeTool === 'eraser') {
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.strokeStyle = 'rgba(0,0,0,1)';
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      drawPath(ctx, currentStroke, 40 * dpr, canvas);
+      ctx.restore();
+    }
+  }, [annotations, currentStroke, activeTool]);
 
   const drawActive = useCallback(() => {
     const canvas = activeCanvasRef.current;
@@ -87,22 +115,16 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (currentStroke) {
+    if (currentStroke && activeTool !== 'eraser') {
       const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
-      ctx.beginPath();
+      ctx.save();
       ctx.strokeStyle = activeTool === 'highlighter' ? '#ffff00' : '#00ff7f';
       ctx.lineWidth = (activeTool === 'highlighter' ? 20 : 3) * dpr;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.globalAlpha = activeTool === 'highlighter' ? 0.3 : 1;
-      
-      currentStroke.forEach((p, i) => {
-        const x = p.x * canvas.width;
-        const y = p.y * canvas.height;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
+      drawPath(ctx, currentStroke, (activeTool === 'highlighter' ? 20 : 3) * dpr, canvas);
+      ctx.restore();
     }
   }, [currentStroke, activeTool]);
 
@@ -112,7 +134,6 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       const a = activeCanvasRef.current;
       const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
       if (p && a && containerRef.current) {
-        // Target high internal resolution
         p.width = a.width = 1600 * dpr;
         p.height = a.height = 2262 * dpr;
         drawPermanent();
@@ -137,25 +158,17 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
 
-    if (activeTool === 'eraser') {
-      handleErase(x, y);
-      return;
-    }
     setCurrentStroke([{ x, y }]);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!currentStroke && activeTool !== 'eraser') return;
+    if (!currentStroke) return;
     const canvas = activeCanvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
 
-    if (activeTool === 'eraser') {
-      if (e.buttons === 1) handleErase(x, y);
-      return;
-    }
     setCurrentStroke(prev => prev ? [...prev, { x, y }] : null);
   };
 
@@ -165,26 +178,16 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       id: `ann-nb-${Date.now()}`,
       notebookId,
       pageNumber: page,
-      tool: activeTool === 'highlighter' ? 'highlighter' : 'pencil',
-      color: activeTool === 'highlighter' ? '#ffff00' : '#00ff7f',
-      width: activeTool === 'highlighter' ? 20 : 3,
+      tool: activeTool,
+      color: activeTool === 'highlighter' ? '#ffff00' : (activeTool === 'eraser' ? '#000000' : '#00ff7f'),
+      width: activeTool === 'highlighter' ? 20 : (activeTool === 'eraser' ? 40 : 3),
       opacity: activeTool === 'highlighter' ? 0.3 : 1,
       points: currentStroke
     };
     await db.put('annotations', newAnn);
     setAnnotations(prev => [...prev, newAnn]);
-    setRedoStack([]); // New action invalidates redo
+    setRedoStack([]);
     setCurrentStroke(null);
-  };
-
-  const handleErase = async (x: number, y: number) => {
-    const toDelete = annotations.find(ann => 
-      ann.points.some(p => Math.abs(p.x - x) < 0.05 && Math.abs(p.y - y) < 0.05)
-    );
-    if (toDelete) {
-      await db.delete('annotations', toDelete.id);
-      setAnnotations(prev => prev.filter(a => a.id !== toDelete.id));
-    }
   };
 
   const handleUndo = async () => {
@@ -248,7 +251,6 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
           </Button>
         </div>
 
-        {/* Revision Controls - CENTER LEFT */}
         <div className="flex items-center gap-0.5 border-l border-white/5 pl-2">
           <Button 
             variant="ghost" 
