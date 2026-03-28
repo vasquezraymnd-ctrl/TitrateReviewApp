@@ -39,7 +39,7 @@ export default function InstrumentationPage() {
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Registered Medical Technologist (RMT)</p>
                 </div>
                 <p className="text-sm text-white/70 italic leading-relaxed">
-                  A medical technologist turned developer, Raymond built TITRATE to provide students with a professional-grade, local-first environment for board examination preparation.
+                  Raymond built TITRATE to provide students with a professional-grade, local-first environment for board examination preparation.
                 </p>
                 <div className="flex gap-4 pt-2">
                   <Button variant="ghost" size="icon" className="h-8 w-8 text-white/40 hover:text-primary"><Mail size={18} /></Button>
