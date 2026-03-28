@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -9,9 +10,7 @@ import {
   Pause, 
   Play, 
   X, 
-  Info,
-  Clock,
-  ShieldAlert
+  Info
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -68,12 +67,12 @@ export default function FocusPage() {
 
   if (timerActive) {
     return (
-      <div className="fixed inset-0 z-[1000] bg-[#0b111a] flex flex-col items-center justify-center text-white overflow-hidden animate-in fade-in duration-500 p-6 md:p-8 lg:p-10">
+      <div className="fixed inset-0 z-[1000] bg-[#0b111a] flex flex-col items-center justify-center text-white overflow-hidden animate-in fade-in duration-500 p-6 md:p-10 lg:p-12">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none overflow-hidden">
           <Zap size={800} className="text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         </div>
 
-        <div className="relative z-10 text-center space-y-6 md:space-y-6 lg:space-y-8 w-full max-w-5xl">
+        <div className="relative z-10 text-center space-y-6 md:space-y-6 lg:space-y-8 w-full max-w-5xl flex flex-col items-center">
           <div className="flex flex-col items-center gap-2 md:gap-3">
             <Zap className={cn("text-primary size-8 md:size-8 lg:size-10", !isPaused && "animate-pulse")} />
             <span className="text-primary font-black uppercase tracking-[0.6em] text-[10px] md:text-[10px] lg:text-xs">
@@ -81,16 +80,16 @@ export default function FocusPage() {
             </span>
           </div>
           
-          <div className="riot-card p-8 md:p-10 lg:p-12 xl:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-xl shadow-[0_0_100px_rgba(0,255,127,0.05)] mx-auto w-fit">
+          <div className="riot-card p-8 md:p-12 lg:p-16 xl:p-24 bg-white/[0.02] border border-primary/20 backdrop-blur-xl shadow-[0_0_100px_rgba(0,255,127,0.05)] mx-auto w-fit">
              <div className={cn(
-               "text-7xl sm:text-8xl md:text-7xl lg:text-8xl xl:text-[15rem] font-black italic tracking-tighter tabular-nums leading-none transition-all duration-700",
+               "text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] xl:text-[15rem] font-black italic tracking-tighter tabular-nums leading-none transition-all duration-700",
                isPaused ? "text-white/10 scale-95 blur-sm" : "text-white scale-100"
              )}>
                {formatTime(timeLeft)}
              </div>
           </div>
 
-          <div className="space-y-4 md:space-y-6 lg:space-y-8">
+          <div className="space-y-4 md:space-y-6 lg:space-y-8 w-full">
             <p className="text-muted-foreground font-medium italic text-sm md:text-base lg:text-lg max-w-md mx-auto px-6">
               {isPaused 
                 ? "Assay interrupted. Resume when laboratory silence is restored."

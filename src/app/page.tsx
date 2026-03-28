@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState, useRef } from 'react';
@@ -39,9 +40,7 @@ export default function Home() {
     if (isHolding && !isNavigating) {
       holdIntervalRef.current = setInterval(() => {
         setHoldProgress(prev => {
-          if (prev >= 100) {
-            return 100;
-          }
+          if (prev >= 100) return 100;
           return prev + 1.5;
         });
       }, 20);
@@ -87,9 +86,9 @@ export default function Home() {
 
   if (stage === 'animating') {
     return (
-      <div className="fixed inset-0 bg-[#0b111a] flex flex-col items-center justify-center z-[500] overflow-hidden px-6">
+      <div className="fixed inset-0 bg-[#0b111a] flex items-center justify-center z-[500] overflow-hidden px-6">
         <div className="relative flex flex-col items-center w-full max-w-lg">
-          <div className="relative flex flex-col items-center mb-12 md:mb-16 scale-75 md:scale-[0.65] lg:scale-[0.7]">
+          <div className="relative flex flex-col items-center mb-8 md:mb-10 scale-75 md:scale-90 transition-transform duration-1000">
             <svg width="80" height="160" viewBox="0 0 60 120" className="animate-[tilt-and-pour_5s_ease-in-out_infinite] origin-[30px_20px]">
               <path d="M10 10 Q10 5 15 5 L45 5 Q50 5 50 10 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/20" />
               <path d="M10 40 L50 40 L50 100 Q50 115 30 115 Q10 115 10 100 Z" fill="currentColor" className="text-primary animate-[liquid-drain_5s_infinite]" />
@@ -104,7 +103,7 @@ export default function Home() {
                 TITRATE
               </div>
             </h1>
-            <div className="absolute -bottom-8 md:-bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 md:gap-4 w-max">
+            <div className="mt-8 flex items-center gap-3 md:gap-4 w-max mx-auto">
                <div className="h-[1px] w-8 md:w-12 bg-white/10" />
                <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.6em] text-primary/60 animate-pulse">INITIALIZING LAB</span>
                <div className="h-[1px] w-8 md:w-12 bg-white/10" />
@@ -118,14 +117,14 @@ export default function Home() {
   if (stage === 'ready-to-hold') {
     return (
       <div 
-        className="fixed inset-0 bg-[#0b111a] flex flex-col items-center justify-center z-[500] overflow-hidden px-6 cursor-none select-none touch-none"
+        className="fixed inset-0 bg-[#0b111a] flex items-center justify-center z-[500] overflow-hidden px-6 cursor-none select-none touch-none"
         onMouseDown={() => setIsHolding(true)}
         onMouseUp={() => setIsHolding(false)}
         onTouchStart={() => setIsHolding(true)}
         onTouchEnd={() => setIsHolding(false)}
       >
         <div className="relative flex flex-col items-center w-full max-w-lg">
-          <div className="relative flex flex-col items-center mb-12 md:mb-16 scale-75 md:scale-[0.65] lg:scale-[0.7] transition-transform duration-500">
+          <div className="relative flex flex-col items-center mb-8 md:mb-10 scale-75 md:scale-90 transition-transform duration-500">
             <svg 
               width="80" 
               height="160" 
