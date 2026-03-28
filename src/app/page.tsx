@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState, useRef } from 'react';
@@ -225,11 +226,10 @@ export default function Home() {
               </h2>
               <div className="space-y-4">
                 <p className="text-muted-foreground text-sm md:text-lg italic leading-relaxed max-w-md">
-                  The journey to RMT is a grueling phase but a rewarding one. Galingan Katusok! 
-                  This app is developed for students all in one manage their schedules, study and notes.
+                  The journey to becoming an RMT is a grueling yet rewarding phase. This app was developed as an all-in-one workstation for students to manage their schedules, studies, and notes.
                 </p>
                 <p className="text-primary/60 text-xs font-black uppercase tracking-widest">
-                  -rv
+                  Galingan Katusok!
                 </p>
               </div>
             </div>
