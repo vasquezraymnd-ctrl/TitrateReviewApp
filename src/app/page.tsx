@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useEffect, useState, useRef } from 'react';
@@ -224,9 +223,15 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter leading-none">
                 Welcome, <br /><span className="text-primary">Future RMT</span>
               </h2>
-              <p className="text-muted-foreground text-sm md:text-lg italic leading-relaxed max-w-md">
-                The journey to RMT is a grueling phase but a rewarding one. Galingan Katusok!
-              </p>
+              <div className="space-y-4">
+                <p className="text-muted-foreground text-sm md:text-lg italic leading-relaxed max-w-md">
+                  The journey to RMT is a grueling phase but a rewarding one. Galingan Katusok! 
+                  This app is developed for students all in one manage their schedules, study and notes.
+                </p>
+                <p className="text-primary/60 text-xs font-black uppercase tracking-widest">
+                  -rv
+                </p>
+              </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 pt-4 md:pt-6">
               <Button asChild className="riot-button h-12 md:h-16 px-6 md:px-10 bg-primary hover:bg-primary/80 text-black rounded-none font-black tracking-widest text-[9px] md:text-[11px]">
