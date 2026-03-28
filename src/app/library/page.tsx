@@ -12,28 +12,20 @@ import {
   Search, 
   FileText, 
   User, 
-  UserCircle, 
   Plus, 
-  Microscope, 
   ChevronLeft, 
   Trash2, 
   Edit2, 
-  Database,
   FolderOpen,
   ArrowRight,
-  BookOpen,
-  AlertCircle,
-  X,
   Loader2,
   Layout,
   Play,
-  Shield,
   Activity,
   Target,
   Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -45,13 +37,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -108,7 +93,6 @@ function LibraryContent() {
   const [activeModules, setActiveModules] = useState<LabModule[]>([]);
   const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(false);
   
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const STORAGE_KEY = 'TITRATE_PERSISTENT_TABS';
@@ -217,7 +201,6 @@ function LibraryContent() {
 
   const saveProfile = async () => {
     if (!editName.trim()) return;
-    // Ensure the ID is explicitly set to 'current-user' to match the database keyPath
     const updatedProfile: UserProfile = { 
       id: 'current-user',
       name: editName, 
@@ -238,12 +221,9 @@ function LibraryContent() {
     setIsWorkspaceOpen(true);
     
     setActiveModules(prev => {
-      // If already open, just keep current
       if (prev.find(m => m.id === module.id)) {
         return prev;
       }
-      
-      // FIFO Replacement Logic: Max 4 tabs
       let nextList = [...prev, module];
       if (nextList.length > 4) {
         toast({ title: "FIFO Rotation", description: "Archived oldest tab to make room for new protocol." });
@@ -292,116 +272,36 @@ function LibraryContent() {
         <DashboardHeader />
         
         <div className="px-6 md:px-10 lg:px-16 py-28 md:py-32 max-w-[1800px] mx-auto space-y-12">
-          {/* Tactical Identification Card Section */}
-          <section className="relative max-w-3xl">
-            <div className="riot-card bg-[#111a24] border border-white/10 p-0 relative overflow-hidden group/id shadow-2xl">
-              {/* ID Card Background Texture */}
-              <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-                <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.5) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
-              </div>
-              
-              {/* Top Banner - ID Badge Style */}
-              <div className="bg-primary/10 border-b border-primary/20 px-6 py-2.5 flex justify-between items-center relative z-10">
-                <div className="flex items-center gap-2">
-                  <Shield size={12} className="text-primary" />
-                  <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em]">Titrate Clinical Identification</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="text-[8px] font-black text-primary/60 uppercase tracking-widest italic whitespace-nowrap">Authorized Analyst</span>
-                </div>
+          {/* Simplified Identification Card Section */}
+          <section className="relative max-w-2xl">
+            <div className="riot-card bg-[#111a24] border border-white/10 p-6 md:p-10 flex flex-col md:flex-row items-center gap-8 md:gap-12 relative shadow-2xl overflow-hidden">
+              {/* Picture Area */}
+              <div className="w-32 h-32 md:w-40 md:h-40 bg-primary/5 border-4 border-primary/20 flex items-center justify-center shrink-0 shadow-inner">
+                <User size={80} className="text-primary/40" />
               </div>
 
-              <div className="p-6 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-start relative z-10">
-                {/* Photo Area */}
-                <div className="relative shrink-0">
-                  <div className="w-36 h-36 border-2 border-primary/30 p-1.5 bg-black/40 relative">
-                    <div className="w-full h-full bg-primary/5 flex items-center justify-center relative overflow-hidden">
-                      <UserCircle size={120} className="text-primary/5 absolute -bottom-4 -right-4" />
-                      <User size={64} className="text-primary" />
-                      
-                      {/* Scanning Line Effect */}
-                      <div className="absolute inset-x-0 h-[2px] bg-primary/40 shadow-[0_0_15px_rgba(0,255,127,0.8)] opacity-50 animate-pulse top-1/2 -translate-y-1/2" />
-                    </div>
-                    {/* Corner Brackets for "Scanner" look */}
-                    <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-primary" />
-                    <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-primary" />
-                    <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-primary" />
-                    <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-primary" />
-                  </div>
-                  
-                  <div className="mt-4 text-center">
-                    <p className="text-[7px] font-black text-muted-foreground uppercase tracking-[0.3em] mb-1">Clearance Level</p>
-                    <div className="px-2 py-0.5 border border-primary/30 bg-primary/5 inline-block">
-                      <span className="text-[9px] font-black text-primary uppercase tracking-widest">Level 4 Analyst</span>
-                    </div>
-                  </div>
+              {/* Identity Info */}
+              <div className="flex-1 text-center md:text-left">
+                <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-1">Laboratory Analyst</p>
+                <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white leading-none mb-4 truncate max-w-[300px] md:max-w-none">
+                  {profile?.name || 'Future RMT'}
+                </h2>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10">
+                  <Activity size={14} className="text-primary" />
+                  <span className="text-sm md:text-base font-black text-white/60 uppercase tracking-widest italic">
+                    {profile?.proficiencyRank || 'Rank Unassigned'}
+                  </span>
                 </div>
-
-                {/* Info Area */}
-                <div className="flex-1 space-y-8 w-full">
-                  <div className="grid grid-cols-1 gap-6">
-                    <div className="space-y-1 text-center md:text-left">
-                      <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em]">Analyst Name / Full Designation</p>
-                      <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-white leading-[0.85] border-b border-white/5 pb-2 truncate">
-                        {profile?.name || 'Future RMT'}
-                      </h2>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-8">
-                      <div className="space-y-1 text-left">
-                        <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.4em]">Proficiency Rank</p>
-                        <p className="text-base md:text-lg font-black text-white uppercase tracking-widest italic flex items-center gap-2 truncate">
-                          <Activity size={14} className="text-primary shrink-0" />
-                          {profile?.proficiencyRank || 'Rank Unassigned'}
-                        </p>
-                      </div>
-                      <div className="space-y-1 text-left md:text-left border-l border-white/5 pl-4">
-                        <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.4em]">Board Target</p>
-                        <p className="text-base md:text-lg font-black text-white uppercase tracking-widest italic flex items-center gap-2 truncate">
-                          <Target size={14} className="text-primary shrink-0" />
-                          {profile?.examDate ? new Date(profile.examDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'UNSET'}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Security Footer Barcode Area */}
-                  <div className="pt-6 flex items-end justify-between">
-                    <div className="flex flex-col gap-1.5 opacity-40 group-hover/id:opacity-100 transition-opacity duration-700">
-                      <div className="flex gap-0.5 h-6">
-                        {[4, 8, 2, 6, 10, 3, 7, 5, 9, 2, 8, 4, 6, 3, 10, 5, 7, 2, 8, 4].map((h, i) => (
-                          <div key={i} className="bg-white w-[1.5px]" style={{ height: `${h * 2}px` }} />
-                        ))}
-                      </div>
-                      <span className="text-[6px] font-mono text-white tracking-[0.5em] uppercase">ID-{(profile?.id || 'USR').substring(0,12)}</span>
-                    </div>
-                    
-                    <div className="flex items-center gap-3 border-l border-white/10 pl-4">
-                       <div className="text-right hidden sm:block">
-                         <p className="text-[7px] font-black text-white/30 uppercase tracking-[0.2em] leading-tight">MedTech Board</p>
-                         <p className="text-[7px] font-black text-white/30 uppercase tracking-[0.2em] leading-tight">Review Protocol</p>
-                       </div>
-                       <div className="w-10 h-10 border border-white/10 flex items-center justify-center bg-white/5">
-                         <Zap size={20} className="text-primary/20" />
-                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Edit Button - Floating Action within the card */}
-                <button 
-                  onClick={() => setIsEditProfileOpen(true)} 
-                  className="absolute top-2 right-2 p-3 text-white/20 hover:text-primary transition-all z-20 group/edit"
-                  title="Modify Credentials"
-                >
-                  <Edit2 size={16} className="group-hover/edit:scale-110" />
-                </button>
               </div>
-              
-              {/* Card Accent Lines */}
-              <div className="absolute top-0 left-0 w-1 h-full bg-primary/40" />
-              <div className="absolute top-0 right-0 w-[1px] h-full bg-white/5" />
+
+              {/* Edit Button */}
+              <button 
+                onClick={() => setIsEditProfileOpen(true)} 
+                className="absolute top-4 right-4 p-2 text-white/10 hover:text-primary transition-colors"
+                title="Edit Credentials"
+              >
+                <Edit2 size={18} />
+              </button>
             </div>
           </section>
 
@@ -505,7 +405,7 @@ function LibraryContent() {
           )}
         </div>
 
-        {/* Workspace Integration - Persistent overlay */}
+        {/* Workspace Integration */}
         {activeModules.length > 0 && isWorkspaceOpen && (
           <Workspace 
             modules={activeModules} 
