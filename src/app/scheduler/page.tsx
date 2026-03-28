@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect, useMemo } from 'react';
@@ -15,7 +16,8 @@ import {
   Database,
   Clock,
   Bell,
-  BellOff
+  BellOff,
+  Settings
 } from 'lucide-react';
 import { db, Schedule, ScheduleType } from '@/lib/db';
 import { format } from 'date-fns';
@@ -64,12 +66,27 @@ export default function SchedulerPage() {
   };
 
   const handleEnableNotifications = async () => {
+    // Detect if already permanently blocked
+    if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'denied') {
+      toast({ 
+        variant: "destructive", 
+        title: "Calibration Blocked", 
+        description: "Permissions are disabled in system settings. Please enable notifications for TITRATE in your device settings." 
+      });
+      return;
+    }
+
     const granted = await NotificationEngine.requestPermission();
     setNotificationsEnabled(granted);
+    
     if (granted) {
       toast({ title: "Clearance Granted", description: "Timed study reminders are now active." });
     } else {
-      toast({ variant: "destructive", title: "Clearance Denied", description: "Manual browser settings update required." });
+      toast({ 
+        variant: "destructive", 
+        title: "Clearance Denied", 
+        description: "Unable to initialize alerts. Manual system settings update may be required." 
+      });
     }
   };
 
