@@ -272,35 +272,31 @@ function LibraryContent() {
         <DashboardHeader />
         
         <div className="px-6 md:px-10 lg:px-16 py-28 md:py-32 max-w-[1800px] mx-auto space-y-12">
-          {/* Simplified Identification Card Section */}
-          <section className="relative max-w-2xl">
-            <div className="riot-card bg-[#111a24] border border-white/10 p-6 md:p-10 flex flex-col md:flex-row items-center gap-8 md:gap-12 relative shadow-2xl overflow-hidden">
-              {/* Picture Area */}
-              <div className="w-32 h-32 md:w-40 md:h-40 bg-primary/5 border-4 border-primary/20 flex items-center justify-center shrink-0 shadow-inner">
-                <User size={80} className="text-primary/40" />
+          {/* Simple Identification Card Section */}
+          <section className="max-w-2xl">
+            <div className="riot-card bg-[#111a24] border border-white/10 p-6 md:p-8 flex items-center gap-6 md:gap-10 relative shadow-2xl overflow-hidden">
+              {/* Avatar (Left) */}
+              <div className="w-24 h-24 md:w-32 md:h-32 bg-primary/5 border-2 border-primary/20 flex items-center justify-center shrink-0">
+                <User size={60} className="text-primary/40" />
               </div>
 
-              {/* Identity Info */}
-              <div className="flex-1 text-center md:text-left">
-                <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-1">Laboratory Analyst</p>
-                <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white leading-none mb-4 truncate max-w-[300px] md:max-w-none">
+              {/* Info (Right) */}
+              <div className="flex-1 min-w-0">
+                <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-white leading-tight truncate">
                   {profile?.name || 'Future RMT'}
                 </h2>
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10">
-                  <Activity size={14} className="text-primary" />
-                  <span className="text-sm md:text-base font-black text-white/60 uppercase tracking-widest italic">
-                    {profile?.proficiencyRank || 'Rank Unassigned'}
-                  </span>
-                </div>
+                <p className="text-xs md:text-base font-black text-primary uppercase tracking-widest italic mt-1">
+                  {profile?.proficiencyRank || 'Rank Unassigned'}
+                </p>
               </div>
 
               {/* Edit Button */}
               <button 
                 onClick={() => setIsEditProfileOpen(true)} 
-                className="absolute top-4 right-4 p-2 text-white/10 hover:text-primary transition-colors"
+                className="absolute top-2 right-2 p-2 text-white/5 hover:text-primary transition-colors"
                 title="Edit Credentials"
               >
-                <Edit2 size={18} />
+                <Edit2 size={14} />
               </button>
             </div>
           </section>
