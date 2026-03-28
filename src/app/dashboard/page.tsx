@@ -143,7 +143,7 @@ export default function Dashboard() {
               <div className="riot-card p-6 md:p-8 lg:p-10 xl:p-14 bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
                 <div className="relative z-10 space-y-6 lg:space-y-8">
                   <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                    <h3 className="text-xs lg:text-sm font-black italic uppercase tracking-[0.3em] flex items-center gap-2 text-primary">
+                    <h3 className="text-xs lg:sm font-black italic uppercase tracking-[0.3em] flex items-center gap-2 text-primary">
                       <Clock size={16} />
                       Clinical Schedule
                     </h3>
@@ -273,14 +273,8 @@ export default function Dashboard() {
                 "TITRATE was engineered as a high-fidelity, all-in-one clinical workstation for the next generation of Medical Technologists. In an era where MedTech is a rapidly evolving and vital profession, precision in study is as critical as precision in the laboratory."
               </p>
               
-              <div className="riot-card bg-white/[0.02] border border-white/5 p-6 md:p-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
-                <div className="space-y-1">
-                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Lead Systems Architect</p>
-                  <h4 className="text-xl md:text-2xl font-black italic uppercase text-white">Raymond Vasquez</h4>
-                  <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">Registered Medical Technologist</p>
-                </div>
-                <div className="h-px w-12 bg-white/10 md:h-12 md:w-px" />
-                <Button asChild variant="link" className="text-primary font-black uppercase text-[10px] tracking-widest">
+              <div className="flex justify-center pt-4">
+                <Button asChild variant="outline" className="riot-button h-12 md:h-14 px-8 md:px-10 border-white/10 hover:bg-white/5 text-primary font-black uppercase text-[10px] tracking-widest">
                   <Link href="/instrumentation">VIEW SYSTEM SPECS <Info className="ml-2 h-3 w-3" /></Link>
                 </Button>
               </div>
