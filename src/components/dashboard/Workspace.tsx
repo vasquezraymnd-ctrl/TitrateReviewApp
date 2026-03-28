@@ -24,9 +24,9 @@ interface WorkspaceProps {
 }
 
 export function Workspace({ modules, onCloseModule, onCloseAll, onMinimize }: WorkspaceProps) {
-  // Use ID-based active state for stability during FIFO shifts
+  // Calibration: Set 'pdf-only' (Reader) as the default opening state
   const [activeModuleId, setActiveModuleId] = useState<string | null>(modules[0]?.id || null);
-  const [viewMode, setViewMode] = useState<'split' | 'pdf-only' | 'floating'>('split');
+  const [viewMode, setViewMode] = useState<'split' | 'pdf-only' | 'floating'>('pdf-only');
   const [activeNotebook, setActiveNotebook] = useState<Notebook | null>(null);
   const [pdfWidth] = useState(50); // Percentage for split view
   
@@ -38,7 +38,6 @@ export function Workspace({ modules, onCloseModule, onCloseAll, onMinimize }: Wo
   useEffect(() => {
     if (modules.length > 0) {
       const latestModule = modules[modules.length - 1];
-      // If the current active module is gone, or if a new module was just added to the list
       if (!activeModuleId || !modules.find(m => m.id === activeModuleId)) {
         setActiveModuleId(latestModule.id);
       }
@@ -116,7 +115,7 @@ export function Workspace({ modules, onCloseModule, onCloseAll, onMinimize }: Wo
           </div>
         </div>
 
-        {/* Clinical Tabs Area - Max 4 Tabs support */}
+        {/* Clinical Tabs Area */}
         <div className="flex-1 flex items-center gap-1 overflow-x-auto no-scrollbar justify-start">
           {modules.map((m) => (
             <div 
