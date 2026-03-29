@@ -34,7 +34,7 @@ export default function InstrumentationPage() {
               <div className="relative z-10 space-y-4">
                 <div className="space-y-1">
                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">Architect Profile</p>
-                  <h3 className="text-2xl md:text-3xl font-black italic uppercase text-white">Raymond Vasquez</h3>
+                  <h3 className="text-2xl md:text-3xl font-black italic uppercase text-white">R.V.</h3>
                   <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Registered Medical Technologist (RMT)</p>
                 </div>
               </div>
