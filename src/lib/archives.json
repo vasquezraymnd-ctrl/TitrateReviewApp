@@ -1991,5 +1991,804 @@
     "question": "The weight of 'Clinical Microscopy' in the board exam is:",
     "choices": ["10%", "20%", "15%", "5%"],
     "answer": "20%"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "Which translocation is associated with Chronic Myeloid Leukemia (CML)?",
+    "choices": ["t(15;17)", "t(9;22)", "t(8;21)", "t(12;21)"],
+    "answer": "t(9;22)"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Disorders",
+    "question": "Which mutation is characteristic of Polycythemia Vera?",
+    "choices": ["BCR-ABL", "JAK2 V617F", "PML-RARA", "FLT3"],
+    "answer": "JAK2 V617F"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Teardrop cells (Dacryocytes) are classically seen in which condition?",
+    "choices": ["Iron Deficiency", "Primary Myelofibrosis", "Sickle Cell Trait", "Aplastic Anemia"],
+    "answer": "Primary Myelofibrosis"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "In CLL, the lymphocytes typically show which morphological feature?",
+    "choices": ["Auer rods", "Soccer-ball nucleus (clumped chromatin)", "Cerebriform nucleus", "Flower cells"],
+    "answer": "Soccer-ball nucleus (clumped chromatin)"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "Hairy Cell Leukemia is identified by which positive cytochemical stain?",
+    "choices": ["MPO", "SBB", "TRAP", "LAP"],
+    "answer": "TRAP"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "WBC Disorders",
+    "question": "Sezary Syndrome is the leukemic phase of which T-cell lymphoma?",
+    "choices": ["Hodgkin Lymphoma", "Mycosis Fungoides", "Burkitt Lymphoma", "Follicular Lymphoma"],
+    "answer": "Mycosis Fungoides"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Plasma Cell Dyscrasias",
+    "question": "The presence of 'Rouleaux formation' on a peripheral smear is a hint for:",
+    "choices": ["Cold Agglutinin Disease", "Multiple Myeloma", "Iron Deficiency", "Infectious Mono"],
+    "answer": "Multiple Myeloma"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemoglobinopathies",
+    "question": "Which hemoglobinopathy produces 'Washington Monument' crystals?",
+    "choices": ["Hb S", "Hb C", "Hb E", "Hb H"],
+    "answer": "Hb C"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemoglobinopathies",
+    "question": "Alpha-Thalassemia major (4-gene deletion) results in:",
+    "choices": ["Hb H disease", "Hb Bart's Hydrops Fetalis", "Sickle Cell Anemia", "Beta-Thal Major"],
+    "answer": "Hb Bart's Hydrops Fetalis"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Hemophilia A is a deficiency of which clotting factor?",
+    "choices": ["Factor VII", "Factor VIII", "Factor IX", "Factor XI"],
+    "answer": "Factor VIII"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Hemophilia B (Christmas Disease) is a deficiency of factor:",
+    "choices": ["Factor VIII", "Factor IX", "Factor X", "Factor V"],
+    "answer": "Factor IX"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Bernard-Soulier Syndrome is characterized by a deficiency in:",
+    "choices": ["GP IIb/IIIa", "GP Ib/IX/V", "vWF", "Platelet factor 3"],
+    "answer": "GP Ib/IX/V"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Glanzmann Thrombasthenia is a deficiency in:",
+    "choices": ["GP Ib/IX", "GP IIb/IIIa", "vWF", "Factor XIII"],
+    "answer": "GP IIb/IIIa"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Disseminated Intravascular Coagulation (DIC) typically shows which lab result?",
+    "choices": ["High Fibrinogen", "Low D-Dimer", "Prolonged PT and aPTT", "High Platelets"],
+    "answer": "Prolonged PT and aPTT"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Thrombotic Thrombocytopenic Purpura (TTP) is caused by a deficiency in:",
+    "choices": ["ADAMTS13", "vWF", "Factor VIII", "GP VI"],
+    "answer": "ADAMTS13"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Hemolytic Uremic Syndrome (HUS) is frequently associated with infection by:",
+    "choices": ["Salmonella", "Shigella sonnei", "E. coli O157:H7", "Vibrio"],
+    "answer": "E. coli O157:H7"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "WBC Disorders",
+    "question": "May-Hegglin Anomaly is characterized by giant platelets and:",
+    "choices": ["Hypersegmented Neutrophils", "Dohle-like bodies", "Auer rods", "Chediak-Higashi granules"],
+    "answer": "Dohle-like bodies"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Laboratory Methods",
+    "question": "The Ristocetin Cofactor Assay is the gold standard for diagnosing:",
+    "choices": ["Hemophilia", "von Willebrand Disease", "Glanzmann's", "DIC"],
+    "answer": "von Willebrand Disease"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "Which CD marker is considered the 'Stem Cell Marker'?",
+    "choices": ["CD45", "CD34", "CD19", "CD3"],
+    "answer": "CD34"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Which test is used to monitor Oral Anticoagulant Therapy (Warfarin)?",
+    "choices": ["aPTT", "PT/INR", "TT", "Bleeding Time"],
+    "answer": "PT/INR"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Acid-Base",
+    "question": "A combined Metabolic Acidosis and Respiratory Alkalosis is commonly seen in:",
+    "choices": ["Heroin overdose", "Salicylate poisoning", "Diabetes", "Starvation"],
+    "answer": "Salicylate poisoning"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Endocrinology",
+    "question": "Primary Hypothyroidism is characterized by:",
+    "choices": ["High TSH, High T4", "Low TSH, Low T4", "High TSH, Low T4", "Low TSH, High T4"],
+    "answer": "High TSH, Low T4"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Endocrinology",
+    "question": "Hyperthyroidism (Graves' Disease) typically shows:",
+    "choices": ["High TSH, High T4", "Low TSH, High T4", "High TSH, Low T4", "Normal TSH"],
+    "answer": "Low TSH, High T4"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Endocrinology",
+    "question": "Cushing's Syndrome (Adrenal Tumor) results in:",
+    "choices": ["High Cortisol, High ACTH", "High Cortisol, Low ACTH", "Low Cortisol, High ACTH", "Low Cortisol, Low ACTH"],
+    "answer": "High Cortisol, Low ACTH"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Endocrinology",
+    "question": "Addison's Disease (Primary Adrenal Insufficiency) results in:",
+    "choices": ["Low Cortisol, Low ACTH", "Low Cortisol, High ACTH", "High Cortisol, High ACTH", "High Aldosterone"],
+    "answer": "Low Cortisol, High ACTH"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "Primary Hyperparathyroidism is associated with:",
+    "choices": ["Low Ca, High P", "High Ca, Low P", "Low Ca, Low P", "High Ca, High P"],
+    "answer": "High Ca, Low P"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Tumor Markers",
+    "question": "CEA (Carcinoembryonic Antigen) is most useful for monitoring:",
+    "choices": ["Breast Cancer", "Colon Cancer", "Prostate Cancer", "Thyroid Cancer"],
+    "answer": "Colon Cancer"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Tumor Markers",
+    "question": "AFP (Alpha-fetoprotein) is a marker for:",
+    "choices": ["Hepatocellular Carcinoma", "Prostate Cancer", "Ovarian Cancer", "Lung Cancer"],
+    "answer": "Hepatocellular Carcinoma"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Tumor Markers",
+    "question": "CA-125 is the primary marker for which cancer?",
+    "choices": ["Pancreatic", "Ovarian", "Breast", "Colon"],
+    "answer": "Ovarian"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Toxicology",
+    "question": "Cyanide poisoning results in a characteristic odor of:",
+    "choices": ["Garlic", "Rotten eggs", "Bitter almonds", "Fruity"],
+    "answer": "Bitter almonds"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Toxicology",
+    "question": "The Trinder reaction is used to measure:",
+    "choices": ["Acetaminophen", "Salicylates", "Lead", "Ethanol"],
+    "answer": "Salicylates"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "Acid Phosphatase (ACP) is primarily used in forensic cases to detect:",
+    "choices": ["Blood", "Saliva", "Seminal Fluid", "Urine"],
+    "answer": "Seminal Fluid"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "G6PD deficiency in RBCs leads to:",
+    "choices": ["Hyperglycemia", "Hemolytic Anemia", "Iron overload", "Leukocytosis"],
+    "answer": "Hemolytic Anemia"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Lipids",
+    "question": "Which apolipoprotein is the major protein component of HDL?",
+    "choices": ["Apo B-100", "Apo A-1", "Apo C-II", "Apo E"],
+    "answer": "Apo A-1"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Lipids",
+    "question": "Tangier disease is characterized by extremely low levels of:",
+    "choices": ["LDL", "HDL", "VLDL", "Chylomicrons"],
+    "answer": "HDL"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Instrumentation",
+    "question": "ISE (Ion Selective Electrode) for Potassium uses which membrane?",
+    "choices": ["Glass", "Valinomycin", "Silver chloride", "Platinum"],
+    "answer": "Valinomycin"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Instrumentation",
+    "question": "Atomic Absorption Spectrophotometry is primarily used for measuring:",
+    "choices": ["Glucose", "Proteins", "Trace metals", "Enzymes"],
+    "answer": "Trace metals"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Vitamins",
+    "question": "Night blindness is a classic sign of deficiency in:",
+    "choices": ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin K"],
+    "answer": "Vitamin A"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Lipids",
+    "question": "Which apolipoprotein is the major protein in VLDL and LDL?",
+    "choices": ["Apo A-1", "Apo B-100", "Apo B-48", "Apo E"],
+    "answer": "Apo B-100"
+  },
+  {
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "The reference method for Serum Calcium measurement is:",
+    "choices": ["CPC method", "Arsenazo III", "Atomic Absorption", "ISE"],
+    "answer": "Atomic Absorption"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Modified Thayer-Martin (MTM) contains Vancomycin, Colistin, and:",
+    "choices": ["Ampicillin", "Nystatin", "Methicillin", "Tetracycline"],
+    "answer": "Nystatin"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycobacteriology",
+    "question": "Lowenstein-Jensen (LJ) medium is made selective by the addition of:",
+    "choices": ["Bile salts", "Malachite Green", "Crystal Violet", "Neutral Red"],
+    "answer": "Malachite Green"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "TCBS agar is the gold standard for isolating:",
+    "choices": ["Salmonella", "Vibrio species", "Campylobacter", "Helicobacter"],
+    "answer": "Vibrio species"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "On TCBS, Vibrio cholerae appears as which color?",
+    "choices": ["Green", "Yellow", "Blue", "Black"],
+    "answer": "Yellow"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "BCYE (Buffered Charcoal Yeast Extract) agar is used for:",
+    "choices": ["Bordetella", "Legionella", "Francisella", "Brucella"],
+    "answer": "Legionella"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "The Bile Solubility test is used to confirm the identification of:",
+    "choices": ["S. pyogenes", "S. pneumoniae", "Enterococcus", "S. mutans"],
+    "answer": "S. pneumoniae"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Streptococcus pyogenes is sensitive to which disk?",
+    "choices": ["Optochin (P)", "Bacitracin (A)", "Novobiocin", "SXT"],
+    "answer": "Bacitracin (A)"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "The CAMP test is positive for:",
+    "choices": ["Group A Strep", "Group B Strep (S. agalactiae)", "Group D Strep", "Viridans Strep"],
+    "answer": "Group B Strep (S. agalactiae)"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Anaerobes",
+    "question": "Clostridium difficile is best isolated using which medium?",
+    "choices": ["BBE", "CCFA", "KVLB", "THIO"],
+    "answer": "CCFA"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Anaerobes",
+    "question": "Bacteroides fragilis is uniquely resistant to bile and grows on:",
+    "choices": ["BBE agar", "Chocolate agar", "MacConkey", "EMB"],
+    "answer": "BBE agar"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycology",
+    "question": "Tinea versicolor is caused by which fungus showing a 'spaghetti and meatballs' appearance?",
+    "choices": ["Microsporum canis", "Malassezia furfur", "Trichophyton mentagrophytes", "Epidermophyton floccosum"],
+    "answer": "Malassezia furfur"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycology",
+    "question": "Histoplasma capsulatum is often associated with exposure to:",
+    "choices": ["Rose thorns", "Bird or bat droppings", "Desert sand", "River water"],
+    "answer": "Bird or bat droppings"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycology",
+    "question": "Which dimorphic fungus produces thick-walled spherules in tissue?",
+    "choices": ["Blastomyces", "Coccidioides immitis", "Histoplasma", "Sporothrix"],
+    "answer": "Coccidioides immitis"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Which Schistosoma species has a characteristic terminal spine and is found in urine?",
+    "choices": ["S. mansoni", "S. japonicum", "S. haematobium", "S. intercalatum"],
+    "answer": "S. haematobium"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Which Schistosoma species has a large lateral spine?",
+    "choices": ["S. mansoni", "S. haematobium", "S. japonicum", "S. mekongi"],
+    "answer": "S. mansoni"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Which Schistosoma species has a small, inconspicuous lateral knob?",
+    "choices": ["S. mansoni", "S. japonicum", "S. haematobium", "S. intercalatum"],
+    "answer": "S. japonicum"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Strongyloides stercoralis is usually diagnosed by finding which stage in stool?",
+    "choices": ["Eggs", "Rhabditiform larvae", "Filariform larvae", "Adult worms"],
+    "answer": "Rhabditiform larvae"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Virology",
+    "question": "Which virus is the most common cause of infant diarrhea worldwide?",
+    "choices": ["Norovirus", "Rotavirus", "Adenovirus", "Astrovirus"],
+    "answer": "Rotavirus"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Virology",
+    "question": "HPV types 16 and 18 are strongly associated with:",
+    "choices": ["Genital warts", "Cervical cancer", "Skin warts", "Oral thrush"],
+    "answer": "Cervical cancer"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Virology",
+    "question": "The 'Avian Flu' is caused by which strain of Influenza A?",
+    "choices": ["H1N1", "H3N2", "H5N1", "H7N9"],
+    "answer": "H5N1"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "MHC Class III molecules encode for:",
+    "choices": ["T-cell receptors", "Antibodies", "Complement proteins (C2, C4)", "Beta-2 microglobulin"],
+    "answer": "Complement proteins (C2, C4)"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "MHC Class I molecules consist of a heavy chain and:",
+    "choices": ["A light chain", "Beta-2 microglobulin", "J-chain", "Secretory component"],
+    "answer": "Beta-2 microglobulin"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "Hereditary Angioedema is caused by a deficiency in:",
+    "choices": ["C3", "C1 Inhibitor", "Properdin", "Factor B"],
+    "answer": "C1 Inhibitor"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "Deficiency of the late complement components (C5-C9) predisposes to infections by:",
+    "choices": ["Staphylococcus", "Neisseria species", "Streptococcus", "E. coli"],
+    "answer": "Neisseria species"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunodeficiency",
+    "question": "DiGeorge Syndrome is a primary immunodeficiency characterized by:",
+    "choices": ["B-cell defect", "Thymic hypoplasia (T-cell defect)", "Neutrophil defect", "Complement defect"],
+    "answer": "Thymic hypoplasia (T-cell defect)"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunodeficiency",
+    "question": "Bruton's Agammaglobulinemia is an X-linked defect in:",
+    "choices": ["T-cell maturation", "B-cell maturation", "Phagocytosis", "MAC formation"],
+    "answer": "B-cell maturation"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunodeficiency",
+    "question": "SCID (Severe Combined Immunodeficiency) involves a defect in:",
+    "choices": ["Only B cells", "Only T cells", "Both T and B cells", "Only Phagocytes"],
+    "answer": "Both T and B cells"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-cyclic citrullinated peptide (Anti-CCP) is highly specific for:",
+    "choices": ["SLE", "Rheumatoid Arthritis", "Sjögren's", "Scleroderma"],
+    "answer": "Rheumatoid Arthritis"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-Jo-1 antibodies are associated with:",
+    "choices": ["Polymyositis/Dermatomyositis", "SLE", "RA", "Graves'"],
+    "answer": "Polymyositis/Dermatomyositis"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-Scl-70 (Anti-DNA Topoisomerase I) is a marker for:",
+    "choices": ["SLE", "Diffuse Scleroderma", "CREST Syndrome", "MCTD"],
+    "answer": "Diffuse Scleroderma"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "Cold Agglutinins (Anti-I) are frequently found in patients with:",
+    "choices": ["Syphilis", "Mycoplasma pneumoniae infection", "HIV", "Hepatitis C"],
+    "answer": "Mycoplasma pneumoniae infection"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "The Paul-Bunnell test uses which cells to detect heterophile antibodies?",
+    "choices": ["Human O cells", "Sheep RBCs", "Horse RBCs", "Chicken RBCs"],
+    "answer": "Sheep RBCs"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "HLA-B27 is strongly associated with which condition?",
+    "choices": ["Type 1 Diabetes", "Ankylosing Spondylitis", "Celiac Disease", "Narcolepsy"],
+    "answer": "Ankylosing Spondylitis"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "HLA-DR3 and DR4 are associated with an increased risk of:",
+    "choices": ["Type 1 Diabetes", "SLE", "Multiple Sclerosis", "RA"],
+    "answer": "Type 1 Diabetes"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "Nephelometry measures light that is:",
+    "choices": ["Absorbed", "Transmitted", "Scattered at an angle", "Reflected"],
+    "answer": "Scattered at an angle"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "Which immunoassay technique offers the highest sensitivity?",
+    "choices": ["Precipitation", "Agglutination", "Chemiluminescence", "RID"],
+    "answer": "Chemiluminescence"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "Radial Immunodiffusion (Mancini technique) measures the diameter of the precipitation ring, which is:",
+    "choices": ["Inversely proportional to concentration", "Proportional to the square root of concentration", "Proportional to concentration", "Proportional to the square of concentration"],
+    "answer": "Proportional to concentration"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "Ouchterlony Double Diffusion involves diffusion of:",
+    "choices": ["Only antigen", "Only antibody", "Both antigen and antibody", "Neither"],
+    "answer": "Both antigen and antibody"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Vaccines",
+    "question": "A live, attenuated vaccine provides which type of immunity?",
+    "choices": ["Passive artificial", "Active artificial", "Passive natural", "Active natural"],
+    "answer": "Active artificial"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Vaccines",
+    "question": "The Tetanus vaccine is an example of a:",
+    "choices": ["Live vaccine", "Killed vaccine", "Toxoid vaccine", "Subunit vaccine"],
+    "answer": "Toxoid vaccine"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "Carnoy's Fluid is the fastest fixative and is specifically used for:",
+    "choices": ["Lipids", "Chromosomes and lymph nodes", "Embryos", "Nerve fibers"],
+    "answer": "Chromosomes and lymph nodes"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "Heidenhain's Susa is recommended for fixing:",
+    "choices": ["Skin biopsies", "Brain tissue", "Large organs", "Bone marrow"],
+    "answer": "Skin biopsies"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Processing",
+    "question": "Vacuum embedding is primarily used to:",
+    "choices": ["Remove water", "Speed up infiltration of dense tissues", "Fix the tissue", "Clear the tissue"],
+    "answer": "Speed up infiltration of dense tissues"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Processing",
+    "question": "The temperature of the paraffin oven should be maintained at:",
+    "choices": ["Room temperature", "37C", "2-5C above the melting point of wax", "100C"],
+    "answer": "2-5C above the melting point of wax"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Microtomy",
+    "question": "The clearance angle of the microtome knife should be:",
+    "choices": ["0 degrees", "5-10 degrees", "20-30 degrees", "45 degrees"],
+    "answer": "5-10 degrees"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Microtomy",
+    "question": "The process of removing nicks from the microtome knife edge is called:",
+    "choices": ["Stropping", "Honing", "Lapping", "Clearing"],
+    "answer": "Honing"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Microtomy",
+    "question": "Stropping is performed to:",
+    "choices": ["Remove nicks", "Polish the knife edge", "Sharpen the knife", "Clean the knife"],
+    "answer": "Polish the knife edge"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Staining",
+    "question": "Metachromatic staining (e.g., Toluidine Blue) results in:",
+    "choices": ["The tissue staining the same color as the dye", "The tissue staining a different color than the dye", "No staining", "Fluorescence"],
+    "answer": "The tissue staining a different color than the dye"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Staining",
+    "question": "Which dye is used for vital staining of mitochondria?",
+    "choices": ["Neutral Red", "Janus Green B", "Methylene Blue", "Trypan Blue"],
+    "answer": "Janus Green B"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Which RA 5527 amendment provided for the registration of MedTechs without examination (historically)?",
+    "choices": ["RA 6138", "PD 498", "PD 1534", "RA 8981"],
+    "answer": "RA 6138"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "PD 498, an amendment to RA 5527, changed the composition of the Board to include:",
+    "choices": ["A Pathologist as Chairman", "A MedTech as Chairman", "A Nurse", "A Pharmacist"],
+    "answer": "A Pathologist as Chairman"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Which decree further amended RA 5527 regarding the accreditation of schools?",
+    "choices": ["PD 1534", "PD 498", "RA 6138", "RA 8981"],
+    "answer": "PD 1534"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 4688",
+    "question": "According to AO 2007-0027, a secondary clinical laboratory must have equipment for:",
+    "choices": ["Routine chemistry", "Special chemistry", "Culture and sensitivity", "Histopathology"],
+    "answer": "Routine chemistry"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 7719",
+    "question": "The National Blood Service Act of 1994 promotes:",
+    "choices": ["Commercial blood banks", "Voluntary blood donation", "Paid blood donation", "Imported blood"],
+    "answer": "Voluntary blood donation"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 8504",
+    "question": "The Philippine AIDS Prevention and Control Act mandates that HIV testing must be:",
+    "choices": ["Compulsory for all", "Confidential", "Public knowledge", "Paid by the patient"],
+    "answer": "Confidential"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 9165",
+    "question": "Under RA 9165, a drug testing laboratory must be headed by a:",
+    "choices": ["MedTech", "Pathologist", "Chemist", "Any of the above (with training)"],
+    "answer": "Any of the above (with training)"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Ethics",
+    "question": "The ethical principle of 'Beneficence' refers to:",
+    "choices": ["Respecting patient choice", "Doing what is best for the patient", "Avoiding harm", "Fair distribution of resources"],
+    "answer": "Doing what is best for the patient"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Ethics",
+    "question": "The principle of 'Non-maleficence' means:",
+    "choices": ["Do no harm", "Be honest", "Keep secrets", "Work hard"],
+    "answer": "Do no harm"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Ethics",
+    "question": "Patient 'Autonomy' is best respected by obtaining:",
+    "choices": ["A payment", "Informed consent", "A witness", "A doctor's order"],
+    "answer": "Informed consent"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Professional Organizations",
+    "question": "The current PAMET hymn was composed by:",
+    "choices": ["Crisanto Almario", "Hector Gayares", "Nardito Moraleta", "Charlemagne Tamondong"],
+    "answer": "Hector Gayares"
   }
 ]
