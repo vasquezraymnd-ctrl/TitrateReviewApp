@@ -66,23 +66,25 @@ export default function QuizPage() {
     loadGlobalStats();
     
     // Online Status Monitoring
-    setIsOnline(navigator.onLine);
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    if (typeof window !== 'undefined') {
+      setIsOnline(navigator.onLine);
+      const handleOnline = () => setIsOnline(true);
+      const handleOffline = () => setIsOnline(false);
+      window.addEventListener('online', handleOnline);
+      window.addEventListener('offline', handleOffline);
 
-    const handleArchivePurge = () => {
-        loadGlobalStats();
-        setStep('subject');
-    };
-    window.addEventListener('archives-purged', handleArchivePurge);
-    
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-      window.removeEventListener('archives-purged', handleArchivePurge);
-    };
+      const handleArchivePurge = () => {
+          loadGlobalStats();
+          setStep('subject');
+      };
+      window.addEventListener('archives-purged', handleArchivePurge);
+      
+      return () => {
+        window.removeEventListener('online', handleOnline);
+        window.removeEventListener('offline', handleOffline);
+        window.removeEventListener('archives-purged', handleArchivePurge);
+      };
+    }
   }, []);
 
   const loadGlobalStats = async () => {
@@ -223,7 +225,9 @@ export default function QuizPage() {
     await loadGlobalStats();
     toast({ title: "Laboratory Purged", description: "All questions and modules deleted." });
     setStep('subject');
-    window.dispatchEvent(new Event('archives-purged'));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('archives-purged'));
+    }
   };
 
   const handleAnswer = async (quality: number) => {
@@ -278,7 +282,7 @@ export default function QuizPage() {
         const answerId = filteredChoices.find(c => c.text.trim() === item.answer.trim())?.id || 'A';
 
         return {
-          id: `sys-${Date.now()}-${idx}`,
+          id: item.id || `sys-${item.category.toLowerCase().substring(0,3)}-${idx}`,
           subject: item.category,
           question: item.question,
           choices: filteredChoices,
@@ -295,7 +299,7 @@ export default function QuizPage() {
         handleSubjectSelect(selectedSubject);
       }
       
-      toast({ title: "Sync Successful", description: `Synchronized ${questionsToImport.length} system protocols.` });
+      toast({ title: "Sync Successful", description: `Synchronized ${questionsToImport.length} protocols into local storage.` });
     } catch (err) {
       console.error(err);
       toast({ variant: "destructive", title: "Sync Failed", description: "Could not access system archives." });
