@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -23,7 +24,6 @@ import {
   WifiOff
 } from 'lucide-react';
 import Link from 'next/link';
-import { generateModuleQuiz } from '@/ai/flows/module-quiz-generator';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
@@ -304,44 +304,6 @@ export default function QuizPage() {
     }
   };
 
-  const startModuleAssay = async (module: LabModule) => {
-    if (!isOnline) {
-      toast({ 
-        variant: "destructive", 
-        title: "Link Severed", 
-        description: "AI synthesis requires an active network connection. Please reconnect to initialize AI assays." 
-      });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      if (!module.extractedText) {
-        toast({ variant: "destructive", title: "Assay Failure", description: "No clinical text found." });
-        setLoading(false);
-        return;
-      }
-      const result = await generateModuleQuiz({
-        subject: module.subject,
-        moduleName: module.name,
-        moduleContent: module.extractedText,
-        count: 5
-      });
-      if (result.questions && result.questions.length > 0) {
-        setQuestions(result.questions);
-        setStep('quiz');
-        setCurrentIndex(0);
-        setCompleted(false);
-      } else {
-        throw new Error("AI failed synthesis.");
-      }
-    } catch (err) {
-      toast({ variant: "destructive", title: "Synthesis Error", description: "Lab AI failed titration." });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   if (loading) {
     return (
       <div className="flex h-screen bg-[#0b111a] items-center justify-center text-white flex-col gap-6">
@@ -419,7 +381,7 @@ export default function QuizPage() {
                       </Button>
                       <div>
                         <h2 className="text-4xl xl:text-6xl font-black italic uppercase tracking-tighter text-white">{selectedSubject} Archives</h2>
-                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Select a chapter archive or PDF protocol.</p>
+                        <p className="text-xs xl:text-sm font-bold text-muted-foreground uppercase tracking-widest mt-2 text-white/60">Select a chapter archive from system protocols.</p>
                       </div>
                   </div>
                 </div>
@@ -453,31 +415,12 @@ export default function QuizPage() {
                       </button>
                     </div>
                   ))}
-
-                  {modules.map((m) => (
-                    <button 
-                      key={m.id} 
-                      onClick={() => startModuleAssay(m)}
-                      className={cn(
-                        "riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 transition-all text-left group",
-                        isOnline ? "hover:border-primary/50" : "opacity-50 cursor-not-allowed"
-                      )}
-                    >
-                      <BookOpen size={24} className={cn("mb-4 xl:size-32", isOnline ? "text-primary" : "text-muted-foreground")} />
-                      <h4 className="text-xl xl:text-3xl font-black italic uppercase tracking-tighter text-white truncate w-full">
-                        {m.name}
-                      </h4>
-                      <p className="text-[10px] xl:text-[12px] font-bold text-muted-foreground uppercase tracking-widest mt-2">
-                        {isOnline ? 'AI Assay Synthesis' : 'Requires Network Link'}
-                      </p>
-                    </button>
-                  ))}
                   
-                  {chapters.length === 0 && modules.length === 0 && (
+                  {chapters.length === 0 && (
                      <div className="col-span-full py-20 text-center opacity-30 border border-dashed border-white/10 riot-card">
                        <AlertCircle className="mx-auto mb-4" size={48} />
                        <h3 className="text-2xl font-black italic uppercase">No Titrated Data</h3>
-                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Initialize or upload a protocol below.</p>
+                       <p className="text-xs font-bold uppercase tracking-widest mt-2">Initialize system protocols below.</p>
                      </div>
                   )}
                 </div>
