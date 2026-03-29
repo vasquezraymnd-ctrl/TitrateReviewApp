@@ -791,5 +791,1205 @@
     "question": "Which enzyme is used in the first step of the enzymatic triglyceride method?",
     "choices": ["Lipase", "Cholesterol Esterase", "Glycerol Kinase", "Peroxidase"],
     "answer": "Lipase"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology Basics",
+    "question": "Which primary stain is used in the Gram staining procedure?",
+    "choices": ["Safranin", "Crystal Violet", "Iodine", "Alcohol"],
+    "answer": "Crystal Violet"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology Basics",
+    "question": "What is the purpose of Safranin in Gram staining?",
+    "choices": ["Primary stain", "Mordant", "Decolorizer", "Counterstain"],
+    "answer": "Counterstain"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Which test differentiates Staphylococcus (positive) from Streptococcus (negative)?",
+    "choices": ["Coagulase", "Catalase", "Oxidase", "Optochin"],
+    "answer": "Catalase"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Staphylococcus aureus is uniquely identified by which positive test result?",
+    "choices": ["Catalase", "Coagulase", "Bacitracin", "Bile Solubility"],
+    "answer": "Coagulase"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Which Streptococcus species is sensitive to Optochin (P-disk)?",
+    "choices": ["S. pyogenes", "S. agalactiae", "S. pneumoniae", "S. mutans"],
+    "answer": "S. pneumoniae"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Which medium is both selective and differential for Enterobacteriaceae, detecting lactose fermentation?",
+    "choices": ["Blood Agar", "Chocolate Agar", "MacConkey Agar", "Thayer-Martin"],
+    "answer": "MacConkey Agar"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Which organism produces a classic 'metallic green sheen' on EMB agar?",
+    "choices": ["Klebsiella pneumoniae", "Proteus mirabilis", "Escherichia coli", "Salmonella typhi"],
+    "answer": "Escherichia coli"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "The IMViC reaction for E. coli is typically:",
+    "choices": ["++--", "--++", "+-+-", "-+-+"],
+    "answer": "++--"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Non-Fermenters",
+    "question": "Which non-fermenting gram-negative rod is Oxidase positive and has a characteristic grape-like odor?",
+    "choices": ["Acinetobacter baumannii", "Stenotrophomonas maltophilia", "Pseudomonas aeruginosa", "Burkholderia cepacia"],
+    "answer": "Pseudomonas aeruginosa"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycobacteriology",
+    "question": "What is the primary stain used in the Ziehl-Neelsen (Hot) AFB stain?",
+    "choices": ["Methylene Blue", "Crystal Violet", "Carbol Fuchsin", "Auramine-Rhodamine"],
+    "answer": "Carbol Fuchsin"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycobacteriology",
+    "question": "Which Mycobacterium species is the causative agent of leprosy?",
+    "choices": ["M. tuberculosis", "M. avium", "M. leprae", "M. kansasii"],
+    "answer": "M. leprae"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Anaerobes",
+    "question": "Which anaerobic gram-positive spore-forming rod produces 'Medusa head' colonies (on aerobic BAP) but causes tetanus?",
+    "choices": ["C. perfringens", "C. difficile", "C. tetani", "B. anthracis"],
+    "answer": "C. tetani"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Which stage of Plasmodium is injected into humans by the Anopheles mosquito?",
+    "choices": ["Trophozoite", "Schizont", "Sporozoite", "Gametocyte"],
+    "answer": "Sporozoite"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "A 'double-walled' cyst with 4 nuclei found in stool is most likely:",
+    "choices": ["Entamoeba histolytica", "Giardia lamblia", "Balantidium coli", "Endolimax nana"],
+    "answer": "Entamoeba histolytica"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycology",
+    "question": "Which yeast is identified by the presence of a thick capsule visible with India Ink?",
+    "choices": ["Candida albicans", "Cryptococcus neoformans", "Saccharomyces cerevisiae", "Pneumocystis jirovecii"],
+    "answer": "Cryptococcus neoformans"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Virology",
+    "question": "Which virus is the primary cause of 'Infectious Mononucleosis'?",
+    "choices": ["CMV", "EBV", "HSV-1", "VZV"],
+    "answer": "EBV"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Group A Streptococcus (S. pyogenes) is characterized by which hemolysis?",
+    "choices": ["Alpha", "Beta", "Gamma", "Alpha-prime"],
+    "answer": "Beta"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "What is the reagent used in the Catalase test?",
+    "choices": ["3% H2O2", "Kovac's", "Tetramethyl-p-phenylenediamine", "Alpha-naphthol"],
+    "answer": "3% H2O2"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Which Enterobacteriaceae is non-motile at 37C but motile at 25C?",
+    "choices": ["Proteus", "Klebsiella", "Yersinia enterocolitica", "Shigella"],
+    "answer": "Yersinia enterocolitica"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "The 'Satellitism' phenomenon around S. aureus is used to identify:",
+    "choices": ["Neisseria", "Haemophilus influenzae", "Moraxella", "Campylobacter"],
+    "answer": "Haemophilus influenzae"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Which factor(s) does Haemophilus influenzae require for growth?",
+    "choices": ["X only", "V only", "Both X and V", "Neither X nor V"],
+    "answer": "Both X and V"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Neisseria gonorrhoeae is best recovered from clinical samples using:",
+    "choices": ["BAP", "EMB", "Thayer-Martin", "Lowenstein-Jensen"],
+    "answer": "Thayer-Martin"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Which test detects the production of Acetoin (Acetyl-methyl-carbinol)?",
+    "choices": ["Methyl Red", "Voges-Proskauer", "Citrate", "Indole"],
+    "answer": "Voges-Proskauer"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Proteus species are easily recognized by which characteristic on agar?",
+    "choices": ["Metallic sheen", "Swarming motility", "Mucoid colonies", "Blue-green pigment"],
+    "answer": "Swarming motility"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Bile Esculin Hydrolysis is a key test for identifying:",
+    "choices": ["Group A Strep", "Group B Strep", "Group D Strep/Enterococcus", "Viridans Strep"],
+    "answer": "Group D Strep/Enterococcus"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "The 'String Test' (Entero-test) is primarily used to detect:",
+    "choices": ["Ascaris", "Giardia lamblia", "Hookworm", "Schistosoma"],
+    "answer": "Giardia lamblia"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Which parasite egg has a 'Japanese lantern' or 'Tea cup' appearance with polar plugs?",
+    "choices": ["Ascaris", "Trichuris trichiura", "Enterobius", "Strongyloides"],
+    "answer": "Trichuris trichiura"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Enterobius vermicularis is best diagnosed using:",
+    "choices": ["Stool concentration", "Cellophane tape prep", "Blood smear", "Urine sediment"],
+    "answer": "Cellophane tape prep"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology Basics",
+    "question": "What is the standard sterilization temperature and time for the Autoclave?",
+    "choices": ["100C for 15 mins", "121C at 15 psi for 15 mins", "160C for 2 hours", "100C for 30 mins"],
+    "answer": "121C at 15 psi for 15 mins"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycology",
+    "question": "Germ tube production is a definitive identification for:",
+    "choices": ["Candida tropicalis", "Candida glabrata", "Candida albicans", "Candida krusei"],
+    "answer": "Candida albicans"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Anaerobes",
+    "question": "Which anaerobe is famous for its 'Sulfur granules' in clinical specimens?",
+    "choices": ["Bacteroides", "Fusobacterium", "Actinomyces israelii", "Prevotella"],
+    "answer": "Actinomyces israelii"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Salmonella species are typically:",
+    "choices": ["Lactose positive, H2S positive", "Lactose negative, H2S positive", "Lactose positive, H2S negative", "Lactose negative, H2S negative"],
+    "answer": "Lactose negative, H2S positive"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Which organism is the 'Gull-wing' shaped rod associated with foodborne gastroenteritis?",
+    "choices": ["Vibrio cholerae", "Campylobacter jejuni", "Helicobacter pylori", "Listeria monocytogenes"],
+    "answer": "Campylobacter jejuni"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Virology",
+    "question": "The 'Negri body' is pathognomonic for:",
+    "choices": ["Measles", "Rabies", "Smallpox", "Polio"],
+    "answer": "Rabies"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Which tapeworm is the 'Beef Tapeworm'?",
+    "choices": ["Taenia solium", "Taenia saginata", "Diphyllobothrium latum", "Hymenolepis nana"],
+    "answer": "Taenia saginata"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Parasitology",
+    "question": "Which tapeworm is associated with Vitamin B12 deficiency?",
+    "choices": ["Taenia saginata", "Diphyllobothrium latum", "Echinococcus", "Dipylidium caninum"],
+    "answer": "Diphyllobothrium latum"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycology",
+    "question": "Which fungal stain is used to highlight the cell wall using fluorescence?",
+    "choices": ["KOH", "PAS", "Calcofluor White", "GMS"],
+    "answer": "Calcofluor White"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Which organism is the cause of 'Rice Water Stools'?",
+    "choices": ["Salmonella", "Shigella", "Vibrio cholerae", "Giardia"],
+    "answer": "Vibrio cholerae"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "The 'String Test' using 0.5% Sodium Deoxycholate is positive for:",
+    "choices": ["Pseudomonas", "Vibrio", "Aeromonas", "Plesiomonas"],
+    "answer": "Vibrio"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Which Shigella species is the only one that is Mannitol negative?",
+    "choices": ["S. dysenteriae", "S. flexneri", "S. boydii", "S. sonnei"],
+    "answer": "S. dysenteriae"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Instrumentation",
+    "question": "Which type of microscope is used to visualize Treponema pallidum?",
+    "choices": ["Bright-field", "Dark-field", "Phase-contrast", "Fluorescence"],
+    "answer": "Dark-field"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Which organism causes 'Whooping Cough'?",
+    "choices": ["Bordetella pertussis", "Corynebacterium diphtheriae", "Haemophilus influenzae", "Mycoplasma pneumoniae"],
+    "answer": "Bordetella pertussis"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Regan-Lowe or Bordet-Gengou agar is used for:",
+    "choices": ["Legionella", "Bordetella", "Brucella", "Francisella"],
+    "answer": "Bordetella"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Which test differentiates Moraxella catarrhalis (positive) from Neisseria species (negative)?",
+    "choices": ["Oxidase", "CTA sugars", "DNAse", "Gram stain"],
+    "answer": "DNAse"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Mycobacteriology",
+    "question": "Which Mycobacterium species is a 'Photochromogen' (produces pigment only in light)?",
+    "choices": ["M. kansasii", "M. gordonae", "M. tuberculosis", "M. scrofulaceum"],
+    "answer": "M. kansasii"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Which organism causes 'Q fever'?",
+    "choices": ["Coxiella burnetii", "Rickettsia rickettsii", "Chlamydia psittaci", "Ehrlichia"],
+    "answer": "Coxiella burnetii"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Which Staphylococcus is the leading cause of UTI in young sexually active females?",
+    "choices": ["S. aureus", "S. epidermidis", "S. saprophyticus", "S. lugdunensis"],
+    "answer": "S. saprophyticus"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Which Salmonella species causes 'Enteric Fever'?",
+    "choices": ["S. typhi", "S. enteritidis", "S. choleraesuis", "S. typhimurium"],
+    "answer": "S. typhi"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "The PAD (Phenylalanine Deaminase) test is positive for which group?",
+    "choices": ["E. coli / Klebsiella", "Salmonella / Shigella", "Proteus / Providencia / Morganella", "Enterobacter / Serratia"],
+    "answer": "Proteus / Providencia / Morganella"
+  },
+  {
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology Basics",
+    "question": "Which gas is required for the growth of Capnophilic organisms?",
+    "choices": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Methane"],
+    "answer": "Carbon Dioxide"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Which type of hypersensitivity is IgE-mediated and involves mast cell degranulation?",
+    "choices": ["Type I", "Type II", "Type III", "Type IV"],
+    "answer": "Type I"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Type IV hypersensitivity is also known as:",
+    "choices": ["Anaphylactic", "Cytotoxic", "Immune complex-mediated", "Delayed-type"],
+    "answer": "Delayed-type"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "Which immunoglobulin is the first to be produced in an immune response?",
+    "choices": ["IgG", "IgA", "IgM", "IgE"],
+    "answer": "IgM"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "Which immunoglobulin can cross the placenta?",
+    "choices": ["IgM", "IgG", "IgA", "IgD"],
+    "answer": "IgG"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "Which immunoglobulin is found primarily in secretions like saliva and breast milk?",
+    "choices": ["IgG", "IgM", "IgA", "IgE"],
+    "answer": "IgA"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "The classical pathway of complement activation is initiated by:",
+    "choices": ["Bacteria", "Fungi", "Antigen-Antibody complexes", "Mannose"],
+    "answer": "Antigen-Antibody complexes"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "Which complement component is the 'Opsonin' that enhances phagocytosis?",
+    "choices": ["C1q", "C3b", "C5a", "C9"],
+    "answer": "C3b"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "The 'Membrane Attack Complex' (MAC) is composed of:",
+    "choices": ["C1-C4", "C3a-C5a", "C5b-C9", "C1qrs"],
+    "answer": "C5b-C9"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "ELISA stands for:",
+    "choices": ["Enzyme-Linked Immunosorbent Assay", "Electrophoretic Linked Immunoassay", "Enzyme-Labeled Internal System", "Enhanced Linked Immune Assay"],
+    "answer": "Enzyme-Linked Immunosorbent Assay"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "The VDRL test is used to screen for:",
+    "choices": ["HIV", "Hepatitis B", "Syphilis", "Rheumatoid Arthritis"],
+    "answer": "Syphilis"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "Which antigen is used in the RPR test?",
+    "choices": ["Treponema pallidum", "Cardiolipin", "HIV gp120", "HBsAg"],
+    "answer": "Cardiolipin"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hepatitis",
+    "question": "Which marker is the first to appear in a Hepatitis B infection?",
+    "choices": ["HBeAg", "Anti-HBs", "HBsAg", "Anti-HBc"],
+    "answer": "HBsAg"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hepatitis",
+    "question": "The presence of Anti-HBs indicates:",
+    "choices": ["Acute infection", "Chronic infection", "Immunity (via vaccine or recovery)", "High infectivity"],
+    "answer": "Immunity (via vaccine or recovery)"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "HIV",
+    "question": "The 'Window Period' in HIV refers to the time:",
+    "choices": ["Before symptoms appear", "Between infection and detectable antibodies", "During which treatment is most effective", "Before the CD4 count drops"],
+    "answer": "Between infection and detectable antibodies"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "HIV",
+    "question": "Which test is used as the 'Confirmatory Test' for HIV (traditional algorithm)?",
+    "choices": ["ELISA", "Western Blot", "PCR", "Rapid Test"],
+    "answer": "Western Blot"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "A 'Homogeneous' pattern in ANA testing is most commonly associated with:",
+    "choices": ["Scleroderma", "Sjogren's Syndrome", "Systemic Lupus Erythematosus (SLE)", "Mixed Connective Tissue Disease"],
+    "answer": "Systemic Lupus Erythematosus (SLE)"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Rheumatoid Factor (RF) is typically an IgM antibody directed against:",
+    "choices": ["DNA", "The Fc portion of IgG", "Histones", "Neutrophil cytoplasm"],
+    "answer": "The Fc portion of IgG"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells of the Immune System",
+    "question": "Which cell is the 'Professional Antigen Presenting Cell'?",
+    "choices": ["T cell", "B cell", "Dendritic cell", "Neutrophil"],
+    "answer": "Dendritic cell"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells of the Immune System",
+    "question": "CD4+ T cells are also known as:",
+    "choices": ["Cytotoxic T cells", "Helper T cells", "Natural Killer cells", "Plasma cells"],
+    "answer": "Helper T cells"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "MHC Class I molecules are found on:",
+    "choices": ["Only APCs", "Only B cells", "All nucleated cells", "Only T cells"],
+    "answer": "All nucleated cells"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "MHC Class II molecules are found on:",
+    "choices": ["All nucleated cells", "Antigen Presenting Cells (APCs)", "RBCs", "Platelets"],
+    "answer": "Antigen Presenting Cells (APCs)"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "Competitive immunoassays involve:",
+    "choices": ["Labeled antibody", "Labeled antigen competing with unlabeled patient antigen", "Two different antibodies", "No label"],
+    "answer": "Labeled antigen competing with unlabeled patient antigen"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "In a 'Sandwich' ELISA, the signal is:",
+    "choices": ["Inversely proportional to concentration", "Directly proportional to concentration", "Unaffected by concentration", "Logarithmic"],
+    "answer": "Directly proportional to concentration"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "The 'J-chain' is associated with which two immunoglobulins?",
+    "choices": ["IgG and IgM", "IgA and IgM", "IgG and IgA", "IgE and IgD"],
+    "answer": "IgA and IgM"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Type II hypersensitivity involves:",
+    "choices": ["IgE", "Antibody-mediated cytotoxicity", "Immune complexes", "Sensitized T cells"],
+    "answer": "Antibody-mediated cytotoxicity"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Arthus reaction is an example of which hypersensitivity?",
+    "choices": ["Type I", "Type II", "Type III", "Type IV"],
+    "answer": "Type III"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "C3a and C5a act as:",
+    "choices": ["Opsonins", "Anaphylatoxins", "Enzymes", "Labels"],
+    "answer": "Anaphylatoxins"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-dsDNA is highly specific for:",
+    "choices": ["RA", "SLE", "Grave's Disease", "Hashimoto's"],
+    "answer": "SLE"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Which autoantibody is associated with 'CREST Syndrome'?",
+    "choices": ["Anti-Smith", "Anti-Centromere", "Anti-Ro", "Anti-La"],
+    "answer": "Anti-Centromere"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "The 'Opsonization' of a pathogen makes it easier for:",
+    "choices": ["Lysis", "Phagocytosis", "Neutralization", "Agglutination"],
+    "answer": "Phagocytosis"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Agglutination",
+    "question": "The 'Prozone Effect' occurs when there is an excess of:",
+    "choices": ["Antigen", "Antibody", "Electrolytes", "Complement"],
+    "answer": "Antibody"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Agglutination",
+    "question": "The 'Postzone Effect' occurs when there is an excess of:",
+    "choices": ["Antibody", "Antigen", "Saline", "Cuvettes"],
+    "answer": "Antigen"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "The 'Alternative Pathway' of complement is triggered by:",
+    "choices": ["CRP", "LPS (Endotoxin)", "IgM", "Albumin"],
+    "answer": "LPS (Endotoxin)"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "Which immunoglobulin is the 'Heat-labile' antibody associated with allergy?",
+    "choices": ["IgA", "IgM", "IgE", "IgD"],
+    "answer": "IgE"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "What is the basic structure of an immunoglobulin molecule?",
+    "choices": ["2 Heavy chains, 2 Light chains", "1 Heavy, 1 Light", "4 Heavy chains", "3 Heavy, 1 Light"],
+    "answer": "2 Heavy chains, 2 Light chains"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "The Widal test is traditionally used to diagnose:",
+    "choices": ["Syphilis", "Typhoid Fever", "Brucellosis", "Mononucleosis"],
+    "answer": "Typhoid Fever"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "The ASO titer is used to detect recent infection with:",
+    "choices": ["Staph aureus", "Strep pyogenes", "E. coli", "Neisseria"],
+    "answer": "Strep pyogenes"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Hemolytic Disease of the Newborn (HDN) is an example of:",
+    "choices": ["Type I", "Type II", "Type III", "Type IV"],
+    "answer": "Type II"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "Which test is used to identify heterophile antibodies in Mononucleosis?",
+    "choices": ["RPR", "VDRL", "Monospot", "FTA-ABS"],
+    "answer": "Monospot"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Grave's Disease is characterized by autoantibodies against:",
+    "choices": ["TSH Receptor", "Thyroglobulin", "Islet cells", "Acetylcholine receptor"],
+    "answer": "TSH Receptor"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Myasthenia Gravis involves antibodies against:",
+    "choices": ["DNA", "Insulin", "Acetylcholine Receptors", "Thyroid peroxidase"],
+    "answer": "Acetylcholine Receptors"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "Which part of the immunoglobulin molecule determines the 'Isotype' (class)?",
+    "choices": ["Light chain variable region", "Heavy chain constant region", "Fab region", "Hinge region"],
+    "answer": "Heavy chain constant region"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hepatitis",
+    "question": "HBeAg indicates:",
+    "choices": ["Recovery", "High viral replication and infectivity", "Past infection", "Immunity"],
+    "answer": "High viral replication and infectivity"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hepatitis",
+    "question": "Anti-HBc IgM is a marker for:",
+    "choices": ["Chronic infection", "Recent/Acute infection", "Vaccination", "Late recovery"],
+    "answer": "Recent/Acute infection"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells of the Immune System",
+    "question": "B cells mature in the:",
+    "choices": ["Thymus", "Bone Marrow", "Spleen", "Lymph nodes"],
+    "answer": "Bone Marrow"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells of the Immune System",
+    "question": "T cells mature in the:",
+    "choices": ["Bone Marrow", "Thymus", "Liver", "Blood"],
+    "answer": "Thymus"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Immunoassays",
+    "question": "Fluorescence Polarization Immunoassay (FPIA) uses:",
+    "choices": ["Enzyme label", "Radioactive label", "Fluorescent label", "Luminescent label"],
+    "answer": "Fluorescent label"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Antibodies",
+    "question": "Bence-Jones proteins are:",
+    "choices": ["Intact IgG", "Free light chains", "Free heavy chains", "Complement proteins"],
+    "answer": "Free light chains"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Agglutination",
+    "question": "Direct Antiglobulin Test (DAT) detects antibodies:",
+    "choices": ["In the serum", "Bound to the surface of RBCs", "In the urine", "In the CSF"],
+    "answer": "Bound to the surface of RBCs"
+  },
+  {
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Agglutination",
+    "question": "Indirect Antiglobulin Test (IAT) detects antibodies:",
+    "choices": ["In the serum", "In the donor units only", "Inside the RBC", "On the platelet"],
+    "answer": "In the serum"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "What is the most common and standard fixative used in Histopathology?",
+    "choices": ["10% Neutral Buffered Formalin", "Alcohol", "Zenker's Fluid", "Glutaraldehyde"],
+    "answer": "10% Neutral Buffered Formalin"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "Which fixative contains Picric Acid and is excellent for preserving embryos?",
+    "choices": ["Formalin", "Bouin's Fluid", "Carnoy's Fluid", "Heidenhain's"],
+    "answer": "Bouin's Fluid"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "Zenker's Fluid contains which heavy metal?",
+    "choices": ["Lead", "Mercury", "Copper", "Iron"],
+    "answer": "Mercury"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Processing",
+    "question": "In tissue processing, Dehydration is usually performed using increasing concentrations of:",
+    "choices": ["Xylene", "Paraffin", "Alcohol", "Acetone"],
+    "answer": "Alcohol"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Processing",
+    "question": "The purpose of 'Clearing' in tissue processing is to:",
+    "choices": ["Remove water", "Make tissue transparent and remove alcohol", "Infiltrate with wax", "Fix the tissue"],
+    "answer": "Make tissue transparent and remove alcohol"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Processing",
+    "question": "What is the most common clearing agent used?",
+    "choices": ["Chloroform", "Benzene", "Xylene", "Toluene"],
+    "answer": "Xylene"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Embedding",
+    "question": "What is the melting point of standard paraffin wax used for embedding?",
+    "choices": ["37-40C", "45-50C", "56-60C", "70-75C"],
+    "answer": "56-60C"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Microtomy",
+    "question": "What is the standard thickness for routine paraffin sections?",
+    "choices": ["1-2 microns", "4-6 microns", "10-12 microns", "20 microns"],
+    "answer": "4-6 microns"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Staining",
+    "question": "In H&E staining, Hematoxylin acts as the:",
+    "choices": ["Primary basic/nuclear stain", "Acidic counterstain", "Clearing agent", "Mordant only"],
+    "answer": "Primary basic/nuclear stain"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Staining",
+    "question": "Eosin stains which part of the cell?",
+    "choices": ["Nucleus", "Cytoplasm and extracellular matrix", "Mitochondria only", "Golgi apparatus"],
+    "answer": "Cytoplasm and extracellular matrix"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Special Stains",
+    "question": "The PAS (Periodic Acid-Schiff) stain is used to detect:",
+    "choices": ["Lipids", "Glycogen and mucopolysaccharides", "Bacteria", "Iron"],
+    "answer": "Glycogen and mucopolysaccharides"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Special Stains",
+    "question": "Sudan Black or Oil Red O is used to stain:",
+    "choices": ["Proteins", "Nucleic acids", "Lipids", "Amyloid"],
+    "answer": "Lipids"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Special Stains",
+    "question": "Which stain is the 'Gold Standard' for Amyloid?",
+    "choices": ["Congo Red", "Masson's Trichrome", "Van Gieson", "Verhoeff's"],
+    "answer": "Congo Red"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Decalcification",
+    "question": "The most common decalcifying agent is:",
+    "choices": ["Hydrochloric Acid", "Nitric Acid", "Acetic Acid", "Citric Acid"],
+    "answer": "Nitric Acid"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Frozen Sections",
+    "question": "Frozen sections are primarily used for:",
+    "choices": ["Routine diagnosis", "Rapid intraoperative consultation", "Research only", "Teaching"],
+    "answer": "Rapid intraoperative consultation"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "What is the short title of RA 5527?",
+    "choices": ["The Philippine Medical Technology Act of 1969", "The Clinical Laboratory Act", "The Blood Banking Law", "The Professional Regulation Commission Act"],
+    "answer": "The Philippine Medical Technology Act of 1969"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Who is the Chairman of the Council of Medical Technology Education?",
+    "choices": ["The Secretary of Health", "The Director of Higher Education (CHED)", "The Chairman of PRC", "The President of PAMET"],
+    "answer": "The Director of Higher Education (CHED)"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "The Board of Medical Technology is composed of a Chairman and:",
+    "choices": ["1 Member", "2 Members", "3 Members", "4 Members"],
+    "answer": "2 Members"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "What is the minimum age requirement to be issued a certificate of registration as a MedTech?",
+    "choices": ["18 years old", "20 years old", "21 years old", "25 years old"],
+    "answer": "21 years old"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "A MedTech Board Exam rating of at least ____ is required to pass, with no rating below 50% in any major subject.",
+    "choices": ["70%", "75%", "80%", "75.5%"],
+    "answer": "75%"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Professional Organizations",
+    "question": "PAMET stands for:",
+    "choices": ["Philippine Association of Medical Technologists", "Philippine Academy of Medical Technology", "Philippine Alliance of MedTechs", "Professional Association of Medical Technologists"],
+    "answer": "Philippine Association of Medical Technologists"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Professional Organizations",
+    "question": "PASMETH stands for:",
+    "choices": ["Philippine Association of Schools of Medical Technology and Public Health", "Philippine Academy of Schools of Medical Technology", "Philippine Alliance of Schools", "Professional Academy of Schools"],
+    "answer": "Philippine Association of Schools of Medical Technology and Public Health"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 4688",
+    "question": "RA 4688 is also known as:",
+    "choices": ["The Blood Banking Law", "The Clinical Laboratory Law", "The HIV/AIDS Law", "The Sanitation Code"],
+    "answer": "The Clinical Laboratory Law"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Ethics",
+    "question": "The MedTech Code of Ethics was written by:",
+    "choices": ["Crisanto Almario", "Dr. Nardito Moraleta", "Dr. Gustavo Reyes", "Charlemagne Tamondong"],
+    "answer": "Dr. Nardito Moraleta"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Ethics",
+    "question": "Who was the first president of PAMET?",
+    "choices": ["Nardito Moraleta", "Charlemagne Tamondong", "Felix Asprer", "Bernardo Tabaosares"],
+    "answer": "Charlemagne Tamondong"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 1517",
+    "question": "RA 1517 is also known as:",
+    "choices": ["The first Blood Banking Law", "The Medical Technology Act", "The Dangerous Drugs Act", "The PRC Law"],
+    "answer": "The first Blood Banking Law"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 7719",
+    "question": "RA 7719 is also known as:",
+    "choices": ["National Blood Service Act of 1994", "Organ Donation Act", "The HIV Act", "The Generics Act"],
+    "answer": "National Blood Service Act of 1994"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 8504",
+    "question": "RA 8504 is also known as:",
+    "choices": ["The Dangerous Drugs Act", "The Philippine AIDS Prevention and Control Act of 1998", "The Organ Donation Act", "The MedTech Law"],
+    "answer": "The Philippine AIDS Prevention and Control Act of 1998"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 9165",
+    "question": "RA 9165 is also known as:",
+    "choices": ["The Dangerous Drugs Act of 2002", "The Blood Banking Law", "The PRC Law", "The Senior Citizens Act"],
+    "answer": "The Dangerous Drugs Act of 2002"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "PRC",
+    "question": "RA 8981 is also known as:",
+    "choices": ["The MedTech Act", "The PRC Modernization Act of 2000", "The Professional Ethics Law", "The Civil Service Act"],
+    "answer": "The PRC Modernization Act of 2000"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "Glutaraldehyde is the fixative of choice for which diagnostic procedure?",
+    "choices": ["H&E staining", "Electron Microscopy", "Frozen section", "Immunohistochemistry"],
+    "answer": "Electron Microscopy"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "How many times the volume of the tissue should the fixative be?",
+    "choices": ["1-2 times", "5 times", "10-20 times", "50 times"],
+    "answer": "10-20 times"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Staining",
+    "question": "Which dye is commonly used for staining acidic components of the cell (like the nucleus)?",
+    "choices": ["Eosin", "Hematoxylin", "Orange G", "Fast Green"],
+    "answer": "Hematoxylin"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Staining",
+    "question": "A 'Regressive' staining method involves:",
+    "choices": ["Staining until the desired intensity is reached", "Overstaining then removing excess dye (differentiation)", "Staining with two dyes at once", "Staining without a mordant"],
+    "answer": "Overstaining then removing excess dye (differentiation)"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Microtomy",
+    "question": "Which microtome is used for cutting paraffin embedded tissues in a routine lab?",
+    "choices": ["Rotary Microtome", "Sliding Microtome", "Rocking Microtome", "Freezing Microtome"],
+    "answer": "Rotary Microtome"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Microtomy",
+    "question": "What is the purpose of the 'Water Bath' in a Histopath lab?",
+    "choices": ["Fixing tissue", "Flattening and expanding paraffin sections", "Staining", "Dehydrating"],
+    "answer": "Flattening and expanding paraffin sections"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Microtomy",
+    "question": "The temperature of the floating out water bath should be:",
+    "choices": ["Room temperature", "37C", "10C below the melting point of wax", "100C"],
+    "answer": "10C below the melting point of wax"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Special Stains",
+    "question": "Prussian Blue is used to detect:",
+    "choices": ["Lipids", "Iron (Hemosiderin)", "Calcium", "Mucin"],
+    "answer": "Iron (Hemosiderin)"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Special Stains",
+    "question": "Masson's Trichrome is used to differentiate muscle from:",
+    "choices": ["Nerves", "Fat", "Collagen", "Bone"],
+    "answer": "Collagen"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Fixation",
+    "question": "Which fixative is recommended for blood smears and cytology?",
+    "choices": ["Formalin", "Methanol", "Xylene", "Acetone"],
+    "answer": "Methanol"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Processing",
+    "question": "If tissue is too brittle, the most likely cause is:",
+    "choices": ["Incomplete fixation", "Prolonged dehydration/clearing", "Incomplete clearing", "Using too much wax"],
+    "answer": "Prolonged dehydration/clearing"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Gregorio's Histopathologic Techniques",
+    "chapter": "Embedding",
+    "question": "What happens if the paraffin wax is overheated (above 60C)?",
+    "choices": ["Nothing", "The tissue becomes too soft", "The tissue becomes brittle and wax loses properties", "The tissue dissolves"],
+    "answer": "The tissue becomes brittle and wax loses properties"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "Ethics",
+    "question": "Who is the 'Father of PAMET'?",
+    "choices": ["Crisanto Almario", "Nardito Moraleta", "Charlemagne Tamondong", "Gustavo Reyes"],
+    "answer": "Crisanto Almario"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Which RA 5527 section defines the 'Practice of Medical Technology'?",
+    "choices": ["Section 1", "Section 2", "Section 13", "Section 29"],
+    "answer": "Section 2"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Who appoints the Board of Medical Technology?",
+    "choices": ["The President of the Philippines", "The Chairman of PRC", "The Secretary of Health", "The CHED Director"],
+    "answer": "The President of the Philippines"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Medical Technology Board Exams are usually held in which months?",
+    "choices": ["January & July", "March & September", "May & November", "June & December"],
+    "answer": "March & September"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "A person who failed the board exam but has a general rating of 70% may be registered as a:",
+    "choices": ["Medical Technologist", "Medical Laboratory Technician", "Phlebotomist", "Pathologist"],
+    "answer": "Medical Laboratory Technician"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "How many times can a person take the board exam?",
+    "choices": ["Only once", "Twice", "Three times (then must take refresher)", "Unlimited"],
+    "answer": "Three times (then must take refresher)"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Which of the following is NOT a major subject in the board exam (20% weight)?",
+    "choices": ["Microbiology", "Clinical Chemistry", "Hematology", "Histopathologic Techniques"],
+    "answer": "Histopathologic Techniques"
+  },
+  {
+    "category": "HTMLE",
+    "source": "Philippine MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "The weight of 'Clinical Microscopy' in the board exam is:",
+    "choices": ["10%", "20%", "15%", "5%"],
+    "answer": "20%"
   }
 ]
