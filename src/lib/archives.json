@@ -3263,5 +3263,165 @@
       "Fetal fibronectin"
     ],
     "answer": "ROM Plus"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 7 Hematopoiesis",
+    "question": "Which of the following organs is the primary site of hematopoiesis between the third and seventh months of fetal development?",
+    "choices": ["Yolk sac", "Liver", "Bone marrow", "Thymus"],
+    "answer": "Liver"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 7 Hematopoiesis",
+    "question": "In a healthy adult, which of the following is the primary site for the production of red blood cells, granulocytes, and platelets?",
+    "choices": ["Spleen", "Liver", "Red Bone Marrow", "Yellow Bone Marrow"],
+    "answer": "Red Bone Marrow"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 8 Erythrocyte Production",
+    "question": "What is the primary cytokine responsible for stimulating the production of erythroid progenitors in the bone marrow in response to hypoxia?",
+    "choices": ["Interleukin-3", "Thrombopoietin", "Erythropoietin", "Granulocyte colony-stimulating factor"],
+    "answer": "Erythropoietin"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 8 Erythrocyte Production",
+    "question": "What is the approximate lifespan of a healthy mature erythrocyte in the peripheral circulation?",
+    "choices": ["10 days", "60 days", "120 days", "180 days"],
+    "answer": "120 days"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 10 Hemoglobin Metabolism",
+    "question": "The Rappoport-Luebering pathway is unique to erythrocytes and produces 2,3-BPG. What is the effect of increased 2,3-BPG on the oxygen dissociation curve?",
+    "choices": ["Shifts to the left (increases O2 affinity)", "Shifts to the right (decreases O2 affinity)", "No effect on oxygen affinity", "Stabilizes methemoglobin"],
+    "answer": "Shifts to the right (decreases O2 affinity)"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 11 Iron Metabolism",
+    "question": "Which of the following proteins is responsible for transporting iron in the plasma to the bone marrow for hemoglobin synthesis?",
+    "choices": ["Ferritin", "Hemosiderin", "Transferrin", "Albumin"],
+    "answer": "Transferrin"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 11 Iron Metabolism",
+    "question": "What is the primary physiological storage form of iron in the body, primarily found in the liver and bone marrow?",
+    "choices": ["Transferrin", "Ferritin", "Haptoglobin", "Ferroportin"],
+    "answer": "Ferritin"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 14 RBC Morphology",
+    "question": "Which erythrocyte morphology is characterized by a central area of hemoglobin, a clear ring, and a peripheral rim of hemoglobin, commonly seen in Liver Disease and Thalassemia?",
+    "choices": ["Spherocytes", "Target Cells (Codocytes)", "Schistocytes", "Sickle Cells"],
+    "answer": "Target Cells (Codocytes)"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 14 RBC Morphology",
+    "question": "The presence of basophilic stippling in erythrocytes is most significantly associated with which of the following conditions?",
+    "choices": ["Iron deficiency", "Lead poisoning", "Vitamin B12 deficiency", "Aplastic anemia"],
+    "answer": "Lead poisoning"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 18 Iron Deficiency Anemia",
+    "question": "In classic Iron Deficiency Anemia, which of the following laboratory results is expected?",
+    "choices": ["Low Ferritin, High TIBC", "High Ferritin, Low TIBC", "Low Ferritin, Low TIBC", "High Ferritin, High TIBC"],
+    "answer": "Low Ferritin, High TIBC"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 20 Megaloblastic Anemias",
+    "question": "Megaloblastic anemia is primarily caused by a deficiency in which of the following?",
+    "choices": ["Iron or Copper", "Vitamin B12 or Folate", "Vitamin C or D", "Magnesium or Zinc"],
+    "answer": "Vitamin B12 or Folate"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 20 Megaloblastic Anemias",
+    "question": "Which finding on a peripheral blood smear is diagnostic of megaloblastic anemia?",
+    "choices": ["Microcytic hypochromic cells", "Hypersegmented neutrophils", "Target cells", "Schistocytes"],
+    "answer": "Hypersegmented neutrophils"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 37 Molecular Hemostasis",
+    "question": "Which coagulation factor is unique to the Extrinsic Pathway and initiates the cascade when tissue is injured?",
+    "choices": ["Factor VIII", "Factor IX", "Factor VII", "Factor XII"],
+    "answer": "Factor VII"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 37 Molecular Hemostasis",
+    "question": "Which of the following laboratory tests is used to monitor Oral Anticoagulant Therapy (Warfarin/Coumadin)?",
+    "choices": ["Bleeding Time", "aPTT", "Prothrombin Time (PT/INR)", "Thrombin Time"],
+    "answer": "Prothrombin Time (PT/INR)"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 37 Molecular Hemostasis",
+    "question": "The Activated Partial Thromboplastin Time (aPTT) is primarily used to monitor the effectiveness of which drug?",
+    "choices": ["Warfarin", "Unfractionated Heparin", "Aspirin", "Clopidogrel"],
+    "answer": "Unfractionated Heparin"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 38 Platelet Structure",
+    "question": "Which platelet membrane receptor is responsible for binding to von Willebrand factor (vWF) during platelet adhesion?",
+    "choices": ["GPIIb/IIIa", "GPIb/IX/V", "GPVI", "P2Y12"],
+    "answer": "GPIb/IX/V"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 38 Platelet Structure",
+    "question": "The primary granule of the neutrophil contains which of the following markers, used to identify myeloblasts in AML?",
+    "choices": ["Alkaline Phosphatase", "Myeloperoxidase", "Lactoferrin", "Heparinase"],
+    "answer": "Myeloperoxidase"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 28 Acute Myeloid Leukemia",
+    "question": "The presence of Auer Rods in the cytoplasm of blasts is pathognomonic for which of the following?",
+    "choices": ["Acute Lymphoblastic Leukemia", "Acute Myeloid Leukemia", "Chronic Lymphocytic Leukemia", "Infectious Mononucleosis"],
+    "answer": "Acute Myeloid Leukemia"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 14 RBC Morphology",
+    "question": "Schistocytes are fragmented erythrocytes that are a hallmark of which clinical condition?",
+    "choices": ["Iron Deficiency Anemia", "Microangiopathic Hemolytic Anemia (MAHA)", "Sickle Cell Anemia", "Hereditary Spherocytosis"],
+    "answer": "Microangiopathic Hemolytic Anemia (MAHA)"
+  },
+  {
+    "category": "Hematology",
+    "source": "Rodak's 6th Edition",
+    "chapter": "Chapter 10 Hemoglobin Metabolism",
+    "question": "What is the predominant hemoglobin type in a healthy adult?",
+    "choices": ["Hb F", "Hb A2", "Hb A", "Hb H"],
+    "answer": "Hb A"
   }
 ]
