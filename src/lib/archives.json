@@ -811,6 +811,276 @@
     "answer": "--/-a"
   },
   {
+    "id": "H-091",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Which hemoglobin variant characteristically produces 'bars of gold' or rod-shaped crystals within RBCs?",
+    "choices": ["Hb C", "Hb S", "Hb E", "Hb D"],
+    "answer": "Hb C"
+  },
+  {
+    "id": "H-092",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Crystals that appear 'glove-like' or shaped like the 'Washington Monument' are seen in:",
+    "choices": ["Hb SC Disease", "Hb CC Disease", "Sickle Cell Trait", "Hb H Disease"],
+    "answer": "Hb SC Disease"
+  },
+  {
+    "id": "H-093",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Siderocytes are mature RBCs containing non-hemoglobin iron granules that are visualized with:",
+    "choices": ["Prussian Blue stain", "Wright's stain", "New Methylene Blue", "Sudan Black B"],
+    "answer": "Prussian Blue stain"
+  },
+  {
+    "id": "H-094",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hematopoiesis",
+    "question": "Which organ is the primary source of Erythropoietin (EPO) in adults?",
+    "choices": ["Kidney", "Liver", "Spleen", "Bone Marrow"],
+    "answer": "Kidney"
+  },
+  {
+    "id": "H-095",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Enzymopathies",
+    "question": "G6PD deficiency follows which inheritance pattern?",
+    "choices": ["X-linked recessive", "Autosomal dominant", "Autosomal recessive", "Mitochondrial"],
+    "answer": "X-linked recessive"
+  },
+  {
+    "id": "H-096",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Disorders",
+    "question": "Primary Myelofibrosis is often associated with which bone marrow aspiration finding?",
+    "choices": ["Dry tap", "Hypercellularity", "Blast crisis", "Gelatinous transformation"],
+    "answer": "Dry tap"
+  },
+  {
+    "id": "H-097",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Platelets",
+    "question": "Essential Thrombocythemia is characterized by a sustained platelet count of at least:",
+    "choices": [">450,000 /uL", ">1,000,000 /uL", ">150,000 /uL", ">600,000 /uL"],
+    "answer": ">450,000 /uL"
+  },
+  {
+    "id": "H-098",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Disorders",
+    "question": "Paroxysmal Nocturnal Hemoglobinuria (PNH) is caused by a deficiency in which anchor protein?",
+    "choices": ["GPI anchor", "Spectrin", "Ankyrin", "Band 3"],
+    "answer": "GPI anchor"
+  },
+  {
+    "id": "H-099",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "Which enzyme stain is used to identify Hairy Cell Leukemia?",
+    "choices": ["Tartrate-Resistant Acid Phosphatase (TRAP)", "Myeloperoxidase (MPO)", "Sudan Black B", "Periodic Acid-Schiff (PAS)"],
+    "answer": "Tartrate-Resistant Acid Phosphatase (TRAP)"
+  },
+  {
+    "id": "H-100",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "The 'M-spike' in serum protein electrophoresis is a hallmark of:",
+    "choices": ["Multiple Myeloma", "CLL", "AML", "Hodgkin Lymphoma"],
+    "answer": "Multiple Myeloma"
+  },
+  {
+    "id": "H-101",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "Reed-Sternberg cells ('Owl's eye' appearance) are diagnostic for:",
+    "choices": ["Hodgkin Lymphoma", "Non-Hodgkin Lymphoma", "Burkitt Lymphoma", "Multiple Myeloma"],
+    "answer": "Hodgkin Lymphoma"
+  },
+  {
+    "id": "H-102",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Leukemias",
+    "question": "The 'Starry Sky' pattern in a lymph node biopsy is characteristic of:",
+    "choices": ["Burkitt Lymphoma", "Follicular Lymphoma", "CLL", "ALL"],
+    "answer": "Burkitt Lymphoma"
+  },
+  {
+    "id": "H-103",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "WBC Disorders",
+    "question": "A Leukocyte Alkaline Phosphatase (LAP) score is characteristically ____ in a Leukemoid Reaction.",
+    "choices": ["Increased", "Decreased", "Normal", "Absent"],
+    "answer": "Increased"
+  },
+  {
+    "id": "H-104",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Howell-Jolly bodies are frequently seen in the peripheral blood after which procedure?",
+    "choices": ["Splenectomy", "Appendectomy", "Bone marrow transplant", "Tonsillectomy"],
+    "answer": "Splenectomy"
+  },
+  {
+    "id": "H-105",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Coarse basophilic stippling is a classic finding in which toxic condition?",
+    "choices": ["Lead poisoning", "Iron deficiency", "Vitamin B12 deficiency", "Mercury poisoning"],
+    "answer": "Lead poisoning"
+  },
+  {
+    "id": "H-106",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Heinz bodies are formed by the denaturation of:",
+    "choices": ["Hemoglobin", "DNA", "RNA", "Iron"],
+    "answer": "Hemoglobin"
+  },
+  {
+    "id": "H-107",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Pappenheimer bodies are primarily found in which type of anemia?",
+    "choices": ["Sideroblastic anemia", "Iron deficiency anemia", "Pernicious anemia", "Sickle cell anemia"],
+    "answer": "Sideroblastic anemia"
+  },
+  {
+    "id": "H-108",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "RBC Morphology",
+    "question": "Cabot rings are believed to be remnants of:",
+    "choices": ["Mitotic spindle", "Nucleus", "Ribosomes", "Mitochondria"],
+    "answer": "Mitotic spindle"
+  },
+  {
+    "id": "H-109",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Active Thrombin is also known as Factor:",
+    "choices": ["IIa", "Xa", "IXa", "VIIa"],
+    "answer": "IIa"
+  },
+  {
+    "id": "H-110",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Fibrinogen is also known as Factor:",
+    "choices": ["I", "II", "III", "IV"],
+    "answer": "I"
+  },
+  {
+    "id": "H-111",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Which factors are known as the 'Labile Factors' because they deteriorate quickly at room temperature?",
+    "choices": ["V and VIII", "II and VII", "IX and X", "XI and XII"],
+    "answer": "V and VIII"
+  },
+  {
+    "id": "H-112",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Which coagulation group consists of Factors XI, XII, Prekallikrein (PK), and HMWK?",
+    "choices": ["Contact Group", "Prothrombin Group", "Fibrinogen Group", "Inhibitor Group"],
+    "answer": "Contact Group"
+  },
+  {
+    "id": "H-113",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Which coagulation group is Vitamin K dependent and includes Factors II, VII, IX, and X?",
+    "choices": ["Prothrombin Group", "Fibrinogen Group", "Contact Group", "Regulatory Group"],
+    "answer": "Prothrombin Group"
+  },
+  {
+    "id": "H-114",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Which coagulation group is consumed during the clotting process and includes Factors I, V, VIII, and XIII?",
+    "choices": ["Fibrinogen Group", "Prothrombin Group", "Contact Group", "Serine Protease Group"],
+    "answer": "Fibrinogen Group"
+  },
+  {
+    "id": "H-115",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Which protein is the primary natural inhibitor of Thrombin and Factor Xa?",
+    "choices": ["Antithrombin III", "Protein C", "Protein S", "Heparin Cofactor II"],
+    "answer": "Antithrombin III"
+  },
+  {
+    "id": "H-116",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Protein C is a Vitamin K dependent natural anticoagulant that inactivates which factors?",
+    "choices": ["Va and VIIIa", "Xa and IIa", "IXa and XIa", "XIIa and HMWK"],
+    "answer": "Va and VIIIa"
+  },
+  {
+    "id": "H-117",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "Which test is used to measure fibrinogen conversion to fibrin and is NOT affected by therapeutic Heparin?",
+    "choices": ["Reptilase Time", "Thrombin Time", "aPTT", "Prothrombin Time"],
+    "answer": "Reptilase Time"
+  },
+  {
+    "id": "H-118",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "In a mixing study, if the prolonged aPTT is corrected by adding normal pooled plasma, it indicates:",
+    "choices": ["Factor deficiency", "Inhibitor presence", "Lupus anticoagulant", "Normal result"],
+    "answer": "Factor deficiency"
+  },
+  {
+    "id": "H-119",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "In a mixing study, if the prolonged aPTT is NOT corrected by normal pooled plasma, it indicates:",
+    "choices": ["Presence of an inhibitor", "Factor deficiency", "Vitamin K deficiency", "Warfarin therapy"],
+    "answer": "Presence of an inhibitor"
+  },
+  {
+    "id": "H-120",
+    "category": "Hematology",
+    "source": "Rodak's Clinical Hematology",
+    "chapter": "Hemostasis",
+    "question": "The 5M Urea solubility test is used to screen for a deficiency in which factor?",
+    "choices": ["Factor XIII", "Factor VIII", "Factor IX", "Factor XII"],
+    "answer": "Factor XIII"
+  },
+  {
     "id": "C-001",
     "category": "Clinical Chemistry",
     "source": "Bishop's Clinical Chemistry",
@@ -1619,6 +1889,276 @@
     "question": "Epinephrine and Norepinephrine are metabolites of:",
     "choices": ["Tyrosine", "Tryptophan", "Glucose", "Cholesterol"],
     "answer": "Tyrosine"
+  },
+  {
+    "id": "C-091",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "What is the standard formula for calculating serum Osmolality?",
+    "choices": ["2[Na] + Glucose/18 + BUN/2.8", "Na + K + Cl + HCO3", "[Na + K] - [Cl + HCO3]", "Glucose + BUN + Na"],
+    "answer": "2[Na] + Glucose/18 + BUN/2.8"
+  },
+  {
+    "id": "C-092",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "The Osmolal Gap is the difference between:",
+    "choices": ["Measured and Calculated Osmolality", "Sodium and Potassium", "Anion and Cation sum", "Urine and Serum Osmolality"],
+    "answer": "Measured and Calculated Osmolality"
+  },
+  {
+    "id": "C-093",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Acid-Base",
+    "question": "The acronym MUDPILES is used to remember the causes of:",
+    "choices": ["High Anion Gap Metabolic Acidosis", "Normal Anion Gap Acidosis", "Metabolic Alkalosis", "Respiratory Acidosis"],
+    "answer": "High Anion Gap Metabolic Acidosis"
+  },
+  {
+    "id": "C-094",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "Which electrolyte is the major extracellular cation responsible for maintaining osmotic pressure?",
+    "choices": ["Sodium", "Potassium", "Chloride", "Bicarbonate"],
+    "answer": "Sodium"
+  },
+  {
+    "id": "C-095",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "Which electrolyte is the major intracellular cation?",
+    "choices": ["Potassium", "Sodium", "Calcium", "Magnesium"],
+    "answer": "Potassium"
+  },
+  {
+    "id": "C-096",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "Which electrolyte is the major extracellular anion?",
+    "choices": ["Chloride", "Bicarbonate", "Phosphate", "Sulfate"],
+    "answer": "Chloride"
+  },
+  {
+    "id": "C-097",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Acid-Base",
+    "question": "In clinical chemistry, the 'Total CO2' measurement is primarily a measure of:",
+    "choices": ["Bicarbonate (HCO3)", "Dissolved CO2 gas", "Carbonic acid", "Carbamino compounds"],
+    "answer": "Bicarbonate (HCO3)"
+  },
+  {
+    "id": "C-098",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "Which form of calcium is biologically active and tightly regulated by PTH?",
+    "choices": ["Ionized Calcium", "Protein-bound Calcium", "Complexed Calcium", "Total Calcium"],
+    "answer": "Ionized Calcium"
+  },
+  {
+    "id": "C-099",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "Which element is found at the center of the chlorophyll molecule and is the second most abundant intracellular cation?",
+    "choices": ["Magnesium", "Iron", "Copper", "Zinc"],
+    "answer": "Magnesium"
+  },
+  {
+    "id": "C-100",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Electrolytes",
+    "question": "In the body, serum phosphate levels generally have an ____ relationship with serum calcium.",
+    "choices": ["Inverse", "Direct", "Linear", "No relationship"],
+    "answer": "Inverse"
+  },
+  {
+    "id": "C-101",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Endocrinology",
+    "question": "Parathyroid Hormone (PTH) acts to:",
+    "choices": ["Increase Calcium and Decrease Phosphate", "Decrease Calcium and Increase Phosphate", "Increase both Calcium and Phosphate", "Decrease both Calcium and Phosphate"],
+    "answer": "Increase Calcium and Decrease Phosphate"
+  },
+  {
+    "id": "C-102",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Endocrinology",
+    "question": "Calcitonin is a thyroid hormone that acts to:",
+    "choices": ["Lower blood calcium levels", "Raise blood calcium levels", "Lower blood glucose", "Raise blood pressure"],
+    "answer": "Lower blood calcium levels"
+  },
+  {
+    "id": "C-103",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Vitamins",
+    "question": "Which of the following is the most biologically active form of Vitamin D?",
+    "choices": ["1,25-dihydroxyvitamin D", "25-hydroxyvitamin D", "Ergocalciferol (D2)", "Cholecalciferol (D3)"],
+    "answer": "1,25-dihydroxyvitamin D"
+  },
+  {
+    "id": "C-104",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Renal Function",
+    "question": "The Berthelot reaction is a classic colorimetric method for measuring ____ after it is converted by urease.",
+    "choices": ["BUN (Ammonia)", "Creatinine", "Uric Acid", "Glucose"],
+    "answer": "BUN (Ammonia)"
+  },
+  {
+    "id": "C-105",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Renal Function",
+    "question": "The Jaffe reaction for creatinine measurement uses which primary reagent?",
+    "choices": ["Alkaline Picrate", "Phosphotungstic acid", "Diacetyl monoxime", "Copper sulfate"],
+    "answer": "Alkaline Picrate"
+  },
+  {
+    "id": "C-106",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Organ Panels",
+    "question": "The phosphotungstic acid method is used to measure:",
+    "choices": ["Uric Acid", "Creatinine", "BUN", "Bilirubin"],
+    "answer": "Uric Acid"
+  },
+  {
+    "id": "C-107",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Liver Function",
+    "question": "High levels of which analyte are specifically neurotoxic and associated with Hepatic Encephalopathy?",
+    "choices": ["Ammonia", "Bilirubin", "ALT", "Albumin"],
+    "answer": "Ammonia"
+  },
+  {
+    "id": "C-108",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Liver Function",
+    "question": "The Evelyn-Malloy method for bilirubin measurement uses which solvent to measure total bilirubin?",
+    "choices": ["Methanol", "Caffeine-sodium benzoate", "Acetone", "Distilled water"],
+    "answer": "Methanol"
+  },
+  {
+    "id": "C-109",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Liver Function",
+    "question": "The Jendrassik-Grof method for bilirubin measurement uses which accelerator?",
+    "choices": ["Caffeine-sodium benzoate", "Methanol", "Acetic acid", "Sodium hydroxide"],
+    "answer": "Caffeine-sodium benzoate"
+  },
+  {
+    "id": "C-110",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Proteins",
+    "question": "Which dye-binding method is the most common for measuring Albumin?",
+    "choices": ["Bromcresol Green (BCG)", "Biuret", "Coomassie Blue", "Ponceau S"],
+    "answer": "Bromcresol Green (BCG)"
+  },
+  {
+    "id": "C-111",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Proteins",
+    "question": "The Biuret reaction for total protein measurement is based on the complexing of copper with:",
+    "choices": ["Peptide bonds", "Tyrosine residues", "Free amino acids", "Nitrogen"],
+    "answer": "Peptide bonds"
+  },
+  {
+    "id": "C-112",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Proteins",
+    "question": "How is the Globulin fraction calculated in a routine protein profile?",
+    "choices": ["Total Protein - Albumin", "Albumin / Total Protein", "Albumin + Fibrinogen", "Total Protein / Albumin"],
+    "answer": "Total Protein - Albumin"
+  },
+  {
+    "id": "C-113",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "Which CK isoenzyme is most specific for cardiac muscle damage?",
+    "choices": ["CK-MB", "CK-MM", "CK-BB", "CK-Mi"],
+    "answer": "CK-MB"
+  },
+  {
+    "id": "C-114",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "Which CK isoenzyme is found primarily in skeletal muscle?",
+    "choices": ["CK-MM", "CK-MB", "CK-BB", "CK-1"],
+    "answer": "CK-MM"
+  },
+  {
+    "id": "C-115",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "Which CK isoenzyme is found primarily in brain tissue?",
+    "choices": ["CK-BB", "CK-MB", "CK-MM", "CK-3"],
+    "answer": "CK-BB"
+  },
+  {
+    "id": "C-116",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "An 'LD Flip' where LD1 becomes greater than LD2 is characteristic of which condition?",
+    "choices": ["Myocardial Infarction", "Liver Disease", "Skeletal Muscle Trauma", "Renal Failure"],
+    "answer": "Myocardial Infarction"
+  },
+  {
+    "id": "C-117",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "AST was formerly known as which transaminase?",
+    "choices": ["SGOT", "SGPT", "GGT", "ALP"],
+    "answer": "SGOT"
+  },
+  {
+    "id": "C-118",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "ALT was formerly known as which transaminase?",
+    "choices": ["SGPT", "SGOT", "LDH", "CK"],
+    "answer": "SGPT"
+  },
+  {
+    "id": "C-119",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "Marked elevations in Alkaline Phosphatase (ALP) are typically associated with which organ systems?",
+    "choices": ["Bone and Liver (Obstruction)", "Heart and Kidney", "Muscle and Brain", "Pancreas and Lung"],
+    "answer": "Bone and Liver (Obstruction)"
+  },
+  {
+    "id": "C-120",
+    "category": "Clinical Chemistry",
+    "source": "Bishop's Clinical Chemistry",
+    "chapter": "Enzymes",
+    "question": "Which enzyme is the most sensitive marker for detecting chronic alcoholism and biliary stasis?",
+    "choices": ["GGT", "AST", "ALT", "LDH"],
+    "answer": "GGT"
   },
   {
     "id": "M-001",
@@ -2431,6 +2971,276 @@
     "answer": "S. agalactiae (Group B)"
   },
   {
+    "id": "M-091",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "In a Triple Sugar Iron (TSI) agar, an alkaline slant and alkaline butt (K/K) indicates that the organism is a:",
+    "choices": ["Non-fermenter", "Glucose fermenter only", "Lactose and sucrose fermenter", "H2S producer only"],
+    "answer": "Non-fermenter"
+  },
+  {
+    "id": "M-092",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "In a TSI agar, an alkaline slant and acid butt (K/A) indicates:",
+    "choices": ["Glucose fermentation only", "Lactose fermentation only", "All sugars fermented", "No fermentation"],
+    "answer": "Glucose fermentation only"
+  },
+  {
+    "id": "M-093",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "In a TSI agar, an acid slant and acid butt (A/A) indicates fermentation of:",
+    "choices": ["Glucose and Lactose or Sucrose", "Glucose only", "Lactose only", "None of the above"],
+    "answer": "Glucose and Lactose or Sucrose"
+  },
+  {
+    "id": "M-094",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "In Lysine Iron Agar (LIA), a purple slant and purple butt (K/K) indicates:",
+    "choices": ["Lysine Decarboxylation positive", "Lysine Deamination positive", "Hydrogen sulfide production", "Glucose fermentation only"],
+    "answer": "Lysine Decarboxylation positive"
+  },
+  {
+    "id": "M-095",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "In LIA, a purple slant and yellow butt (K/A) indicates:",
+    "choices": ["Lysine Decarboxylation negative, Glucose fermentation only", "Lysine Decarboxylation positive", "Lysine Deamination positive", "Non-fermenter"],
+    "answer": "Lysine Decarboxylation negative, Glucose fermentation only"
+  },
+  {
+    "id": "M-096",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "In LIA, a red slant and yellow butt (R/A) indicates:",
+    "choices": ["Lysine Deamination positive", "Lysine Decarboxylation positive", "Lactose fermentation", "Indole production"],
+    "answer": "Lysine Deamination positive"
+  },
+  {
+    "id": "M-097",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "Which color indicates a positive result in the Simmon's Citrate utilization test?",
+    "choices": ["Blue", "Green", "Pink", "Yellow"],
+    "answer": "Blue"
+  },
+  {
+    "id": "M-098",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "Using Kovac's reagent, which color indicates a positive result for Indole production?",
+    "choices": ["Red ring", "Yellow ring", "Purple ring", "Green ring"],
+    "answer": "Red ring"
+  },
+  {
+    "id": "M-099",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "The Methyl Red (MR) test is used to detect:",
+    "choices": ["Mixed acid fermentation", "Acetoin production", "Indole production", "Citrate usage"],
+    "answer": "Mixed acid fermentation"
+  },
+  {
+    "id": "M-100",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "The Voges-Proskauer (VP) test is used to detect:",
+    "choices": ["Acetoin (acetyl-methyl-carbinol)", "Mixed acid products", "Ammonia", "Hydrogen sulfide"],
+    "answer": "Acetoin (acetyl-methyl-carbinol)"
+  },
+  {
+    "id": "M-101",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "Which color indicates a positive result in the Urease test?",
+    "choices": ["Bright pink", "Yellow", "Orange", "Light green"],
+    "answer": "Bright pink"
+  },
+  {
+    "id": "M-102",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "A positive Phenylalanine Deaminase (PDA) test is indicated by which color after adding 10% Ferric Chloride?",
+    "choices": ["Green", "Blue", "Red", "Black"],
+    "answer": "Green"
+  },
+  {
+    "id": "M-103",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "The ONPG test is used to detect late or slow fermenters of which carbohydrate?",
+    "choices": ["Lactose", "Sucrose", "Maltose", "Xylose"],
+    "answer": "Lactose"
+  },
+  {
+    "id": "M-104",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "Hydrogen sulfide production in media like TSI or LIA is indicated by:",
+    "choices": ["Blackening of the medium", "Yellowing of the medium", "Gas bubbles", "Liquid formation"],
+    "answer": "Blackening of the medium"
+  },
+  {
+    "id": "M-105",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "In a semi-solid motility medium, a positive result is indicated by:",
+    "choices": ["Cloudy growth radiating from the stab line", "Growth only along the stab line", "Color change to red", "Formation of gas"],
+    "answer": "Cloudy growth radiating from the stab line"
+  },
+  {
+    "id": "M-106",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "Gelatin hydrolysis is considered positive when the medium becomes ____ after refrigeration.",
+    "choices": ["Liquid", "Solid", "Cloudy", "Yellow"],
+    "answer": "Liquid"
+  },
+  {
+    "id": "M-107",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "A positive nitrate reduction test is indicated by which color after adding Reagent A and B?",
+    "choices": ["Red", "Colorless", "Yellow", "Blue"],
+    "answer": "Red"
+  },
+  {
+    "id": "M-108",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "The Oxidase test detects the presence of cytochrome oxidase using which color-changing reagent?",
+    "choices": ["Tetramethyl-p-phenylenediamine", "Hydrogen peroxide", "Kovac's reagent", "Methyl red"],
+    "answer": "Tetramethyl-p-phenylenediamine"
+  },
+  {
+    "id": "M-109",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Bacteriology",
+    "question": "The Catalase test is considered positive when which observation occurs after adding 3% H2O2?",
+    "choices": ["Rapid effervescence (bubbles)", "Color change to blue", "Clumping of cells", "Precipitation"],
+    "answer": "Rapid effervescence (bubbles)"
+  },
+  {
+    "id": "M-110",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Optochin (ethylhydrocupreine hydrochloride) susceptibility is used to identify which pathogen?",
+    "choices": ["Streptococcus pneumoniae", "Streptococcus pyogenes", "Staphylococcus aureus", "Enterococcus"],
+    "answer": "Streptococcus pneumoniae"
+  },
+  {
+    "id": "M-111",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Bacitracin susceptibility (A-disc) is primarily used for the presumptive identification of:",
+    "choices": ["Group A Streptococcus", "Group B Streptococcus", "S. pneumoniae", "Micrococcus"],
+    "answer": "Group A Streptococcus"
+  },
+  {
+    "id": "M-112",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "Resistance to Novobiocin is a key feature used to identify:",
+    "choices": ["Staphylococcus saprophyticus", "Staphylococcus aureus", "Staphylococcus epidermidis", "Micrococcus"],
+    "answer": "Staphylococcus saprophyticus"
+  },
+  {
+    "id": "M-113",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "The CAMP test produces an arrowhead-shaped zone of hemolysis when which organism is tested with S. aureus?",
+    "choices": ["Group B Streptococcus (S. agalactiae)", "Group A Streptococcus", "Enterococcus", "Listeria"],
+    "answer": "Group B Streptococcus (S. agalactiae)"
+  },
+  {
+    "id": "M-114",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Cocci",
+    "question": "The Bile Solubility test relies on the activation of autolytic enzymes to dissolve colonies of:",
+    "choices": ["Streptococcus pneumoniae", "Viridans Streptococci", "Enterococcus", "S. pyogenes"],
+    "answer": "Streptococcus pneumoniae"
+  },
+  {
+    "id": "M-115",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Satellitism refers to the growth of fastidious Haemophilus species around colonies of:",
+    "choices": ["Staphylococcus aureus", "E. coli", "Candida", "Streptococcus"],
+    "answer": "Staphylococcus aureus"
+  },
+  {
+    "id": "M-116",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Haemophilus influenzae requires which combination of growth factors?",
+    "choices": ["Both X and V factors", "X factor only", "V factor only", "Neither factor"],
+    "answer": "Both X and V factors"
+  },
+  {
+    "id": "M-117",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Haemophilus parainfluenzae is differentiated from H. influenzae because it requires only:",
+    "choices": ["V factor (NAD)", "X factor (Hemin)", "Cysteine", "Factor XIII"],
+    "answer": "V factor (NAD)"
+  },
+  {
+    "id": "M-118",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Which Haemophilus species is the causative agent of the soft chancre (Chancroid) and appears as a 'school of fish'?",
+    "choices": ["H. ducreyi", "H. influenzae", "H. aegyptius", "H. aphrophilus"],
+    "answer": "H. ducreyi"
+  },
+  {
+    "id": "M-119",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Special Groups",
+    "question": "Vibrio cholerae appears as which color on TCBS agar due to sucrose fermentation?",
+    "choices": ["Yellow", "Green", "Black", "Colorless"],
+    "answer": "Yellow"
+  },
+  {
+    "id": "M-120",
+    "category": "Microbiology",
+    "source": "Bailey & Scott's Diagnostic Microbiology",
+    "chapter": "Enterobacteriaceae",
+    "question": "Yersinia enterocolitica produces characteristic 'Bull's eye' colonies on which selective agar?",
+    "choices": ["CIN agar", "TCBS agar", "XLD agar", "HE agar"],
+    "answer": "CIN agar"
+  },
+  {
     "id": "I-001",
     "category": "Immuno-Serology",
     "source": "Stevens' Clinical Immunology",
@@ -3241,6 +4051,276 @@
     "answer": "Ankylosing Spondylitis"
   },
   {
+    "id": "I-091",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Anaphylaxis and allergic asthma are examples of which hypersensitivity type?",
+    "choices": ["Type I", "Type II", "Type III", "Type IV"],
+    "answer": "Type I"
+  },
+  {
+    "id": "I-092",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Transfusion reactions and Goodpasture's syndrome are examples of which hypersensitivity type?",
+    "choices": ["Type II", "Type I", "Type III", "Type IV"],
+    "answer": "Type II"
+  },
+  {
+    "id": "I-093",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "Systemic Lupus Erythematosus (SLE) tissue damage is primarily a result of which hypersensitivity?",
+    "choices": ["Type III", "Type I", "Type II", "Type IV"],
+    "answer": "Type III"
+  },
+  {
+    "id": "I-094",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Hypersensitivity",
+    "question": "The Tuberculin (Mantoux) skin test is an example of which hypersensitivity type?",
+    "choices": ["Type IV", "Type I", "Type II", "Type III"],
+    "answer": "Type IV"
+  },
+  {
+    "id": "I-095",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "The Recognition Unit of the classical complement pathway is composed of:",
+    "choices": ["C1q, C1r, C1s", "C4, C2, C3", "C5, C6, C7", "Factor B and D"],
+    "answer": "C1q, C1r, C1s"
+  },
+  {
+    "id": "I-096",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "What is the C3 Convertase of the classical complement pathway?",
+    "choices": ["C4b2a", "C3bBb", "C4b2a3b", "C5b67"],
+    "answer": "C4b2a"
+  },
+  {
+    "id": "I-097",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "What is the C5 Convertase of the classical complement pathway?",
+    "choices": ["C4b2a3b", "C4b2a", "C3bBb3b", "C1qrs"],
+    "answer": "C4b2a3b"
+  },
+  {
+    "id": "I-098",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Complement",
+    "question": "The Membrane Attack Complex (MAC) that leads to cell lysis consists of:",
+    "choices": ["C5b, C6, C7, C8, C9", "C1, C2, C3, C4", "C3a, C4a, C5a", "Properdin and Factor B"],
+    "answer": "C5b, C6, C7, C8, C9"
+  },
+  {
+    "id": "I-099",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "The HLA-B27 antigen is strongly associated with which condition?",
+    "choices": ["Ankylosing Spondylitis", "Rheumatoid Arthritis", "Graves Disease", "Multiple Sclerosis"],
+    "answer": "Ankylosing Spondylitis"
+  },
+  {
+    "id": "I-100",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "The HLA-DR4 antigen is associated with an increased risk of:",
+    "choices": ["Rheumatoid Arthritis", "SLE", "Diabetes Mellitus Type 1", "Narcolepsy"],
+    "answer": "Rheumatoid Arthritis"
+  },
+  {
+    "id": "I-101",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "HLA-B8 is frequently found in patients with:",
+    "choices": ["Graves Disease", "Ankylosing Spondylitis", "Psoriasis", "Celiac Disease"],
+    "answer": "Graves Disease"
+  },
+  {
+    "id": "I-102",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "MHC Class I molecules are expressed on:",
+    "choices": ["All nucleated cells", "Only B cells", "Only macrophages", "Only RBCs"],
+    "answer": "All nucleated cells"
+  },
+  {
+    "id": "I-103",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "MHC",
+    "question": "MHC Class II molecules are primarily expressed on:",
+    "choices": ["Antigen Presenting Cells (B cells, Macs, DCs)", "All nucleated cells", "Neutrophils only", "Platelets"],
+    "answer": "Antigen Presenting Cells (B cells, Macs, DCs)"
+  },
+  {
+    "id": "I-104",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells",
+    "question": "The CD4 marker is the primary surface protein for which cell type?",
+    "choices": ["Helper T cells", "Cytotoxic T cells", "B cells", "NK cells"],
+    "answer": "Helper T cells"
+  },
+  {
+    "id": "I-105",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells",
+    "question": "The CD8 marker is the primary surface protein for which cell type?",
+    "choices": ["Cytotoxic T cells", "Helper T cells", "Regulatory T cells", "Plasma cells"],
+    "answer": "Cytotoxic T cells"
+  },
+  {
+    "id": "I-106",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells",
+    "question": "CD19 and CD20 are markers used to identify which cell lineage?",
+    "choices": ["B cells", "T cells", "Monocytes", "Granulocytes"],
+    "answer": "B cells"
+  },
+  {
+    "id": "I-107",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells",
+    "question": "Which CD marker is part of the T-cell receptor (TCR) complex and is found on all mature T cells?",
+    "choices": ["CD3", "CD4", "CD8", "CD19"],
+    "answer": "CD3"
+  },
+  {
+    "id": "I-108",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells",
+    "question": "CD16 and CD56 are markers typically used to identify:",
+    "choices": ["Natural Killer (NK) cells", "Helper T cells", "B cells", "Macrophages"],
+    "answer": "Natural Killer (NK) cells"
+  },
+  {
+    "id": "I-109",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells",
+    "question": "The CD14 marker is highly characteristic of which cell type?",
+    "choices": ["Monocytes", "Lymphocytes", "Eosinophils", "Platelets"],
+    "answer": "Monocytes"
+  },
+  {
+    "id": "I-110",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Cells",
+    "question": "Which CD marker is used to identify and isolate hematopoietic stem cells?",
+    "choices": ["CD34", "CD45", "CD10", "CD117"],
+    "answer": "CD34"
+  },
+  {
+    "id": "I-111",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Inflammation",
+    "question": "The primary role of C-Reactive Protein (CRP) in the immune system is:",
+    "choices": ["Opsonization and complement activation", "Antibody production", "Histamine release", "Viral neutralization"],
+    "answer": "Opsonization and complement activation"
+  },
+  {
+    "id": "I-112",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Rheumatoid Factor (RF) is typically an IgM antibody directed against the ____ portion of IgG.",
+    "choices": ["Fc", "Fab", "Variable", "Hinge"],
+    "answer": "Fc"
+  },
+  {
+    "id": "I-113",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Which autoantibody is considered the most specific marker for Systemic Lupus Erythematosus (SLE)?",
+    "choices": ["Anti-Smith (Anti-Sm)", "Anti-dsDNA", "Anti-histone", "Anti-Ro"],
+    "answer": "Anti-Smith (Anti-Sm)"
+  },
+  {
+    "id": "I-114",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Which SLE autoantibody level is closely monitored to track disease activity and renal involvement?",
+    "choices": ["Anti-dsDNA", "Anti-nuclear antibody (ANA)", "Anti-Sm", "Anti-RNP"],
+    "answer": "Anti-dsDNA"
+  },
+  {
+    "id": "I-115",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-Ro (SSA) and Anti-La (SSB) are autoantibodies primarily associated with:",
+    "choices": ["Sjogren's Syndrome", "Scleroderma", "Rheumatoid Arthritis", "Drug-induced SLE"],
+    "answer": "Sjogren's Syndrome"
+  },
+  {
+    "id": "I-116",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-Scl-70 (anti-topoisomerase I) is a characteristic marker for:",
+    "choices": ["Diffuse systemic sclerosis (Scleroderma)", "CREST syndrome", "SLE", "MCTD"],
+    "answer": "Diffuse systemic sclerosis (Scleroderma)"
+  },
+  {
+    "id": "I-117",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-Jo-1 is an autoantibody commonly found in patients with:",
+    "choices": ["Polymyositis / Dermatomyositis", "SLE", "RA", "Sjogren's"],
+    "answer": "Polymyositis / Dermatomyositis"
+  },
+  {
+    "id": "I-118",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Anti-TPO (Thyroid Peroxidase) antibodies are highly characteristic of which condition?",
+    "choices": ["Hashimoto's Thyroiditis", "Graves' Disease", "Cushing's Syndrome", "Addison's Disease"],
+    "answer": "Hashimoto's Thyroiditis"
+  },
+  {
+    "id": "I-119",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Autoimmunity",
+    "question": "Which autoantibody is highly specific for Rheumatoid Arthritis and can be detected early in the disease?",
+    "choices": ["Anti-CCP", "Rheumatoid Factor", "ANA", "Anti-dsDNA"],
+    "answer": "Anti-CCP"
+  },
+  {
+    "id": "I-120",
+    "category": "Immuno-Serology",
+    "source": "Stevens' Clinical Immunology",
+    "chapter": "Serology Tests",
+    "question": "The VDRL test for syphilis is based on which immunological principle?",
+    "choices": ["Microscopic Flocculation", "Direct Agglutination", "Hemagglutination", "Precipitation in gel"],
+    "answer": "Microscopic Flocculation"
+  },
+  {
     "id": "L-001",
     "category": "HTMLE",
     "source": "Gregorio's Histopath",
@@ -3552,7 +4632,7 @@
     "source": "Gregorio's Histopath",
     "chapter": "Fixation",
     "question": "Potassium Dichromate is a fixative component that is especially useful for:",
-    "choices": ["Mitochondria and Golgi apparatus", "DNA only", "Lipids only", "Large bone fragments"],
+    "choices": ["Mitochond mitochondria and Golgi apparatus", "DNA only", "Lipids only", "Large bone fragments"],
     "answer": "Mitochondria and Golgi apparatus"
   },
   {
@@ -4051,6 +5131,276 @@
     "answer": "Professional Regulation Commission (PRC)"
   },
   {
+    "id": "L-091",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Fixation",
+    "question": "Which fixative is recommended for preserving carbohydrates, especially glycogen, and contains picric acid?",
+    "choices": ["Gendre's fluid", "Carnoy's fluid", "Newcomer's fluid", "10% NBF"],
+    "answer": "Gendre's fluid"
+  },
+  {
+    "id": "L-092",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Fixation",
+    "question": "Which fixative is considered the fastest for urgent biopsies and contains absolute alcohol, chloroform, and glacial acetic acid?",
+    "choices": ["Carnoy's fluid", "Zenker's fluid", "Bouin's fluid", "Heidenhain's Susa"],
+    "answer": "Carnoy's fluid"
+  },
+  {
+    "id": "L-093",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Fixation",
+    "question": "Which fixative is recommended for preserving chromatin and DNA, and contains mercuric chloride?",
+    "choices": ["Heidenhain's Susa", "Flemming's fluid", "Zenker's fluid", "Bouin's fluid"],
+    "answer": "Heidenhain's Susa"
+  },
+  {
+    "id": "L-094",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Fixation",
+    "question": "Which fixative is specifically used for the preservation of mucopolysaccharides?",
+    "choices": ["Lead fixatives (e.g. 4% Basic Lead Acetate)", "Orth's fluid", "Regaud's fluid", "Formalin-Ammonium-Bromide"],
+    "answer": "Lead fixatives (e.g. 4% Basic Lead Acetate)"
+  },
+  {
+    "id": "L-095",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Processing",
+    "question": "What is the primary disadvantage of using Acetone as a dehydrating agent?",
+    "choices": ["It causes excessive shrinkage and brittleness", "It is very expensive", "It works very slowly", "It is not miscible with xylene"],
+    "answer": "It causes excessive shrinkage and brittleness"
+  },
+  {
+    "id": "L-096",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Processing",
+    "question": "Which dehydrating agent is considered the best for routine purposes?",
+    "choices": ["Ethyl Alcohol", "Methyl Alcohol", "Butyl Alcohol", "Isopyl Alcohol"],
+    "answer": "Ethyl Alcohol"
+  },
+  {
+    "id": "L-097",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Processing",
+    "question": "Which clearing agent is considered the most rapid but also the most flammable?",
+    "choices": ["Benzene", "Xylene", "Chloroform", "Cedarwood Oil"],
+    "answer": "Benzene"
+  },
+  {
+    "id": "L-098",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Processing",
+    "question": "Which clearing agent is recommended for clearing embryos and delicate tissues?",
+    "choices": ["Cedarwood Oil", "Xylene", "Toluene", "Chloroform"],
+    "answer": "Cedarwood Oil"
+  },
+  {
+    "id": "L-099",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Processing",
+    "question": "The presence of water in the clearing agent (e.g. Xylene) is indicated by which observation?",
+    "choices": ["Milky or cloudy appearance", "Color change to yellow", "Precipitation", "Formation of bubbles"],
+    "answer": "Milky or cloudy appearance"
+  },
+  {
+    "id": "L-100",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Microtomy",
+    "question": "What is the bevel angle of a standard microtome knife?",
+    "choices": ["27 to 32 degrees", "15 degrees", "45 degrees", "10 degrees"],
+    "answer": "27 to 32 degrees"
+  },
+  {
+    "id": "L-101",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Microtomy",
+    "question": "What is the recommended clearance angle for most microtome operations?",
+    "choices": ["5 to 10 degrees", "0 degrees", "20 degrees", "30 degrees"],
+    "answer": "5 to 10 degrees"
+  },
+  {
+    "id": "L-102",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Microtomy",
+    "question": "Which type of microtome knife is most commonly used for cutting paraffin-embedded tissues?",
+    "choices": ["Biconcave knife", "Plano-concave knife", "Wedge-shaped knife", "Chisel-shaped knife"],
+    "answer": "Biconcave knife"
+  },
+  {
+    "id": "L-103",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Staining",
+    "question": "In H&E staining, what is the purpose of the 'Acid Alcohol' step?",
+    "choices": ["Differentiation (removal of excess Hematoxylin)", "Blueing", "Dehydration", "Fixation"],
+    "answer": "Differentiation (removal of excess Hematoxylin)"
+  },
+  {
+    "id": "L-104",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Staining",
+    "question": "In H&E staining, which reagents are commonly used for 'Blueing' the sections?",
+    "choices": ["Ammonia water or Lithium carbonate", "Acid alcohol", "Xylene", "Ethyl alcohol"],
+    "answer": "Ammonia water or Lithium carbonate"
+  },
+  {
+    "id": "L-105",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Special Stains",
+    "question": "Which special stain is used to identify melanin and argentaffin granules?",
+    "choices": ["Fontana-Masson", "Masson's Trichrome", "Von Kossa", "Perl's Prussian Blue"],
+    "answer": "Fontana-Masson"
+  },
+  {
+    "id": "L-106",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Special Stains",
+    "question": "Which special stain is used to demonstrate fungi by highlighting the carbohydrate-rich cell walls?",
+    "choices": ["Gomori's Methenamine Silver (GMS)", "Periodic Acid-Schiff (PAS)", "Both A and B", "Ziehl-Neelsen"],
+    "answer": "Both A and B"
+  },
+  {
+    "id": "L-107",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Special Stains",
+    "question": "Oil Red O and Sudan Black B are used to demonstrate which tissue component?",
+    "choices": ["Lipids", "Glycogen", "Bacteria", "Amyloid"],
+    "answer": "Lipids"
+  },
+  {
+    "id": "L-108",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Staining",
+    "question": "Metachromasia refers to the property where a dye stains a tissue component a color ____ from the dye itself.",
+    "choices": ["Different", "Same", "Lighter", "Darker"],
+    "answer": "Different"
+  },
+  {
+    "id": "L-109",
+    "category": "HTMLE",
+    "source": "Gregorio's Histopath",
+    "chapter": "Staining",
+    "question": "Which of the following is a common metachromatic dye?",
+    "choices": ["Toluidine Blue", "Hematoxylin", "Eosin", "Carbol Fuchsin"],
+    "answer": "Toluidine Blue"
+  },
+  {
+    "id": "L-110",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Section 5 of RA 5527 describes the composition of the:",
+    "choices": ["Council of Medical Technology Education", "Board of Medical Technology", "PRC Commission", "PAMET Board"],
+    "answer": "Council of Medical Technology Education"
+  },
+  {
+    "id": "L-111",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "According to RA 5527, the Board of Medical Technology is composed of a Chairman and ____ members.",
+    "choices": ["Two", "Three", "Five", "Ten"],
+    "answer": "Two"
+  },
+  {
+    "id": "L-112",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Section 15 of RA 5527 specifies the ____ for the board examination.",
+    "choices": ["Subjects", "Fees", "Locations", "Results"],
+    "answer": "Subjects"
+  },
+  {
+    "id": "L-113",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Section 22 of RA 5527 covers the ____ of the Certificate of Registration.",
+    "choices": ["Fees and Oath", "Revocation and Suspension", "Issuance and Display", "Renewal process"],
+    "answer": "Fees and Oath"
+  },
+  {
+    "id": "L-114",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Under Section 24, how many Board members must vote unanimously to revoke a Certificate of Registration?",
+    "choices": ["All three (Unanimous)", "At least two", "The Chairman only", "None"],
+    "answer": "All three (Unanimous)"
+  },
+  {
+    "id": "L-115",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Section 27 of RA 5527 describes which of the following?",
+    "choices": ["Foreign Reciprocity", "Administrative Investigation", "Board Salary", "Penal Provisions"],
+    "answer": "Foreign Reciprocity"
+  },
+  {
+    "id": "L-116",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "RA 5527",
+    "question": "Section 31 of RA 5527 is the:",
+    "choices": ["Repealing Clause", "Effectivity Clause", "Separability Clause", "Penal Clause"],
+    "answer": " Repealing Clause"
+  },
+  {
+    "id": "L-117",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "PD 223",
+    "question": "PD 223 created the Professional Regulation Commission (PRC) on which date?",
+    "choices": ["June 22, 1973", "June 21, 1969", "August 31, 1970", "May 13, 1994"],
+    "answer": "June 22, 1973"
+  },
+  {
+    "id": "L-118",
+    "category": "HTMLE",
+    "source": "Ethics",
+    "chapter": "Ethics",
+    "question": "Which ethical principle refers to the duty to be truthful and honest with patients?",
+    "choices": ["Veracity", "Fidelity", "Autonomy", "Justice"],
+    "answer": "Veracity"
+  },
+  {
+    "id": "L-119",
+    "category": "HTMLE",
+    "source": "Ethics",
+    "chapter": "Ethics",
+    "question": "Which ethical principle refers to the duty to keep promises and honor commitments?",
+    "choices": ["Fidelity", "Veracity", "Beneficence", "Non-maleficence"],
+    "answer": "Fidelity"
+  },
+  {
+    "id": "L-120",
+    "category": "HTMLE",
+    "source": "MedTech Laws",
+    "chapter": "DOH Standards",
+    "question": "A 'Tertiary' clinical laboratory must have a minimum floor area of:",
+    "choices": ["60 square meters", "20 square meters", "10 square meters", "100 square meters"],
+    "answer": "60 square meters"
+  },
+  {
     "id": "U-001",
     "category": "Clinical Microscopy",
     "source": "Strasinger's Urinalysis",
@@ -4546,51 +5896,6 @@
     "answer": "Renal Tubular Epithelial (RTE) cells"
   },
   {
-    "id": "U-056",
-    "category": "Clinical Microscopy",
-    "source": "Strasinger's Urinalysis",
-    "chapter": "Microscopic Exam",
-    "question": "Which type of cast is the most frequently seen and consists of Tamm-Horsfall protein?",
-    "choices": ["Hyaline cast", "Granular cast", "Waxy cast", "RBC cast"],
-    "answer": "Hyaline cast"
-  },
-  {
-    "id": "U-057",
-    "category": "Clinical Microscopy",
-    "source": "Strasinger's Urinalysis",
-    "chapter": "Microscopic Exam",
-    "question": "Granular casts are often the result of the disintegration of:",
-    "choices": ["Cellular casts (WBC or RTE)", "Bacteria", "Mucus", "Crystals"],
-    "answer": "Cellular casts (WBC or RTE)"
-  },
-  {
-    "id": "U-058",
-    "category": "Clinical Microscopy",
-    "source": "Strasinger's Urinalysis",
-    "chapter": "Microscopic Exam",
-    "question": "Casts that appear highly refractive, brittle, and have jagged/blunt ends are:",
-    "choices": ["Waxy casts", "Hyaline casts", "Fibrous casts", "Broad casts"],
-    "answer": "Waxy casts"
-  },
-  {
-    "id": "U-059",
-    "category": "Clinical Microscopy",
-    "source": "Strasinger's Urinalysis",
-    "chapter": "Microscopic Exam",
-    "question": "Fatty casts often contain lipid droplets that show which characteristic pattern under polarized light?",
-    "choices": ["Maltese cross", "Starry sky", "Birefringent needles", "Rhomboid shapes"],
-    "answer": "Maltese cross"
-  },
-  {
-    "id": "U-060",
-    "category": "Clinical Microscopy",
-    "source": "Strasinger's Urinalysis",
-    "chapter": "Microscopic Exam",
-    "question": "Casts formed in the dilated collecting ducts, indicating extreme renal stasis, are called:",
-    "choices": ["Broad casts", "Hyaline casts", "Narrow casts", "Short casts"],
-    "answer": "Broad casts"
-  },
-  {
     "id": "U-061",
     "category": "Clinical Microscopy",
     "source": "Strasinger's Urinalysis",
@@ -4859,5 +6164,275 @@
     "question": "Normal semen pH is slightly:",
     "choices": ["Alkaline (7.2 - 8.0)", "Acidic (5.0 - 6.0)", "Neutral (7.0)", "Very alkaline (9.0)"],
     "answer": "Alkaline (7.2 - 8.0)"
+  },
+  {
+    "id": "U-091",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Chemical Exam",
+    "question": "The Ictotest is a tablet test used to confirm the presence of which substance in urine?",
+    "choices": ["Bilirubin", "Glucose", "Ketones", "Protein"],
+    "answer": "Bilirubin"
+  },
+  {
+    "id": "U-092",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Chemical Exam",
+    "question": "Which of the following can cause a false-positive result for blood on a reagent strip?",
+    "choices": ["Strong oxidizing agents (e.g. Bleach)", "High levels of Ascorbic acid", "Highly concentrated urine", "Presence of formalin"],
+    "answer": "Strong oxidizing agents (e.g. Bleach)"
+  },
+  {
+    "id": "U-093",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Chemical Exam",
+    "question": "Myoglobinuria is differentiated from Hemoglobinuria because myoglobin is:",
+    "choices": ["Cleared rapidly from the blood and appears in urine", "Precipitated by ammonium sulfate", "Associated with muscle trauma", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "id": "U-094",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Chemical Exam",
+    "question": "The SSA (Sulfosalicylic Acid) test result '2+' indicates which degree of turbidity?",
+    "choices": ["Distinct turbidity with no discrete granulations", "Slight turbidity", "Heavy turbidity with flocculation", "Cloudiness with granulations"],
+    "answer": "Distinct turbidity with no discrete granulations"
+  },
+  {
+    "id": "U-095",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Microscopic Exam",
+    "question": "Hansel stain is specifically used to identify which cell type in urine sediment?",
+    "choices": ["Eosinophils", "Neutrophils", "Renal tubular cells", "Yeast"],
+    "answer": "Eosinophils"
+  },
+  {
+    "id": "U-096",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Microscopic Exam",
+    "question": "The presence of dysmorphic RBCs (acanthocytes) in urine sediment is strongly suggestive of:",
+    "choices": ["Glomerular bleeding", "Bladder infection", "Renal calculi", "Traumatic catheterization"],
+    "answer": "Glomerular bleeding"
+  },
+  {
+    "id": "U-097",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Microscopic Exam",
+    "question": "Tamm-Horsfall protein is the major constituent of all casts and is secreted by:",
+    "choices": ["Thick ascending limb of Henle and distal tubules", "Proximal convoluted tubules", "Glomerulus", "Bladder wall"],
+    "answer": "Thick ascending limb of Henle and distal tubules"
+  },
+  {
+    "id": "U-098",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Microscopic Exam",
+    "question": "Which cast is most commonly associated with stasis and indicates localized infection (pyelonephritis)?",
+    "choices": ["WBC cast", "RBC cast", "Granular cast", "Waxy cast"],
+    "answer": "WBC cast"
+  },
+  {
+    "id": "U-099",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Microscopic Exam",
+    "question": "The 'Shield of David' appearance is characteristic of which crystal found in acidic urine?",
+    "choices": ["Uric Acid", "Calcium Oxalate", "Cystine", "Triple Phosphate"],
+    "answer": "Uric Acid"
+  },
+  {
+    "id": "U-100",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Body Fluids",
+    "question": "In CSF analysis, Tube 1 is typically used for which department?",
+    "choices": ["Chemistry and Serology", "Microbiology", "Hematology (Cell count)", "Frozen storage"],
+    "answer": "Chemistry and Serology"
+  },
+  {
+    "id": "U-101",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Body Fluids",
+    "question": "In CSF analysis, Tube 2 is typically used for which department?",
+    "choices": ["Microbiology", "Chemistry", "Hematology", "Cytology"],
+    "answer": "Microbiology"
+  },
+  {
+    "id": "U-102",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Body Fluids",
+    "question": "In CSF analysis, Tube 3 is typically used for which department?",
+    "choices": ["Hematology (Cell count)", "Microbiology", "Chemistry", "Serology"],
+    "answer": "Hematology (Cell count)"
+  },
+  {
+    "id": "U-103",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Semen Analysis",
+    "question": "Which enzyme is used to evaluate the secretory function of the prostate gland?",
+    "choices": ["Acid Phosphatase", "Fructose", "Citric acid", "Zinc"],
+    "answer": "Acid Phosphatase"
+  },
+  {
+    "id": "U-104",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Semen Analysis",
+    "question": "Low fructose levels in semen are associated with abnormalities in which structure?",
+    "choices": ["Seminal vesicles", "Prostate", "Testes", "Epididymis"],
+    "answer": "Seminal vesicles"
+  },
+  {
+    "id": "U-105",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Synovial Fluid",
+    "question": "The 'Rice bodies' seen in synovial fluid are associated with:",
+    "choices": ["Rheumatoid Arthritis", "Gout", "Septic arthritis", "Osteoarthritis"],
+    "answer": "Rheumatoid Arthritis"
+  },
+  {
+    "id": "U-106",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Synovial Fluid",
+    "question": "Synovial fluid that is 'apple-green' or yellow and cloudy often indicates:",
+    "choices": ["Inflammatory / Rheumatoid Arthritis", "Normal fluid", "Gout", "Hemorrhagic fluid"],
+    "answer": "Inflammatory / Rheumatoid Arthritis"
+  },
+  {
+    "id": "U-107",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Serous Fluids",
+    "question": "A pleural fluid pH of less than 7.2 indicates which complication?",
+    "choices": ["Need for chest tube drainage (Empyema)", "Viral infection", "Normal finding", "Malignancy"],
+    "answer": "Need for chest tube drainage (Empyema)"
+  },
+  {
+    "id": "U-108",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Body Fluids",
+    "question": "The SAAG (Serum-Ascites Albumin Gradient) calculation is used to determine if ascites is caused by:",
+    "choices": ["Portal Hypertension", "Malignancy", "Tuberculosis", "Nephrotic syndrome"],
+    "answer": "Portal Hypertension"
+  },
+  {
+    "id": "U-109",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Fecal Analysis",
+    "question": "Urobilin is the pigment responsible for which characteristic of stool?",
+    "choices": ["Normal brown color", "Black color", "Green color", "Clay color"],
+    "answer": "Normal brown color"
+  },
+  {
+    "id": "U-110",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Fecal Analysis",
+    "question": "Fecal 'Clay-colored' or 'Acholic' stools are associated with:",
+    "choices": ["Biliary obstruction", "Upper GI bleed", "Diarrhea", "Lower GI bleed"],
+    "answer": "Biliary obstruction"
+  },
+  {
+    "id": "U-111",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Amniotic Fluid",
+    "question": "The presence of bilirubin in amniotic fluid, measured by OD 450, is used to monitor:",
+    "choices": ["Hemolytic Disease of the Newborn (HDN)", "Neural tube defects", "Down syndrome", "Lung maturity"],
+    "answer": "Hemolytic Disease of the Newborn (HDN)"
+  },
+  {
+    "id": "U-112",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Amniotic Fluid",
+    "question": "Increased levels of Alpha-fetoprotein (AFP) in amniotic fluid indicate:",
+    "choices": ["Neural tube defects (e.g. Spina Bifida)", "Rh incompatibility", "Fetal distress", "Trisomy 21"],
+    "answer": "Neural tube defects (e.g. Spina Bifida)"
+  },
+  {
+    "id": "U-113",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Renal Function",
+    "question": "Which part of the nephron is the primary site for the reabsorption of glucose and amino acids?",
+    "choices": ["Proximal convoluted tubule", "Loop of Henle", "Distal convoluted tubule", "Collecting duct"],
+    "answer": "Proximal convoluted tubule"
+  },
+  {
+    "id": "U-114",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Renal Function",
+    "question": "Antidiuretic Hormone (ADH) primarily acts on which part of the nephron to regulate water reabsorption?",
+    "choices": ["Collecting duct and Distal tubule", "Proximal tubule", "Descending loop of Henle", "Glomerulus"],
+    "answer": "Collecting duct and Distal tubule"
+  },
+  {
+    "id": "U-115",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Chemical Exam",
+    "question": "A false-positive nitrite test can occur if the specimen is:",
+    "choices": ["Left at room temperature for too long", "Highly acidic", "Contains high ascorbic acid", "Collected first thing in the morning"],
+    "answer": "Left at room temperature for too long"
+  },
+  {
+    "id": "U-116",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Chemical Exam",
+    "question": "The specific gravity reagent strip is NOT affected by the presence of:",
+    "choices": ["Glucose and Radiopaque media", "Urea", "Protein", "Bilirubin"],
+    "answer": "Glucose and Radiopaque media"
+  },
+  {
+    "id": "U-117",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Microscopic Exam",
+    "question": "What is the clinical significance of finding bacteria alongside WBCs in a clean-catch urine specimen?",
+    "choices": ["UTI (Infection)", "Vaginal contamination", "Normal finding", "Old specimen"],
+    "answer": "UTI (Infection)"
+  },
+  {
+    "id": "U-118",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Microscopic Exam",
+    "question": "Which crystal is described as having a 'hexagonal' shape and is associated with a metabolic disorder involving sulfur-containing amino acids?",
+    "choices": ["Cystine", "Uric Acid", "Tyrosine", "Cholesterol"],
+    "answer": "Cystine"
+  },
+  {
+    "id": "U-119",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Introduction",
+    "question": "What is the recommended temperature for storing a urine specimen if it cannot be analyzed within 2 hours?",
+    "choices": ["2 to 8 degrees Celsius", "0 degrees Celsius", "Room temperature", "37 degrees Celsius"],
+    "answer": "2 to 8 degrees Celsius"
+  },
+  {
+    "id": "U-120",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis",
+    "chapter": "Renal Disease",
+    "question": "A 'telescoped' sediment, containing almost all types of casts and cells, is characteristic of:",
+    "choices": ["Systemic Lupus Erythematosus (SLE)", "Cystitis", "Diabetes Mellitus", "Kidney stones"],
+    "answer": "Systemic Lupus Erythematosus (SLE)"
   }
 ]
