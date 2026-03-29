@@ -74,30 +74,40 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Use offscreen buffer to prevent blinking
+    const offscreen = document.createElement('canvas');
+    offscreen.width = canvas.width;
+    offscreen.height = canvas.height;
+    const oCtx = offscreen.getContext('2d');
+    if (!oCtx) return;
+
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
     annotations.forEach(ann => {
-      ctx.save();
+      oCtx.save();
       if (ann.tool === 'eraser') {
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.strokeStyle = 'rgba(0,0,0,1)';
-        ctx.globalAlpha = 1.0;
+        oCtx.globalCompositeOperation = 'destination-out';
+        oCtx.strokeStyle = 'rgba(0,0,0,1)';
+        oCtx.globalAlpha = 1.0;
       } else if (ann.tool === 'highlighter') {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.strokeStyle = ann.color;
-        ctx.globalAlpha = 0.3;
+        oCtx.globalCompositeOperation = 'source-over';
+        oCtx.strokeStyle = ann.color;
+        oCtx.globalAlpha = 0.3;
       } else {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.strokeStyle = ann.color;
-        ctx.globalAlpha = 1.0;
+        oCtx.globalCompositeOperation = 'source-over';
+        oCtx.strokeStyle = ann.color;
+        oCtx.globalAlpha = 1.0;
       }
       
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      drawPath(ctx, ann.points, ann.width * dpr, canvas);
-      ctx.restore();
+      oCtx.lineCap = 'round';
+      oCtx.lineJoin = 'round';
+      drawPath(oCtx, ann.points, ann.width * dpr, offscreen);
+      oCtx.restore();
     });
+
+    // Atomic blit to visible canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(offscreen, 0, 0);
   }, [annotations]);
 
   // Direct manual draw function for zero latency
@@ -213,16 +223,30 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       return;
     }
 
-    const newAnn: Annotation = {
-      id: `ann-nb-${Date.now()}`,
-      notebookId,
-      pageNumber: page,
-      tool: activeTool,
-      color: activeTool === 'highlighter' ? '#ffff00' : (activeTool === 'eraser' ? '#000000' : '#00ff7f'),
-      width: activeTool === 'highlighter' ? 20 : (activeTool === 'eraser' ? 40 : 3),
-      opacity: activeTool === 'highlighter' ? 0.3 : 1,
-      points: [...pointsRef.current]
-    };
+    const finalPoints = [...pointsRef.current];
+    pointsRef.current = [];
+
+    // Immediate commit to permanent canvas to prevent flicker
+    const pCanvas = permanentCanvasRef.current;
+    if (pCanvas && activeTool !== 'eraser') {
+      const pCtx = pCanvas.getContext('2d');
+      if (pCtx) {
+        pCtx.save();
+        const color = activeTool === 'highlighter' ? '#ffff00' : '#00ff7f';
+        const width = activeTool === 'highlighter' ? 20 : 3;
+        const alpha = activeTool === 'highlighter' ? 0.3 : 1;
+        const dpr = window.devicePixelRatio || 1;
+        
+        pCtx.strokeStyle = color;
+        pCtx.lineWidth = width * dpr;
+        pCtx.globalAlpha = alpha;
+        pCtx.lineCap = 'round';
+        pCtx.lineJoin = 'round';
+        
+        drawPath(pCtx, finalPoints, width * dpr, pCanvas);
+        pCtx.restore();
+      }
+    }
 
     // Clear active canvas preview
     const canvas = activeCanvasRef.current;
@@ -231,10 +255,20 @@ export function NotebookPanel({ notebookId }: NotebookPanelProps) {
       ctx?.clearRect(0, 0, canvas.width, canvas.height);
     }
 
+    const newAnn: Annotation = {
+      id: `ann-nb-${Date.now()}`,
+      notebookId,
+      pageNumber: page,
+      tool: activeTool,
+      color: activeTool === 'highlighter' ? '#ffff00' : (activeTool === 'eraser' ? '#000000' : '#00ff7f'),
+      width: activeTool === 'highlighter' ? 20 : (activeTool === 'eraser' ? 40 : 3),
+      opacity: activeTool === 'highlighter' ? 0.3 : 1,
+      points: finalPoints
+    };
+
     await db.put('annotations', newAnn);
     setAnnotations(prev => [...prev, newAnn]);
     setRedoStack([]);
-    pointsRef.current = [];
   };
 
   const handleUndo = async () => {

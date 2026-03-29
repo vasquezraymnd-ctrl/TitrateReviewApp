@@ -152,7 +152,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     if (activeTool === 'eraser') setEraserWidth(val);
   };
 
-  const drawPath = (ctx: CanvasRenderingContext2D, points: {x: number, y: number}[], width: number, canvas: HTMLCanvasElement) => {
+  const drawPath = (ctx: CanvasRenderingContext2D, points: {x: number, y: number}[], width: number, canvas: HTMLCanvasElement | HTMLCanvasElement) => {
     if (points.length < 2) return;
     ctx.beginPath();
     ctx.lineWidth = width;
@@ -171,33 +171,43 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Offscreen buffering to prevent blinking
+    const offscreen = document.createElement('canvas');
+    offscreen.width = canvas.width;
+    offscreen.height = canvas.height;
+    const oCtx = offscreen.getContext('2d');
+    if (!oCtx) return;
+
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
     annotations.forEach(ann => {
-      ctx.save();
+      oCtx.save();
       if (ann.tool === 'eraser') {
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.strokeStyle = 'rgba(0,0,0,1)';
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
+        oCtx.globalCompositeOperation = 'destination-out';
+        oCtx.strokeStyle = 'rgba(0,0,0,1)';
+        oCtx.lineCap = 'round';
+        oCtx.lineJoin = 'round';
       } else if (ann.tool === 'highlighter') {
-        ctx.globalCompositeOperation = 'multiply';
-        ctx.strokeStyle = ann.color;
-        ctx.globalAlpha = ann.opacity || 0.3;
-        ctx.lineCap = 'square';
-        ctx.lineJoin = 'miter';
+        oCtx.globalCompositeOperation = 'multiply';
+        oCtx.strokeStyle = ann.color;
+        oCtx.globalAlpha = ann.opacity || 0.3;
+        oCtx.lineCap = 'square';
+        oCtx.lineJoin = 'miter';
       } else {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.strokeStyle = ann.color;
-        ctx.globalAlpha = 1.0;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
+        oCtx.globalCompositeOperation = 'source-over';
+        oCtx.strokeStyle = ann.color;
+        oCtx.globalAlpha = 1.0;
+        oCtx.lineCap = 'round';
+        oCtx.lineJoin = 'round';
       }
 
-      drawPath(ctx, ann.points, ann.width * RENDER_QUALITY * dpr, canvas);
-      ctx.restore();
+      drawPath(oCtx, ann.points, ann.width * RENDER_QUALITY * dpr, offscreen);
+      oCtx.restore();
     });
+
+    // Atomic blit to visible canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(offscreen, 0, 0);
   }, [annotations]);
 
   const drawActiveStrokeManually = useCallback(() => {
@@ -344,7 +354,7 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
         if (!canvas) return;
         const rect = canvas.getBoundingClientRect();
         
-        // Coalesced events check
+        // Coalesced events check for ultra smoothness
         const events = (p as any).getCoalescedEvents ? (p as any).getCoalescedEvents() : [p];
         for (const ev of events) {
           const x = (ev.clientX - rect.left) / rect.width;
@@ -388,7 +398,32 @@ export function PdfViewer({ file, moduleId, moduleName, onClipCaptured, activeNo
     const finalPoints = [...pointsRef.current];
     pointsRef.current = [];
 
-    // Clear active preview
+    // Optimistic commit to permanent canvas to prevent flicker
+    const pCanvas = permanentCanvasRef.current;
+    if (pCanvas && activeTool !== 'eraser') {
+      const pCtx = pCanvas.getContext('2d');
+      if (pCtx) {
+        pCtx.save();
+        if (activeTool === 'highlighter') {
+          pCtx.globalCompositeOperation = 'multiply';
+          pCtx.strokeStyle = currentColor;
+          pCtx.globalAlpha = 0.3;
+          pCtx.lineCap = 'square';
+          pCtx.lineJoin = 'miter';
+        } else {
+          pCtx.globalCompositeOperation = 'source-over';
+          pCtx.strokeStyle = currentColor;
+          pCtx.globalAlpha = 1.0;
+          pCtx.lineCap = 'round';
+          pCtx.lineJoin = 'round';
+        }
+        const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
+        drawPath(pCtx, finalPoints, getCurrentWidth() * RENDER_QUALITY * dpr, pCanvas);
+        pCtx.restore();
+      }
+    }
+
+    // Clear active preview layer
     const canvas = activeCanvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext('2d');
