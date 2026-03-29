@@ -2721,1203 +2721,1939 @@
     "answer": "CHED"
   },
   {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hematopoiesis",
-    "question": "Which bone marrow aspiration site is most commonly used in adults?",
-    "choices": ["Posterior iliac crest", "Sternum", "Tibia", "Spinous process"],
-    "answer": "Posterior iliac crest"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Which of the following is the primary chemical constituent of normal urine?",
+    "choices": ["Urea", "Creatinine", "Sodium", "Chloride"],
+    "answer": "Urea"
   },
   {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemoglobinopathies",
-    "question": "Embryonic Portland hemoglobin is composed of which two globin chains?",
-    "choices": ["Zeta and Gamma", "Zeta and Epsilon", "Alpha and Epsilon", "Alpha and Gamma"],
-    "answer": "Zeta and Gamma"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Instrumentation",
-    "question": "In the VCS technology used by Beckman Coulter, what does the 'S' stand for?",
-    "choices": ["Scatter", "Size", "Shape", "Sequence"],
-    "answer": "Scatter"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Laboratory Methods",
-    "question": "If 5 NRBCs are seen per 100 WBCs, and the initial WBC count is 10.5 x 10^9/L, the corrected WBC count will be:",
-    "choices": ["10.0 x 10^9/L", "11.0 x 10^9/L", "9.5 x 10^9/L", "10.5 x 10^9/L"],
-    "answer": "10.0 x 10^9/L"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "ESR",
-    "question": "Which stage of the Erythrocyte Sedimentation Rate (ESR) is characterized by the formation of Rouleaux?",
-    "choices": ["Initial aggregation phase", "Sedimentation phase", "Packing phase", "Decantation phase"],
-    "answer": "Initial aggregation phase"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "RBC Morphology",
-    "question": "Which erythrocyte shape is most classically associated with severe uremia or renal failure?",
-    "choices": ["Echinocytes (Burr cells)", "Acanthocytes", "Spherocytes", "Schistocytes"],
-    "answer": "Echinocytes (Burr cells)"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "RBC Morphology",
-    "question": "Schistocytes are a hallmark finding in which clinical condition?",
-    "choices": ["TTP / HUS", "Iron deficiency", "B12 deficiency", "Infectious Mononucleosis"],
-    "answer": "TTP / HUS"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "WBC Disorders",
-    "question": "The specific granules of the Neutrophilic series first appear in which stage?",
-    "choices": ["Myelocyte", "Myeloblast", "Promyelocyte", "Metamyelocyte"],
-    "answer": "Myelocyte"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "WBC Disorders",
-    "question": "Which cell stage is characterized by a 'kidney bean' or 'indented' nucleus?",
-    "choices": ["Metamyelocyte", "Myelocyte", "Band", "Promyelocyte"],
-    "answer": "Metamyelocyte"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hematopoiesis",
-    "question": "The C-shaped or U-shaped nucleus without filament is the hallmark of the:",
-    "choices": ["Band Neutrophil", "Metamyelocyte", "Segmented Neutrophil", "Monocyte"],
-    "answer": "Band Neutrophil"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Platelets",
-    "question": "Which platelet receptor is the primary binding site for Fibrinogen during aggregation?",
-    "choices": ["GP IIb/IIIa", "GP Ib/IX/V", "GP Ia/IIa", "P2Y12"],
-    "answer": "GP IIb/IIIa"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemostasis",
-    "question": "Which coagulation factor is also known as the Christmas Factor?",
-    "choices": ["Factor IX", "Factor VIII", "Factor XI", "Factor VII"],
-    "answer": "Factor IX"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemostasis",
-    "question": "Factor XII is named after which patient?",
-    "choices": ["Hageman", "Christmas", "Rosenthal", "Stuart-Prower"],
-    "answer": "Hageman"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hematopoiesis",
-    "question": "Which transcription factor antagonizes GATA-1 to promote myeloid/monocyte development over erythroid?",
-    "choices": ["PU.1", "RUNX1", "GATA-2", "C/EBP-alpha"],
-    "answer": "PU.1"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "RBC Disorders",
-    "question": "In Polycythemia Vera, which mutation is present in >95% of cases?",
-    "choices": ["JAK2 V617F", "BCR-ABL1", "PML-RARA", "CALR"],
-    "answer": "JAK2 V617F"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Laboratory Methods",
-    "question": "The Zeta potential, which keeps RBCs apart, is created by which chemical group on the membrane?",
-    "choices": ["Sialic acid", "Phospholipids", "Cholesterol", "Hemoglobin"],
-    "answer": "Sialic acid"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hematopoiesis",
-    "question": "During erythropoiesis, at which stage is the nucleus finally extruded?",
-    "choices": ["Orthochromic normoblast", "Polychromatic normoblast", "Reticulocyte", "Basophilic normoblast"],
-    "answer": "Orthochromic normoblast"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Laboratory Methods",
-    "question": "Which stain is the 'Gold Standard' for identifying Heinz bodies?",
-    "choices": ["Crystal Violet or Brilliant Cresyl Blue", "Wright-Giemsa", "Prussian Blue", "Periodic Acid-Schiff"],
-    "answer": "Crystal Violet or Brilliant Cresyl Blue"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemostasis",
-    "question": "The Reptilase time is NOT affected by which anticoagulant?",
-    "choices": ["Heparin", "Warfarin", "Aspirin", "EDTA"],
-    "answer": "Heparin"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Platelets",
-    "question": "Which zone of the platelet contains the Open Canalicular System (OCS)?",
-    "choices": ["Structural zone", "Peripheral zone", "Organelle zone", "Membrane zone"],
-    "answer": "Structural zone"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "WBC Disorders",
-    "question": "Which inclusion is characteristic of May-Hegglin anomaly?",
-    "choices": ["Dohle-like bodies and giant platelets", "Auer rods", "Toxic granulation", "Hypersegmentation"],
-    "answer": "Dohle-like bodies and giant platelets"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemostasis",
-    "question": "A mixing study that corrects immediately but prolongs after incubation at 37C for 2 hours suggests an inhibitor against:",
-    "choices": ["Factor VIII", "Factor IX", "Lupus Anticoagulant", "Factor II"],
-    "answer": "Factor VIII"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hematopoiesis",
-    "question": "The primary cytokine responsible for platelet production is:",
-    "choices": ["Thrombopoietin (TPO)", "EPO", "IL-3", "GM-CSF"],
-    "answer": "Thrombopoietin (TPO)"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "RBC Morphology",
-    "question": "Which erythrocyte shape is classically associated with Pyruvate Kinase deficiency?",
-    "choices": ["Echinocytes", "Spherocytes", "Acanthocytes", "Stomatocytes"],
-    "answer": "Echinocytes"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemostasis",
-    "question": "Which factor is missing in 'Parahemophilia'?",
-    "choices": ["Factor V", "Factor VII", "Factor X", "Factor II"],
-    "answer": "Factor V"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemostasis",
-    "question": "Which Factor X activator is part of the intrinsic tenase complex?",
-    "choices": ["Factor IXa + VIIIa", "Factor VIIa + Tissue Factor", "Factor XIIa", "Thrombin"],
-    "answer": "Factor IXa + VIIIa"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Leukemias",
-    "question": "The presence of 'Buttock cells' (cleaved lymphocytes) is characteristic of:",
-    "choices": ["Follicular Lymphoma", "Burkitt Lymphoma", "CLL", "ALL"],
-    "answer": "Follicular Lymphoma"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Hemostasis",
-    "question": "Which test utilizes the snake venom from Bothrops atrox?",
-    "choices": ["Reptilase Time", "dRVVT", "Thrombin Time", "PT"],
-    "answer": "Reptilase Time"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "Platelets",
-    "question": "In Glanzmann Thrombasthenia, there is a deficient response to all aggregating agents EXCEPT:",
-    "choices": ["Ristocetin", "ADP", "Epinephrine", "Collagen"],
-    "answer": "Ristocetin"
-  },
-  {
-    "category": "Hematology",
-    "source": "Rodak's Clinical Hematology",
-    "chapter": "RBC Morphology",
-    "question": "Which RBC inclusion consists of precipitated ribosomes and is seen in lead poisoning?",
-    "choices": ["Basophilic stippling", "Howell-Jolly bodies", "Heinz bodies", "Cabot rings"],
-    "answer": "Basophilic stippling"
-  },
-  {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Instrumentation",
-    "question": "Atomic Absorption Spectroscopy (AAS) utilizes which primary light source?",
-    "choices": ["Hollow Cathode Lamp", "Tungsten Lamp", "Deuterium Lamp", "Laser"],
-    "answer": "Hollow Cathode Lamp"
-  },
-  {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Electrolytes",
-    "question": "The Clark electrode is used specifically to measure:",
-    "choices": ["pO2", "pCO2", "pH", "Sodium"],
-    "answer": "pO2"
-  },
-  {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Electrolytes",
-    "question": "The Severinghaus electrode is used specifically to measure:",
-    "choices": ["pCO2", "pO2", "pH", "Potassium"],
-    "answer": "pCO2"
-  },
-  {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
     "chapter": "Renal Function",
-    "question": "Which endogenous marker is increasingly used as a more sensitive alternative to creatinine for GFR estimation?",
-    "choices": ["Cystatin C", "Uric Acid", "Albumin", "B2-Microglobulin"],
-    "answer": "Cystatin C"
+    "question": "What is the primary site of water reabsorption in the nephron under the influence of ADH?",
+    "choices": ["Collecting Ducts", "Proximal Tubule", "Loop of Henle", "Distal Tubule"],
+    "answer": "Collecting Ducts"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Organ Panels",
-    "question": "Calculated Osmolality formula is 2Na + Glu/18 + BUN/2.8. What is the significance of an osmolal gap > 10?",
-    "choices": ["Presence of unmeasured volatiles (e.g., Ethanol)", "Dehydration", "Hyperglycemia", "Renal failure"],
-    "answer": "Presence of unmeasured volatiles (e.g., Ethanol)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A urine specimen that turns dark brown or black upon standing is classically associated with:",
+    "choices": ["Alkaptonuria", "Porphyrinuria", "Bilirubinuria", "Hemoglobinuria"],
+    "answer": "Alkaptonuria"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Proteins",
-    "question": "Which protein travels fastest toward the anode during electrophoresis at pH 8.6?",
-    "choices": ["Pre-albumin (Transthyretin)", "Albumin", "Alpha-1 antitrypsin", "Transferrin"],
-    "answer": "Pre-albumin (Transthyretin)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which reagent is used in the reagent strip test for protein, primarily detecting albumin?",
+    "choices": ["Tetrabromphenol blue", "Sodium nitroprusside", "Bromthymol blue", "Ehrlich's reagent"],
+    "answer": "Tetrabromphenol blue"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Proteins",
-    "question": "Wilson's disease is characterized by a deficiency in which copper-binding protein?",
-    "choices": ["Ceruloplasmin", "Haptoglobin", "Transferrin", "Albumin"],
-    "answer": "Ceruloplasmin"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "The presence of 'Glitter Cells' in the urine sediment is indicative of:",
+    "choices": ["Hypotonic urine", "Hypertonic urine", "Renal failure", "Liver disease"],
+    "answer": "Hypotonic urine"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Liver Function",
-    "question": "Delta bilirubin is a fraction of bilirubin that is covalently bound to:",
-    "choices": ["Albumin", "Glucuronic acid", "Haptoglobin", "Hemoglobin"],
-    "answer": "Albumin"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which type of urinary cast is pathognomonic for Acute Pyelonephritis?",
+    "choices": ["WBC Cast", "RBC Cast", "Granular Cast", "Waxy Cast"],
+    "answer": "WBC Cast"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Liver Function",
-    "question": "Which enzyme is elevated in hepatic congestion but is most sensitive for chronic alcohol consumption?",
-    "choices": ["GGT", "ALT", "AST", "ALP"],
-    "answer": "GGT"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The renal threshold for glucose is approximately:",
+    "choices": ["160-180 mg/dL", "100-120 mg/dL", "200-220 mg/dL", "250-270 mg/dL"],
+    "answer": "160-180 mg/dL"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Enzymes",
-    "question": "In enzyme kinetics, zero-order reaction occurs when:",
-    "choices": ["Substrate concentration is in excess of enzyme", "Enzyme concentration is in excess of substrate", "pH is below 7.0", "Temperature is 25C"],
-    "answer": "Substrate concentration is in excess of enzyme"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "In CSF analysis, a 'Xanthochromic' appearance usually indicates:",
+    "choices": ["Old subarachnoid hemorrhage", "Bacterial meningitis", "Traumatic tap", "Viral infection"],
+    "answer": "Old subarachnoid hemorrhage"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Cardiac Markers",
-    "question": "Which cardiac marker stays elevated for the longest duration (up to 10-14 days) following an MI?",
-    "choices": ["Troponin T", "CK-MB", "Myoglobin", "LDH"],
-    "answer": "Troponin T"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "What is the standard abstinence period required before performing a semen analysis?",
+    "choices": ["2-7 days", "1 day", "1 week", "2 weeks"],
+    "answer": "2-7 days"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Endocrinology",
-    "question": "Pheochromocytoma is a tumor of the adrenal medulla that hypersecretes catecholamines, best detected by measuring urinary:",
-    "choices": ["VMA (Vanillylmandelic Acid)", "Cortisol", "Aldosterone", "17-OHCS"],
-    "answer": "VMA (Vanillylmandelic Acid)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "The presence of 'Needle-shaped' negatively birefringent crystals in synovial fluid is diagnostic for:",
+    "choices": ["Gout (Monosodium Urate)", "Pseudogout (CPPD)", "RA", "Osteoarthritis"],
+    "answer": "Gout (Monosodium Urate)"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Endocrinology",
-    "question": "Cortisol levels peak at approximately what time of day?",
-    "choices": ["8:00 AM", "4:00 PM", "8:00 PM", "Midnight"],
-    "answer": "8:00 AM"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The presence of Ketones in urine is measured using which chemical reaction?",
+    "choices": ["Legal's test / Nitroprusside", "Watson-Schwartz", "Hoesch test", "Diazo reaction"],
+    "answer": "Legal's test / Nitroprusside"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Electrolytes",
-    "question": "Which hormone is the primary regulator of water reabsorption in the collecting ducts?",
-    "choices": ["ADH (Vasopressin)", "Aldosterone", "Cortisol", "PTH"],
-    "answer": "ADH (Vasopressin)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is described as having a 'Coffin-lid' appearance?",
+    "choices": ["Triple Phosphate", "Calcium Oxalate", "Uric Acid", "Cystine"],
+    "answer": "Triple Phosphate"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Instrumentation",
-    "question": "Fluorescence Polarization Immunoassay (FPIA) utilizes which property of light?",
-    "choices": ["Rotation of polarized light", "Absorption at 340nm", "Scattering at 90 degrees", "Luminescence"],
-    "answer": "Rotation of polarized light"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Oval Fat Bodies are typically associated with which condition?",
+    "choices": ["Nephrotic Syndrome", "Diabetes Mellitus", "UTI", "Cystitis"],
+    "answer": "Nephrotic Syndrome"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Lipids",
-    "question": "Which apolipoprotein is the major structural component of LDL and VLDL?",
-    "choices": ["Apo B-100", "Apo A-1", "Apo C-II", "Apo E"],
-    "answer": "Apo B-100"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Bence-Jones proteins are found in the urine of patients with:",
+    "choices": ["Multiple Myeloma", "Diabetes", "Glomerulonephritis", "Liver failure"],
+    "answer": "Multiple Myeloma"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Proteins",
-    "question": "Hypoproteinemia with a reversed A/G ratio and 'Beta-Gamma Bridge' on electrophoresis is seen in:",
-    "choices": ["Cirrhosis", "Nephrotic Syndrome", "Multiple Myeloma", "Acute Inflammation"],
-    "answer": "Cirrhosis"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Fecal Analysis",
+    "question": "The 'Apt Test' is used to differentiate fetal blood from maternal blood in:",
+    "choices": ["Newborn stool or vomitus", "Amniotic fluid", "Urine", "Semen"],
+    "answer": "Newborn stool or vomitus"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Enzymes",
-    "question": "The Km (Michaelis-Menten constant) represents the substrate concentration at which the velocity is:",
-    "choices": ["1/2 Vmax", "Vmax", "Zero", "Double Vmax"],
-    "answer": "1/2 Vmax"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Pregnancy Testing",
+    "question": "Which hormone is detected in modern pregnancy tests?",
+    "choices": ["hCG", "LH", "FSH", "Estrogen"],
+    "answer": "hCG"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Organ Panels",
-    "question": "In the Caraway method for Uric Acid, which reagent is used?",
-    "choices": ["Phosphotungstic Acid", "Picric Acid", "Copper Sulfate", "Sodium Nitroprusside"],
-    "answer": "Phosphotungstic Acid"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The specific gravity of the ultrafiltrate in the Bowman's capsule is consistently:",
+    "choices": ["1.010", "1.001", "1.030", "1.020"],
+    "answer": "1.010"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Lipids",
-    "question": "A patient with milky serum and a creamy layer on top after overnight refrigeration has high levels of:",
-    "choices": ["Chylomicrons", "VLDL", "LDL", "HDL"],
-    "answer": "Chylomicrons"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Which pigment is responsible for the normal yellow color of urine?",
+    "choices": ["Urochrome", "Urobilin", "Uroerythrin", "Bilirubin"],
+    "answer": "Urochrome"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Electrolytes",
-    "question": "Which hormone increases serum calcium and decreases serum phosphate?",
-    "choices": ["PTH (Parathyroid Hormone)", "Calcitonin", "Vitamin D", "Insulin"],
-    "answer": "PTH (Parathyroid Hormone)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "A positive Nitrite test on a reagent strip suggests the presence of:",
+    "choices": ["Gram-negative bacteria", "Yeast", "RBCs", "Glucose"],
+    "answer": "Gram-negative bacteria"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Vitamins",
-    "question": "Rickets in children and Osteomalacia in adults are caused by deficiency of:",
-    "choices": ["Vitamin D", "Vitamin A", "Vitamin C", "Vitamin K"],
-    "answer": "Vitamin D"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which epithelial cell is the most clinically significant and indicative of tubular necrosis?",
+    "choices": ["Renal Tubular Epithelial (RTE)", "Squamous Epithelial", "Transitional Epithelial", "Clue Cells"],
+    "answer": "Renal Tubular Epithelial (RTE)"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Liver Function",
-    "question": "Crigler-Najjar syndrome is a severe deficiency of which enzyme?",
-    "choices": ["UDPGT (UDP-glucuronosyltransferase)", "G6PD", "ALT", "Hexokinase"],
-    "answer": "UDPGT (UDP-glucuronosyltransferase)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Hexagonal, plate-like crystals in acid urine are characteristic of:",
+    "choices": ["Cystine", "Tyrosine", "Leucine", "Cholesterol"],
+    "answer": "Cystine"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Toxicology",
-    "question": "Which poison inhibits cytochrome oxidase, blocking cellular respiration?",
-    "choices": ["Cyanide", "Carbon Monoxide", "Lead", "Arsenic"],
-    "answer": "Cyanide"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Which laboratory finding is most characteristic of Bacterial Meningitis?",
+    "choices": ["Low Glucose, High Protein, High Neutrophils", "High Glucose, Low Protein, High Lymphocytes", "Normal Glucose, High Protein, High Neutrophils", "Low Glucose, Low Protein, High Monocytes"],
+    "answer": "Low Glucose, High Protein, High Neutrophils"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Instrumentation",
-    "question": "The reference method for measuring electrolytes like Sodium and Potassium is:",
-    "choices": ["Flame Emission Photometry (FES)", "Spectrophotometry", "ISE", "Electrophoresis"],
-    "answer": "Flame Emission Photometry (FES)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Serous Fluid",
+    "question": "A pleural fluid with a protein ratio > 0.5 and LDH ratio > 0.6 is classified as a/an:",
+    "choices": ["Exudate", "Transudate", "Chylous fluid", "Hemothorax"],
+    "answer": "Exudate"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Carbohydrates",
-    "question": "Fasting blood glucose >= ____ mg/dL on two occasions is diagnostic for Diabetes Mellitus.",
-    "choices": ["126", "100", "140", "200"],
-    "answer": "126"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Fecal Analysis",
+    "question": "The 'Guaiac test' is the most common method used to detect:",
+    "choices": ["Fecal Occult Blood", "Fecal Fats", "Fecal Leukocytes", "Trypsin"],
+    "answer": "Fecal Occult Blood"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Quality Control",
-    "question": "Which Westgard rule is used to detect a random error?",
-    "choices": ["1-3s", "2-2s", "4-1s", "10-x"],
-    "answer": "1-3s"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "What is the recommended maximum time for a urine specimen to sit at room temperature before testing?",
+    "choices": ["2 hours", "30 minutes", "4 hours", "8 hours"],
+    "answer": "2 hours"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Quality Control",
-    "question": "The precision of a method is best represented by which statistical value?",
-    "choices": ["CV (Coefficient of Variation)", "Mean", "Standard Deviation", "Bias"],
-    "answer": "CV (Coefficient of Variation)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Which hormone regulates sodium reabsorption in the distal convoluted tubule?",
+    "choices": ["Aldosterone", "ADH", "PTH", "Renin"],
+    "answer": "Aldosterone"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "TDM",
-    "question": "Which drug has a very narrow therapeutic index and is used to treat congestive heart failure?",
-    "choices": ["Digoxin", "Phenytoin", "Gentamicin", "Lithium"],
-    "answer": "Digoxin"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which test differentiates Myoglobinuria from Hemoglobinuria using ammonium sulfate precipitation?",
+    "choices": ["Blondheim's test", "Legal's test", "Ehrlich's test", "Diazo test"],
+    "answer": "Blondheim's test"
   },
   {
-    "category": "Clinical Chemistry",
-    "source": "Bishop's Clinical Chemistry",
-    "chapter": "Endocrinology",
-    "question": "Which hormone is produced by the alpha cells of the Islets of Langerhans?",
-    "choices": ["Glucagon", "Insulin", "Somatostatin", "Gastrin"],
-    "answer": "Glucagon"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Cylindroiduria refers to the presence of ____ in the urine.",
+    "choices": ["Casts", "Crystals", "RBCs", "Bacteria"],
+    "answer": "Casts"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Bacteriology",
-    "question": "Which organism is the most common cause of neonatal meningitis?",
-    "choices": ["Streptococcus agalactiae (GBS)", "Streptococcus pyogenes", "E. coli", "Listeria monocytogenes"],
-    "answer": "Streptococcus agalactiae (GBS)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal has a 'Thorny Apple' appearance and is seen in alkaline urine?",
+    "choices": ["Ammonium Biurate", "Calcium Oxalate", "Uric Acid", "Triple Phosphate"],
+    "answer": "Ammonium Biurate"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Bacteriology",
-    "question": "The CAMP test produces an 'arrowhead' zone of hemolysis when GBS is streaked perpendicular to:",
-    "choices": ["Staphylococcus aureus", "Streptococcus pyogenes", "Enterococcus", "E. coli"],
-    "answer": "Staphylococcus aureus"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Which fluid is collected via Thoracentesis?",
+    "choices": ["Pleural Fluid", "Pericardial Fluid", "Peritoneal Fluid", "CSF"],
+    "answer": "Pleural Fluid"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Cocci",
-    "question": "Which organism is described as 'Lancet-shaped' gram-positive diplococci?",
-    "choices": ["Streptococcus pneumoniae", "Neisseria meningitidis", "Enterococcus", "S. aureus"],
-    "answer": "Streptococcus pneumoniae"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The clearance of which substance is the 'Gold Standard' for measuring GFR but requires IV infusion?",
+    "choices": ["Inulin", "Creatinine", "Urea", "Beta-2 Microglobulin"],
+    "answer": "Inulin"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Instrumentation",
-    "question": "Which biological indicator is used to monitor the effectiveness of dry heat sterilization?",
-    "choices": ["Bacillus atrophaeus", "Geobacillus stearothermophilus", "B. anthracis", "C. tetani"],
-    "answer": "Bacillus atrophaeus"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A urine specimen with a 'mousy' odor is classically associated with:",
+    "choices": ["Phenylketonuria (PKU)", "Maple Syrup Urine Disease", "Diabetes Mellitus", "UTI"],
+    "answer": "Phenylketonuria (PKU)"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Bacteriology Basics",
-    "question": "The Quellung reaction is used to detect the presence of a:",
-    "choices": ["Capsule", "Flagella", "Pili", "Spore"],
-    "answer": "Capsule"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Waxy casts are indicative of:",
+    "choices": ["Chronic renal failure / stasis", "Acute glomerulonephritis", "Pyelonephritis", "Normal exercise"],
+    "answer": "Chronic renal failure / stasis"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Enterobacteriaceae",
-    "question": "Which member of Enterobacteriaceae is famously non-motile?",
-    "choices": ["Shigella", "Proteus", "Salmonella", "Enterobacter"],
-    "answer": "Shigella"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which reagent strip pad uses the Greiss reaction?",
+    "choices": ["Nitrite", "Protein", "Glucose", "Bilirubin"],
+    "answer": "Nitrite"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Listeria monocytogenes is uniquely identified by its 'tumbling motility' and ____ growth pattern in motility media.",
-    "choices": ["Umbrella", "Tree-like", "Spiral", "Swarming"],
-    "answer": "Umbrella"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Liquefaction of a normal semen specimen should occur within:",
+    "choices": ["30-60 minutes", "5 minutes", "2 hours", "Overnight"],
+    "answer": "30-60 minutes"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Which gram-positive rod is associated with 'Erysipeloid' in fishermen and butchers?",
-    "choices": ["Erysipelothrix rhusiopathiae", "Listeria monocytogenes", "Corynebacterium diphtheriae", "Bacillus cereus"],
-    "answer": "Erysipelothrix rhusiopathiae"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "The presence of blast cells in CSF is a critical finding usually associated with:",
+    "choices": ["Leukemia / Lymphoma involvement", "Viral meningitis", "MS", "SAH"],
+    "answer": "Leukemia / Lymphoma involvement"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Virology",
-    "question": "Which virus causes 'Slapped Cheek' syndrome (Fifth Disease)?",
-    "choices": ["Parvovirus B19", "Measles virus", "Rubella virus", "HSV-6"],
-    "answer": "Parvovirus B19"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "What is the anticoagulant of choice for a 24-hour urine collection for catecholamines?",
+    "choices": ["HCl (Acid)", "Sodium Fluoride", "Boric Acid", "Formalin"],
+    "answer": "HCl (Acid)"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Mycology",
-    "question": "Which yeast produces 'Chlamydoconidia' on cornmeal agar?",
-    "choices": ["Candida albicans", "Cryptococcus neoformans", "Saccharomyces", "Candida glabrata"],
-    "answer": "Candida albicans"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "A 'Double Sequential Enzyme Reaction' is the principle for which reagent strip pad?",
+    "choices": ["Glucose", "Bilirubin", "Ketones", "Nitrite"],
+    "answer": "Glucose"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Anaerobes",
-    "question": "Which anaerobe causes 'Gas Gangrene' and shows a 'Double Zone of Hemolysis' on BAP?",
-    "choices": ["Clostridium perfringens", "Clostridium difficile", "Bacteroides fragilis", "Fusobacterium"],
-    "answer": "Clostridium perfringens"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Telescoped sediment (presence of all types of casts) is typically seen in:",
+    "choices": ["Lupus Nephritis", "Acute Tubular Necrosis", "Cystitis", "Exercise-induced protein"],
+    "answer": "Lupus Nephritis"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Parasitology",
-    "question": "The 'Sheather's Sugar Flotation' technique is primarily used to isolate which parasite?",
-    "choices": ["Cryptosporidium", "Ascaris", "Hookworm", "Giardia"],
-    "answer": "Cryptosporidium"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Pregnancy Testing",
+    "question": "hCG levels in pregnancy typically double every ____ in the first trimester.",
+    "choices": ["48-72 hours", "12 hours", "1 week", "2 weeks"],
+    "answer": "48-72 hours"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Which fastidious organism is the cause of 'Rabbit Fever'?",
-    "choices": ["Francisella tularensis", "Brucella abortus", "Bordetella", "Pasteurella"],
-    "answer": "Francisella tularensis"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Isosthenuria refers to a fixed specific gravity of:",
+    "choices": ["1.010", "1.001", "1.030", "1.040"],
+    "answer": "1.010"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Which organism is associated with cat or dog bite infections?",
-    "choices": ["Pasteurella multocida", "Bartonella henselae", "Gardnerella vaginalis", "Brucella"],
-    "answer": "Pasteurella multocida"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Urine clarity is described as 'Turbid' when:",
+    "choices": ["Print cannot be seen through the tube", "Print is blurry", "Few particulates are visible", "The fluid is clear with a haze"],
+    "answer": "Print cannot be seen through the tube"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Anaerobes",
-    "question": "Which anaerobic gram-negative rod is the most commonly isolated anaerobe in clinical specimens?",
-    "choices": ["Bacteroides fragilis", "Prevotella", "Fusobacterium", "Veillonella"],
-    "answer": "Bacteroides fragilis"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which reagent is used in the Watson-Schwartz test to differentiate urobilinogen from porphobilinogen?",
+    "choices": ["Ehrlich's reagent", "Diazo reagent", "Legal's reagent", "Benedict's"],
+    "answer": "Ehrlich's reagent"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Parasitology",
-    "question": "Which parasite causes 'Primary Amoebic Meningoencephalitis' (PAM)?",
-    "choices": ["Naegleria fowleri", "Acanthamoeba", "Entamoeba histolytica", "Balantidium coli"],
-    "answer": "Naegleria fowleri"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is known as the 'Envelope' crystal?",
+    "choices": ["Calcium Oxalate Dihydrate", "Triple Phosphate", "Uric Acid", "Cholesterol"],
+    "answer": "Calcium Oxalate Dihydrate"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Virology",
-    "question": "Which viral structure is responsible for attachment to host cell receptors?",
-    "choices": ["Capsid / Spikes", "Envelope", "Nucleic acid", "Tegument"],
-    "answer": "Capsid / Spikes"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "A 'maltese cross' appearance under polarized light is characteristic of:",
+    "choices": ["Cholesterol / Oval Fat Bodies", "RBCs", "Starch granules", "Both A and C"],
+    "answer": "Both A and C"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Bacteriology",
-    "question": "Which medium contains Vancomycin, Colistin, and Nystatin (VCN) to isolate Neisseria?",
-    "choices": ["Thayer-Martin", "Chocolate", "EMB", "BAP"],
-    "answer": "Thayer-Martin"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "The presence of Oligoclonal bands in CSF electrophoresis but NOT in serum is suggestive of:",
+    "choices": ["Multiple Sclerosis", "Bacterial Meningitis", "Brain Tumor", "Stroke"],
+    "answer": "Multiple Sclerosis"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Enterobacteriaceae",
-    "question": "Which Salmonella species is known to cause a carrier state in the gallbladder?",
-    "choices": ["S. typhi", "S. typhimurium", "S. choleraesuis", "S. enteritidis"],
-    "answer": "S. typhi"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "Which stain is used to identify monosodium urate crystals in synovial fluid?",
+    "choices": ["Compensated Polarized Light", "Gram Stain", "Wright's Stain", "H&E"],
+    "answer": "Compensated Polarized Light"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Which organism is the 'comma-shaped' rod associated with cholera?",
-    "choices": ["Vibrio cholerae", "Campylobacter", "Helicobacter", "Aeromonas"],
-    "answer": "Vibrio cholerae"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Which portion of the Loop of Henle is impermeable to water?",
+    "choices": ["Ascending Limb", "Descending Limb", "Thin segment", "Thick limb"],
+    "answer": "Ascending Limb"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Bacteriology",
-    "question": "Which organism is the cause of 'Clue Cells' in bacterial vaginosis?",
-    "choices": ["Gardnerella vaginalis", "Trichomonas", "Candida", "Mobiluncus"],
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The SSA (Sulfosalicylic Acid) test is a confirmatory test for:",
+    "choices": ["Protein", "Glucose", "Bilirubin", "Ketones"],
+    "answer": "Protein"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is associated with liver disease and has a 'concentric circles' appearance?",
+    "choices": ["Leucine", "Tyrosine", "Cystine", "Bilirubin"],
+    "answer": "Leucine"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "A 'Clean-catch midstream' urine is preferred for:",
+    "choices": ["Bacterial culture", "Routine UA", "Pregnancy test", "Glucose screening"],
+    "answer": "Bacterial culture"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Antidiuretic Hormone (ADH) primarily regulates:",
+    "choices": ["Water reabsorption", "Sodium excretion", "Glucose secretion", "Calcium levels"],
+    "answer": "Water reabsorption"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which ketone is NOT detected by the standard sodium nitroprusside reagent strip?",
+    "choices": ["Beta-hydroxybutyrate", "Acetoacetic acid", "Acetone", "All are detected"],
+    "answer": "Beta-hydroxybutyrate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Clue Cells are squamous epithelial cells covered with which bacteria?",
+    "choices": ["Gardnerella vaginalis", "E. coli", "Neisseria", "Candida"],
     "answer": "Gardnerella vaginalis"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Which organism causes 'Undulant Fever'?",
-    "choices": ["Brucella", "Francisella", "Bordetella", "Legionella"],
-    "answer": "Brucella"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "An 'Effusion' refers to the accumulation of fluid in which cavity?",
+    "choices": ["Serous cavities", "Brain", "Joints", "Bladder"],
+    "answer": "Serous cavities"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Which organism causes 'Rocky Mountain Spotted Fever'?",
-    "choices": ["Rickettsia rickettsii", "Coxiella burnetii", "Ehrlichia", "Bartonella"],
-    "answer": "Rickettsia rickettsii"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Tube #3 in a CSF collection is usually sent to which laboratory department?",
+    "choices": ["Hematology (Cell count)", "Microbiology", "Chemistry", "Pathology"],
+    "answer": "Hematology (Cell count)"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Virology",
-    "question": "The 'Tzanck smear' is used to identify multinucleated giant cells in which viral infection?",
-    "choices": ["HSV / VZV", "HPV", "Adenovirus", "RSV"],
-    "answer": "HSV / VZV"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A urine specific gravity of 1.040+ is most likely due to:",
+    "choices": ["Radiographic contrast media", "Diabetes Insipidus", "Dehydration", "Chronic renal failure"],
+    "answer": "Radiographic contrast media"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Parasitology",
-    "question": "The 'Scotch Tape' method is best for diagnosing:",
-    "choices": ["Enterobius vermicularis", "Ascaris", "Hookworm", "Trichuris"],
-    "answer": "Enterobius vermicularis"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Ictotest is a confirmatory test for:",
+    "choices": ["Bilirubin", "Urobilinogen", "Blood", "Glucose"],
+    "answer": "Bilirubin"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Mycology",
-    "question": "Wood's Lamp (UV light) is used to detect fluorescence in which fungal infection?",
-    "choices": ["Tinea capitis (Dermatophytes)", "Candidiasis", "Aspergillosis", "Histoplasmosis"],
-    "answer": "Tinea capitis (Dermatophytes)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Highly refractive 'notch-cornered' plate-like crystals are:",
+    "choices": ["Cholesterol", "Cystine", "Uric Acid", "Sulfonamide"],
+    "answer": "Cholesterol"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Special Groups",
-    "question": "Which organism is the 'School of fish' arrangement gram-negative rod causing Chancroid?",
-    "choices": ["Haemophilus ducreyi", "Treponema pallidum", "HSV-2", "Klebsiella granulomatis"],
-    "answer": "Haemophilus ducreyi"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Acute Glomerulonephritis is most commonly a complication of an infection with:",
+    "choices": ["Group A Streptococcus", "Staph aureus", "E. coli", "Candida"],
+    "answer": "Group A Streptococcus"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Bacteriology Basics",
-    "question": "Which autoclave control ensures that the sterilization temperature was reached?",
-    "choices": ["Biological indicator (spores)", "Chemical indicator tape", "Pressure gauge", "Thermometer"],
-    "answer": "Biological indicator (spores)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "What is the normal minimum sperm concentration according to WHO?",
+    "choices": ["15 million / mL", "50 million / mL", "100 million / mL", "5 million / mL"],
+    "answer": "15 million / mL"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Parasitology",
-    "question": "The intermediate host for Schistosoma species is:",
-    "choices": ["Snail", "Fish", "Crab", "Mosquito"],
-    "answer": "Snail"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Fecal Analysis",
+    "question": "Fecal fat testing (Steatorrhea) is indicative of:",
+    "choices": ["Malabsorption / Pancreatic insufficiency", "Ulcerative colitis", "Bacterial infection", "Internal bleeding"],
+    "answer": "Malabsorption / Pancreatic insufficiency"
   },
   {
-    "category": "Microbiology",
-    "source": "Bailey & Scott's Diagnostic Microbiology",
-    "chapter": "Virology",
-    "question": "Which virus is the leading cause of viral gastroenteritis in children?",
-    "choices": ["Rotavirus", "Norovirus", "Adenovirus", "Astrovirus"],
-    "answer": "Rotavirus"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Which of the following is an unacceptable specimen for routine urinalysis?",
+    "choices": ["Specimen in a clear unsterile container with a lid", "First morning void", "Timed 2-hour collection", "Midstream clean-catch"],
+    "answer": "Specimen in a clear unsterile container with a lid"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Cells of the Immune System",
-    "question": "Pleiotropy in cytokines refers to:",
-    "choices": ["One cytokine having multiple different biological effects", "Multiple cytokines having the same effect", "Cytokines inhibiting each other", "Cytokines acting on the same cell that produced them"],
-    "answer": "One cytokine having multiple different biological effects"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The countercurrent multiplier mechanism occurs in which part of the nephron?",
+    "choices": ["Loop of Henle", "Proximal tubule", "Distal tubule", "Bowman's capsule"],
+    "answer": "Loop of Henle"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Cells of the Immune System",
-    "question": "Which cytokine is the major T-cell growth factor?",
-    "choices": ["IL-2", "IL-1", "IL-4", "IL-10"],
-    "answer": "IL-2"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The Clinitest (Copper Reduction) is used to screen for:",
+    "choices": ["Galactose and other reducing sugars in infants", "Urine glucose only", "Ketones", "Bilirubin"],
+    "answer": "Galactose and other reducing sugars in infants"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Complement",
-    "question": "The Lectin pathway of complement is initiated by the binding of MBL to:",
-    "choices": ["Mannose", "Antigen-antibody complexes", "LPS", "Albumin"],
-    "answer": "Mannose"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Dysmorphic RBCs in the urine sediment suggest bleeding from the:",
+    "choices": ["Glomerulus", "Bladder", "Urethra", "Prostate"],
+    "answer": "Glomerulus"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Complement",
-    "question": "Which factor is required to stabilize the C3 convertase in the alternative pathway?",
-    "choices": ["Properdin", "Factor B", "Factor D", "Factor I"],
-    "answer": "Properdin"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is described as having 'fine, silky needles in clusters'?",
+    "choices": ["Tyrosine", "Leucine", "Cystine", "Uric Acid"],
+    "answer": "Tyrosine"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Antibodies",
-    "question": "The Fab fragment of an immunoglobulin is produced by digestion with which enzyme?",
-    "choices": ["Papain", "Pepsin", "Trypsin", "Chymotrypsin"],
-    "answer": "Papain"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "The 'Mucin Clot Test' is performed on which fluid?",
+    "choices": ["Synovial Fluid", "CSF", "Peritoneal Fluid", "Pleural Fluid"],
+    "answer": "Synovial Fluid"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Antibodies",
-    "question": "Hybridoma technology, used to produce monoclonal antibodies, involves fusing a plasma cell with a:",
-    "choices": ["Myeloma cell", "Lymphoma cell", "Hepatoma cell", "Fibroblast"],
-    "answer": "Myeloma cell"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Normal CSF protein levels are approximately:",
+    "choices": ["15-45 mg/dL", "150-200 mg/dL", "1-5 g/dL", "500 mg/dL"],
+    "answer": "15-45 mg/dL"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "MHC",
-    "question": "Which HLA allele is strongly associated with Ankylosing Spondylitis?",
-    "choices": ["HLA-B27", "HLA-DR4", "HLA-DQ8", "HLA-A1"],
-    "answer": "HLA-B27"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Serous Fluid",
+    "question": "A milky appearance in serous fluid that persists after centrifugation is characteristic of:",
+    "choices": ["Chylous effusion", "Pseudochylous effusion", "Bacterial infection", "Hemorrhage"],
+    "answer": "Chylous effusion"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Hypersensitivity",
-    "question": "Serum Sickness is a systemic example of which type of hypersensitivity?",
-    "choices": ["Type III", "Type I", "Type II", "Type IV"],
-    "answer": "Type III"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A 'fruity' odor in urine is classically associated with:",
+    "choices": ["Ketoacidosis", "Alkaptonuria", "Ammonia production", "UTI"],
+    "answer": "Ketoacidosis"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Autoimmunity",
-    "question": "Which autoantibody is the 'Marker Antibody' for Sjogren's Syndrome?",
-    "choices": ["Anti-Ro (SS-A) / Anti-La (SS-B)", "Anti-Sm", "Anti-dsDNA", "Anti-Scl-70"],
-    "answer": "Anti-Ro (SS-A) / Anti-La (SS-B)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which chemical pad on the reagent strip is most sensitive to environmental moisture?",
+    "choices": ["Leukocyte Esterase", "Glucose", "Protein", "pH"],
+    "answer": "Leukocyte Esterase"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Autoimmunity",
-    "question": "The 'Speckled' ANA pattern is most commonly associated with antibodies against:",
-    "choices": ["Extractable Nuclear Antigens (ENAs)", "dsDNA", "Histones", "Centromere"],
-    "answer": "Extractable Nuclear Antigens (ENAs)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Hyaline casts are primarily composed of which protein?",
+    "choices": ["Tamm-Horsfall Protein", "Albumin", "Globulin", "Fibrinogen"],
+    "answer": "Tamm-Horsfall Protein"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Autoimmunity",
-    "question": "Hashimoto's Thyroiditis is associated with autoantibodies against:",
-    "choices": ["Thyroid Peroxidase (TPO)", "TSH Receptor", "Acetylcholine Receptor", "Islet Cells"],
-    "answer": "Thyroid Peroxidase (TPO)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Minimal Change Disease is the most common cause of Nephrotic Syndrome in:",
+    "choices": ["Children", "Adults", "Elderly", "Infants"],
+    "answer": "Children"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Immunoassays",
-    "question": "Which label is used in Chemiluminescent Immunoassays?",
-    "choices": ["Luminol / Acridinium esters", "Alkaline Phosphatase", "Horseradish Peroxidase", "FITC"],
-    "answer": "Luminol / Acridinium esters"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Normal sperm morphology according to Kruger's strict criteria is >____% normal forms.",
+    "choices": ["14", "4", "30", "50"],
+    "answer": "14"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Cells of the Immune System",
-    "question": "Which cell type is the primary target of HIV infection?",
-    "choices": ["CD4+ T cells", "CD8+ T cells", "B cells", "NK cells"],
-    "answer": "CD4+ T cells"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Which tubule is the primary site of reabsorption for electrolytes and nutrients?",
+    "choices": ["Proximal Convoluted Tubule", "Distal Convoluted Tubule", "Loop of Henle", "Collecting Duct"],
+    "answer": "Proximal Convoluted Tubule"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Transplantation",
-    "question": "Graft-versus-Host Disease (GVHD) occurs when immunocompetent ____ in the graft attack the recipient.",
-    "choices": ["T cells", "B cells", "NK cells", "Macrophages"],
-    "answer": "T cells"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Specific gravity measured by refractometry is based on:",
+    "choices": ["Refractive index", "Reflected light", "Density", "Ionic concentration"],
+    "answer": "Refractive index"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "MHC",
-    "question": "Which part of the MHC Class I molecule is invariant and not encoded in the MHC locus?",
-    "choices": ["Beta-2 Microglobulin", "Alpha-1 domain", "Alpha-2 domain", "Alpha-3 domain"],
-    "answer": "Beta-2 Microglobulin"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The reagent strip test for Blood is based on the ____ activity of hemoglobin.",
+    "choices": ["Pseudoperoxidase", "Enzymatic", "Oxidative", "Reduction"],
+    "answer": "Pseudoperoxidase"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Serology Tests",
-    "question": "The CRP (C-Reactive Protein) is a/an:",
-    "choices": ["Acute Phase Reactant", "Antibody", "Antigen", "Enzyme"],
-    "answer": "Acute Phase Reactant"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which yeast is the most common cause of UTI, especially in diabetic patients?",
+    "choices": ["Candida albicans", "Cryptococcus", "Saccharomyces", "Aspergillus"],
+    "answer": "Candida albicans"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Serology Tests",
-    "question": "The Paul-Bunnell test is used to detect:",
-    "choices": ["Heterophile antibodies", "Treponemal antibodies", "Rheumatoid Factor", "ANA"],
-    "answer": "Heterophile antibodies"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "In a 'Traumatic Tap', the amount of blood in successive tubes will:",
+    "choices": ["Decrease", "Increase", "Stay the same", "Be absent in tube #1"],
+    "answer": "Decrease"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "HIV",
-    "question": "Which HIV gene encodes for the gp120 and gp41 envelope proteins?",
-    "choices": ["env", "gag", "pol", "tat"],
-    "answer": "env"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Hepatitis",
-    "question": "Which Hepatitis virus is a DNA virus?",
-    "choices": ["Hepatitis B", "Hepatitis A", "Hepatitis C", "Hepatitis E"],
-    "answer": "Hepatitis B"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Transplantation",
-    "question": "An Autograft is a transplant from:",
-    "choices": ["One site to another on the same individual", "An identical twin", "The same species", "A different species"],
-    "answer": "One site to another on the same individual"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Antibodies",
-    "question": "Which part of the antibody molecule determines the idiotype?",
-    "choices": ["Variable regions of heavy and light chains", "Constant regions", "Hinge region", "CH2 domain"],
-    "answer": "Variable regions of heavy and light chains"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Cells of the Immune System",
-    "question": "Natural Killer (NK) cells identify targets using:",
-    "choices": ["Lack of MHC Class I", "T-cell receptor", "IgM surface markers", "CD4 receptors"],
-    "answer": "Lack of MHC Class I"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Autoimmunity",
-    "question": "The 'Crithidia luciliae' assay is used to detect antibodies to:",
-    "choices": ["dsDNA", "Histones", "Centromere", "RNP"],
-    "answer": "dsDNA"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Hypersensitivity",
-    "question": "Contact dermatitis (e.g., Poison Ivy) is an example of which hypersensitivity?",
-    "choices": ["Type IV", "Type I", "Type II", "Type III"],
-    "answer": "Type IV"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Cells of the Immune System",
-    "question": "Plasma cells are the end-stage differentiation of which cell line?",
-    "choices": ["B cells", "T cells", "Monocytes", "NK cells"],
-    "answer": "B cells"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Serology Tests",
-    "question": "Cold agglutinins are typically IgM antibodies directed against which antigen?",
-    "choices": ["I antigen", "Rh antigen", "Kell antigen", "Duffy antigen"],
-    "answer": "I antigen"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Antibodies",
-    "question": "Which antibody class is most efficient at activating complement via the classical pathway?",
-    "choices": ["IgM", "IgG1", "IgG3", "IgA"],
-    "answer": "IgM"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Complement",
-    "question": "Which complement component serves as the focal point where all three pathways converge?",
-    "choices": ["C3", "C1", "C4", "C5"],
-    "answer": "C3"
-  },
-  {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Autoimmunity",
-    "question": "Anti-Cyclic Citrullinated Peptide (Anti-CCP) is highly specific for:",
-    "choices": ["Rheumatoid Arthritis", "SLE", "Scleroderma", "MCTD"],
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "Rice bodies in synovial fluid are associated with:",
+    "choices": ["Rheumatoid Arthritis", "Septic Arthritis", "Gout", "Trauma"],
     "answer": "Rheumatoid Arthritis"
   },
   {
-    "category": "Immuno-Serology",
-    "source": "Stevens' Clinical Immunology",
-    "chapter": "Immunoassays",
-    "question": "In a non-competitive immunoassay, the amount of label measured is:",
-    "choices": ["Directly proportional to antigen concentration", "Inversely proportional", "Unrelated", "Logarithmic"],
-    "answer": "Directly proportional to antigen concentration"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Which structure in the kidney acts as a non-specific filter for blood?",
+    "choices": ["Glomerulus", "Proximal tubule", "Distal tubule", "Ureter"],
+    "answer": "Glomerulus"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Fixation",
-    "question": "Which fixative is recommended for the preservation of lipids in electron microscopy?",
-    "choices": ["Osmium Tetroxide", "Formalin", "Alcohol", "Picric Acid"],
-    "answer": "Osmium Tetroxide"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "A urine pH of 9.0 indicates:",
+    "choices": ["Old specimen or contamination", "Severe acidosis", "Normal fasting state", "High protein diet"],
+    "answer": "Old specimen or contamination"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Fixation",
-    "question": "Flemming's fluid is a chrome-osmium fixative used primarily for:",
-    "choices": ["Nuclear studies", "Lipid preservation", "Cytoplasmic preservation", "Bone tissue"],
-    "answer": "Nuclear studies"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is described as having a 'star' or 'rosette' shape?",
+    "choices": ["Uric Acid", "Ammonium Biurate", "Calcium Oxalate", "Cystine"],
+    "answer": "Uric Acid"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Processing",
-    "question": "Which clearing agent is considered the 'Gold Standard' for large tissue blocks or brain tissue despite its toxicity?",
-    "choices": ["Chloroform", "Xylene", "Benzene", "Toluene"],
-    "answer": "Chloroform"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Amniotic Fluid",
+    "question": "The L/S (Lecithin/Sphingomyelin) ratio is used to assess:",
+    "choices": ["Fetal Lung Maturity", "Neural tube defects", "Down syndrome", "Rh incompatibility"],
+    "answer": "Fetal Lung Maturity"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Processing",
-    "question": "Vacuum embedding speeds up the infiltration process by removing:",
-    "choices": ["Air bubbles", "Alcohol", "Water", "Fixative"],
-    "answer": "Air bubbles"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Refrigeration of urine can cause the precipitation of:",
+    "choices": ["Amorphous crystals", "Casts", "RBCs", "Bacteria"],
+    "answer": "Amorphous crystals"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Embedding",
-    "question": "What can be added to paraffin wax to reduce its melting point and improve cutting quality?",
-    "choices": ["Polymers (e.g., Plastic)", "Water", "Alcohol", "Oil"],
-    "answer": "Polymers (e.g., Plastic)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The renal clearance of which endogenous substance is most widely used to estimate GFR?",
+    "choices": ["Creatinine", "Inulin", "Urea", "Cystatin C"],
+    "answer": "Creatinine"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Microtomy",
-    "question": "Which microtome is also known as the Caldwell microtome?",
-    "choices": ["Rocking Microtome", "Rotary Microtome", "Sliding Microtome", "Freezing Microtome"],
-    "answer": "Rocking Microtome"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Which specific gravity measurement tool is most affected by high levels of glucose or protein?",
+    "choices": ["Refractometer", "Reagent Strip", "Urinometer", "Osmometer"],
+    "answer": "Refractometer"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Microtomy",
-    "question": "The rotary microtome, standard for routine paraffin sections, was invented by:",
-    "choices": ["Minot", "Queckett", "Adams", "Caldwell"],
-    "answer": "Minot"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Schistosoma haematobium eggs found in urine are distinguished by their:",
+    "choices": ["Terminal spine", "Lateral spine", "Operculum", "Lack of spine"],
+    "answer": "Terminal spine"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Microtomy",
-    "question": "Honing a microtome knife involves sharpening using a stone in a ____ motion.",
-    "choices": ["Toe-to-heel", "Heel-to-toe", "Circular", "Side-to-side"],
-    "answer": "Toe-to-heel"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "A 'serous' fluid effusion with a glucose level significantly lower than blood glucose suggests:",
+    "choices": ["Bacterial infection or malignancy", "Diabetes", "Liver failure", "Normal state"],
+    "answer": "Bacterial infection or malignancy"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Staining",
-    "question": "Overstaining followed by decolorization until the desired intensity is reached is called:",
-    "choices": ["Regressive staining", "Progressive staining", "Vital staining", "Metachromatic staining"],
-    "answer": "Regressive staining"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Normal CSF is produced by the ____ in the ventricles.",
+    "choices": ["Choroid Plexus", "Arachnoid Granulations", "Pia Mater", "Blood vessels"],
+    "answer": "Choroid Plexus"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Staining",
-    "question": "Which staining property allows a dye to stain a tissue component a different color from the dye solution (e.g., Toluidine Blue)?",
-    "choices": ["Metachromasia", "Orthochromasia", "Polychromasia", "Basophilia"],
-    "answer": "Metachromasia"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Cloudy red urine with a positive blood test but clear supernatant after centrifugation is:",
+    "choices": ["Hematuria", "Hemoglobinuria", "Myoglobinuria", "Beeturia"],
+    "answer": "Hematuria"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Staining",
-    "question": "Vital staining refers to staining of:",
-    "choices": ["Living cells", "Fixed cells", "Frozen sections", "Bone tissue"],
-    "answer": "Living cells"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which reagent strip pad relies on the 'protein error of indicators'?",
+    "choices": ["Protein", "pH", "Blood", "Nitrite"],
+    "answer": "Protein"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Special Stains",
-    "question": "GMS (Gomori Methenamine Silver) is the standard stain for:",
-    "choices": ["Fungi", "Bacteria", "Lipids", "Iron"],
-    "answer": "Fungi"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "WBCs in urine are primarily:",
+    "choices": ["Neutrophils", "Lymphocytes", "Monocytes", "Eosinophils"],
+    "answer": "Neutrophils"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "Who serves as the Vice-Chairman of the Council of Medical Technology Education?",
-    "choices": ["Director of Higher Education (CHED)", "Secretary of Health", "PRC Chairman", "Chairman of the Board of MT"],
-    "answer": "Director of Higher Education (CHED)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Sperm motility is graded on a scale of:",
+    "choices": ["0 to 4", "1 to 10", "A to F", "None of the above"],
+    "answer": "0 to 4"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "The revocation of a certificate of registration requires a ____ vote of the members of the Board.",
-    "choices": ["Unanimous", "Majority", "Two-thirds", "Three-fourths"],
-    "answer": "Unanimous"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Fecal Analysis",
+    "question": "Fecal occult blood tests should be performed on how many different stool samples?",
+    "choices": ["3", "1", "2", "5"],
+    "answer": "3"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "The suspension of a certificate of registration requires a ____ vote of the members of the Board.",
-    "choices": ["Majority", "Unanimous", "Two-thirds", "Three-fourths"],
-    "answer": "Majority"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Glomerular pressure is maintained by the ____ of the afferent and efferent arterioles.",
+    "choices": ["Varying diameters", "Length", "Number", "Pressure"],
+    "answer": "Varying diameters"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "The MedTech Intern refers to a student in which year of the program?",
-    "choices": ["4th year", "3rd year", "Internship year", "Graduating year"],
-    "answer": "4th year"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The Watson-Schwartz test uses ____ to differentiate urobilinogen from other Ehrlich-reacting substances.",
+    "choices": ["Chloroform and Butanol", "Saline", "Acid", "Alcohol"],
+    "answer": "Chloroform and Butanol"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "PAMET",
-    "question": "Who is known as the 'Father of PAMET'?",
-    "choices": ["Crisanto Almario", "Charlemagne Tamondong", "Nardito Moraleta", "Leila Florento"],
-    "answer": "Crisanto Almario"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which urinary cast is associated with Chronic Lead Poisoning?",
+    "choices": ["Granular cast", "Hyaline cast", "WBC cast", "RBC cast"],
+    "answer": "Granular cast"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "PAMET",
-    "question": "PAMET was founded on which date?",
-    "choices": ["September 15, 1963", "June 21, 1969", "October 14, 1970", "September 21, 1972"],
-    "answer": "September 15, 1963"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Pleural fluid pH < 7.2 is often indicative of the need for:",
+    "choices": ["Chest tube drainage", "Antibiotics only", "No treatment", "Surgery"],
+    "answer": "Chest tube drainage"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "Professional Regulation",
-    "question": "How often must a Medical Technologist renew their professional license at the PRC?",
-    "choices": ["Every 3 years", "Every year", "Every 5 years", "Every 2 years"],
-    "answer": "Every 3 years"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "The CSF/Serum Albumin Index is used to assess the integrity of the:",
+    "choices": ["Blood-Brain Barrier", "Liver", "Kidney", "Spleen"],
+    "answer": "Blood-Brain Barrier"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "Professional Regulation",
-    "question": "What is the primary requirement for license renewal under RA 10912?",
-    "choices": ["CPD Units", "Retaking the Board Exam", "Annual Membership Dues", "Work Experience Verification"],
-    "answer": "CPD Units"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A urine specific gravity of 1.001 is indicative of:",
+    "choices": ["Diabetes Insipidus", "Dehydration", "Diabetes Mellitus", "Normal state"],
+    "answer": "Diabetes Insipidus"
   },
   {
-    "category": "HTMLE",
-    "source": "Ethics",
-    "chapter": "Professional Standards",
-    "question": "Which ethical principle emphasizes the student's obligation to perform laboratory tasks with utmost precision and honesty?",
-    "choices": ["Professionalism", "Beneficence", "Non-maleficence", "Autonomy"],
-    "answer": "Professionalism"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The Sulfosalicylic Acid (SSA) test can show a false-positive result in the presence of:",
+    "choices": ["Radiographic dye", "Glucose", "Bilirubin", "Ketones"],
+    "answer": "Radiographic dye"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "Under RA 5527, the Secretary of Health serves as the ____ of the Council of MT Education.",
-    "choices": ["Chairman", "Vice-Chairman", "Member", "Technical Advisor"],
-    "answer": "Chairman"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which cell is characteristically seen in 'Lead Poisoning' urine sediment?",
+    "choices": ["Inclusion-bearing RTE cells", "RBCs", "WBCs", "Squamous cells"],
+    "answer": "Inclusion-bearing RTE cells"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "Section 21 of RA 5527 states that a certificate of registration must be signed by the members of the Board and the:",
-    "choices": ["PRC Commissioner", "Secretary of Health", "President of PAMET", "Chairman of the Council"],
-    "answer": "PRC Commissioner"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Low levels of which enzyme in semen suggests a prostatic problem?",
+    "choices": ["Acid Phosphatase", "Alkaline Phosphatase", "Amylase", "Lipase"],
+    "answer": "Acid Phosphatase"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "PD 498 is an amendment to RA 5527 promulgated by which President?",
-    "choices": ["Ferdinand Marcos", "Corazon Aquino", "Gloria Macapagal Arroyo", "Ramon Magsaysay"],
-    "answer": "Ferdinand Marcos"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Which of the following is the most commonly used preservative for routine urinalysis?",
+    "choices": ["Refrigeration", "Formalin", "Acid", "Sodium Fluoride"],
+    "answer": "Refrigeration"
   },
   {
-    "category": "HTMLE",
-    "source": "Laboratory Safety",
-    "chapter": "Biosafety Cabinets",
-    "question": "A Class I Biosafety Cabinet provides protection for:",
-    "choices": ["Operator and environment only", "Product only", "Operator, product, and environment", "Environment only"],
-    "answer": "Operator and environment only"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Which tubular process is responsible for the removal of waste products like creatinine?",
+    "choices": ["Tubular Secretion", "Glomerular Filtration", "Tubular Reabsorption", "Countercurrent mechanism"],
+    "answer": "Tubular Secretion"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Microtomy",
-    "question": "Which part of the microtome maintains the constant clearance angle during cutting?",
-    "choices": ["Knife holder", "Block holder", "Adjustment screws", "Base"],
-    "answer": "Knife holder"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A 'white' or 'amorphous' precipitate in alkaline urine is likely:",
+    "choices": ["Phosphates", "Urates", "Uric Acid", "Oxalates"],
+    "answer": "Phosphates"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Microtomy",
-    "question": "The optimal clearance angle for routine microtomy is:",
-    "choices": ["5 - 10 degrees", "15 - 20 degrees", "30 degrees", "45 degrees"],
-    "answer": "5 - 10 degrees"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Reagent strips for glucose are specific for which sugar?",
+    "choices": ["Glucose", "Galactose", "Lactose", "Fructose"],
+    "answer": "Glucose"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Processing",
-    "question": "Automated tissue processing using microwave technology primarily reduces the time for:",
-    "choices": ["Infiltration and fixation", "Microtomy", "Embedding", "Staining"],
-    "answer": "Infiltration and fixation"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which cast is found in healthy individuals after strenuous exercise?",
+    "choices": ["Hyaline cast", "Waxy cast", "RBC cast", "Granular cast"],
+    "answer": "Hyaline cast"
   },
   {
-    "category": "HTMLE",
-    "source": "Gregorio's Histopathologic Techniques",
-    "chapter": "Fixation",
-    "question": "Which fixative is best for preserving glycogen?",
-    "choices": ["Alcohol-based fixatives (e.g., Gendre's)", "Formalin", "Glutaraldehyde", "Zenker's"],
-    "answer": "Alcohol-based fixatives (e.g., Gendre's)"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "The 'string test' for synovial fluid measures its:",
+    "choices": ["Viscosity", "Cell count", "Protein level", "Glucose level"],
+    "answer": "Viscosity"
   },
   {
-    "category": "HTMLE",
-    "source": "Philippine MedTech Laws",
-    "chapter": "RA 5527",
-    "question": "The administrative investigation of MedTech Board Exam cases is conducted by which body?",
-    "choices": ["The Board of MT", "PRC Legal Division", "DOH", "CHED"],
-    "answer": "The Board of MT"
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Which tube is typically used for Microbiology in a CSF collection?",
+    "choices": ["Tube #2", "Tube #1", "Tube #3", "Tube #4"],
+    "answer": "Tube #2"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Diabetes Mellitus is the most common cause of which type of renal disease?",
+    "choices": ["Glomerular / Diabetic Nephropathy", "Tubular necrosis", "Pyelonephritis", "Interstitial nephritis"],
+    "answer": "Glomerular / Diabetic Nephropathy"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "The presence of negatively birefringent needle-shaped crystals is seen in:",
+    "choices": ["Gout", "Pseudogout", "RA", "Septic Arthritis"],
+    "answer": "Gout"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Fecal Analysis",
+    "question": "A 'Black / Tarry' stool is indicative of bleeding in the:",
+    "choices": ["Upper GI tract", "Lower GI tract", "Rectum", "Anus"],
+    "answer": "Upper GI tract"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Pregnancy Testing",
+    "question": "hCG is produced by which tissue?",
+    "choices": ["Trophoblast", "Corpus luteum", "Ovary", "Pituitary"],
+    "answer": "Trophoblast"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The nitrite test requires at least ____ hours of urine incubation in the bladder.",
+    "choices": ["4", "1", "2", "12"],
+    "answer": "4"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is known as the 'rosette' crystal in acid urine?",
+    "choices": ["Uric Acid", "Calcium Oxalate", "Triple Phosphate", "Amorphous Urates"],
+    "answer": "Uric Acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Peritoneal fluid is also known as:",
+    "choices": ["Ascitic Fluid", "Pleural Fluid", "Synovial Fluid", "Amniotic Fluid"],
+    "answer": "Ascitic Fluid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Which container is required for a urine culture?",
+    "choices": ["Sterile container", "Clear plastic cup", "Glass jar", "Metal pan"],
+    "answer": "Sterile container"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A urine specific gravity of 1.010 is:",
+    "choices": ["Isosthenuric", "Hyposthenuric", "Hypersthenuric", "Normal"],
+    "answer": "Isosthenuric"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The GFR is approximately ____ mL/min in a healthy adult.",
+    "choices": ["120", "50", "200", "500"],
+    "answer": "120"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which condition causes a false-positive ketone test on some reagent strips?",
+    "choices": ["Highly pigmented urine / Levodopa", "Diabetes", "Starvation", "Vomiting"],
+    "answer": "Highly pigmented urine / Levodopa"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is found in acidic urine and resembles a 'diamond' or 'rhombic' shape?",
+    "choices": ["Uric Acid", "Cystine", "Triple Phosphate", "Calcium Carbonate"],
+    "answer": "Uric Acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Normal CSF appearance is:",
+    "choices": ["Crystal Clear", "Cloudy", "Yellow", "Bloody"],
+    "answer": "Crystal Clear"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Synovial fluid is produced by which cells?",
+    "choices": ["Synoviocytes", "Osteoblasts", "Chondrocytes", "Fibroblasts"],
+    "answer": "Synoviocytes"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Sperm motility should be assessed within ____ of collection.",
+    "choices": ["1 hour", "12 hours", "24 hours", "5 minutes"],
+    "answer": "1 hour"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Proteinuria is most significant when it is:",
+    "choices": ["Persistent", "Transient", "Orthostatic", "Functional"],
+    "answer": "Persistent"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which cell is known as the 'fried egg' appearance cell in UA?",
+    "choices": ["Squamous Epithelial Cell", "RBC", "WBC", "Renal Cell"],
+    "answer": "Squamous Epithelial Cell"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Lipiduria is a hallmark of:",
+    "choices": ["Nephrotic Syndrome", "UTI", "Diabetes Insipidus", "Cystitis"],
+    "answer": "Nephrotic Syndrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Pleural fluid glucose levels parallel ____ glucose levels.",
+    "choices": ["Serum", "Urine", "CSF", "Gastric"],
+    "answer": "Serum"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Fecal Analysis",
+    "question": "Excessive fecal fat is known as:",
+    "choices": ["Steatorrhea", "Melena", "Occult blood", "Diarrhea"],
+    "answer": "Steatorrhea"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "What is the primary objective of using midstream urine?",
+    "choices": ["To reduce contamination from external genitalia", "To get the concentrated specimen", "To get the first void", "To get more volume"],
+    "answer": "To reduce contamination from external genitalia"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The juxtaglomerular apparatus regulates blood pressure by secreting:",
+    "choices": ["Renin", "ADH", "Aldosterone", "Cortisol"],
+    "answer": "Renin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Specific gravity measures the ____ of dissolved particles.",
+    "choices": ["Density", "Number", "Size", "Color"],
+    "answer": "Density"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The blood reagent strip pad detects both ____ and ____.",
+    "choices": ["Intact RBCs and Free Hemoglobin", "WBCs and RBCs", "Hemoglobin and Bilirubin", "Glucose and Blood"],
+    "answer": "Intact RBCs and Free Hemoglobin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is found in alkaline urine and resembles 'Dumbbells'?",
+    "choices": ["Calcium Carbonate", "Triple Phosphate", "Ammonium Biurate", "Calcium Oxalate"],
+    "answer": "Calcium Carbonate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "An 'exudate' is usually due to:",
+    "choices": ["Inflammation or infection", "Congestive heart failure", "Liver failure", "Nephrotic syndrome"],
+    "answer": "Inflammation or infection"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Which test is used to detect cryptococcal antigen in CSF?",
+    "choices": ["India Ink / Latex Agglutination", "Gram Stain", "Culture", "PCR"],
+    "answer": "India Ink / Latex Agglutination"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "The pH of normal semen is:",
+    "choices": ["7.2 to 8.0", "6.0 to 7.0", "8.0 to 9.0", "5.0 to 6.0"],
+    "answer": "7.2 to 8.0"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Failure to refrigerate urine can result in a false-increase in:",
+    "choices": ["pH and bacteria", "Glucose", "Ketones", "Bilirubin"],
+    "answer": "pH and bacteria"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which substance can cause a false-negative result for blood, glucose, and nitrite?",
+    "choices": ["Ascorbic acid (Vitamin C)", "Bilirubin", "Protein", "Specific gravity"],
+    "answer": "Ascorbic acid (Vitamin C)"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which cast is known as the 'Renal Failure Cast'?",
+    "choices": ["Waxy cast / Broad cast", "Hyaline cast", "RBC cast", "WBC cast"],
+    "answer": "Waxy cast / Broad cast"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "The presence of fatty casts and oval fat bodies is diagnostic for:",
+    "choices": ["Nephrotic Syndrome", "Acute Glomerulonephritis", "Pyelonephritis", "UTI"],
+    "answer": "Nephrotic Syndrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "Reiter cells in synovial fluid are ____ containing ingested ____.",
+    "choices": ["Macrophages; Neutrophils", "Neutrophils; RBCs", "Lymphocytes; Bacteria", "Monocytes; Crystals"],
+    "answer": "Macrophages; Neutrophils"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Which of the following describes a first morning urine specimen?",
+    "choices": ["Concentrated and most likely to detect abnormalities", "Least concentrated", "Used only for glucose", "Dilute"],
+    "answer": "Concentrated and most likely to detect abnormalities"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Which kidney function test is used to assess tubular reabsorption capacity?",
+    "choices": ["Concentration test / Fishberg test", "Clearance test", "Nitrite test", "pH test"],
+    "answer": "Concentration test / Fishberg test"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Specific gravity by reagent strip measures only:",
+    "choices": ["Ionic concentration", "Density", "Number of particles", "Refractive index"],
+    "answer": "Ionic concentration"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The presence of bilirubin in urine is always:",
+    "choices": ["Abnormal", "Normal", "Found only in pregnancy", "Dependent on diet"],
+    "answer": "Abnormal"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which urinary crystal is found in acid urine and resembles 'yellow-brown needles'?",
+    "choices": ["Bilirubin", "Uric Acid", "Cystine", "Tyrosine"],
+    "answer": "Bilirubin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "The primary objective of performing a fluid analysis is to determine if the fluid is a:",
+    "choices": ["Transudate or Exudate", "Bacterial or Viral", "Normal or Abnormal", "Chylous or Serous"],
+    "answer": "Transudate or Exudate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "A CSF lactate level > 25 mg/dL is suggestive of:",
+    "choices": ["Bacterial or fungal meningitis", "Viral meningitis", "Brain tumor", "Multiple Sclerosis"],
+    "answer": "Bacterial or fungal meningitis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "The 'refrigerated urine' smell is typically:",
+    "choices": ["Odorless", "Ammoniacal", "Mousy", "Fruity"],
+    "answer": "Odorless"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "High specific gravity may cause a false-negative ____ on some reagent strips.",
+    "choices": ["Leukocyte esterase", "Glucose", "Bilirubin", "pH"],
+    "answer": "Leukocyte esterase"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which epithelial cell originates from the bladder or ureters?",
+    "choices": ["Transitional Epithelial Cells", "Squamous Epithelial Cells", "Renal Tubular Cells", "Clue Cells"],
+    "answer": "Transitional Epithelial Cells"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Sperm vitality testing is performed using which stain?",
+    "choices": ["Eosin-Nigrosin", "Gram Stain", "Wright's Stain", "Methylene Blue"],
+    "answer": "Eosin-Nigrosin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Which fluid is collected via Paracentesis?",
+    "choices": ["Peritoneal Fluid", "Pleural Fluid", "Pericardial Fluid", "CSF"],
+    "answer": "Peritoneal Fluid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The filtration barrier of the glomerulus excludes molecules with a molecular weight greater than:",
+    "choices": ["70,000 Daltons", "10,000 Daltons", "500,000 Daltons", "1,000 Daltons"],
+    "answer": "70,000 Daltons"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A urine refractometer is calibrated using:",
+    "choices": ["Distilled water and 5% NaCl", "Normal saline", "Tap water", "Glucose solution"],
+    "answer": "Distilled water and 5% NaCl"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which condition results in increased urine urobilinogen but negative urine bilirubin?",
+    "choices": ["Hemolytic disease", "Biliary obstruction", "Liver failure", "Diabetes"],
+    "answer": "Hemolytic disease"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which cast is indicative of renal stasis and severe tubular damage?",
+    "choices": ["Granular cast", "Hyaline cast", "RBC cast", "WBC cast"],
+    "answer": "Granular cast"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Which fluid analysis department usually performs the cell count first?",
+    "choices": ["Hematology", "Microbiology", "Chemistry", "Serology"],
+    "answer": "Hematology"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Normal CSF glucose is approximately ____ of serum glucose.",
+    "choices": ["60-70%", "10-20%", "90-100%", "50%"],
+    "answer": "60-70%"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Alport syndrome is a genetic disorder affecting the basement membrane of the:",
+    "choices": ["Glomerulus", "Tubules", "Loop of Henle", "Ureters"],
+    "answer": "Glomerulus"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "LE cells are occasionally found in synovial fluid of patients with:",
+    "choices": ["Systemic Lupus Erythematosus", "RA", "Gout", "Septic arthritis"],
+    "answer": "Systemic Lupus Erythematosus"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "The primary inorganic constituent of urine is:",
+    "choices": ["Chloride", "Sodium", "Calcium", "Magnesium"],
+    "answer": "Chloride"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A 'cloudy' urine that clears upon addition of dilute acetic acid contains:",
+    "choices": ["Phosphates or carbonates", "Urates", "RBCs", "Bacteria"],
+    "answer": "Phosphates or carbonates"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Post-renal proteinuria is usually associated with:",
+    "choices": ["Lower UTI / Inflammation", "Strenuous exercise", "Glomerulonephritis", "Multiple Myeloma"],
+    "answer": "Lower UTI / Inflammation"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is found in acid urine and has a 'coffin-lid' like uric acid?",
+    "choices": ["None (Coffin lid is triple phosphate in alkaline)", "Triple Phosphate", "Calcium Oxalate", "Amorphous Urates"],
+    "answer": "None (Coffin lid is triple phosphate in alkaline)"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The kidneys produce approximately ____ liters of ultrafiltrate daily.",
+    "choices": ["180", "1.5", "50", "10"],
+    "answer": "180"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Refractive index is the ratio of light velocity in ____ to light velocity in ____.",
+    "choices": ["Air; Solution", "Water; Air", "Solution; Glass", "Air; Water"],
+    "answer": "Air; Solution"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Microalbuminuria is defined as albumin excretion between:",
+    "choices": ["30-300 mg / 24 hours", "1-10 mg / 24 hours", "500-1000 mg / 24 hours", "> 1 g / 24 hours"],
+    "answer": "30-300 mg / 24 hours"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Yeast in urine sediment is easily confused with:",
+    "choices": ["RBCs", "WBCs", "Calcium Oxalate", "Air bubbles"],
+    "answer": "RBCs"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "A 'Chylous' effusion is characterized by high levels of:",
+    "choices": ["Triglycerides", "Cholesterol", "Protein", "Glucose"],
+    "answer": "Triglycerides"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "CSF is reabsorbed into the blood via the:",
+    "choices": ["Arachnoid Granulations / Villi", "Choroid plexus", "Blood-Brain Barrier", "Lymphatic system"],
+    "answer": "Arachnoid Granulations / Villi"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Which condition produces a urine with a 'syrupy' odor?",
+    "choices": ["Maple Syrup Urine Disease", "Diabetes Mellitus", "PKU", "UTI"],
+    "answer": "Maple Syrup Urine Disease"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which ketone is the major product of fat metabolism?",
+    "choices": ["Beta-hydroxybutyrate", "Acetoacetic acid", "Acetone", "Acetic acid"],
+    "answer": "Beta-hydroxybutyrate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "WBC casts without bacteria are typical of:",
+    "choices": ["Acute Interstitial Nephritis", "Acute Pyelonephritis", "Cystitis", "Normal state"],
+    "answer": "Acute Interstitial Nephritis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Normal synovial fluid contains no ____.",
+    "choices": ["Fibrinogen", "Hyaluronic acid", "Albumin", "Glucose"],
+    "answer": "Fibrinogen"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Fecal Analysis",
+    "question": "The 'Fecal Leukocyte' test is primarily used to identify:",
+    "choices": ["Invasive bacterial pathogens", "Viral infection", "Internal bleeding", "Malabsorption"],
+    "answer": "Invasive bacterial pathogens"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Pregnancy Testing",
+    "question": "The sensitivity of most urine pregnancy tests is ____ mIU/mL.",
+    "choices": ["20-25", "1-5", "100", "500"],
+    "answer": "20-25"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "A random urine specimen is acceptable for which test?",
+    "choices": ["Routine UA", "Culture", "Glucose tolerance", "Catecholamines"],
+    "answer": "Routine UA"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The total volume of urine produced is primarily controlled by:",
+    "choices": ["ADH and hydration state", "Glomerular pressure", "Blood sugar", "Sodium intake"],
+    "answer": "ADH and hydration state"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A refractometer measures the ____ of light passing through a solution.",
+    "choices": ["Velocity change / Refraction", "Absorption", "Scattering", "Polarization"],
+    "answer": "Velocity change / Refraction"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which of the following causes a false-positive blood reagent strip result?",
+    "choices": ["Strong oxidizing agents (e.g., Bleach)", "Ascorbic acid", "High specific gravity", "Formalin"],
+    "answer": "Strong oxidizing agents (e.g., Bleach)"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is found in acid urine and resembles 'bundles of needles' or 'whetsone' shape?",
+    "choices": ["Uric Acid", "Triple Phosphate", "Calcium Carbonate", "Amorphous Phosphates"],
+    "answer": "Uric Acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "Normal synovial fluid is ____ and does not ____.",
+    "choices": ["Highly viscous; clot", "Thin; clot", "Highly viscous; contain glucose", "Thin; contain glucose"],
+    "answer": "Highly viscous; clot"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "A CSF specimen with many neutrophils and low glucose is diagnostic for:",
+    "choices": ["Bacterial Meningitis", "Viral Meningitis", "Multiple Sclerosis", "Fungal infection"],
+    "answer": "Bacterial Meningitis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Which urine specific gravity result is impossible for a human?",
+    "choices": ["1.000", "1.001", "1.035", "1.010"],
+    "answer": "1.000"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The pH reagent strip pad utilizes which two indicators?",
+    "choices": ["Methyl red and Bromthymol blue", "Tetrabromphenol blue", "Sodium nitroprusside", "Ehrlich's"],
+    "answer": "Methyl red and Bromthymol blue"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which cast is indicative of heavy metal poisoning or chemical toxicity?",
+    "choices": ["Granular cast", "WBC cast", "RBC cast", "Hyaline cast"],
+    "answer": "Granular cast"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Goodpasture Syndrome is characterized by autoantibodies against the ____ basement membrane.",
+    "choices": ["Glomerular and Alveolar", "Glomerular and Tubular", "Glomerular and Skin", "Alveolar only"],
+    "answer": "Glomerular and Alveolar"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Sperm concentration is determined using which device?",
+    "choices": ["Neubauer Hemocytometer", "Refractometer", "Spectrophotometer", "Automation only"],
+    "answer": "Neubauer Hemocytometer"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Which urine specimen is best for evaluation of diabetes?",
+    "choices": ["2-hour postprandial", "First morning", "Random", "Fastings"],
+    "answer": "2-hour postprandial"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Renin secretion by the juxtaglomerular cells is stimulated by:",
+    "choices": ["Decreased blood pressure", "High sodium", "High blood pressure", "Normal state"],
+    "answer": "Decreased blood pressure"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Specific gravity measured by a urinometer requires a ____ correction.",
+    "choices": ["Temperature", "pH", "Sugar", "Color"],
+    "answer": "Temperature"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Glucose oxidase reagent strips show a false-negative result in the presence of:",
+    "choices": ["Ascorbic acid", "Bleach", "Pigmented urine", "Ketones"],
+    "answer": "Ascorbic acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is found in acid urine and resembles 'rhombic plates'?",
+    "choices": ["Uric Acid", "Triple Phosphate", "Calcium Carbonate", "Amorphous Urates"],
+    "answer": "Uric Acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "A 'pseudochylous' effusion is characterized by high levels of:",
+    "choices": ["Cholesterol", "Triglycerides", "Protein", "Glucose"],
+    "answer": "Cholesterol"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "The India Ink preparation is specifically used to detect:",
+    "choices": ["Cryptococcus neoformans", "Strep pneumoniae", "H. influenzae", "Neisseria"],
+    "answer": "Cryptococcus neoformans"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "The 'Normal' volume of a semen specimen is:",
+    "choices": ["2.0 to 5.0 mL", "0.1 to 0.5 mL", "10 to 20 mL", "5 to 10 mL"],
+    "answer": "2.0 to 5.0 mL"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Urine left at room temperature will have a decrease in:",
+    "choices": ["Glucose and Bilirubin", "pH", "Bacteria", "Nitrite"],
+    "answer": "Glucose and Bilirubin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Leukocyte esterase reagent strip detects the presence of:",
+    "choices": ["Granulocytes (Neutrophils, etc.)", "Lymphocytes", "Bacteria", "Yeast"],
+    "answer": "Granulocytes (Neutrophils, etc.)"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Broad casts are also known as ____ casts.",
+    "choices": ["Renal failure", "Hyaline", "Waxy", "RBC"],
+    "answer": "Renal failure"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Wegener's Granulomatosis is associated with which autoantibody?",
+    "choices": ["c-ANCA", "p-ANCA", "Anti-dsDNA", "Anti-Sm"],
+    "answer": "c-ANCA"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "Synovial fluid glucose levels should be within ____ mg/dL of fasting serum glucose.",
+    "choices": ["10", "50", "100", "0"],
+    "answer": "10"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "What is the most concentrated urine specimen?",
+    "choices": ["First morning", "Random", "Postprandial", "Timed"],
+    "answer": "First morning"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The osmolarity of urine is a more accurate measure of ____ than specific gravity.",
+    "choices": ["Concentrating ability", "Density", "Number of particles", "Both A and C"],
+    "answer": "Both A and C"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "Refractometry specific gravity must be corrected for glucose by subtracting ____ for every gram/dL.",
+    "choices": ["0.004", "0.001", "0.003", "0.010"],
+    "answer": "0.004"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which reagent strip pad is based on the 'Greiss reaction'?",
+    "choices": ["Nitrite", "Protein", "Glucose", "Bilirubin"],
+    "answer": "Nitrite"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is known as the 'coffin-lid' crystal?",
+    "choices": ["Triple Phosphate", "Calcium Oxalate", "Uric Acid", "Cystine"],
+    "answer": "Triple Phosphate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "A transudate is usually due to:",
+    "choices": ["Systemic pressure imbalances", "Infection", "Inflammation", "Malignancy"],
+    "answer": "Systemic pressure imbalances"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "A 'Traumatic Tap' is differentiated from SAH by:",
+    "choices": ["Decreasing blood in tubes and clear supernatant", "Equal blood in all tubes", "Xanthochromic supernatant", "None of the above"],
+    "answer": "Decreasing blood in tubes and clear supernatant"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Normal semen viscosity is graded as:",
+    "choices": ["Pours in droplets", "Forms a thread > 2cm", "Is like water", "None of the above"],
+    "answer": "Pours in droplets"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "A urine specimen that is not tested within 2 hours should be:",
+    "choices": ["Refrigerated", "Left on the bench", "Heated", "Discarded"],
+    "answer": "Refrigerated"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The protein reagent strip pad is most sensitive to:",
+    "choices": ["Albumin", "Globulin", "Hemoglobin", "Bence-Jones Protein"],
+    "answer": "Albumin"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which urinary cast contains fragmented RBCs and is diagnostic for Glomerulonephritis?",
+    "choices": ["RBC Cast", "WBC Cast", "Granular Cast", "Waxy Cast"],
+    "answer": "RBC Cast"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Nephrotic syndrome is characterized by massive ____ and ____.",
+    "choices": ["Proteinuria; Lipiduria", "Hematuria; Pyuria", "Bacteriuria; Glycosuria", "None of the above"],
+    "answer": "Proteinuria; Lipiduria"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "A pericardial effusion is collected from around the:",
+    "choices": ["Heart", "Lungs", "Liver", "Bladder"],
+    "answer": "Heart"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "A random urine specimen is acceptable for which of the following?",
+    "choices": ["Routine Urinalysis", "Culture", "Glucose Tolerance Test", "Timed collection"],
+    "answer": "Routine Urinalysis"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "The main function of the glomerulus is:",
+    "choices": ["Non-selective filtration", "Selective reabsorption", "Tubular secretion", "Concentration"],
+    "answer": "Non-selective filtration"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A refractometer specific gravity reading must be corrected for every g/dL of protein by subtracting:",
+    "choices": ["0.003", "0.001", "0.004", "0.010"],
+    "answer": "0.003"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The leukocyte esterase reagent strip pad detects the presence of:",
+    "choices": ["Neutrophils", "Lymphocytes", "Bacteria", "Yeast"],
+    "answer": "Neutrophils"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is found in acidic urine and resembles 'dumbbells' or 'spheres' with striations?",
+    "choices": ["Calcium Carbonate", "Uric Acid", "Triple Phosphate", "Calcium Oxalate"],
+    "answer": "Calcium Carbonate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "An exudate is typically associated with:",
+    "choices": ["Malignancy or Infection", "CHF", "Cirrhosis", "Nephrotic syndrome"],
+    "answer": "Malignancy or Infection"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Which CSF tube is typically sent to Microbiology?",
+    "choices": ["Tube 2", "Tube 1", "Tube 3", "Tube 4"],
+    "answer": "Tube 2"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Normal semen should liquefy within ____ minutes.",
+    "choices": ["30-60", "5", "120", "Overnight"],
+    "answer": "30-60"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "The primary preservative used for a 24-hour urine collection for calcium is:",
+    "choices": ["Hydrochloric Acid", "Formalin", "Sodium Fluoride", "Boric Acid"],
+    "answer": "Hydrochloric Acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which of the following causes a false-positive glucose oxidase test?",
+    "choices": ["Contamination with bleach", "Ascorbic acid", "High pH", "Bilirubin"],
+    "answer": "Contamination with bleach"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "The 'Renal Failure Cast' is the:",
+    "choices": ["Broad cast / Waxy cast", "Hyaline cast", "RBC cast", "WBC cast"],
+    "answer": "Broad cast / Waxy cast"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Disease",
+    "question": "Lipiduria and massive proteinuria are hallmarks of:",
+    "choices": ["Nephrotic Syndrome", "Acute Glomerulonephritis", "Pyelonephritis", "Cystitis"],
+    "answer": "Nephrotic Syndrome"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Synovial Fluid",
+    "question": "A 'Mucin Clot Test' evaluates the integrity of:",
+    "choices": ["Hyaluronic Acid", "Albumin", "Glucose", "Fibrinogen"],
+    "answer": "Hyaluronic Acid"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Which of the following is the most concentrated specimen?",
+    "choices": ["First morning", "Random", "Post-prandial", "Timed"],
+    "answer": "First morning"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Renal Function",
+    "question": "Specific gravity is a measure of urine ____.",
+    "choices": ["Density", "Osmolarity", "Color", "Refractive Index"],
+    "answer": "Density"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Physical Examination",
+    "question": "A urine specific gravity of 1.010 is called:",
+    "choices": ["Isosthenuric", "Hyposthenuric", "Hypersthenuric", "Normal"],
+    "answer": "Isosthenuric"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "The nitrite test pad relies on the reduction of ____ to ____ by bacteria.",
+    "choices": ["Nitrate; Nitrite", "Nitrite; Nitrate", "Urea; Ammonia", "Bilirubin; Urobilinogen"],
+    "answer": "Nitrate; Nitrite"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Microscopic Examination",
+    "question": "Which crystal is known as the 'envelope' shaped crystal?",
+    "choices": ["Calcium Oxalate", "Triple Phosphate", "Uric Acid", "Cystine"],
+    "answer": "Calcium Oxalate"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Body Fluids",
+    "question": "A 'transudate' is usually associated with:",
+    "choices": ["Congestive Heart Failure", "Malignancy", "Infection", "Inflammation"],
+    "answer": "Congestive Heart Failure"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "CSF Analysis",
+    "question": "Traumatic tap is differentiated from SAH by:",
+    "choices": ["Decreasing blood in successive tubes", "Persistent blood in all tubes", "Xanthochromic supernatant", "High glucose"],
+    "answer": "Decreasing blood in successive tubes"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Semen Analysis",
+    "question": "Sperm concentration is determined using a:",
+    "choices": ["Hemocytometer", "Refractometer", "Reflectometer", "Spectrophotometer"],
+    "answer": "Hemocytometer"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Introduction to Urinalysis",
+    "question": "Urinalysis should be performed within ____ hours of collection.",
+    "choices": ["2", "1", "4", "8"],
+    "answer": "2"
+  },
+  {
+    "category": "Clinical Microscopy",
+    "source": "Strasinger's Urinalysis and Body Fluids",
+    "chapter": "Chemical Examination",
+    "question": "Which pad on the reagent strip is most sensitive to moisture?",
+    "choices": ["Leukocyte esterase", "Glucose", "Bilirubin", "Ketones"],
+    "answer": "Leukocyte esterase"
   }
 ]
