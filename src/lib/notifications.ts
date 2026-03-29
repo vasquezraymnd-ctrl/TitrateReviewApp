@@ -1,4 +1,3 @@
-
 "use client"
 
 import { db, Schedule } from './db';
@@ -15,43 +14,31 @@ export class NotificationEngine {
 
   /**
    * Triggers the system-level permission prompt.
-   * Prioritizes native app bridge commands for "App Shell" environments.
    */
   static async requestPermission(): Promise<boolean> {
     if (typeof window === 'undefined') return false;
 
-    // 1. Detect Native App Bridge (Median / GoNative)
-    // This is critical for apps running in a native shell where standard Web APIs are restricted.
+    // Detect Native App Bridge (Median / GoNative)
     const bridge = (window as any).median || (window as any).gonative;
     if (bridge) {
       try {
         if (bridge.notifications && bridge.notifications.requestPermission) {
           bridge.notifications.requestPermission();
-          return true; // We assume true as the bridge handles the async prompt
+          return true;
         }
       } catch (e) {
         console.error("Native bridge notification request failed:", e);
       }
-      
-      // Fallback to deep-link command for native wrappers
       window.location.href = "gonative://notifications/requestPermission";
       return true;
     }
 
-    // 2. Standard Web API
     if ('Notification' in window) {
       if (Notification.permission === 'granted') return true;
-      if (Notification.permission === 'denied') {
-        console.warn("Notification permission is permanently denied in browser settings.");
-        return false;
-      }
-
       try {
-        // Modern Promise-based request
         const permission = await Notification.requestPermission();
         return permission === 'granted';
       } catch (e) {
-        // Legacy Callback-based request (used in some mobile WebViews)
         return new Promise((resolve) => {
           Notification.requestPermission((p) => resolve(p === 'granted'));
         });
@@ -64,7 +51,6 @@ export class NotificationEngine {
   static async checkSchedules() {
     if (typeof window === 'undefined') return;
     
-    // Safety check for permission state
     const hasPermission = 'Notification' in window && Notification.permission === 'granted';
     if (!hasPermission) return;
 
@@ -91,8 +77,22 @@ export class NotificationEngine {
     this.lastNotifiedId = protocol.id;
     
     const title = `PROTOCOL IMMINENT: ${protocol.title}`;
+    const body = `Analytical session scheduled for ${protocol.startTime}. Prepare laboratory instruments.`;
+    
+    // 1. Prioritize Native Bridge for Mobile Shell Tray
+    const bridge = (window as any).median || (window as any).gonative;
+    if (bridge && bridge.notifications && bridge.notifications.create) {
+      bridge.notifications.create({
+        title: title,
+        text: body,
+        id: protocol.id
+      });
+      return;
+    }
+
+    // 2. Fallback to Service Worker / Web API
     const options: NotificationOptions = {
-      body: `Analytical session scheduled for ${protocol.startTime}. Prepare laboratory instruments.`,
+      body: body,
       icon: '/icon',
       badge: '/icon',
       tag: 'titrate-schedule',
@@ -100,7 +100,6 @@ export class NotificationEngine {
       vibrate: [200, 100, 200]
     };
 
-    // Use Service Worker for background reliability
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.ready;
@@ -108,7 +107,7 @@ export class NotificationEngine {
       } catch (e) {
         new Notification(title, options);
       }
-    } else {
+    } else if ('Notification' in window) {
       new Notification(title, options);
     }
   }

@@ -1,11 +1,18 @@
-const CACHE_NAME = 'titrate-v1';
-const OFFLINE_URL = '/';
+/**
+ * TITRATE Service Worker
+ * Handles App Shell caching and system-level notification events.
+ */
 
+const CACHE_NAME = 'titrate-v1';
 const ASSETS_TO_CACHE = [
   '/',
-  '/manifest.webmanifest',
+  '/dashboard',
+  '/library',
+  '/focus',
+  '/quiz',
+  '/scheduler',
+  '/manifest.json',
   '/icon',
-  '/apple-icon',
   'https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Inter:wght@400;500;600;700&display=swap'
 ];
 
@@ -19,53 +26,33 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (event) => {
-  // Navigation fallback to index for offline PWA behavior
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request).catch(() => {
-        return caches.match(OFFLINE_URL);
-      })
-    );
-    return;
-  }
-
-  // Stale-while-revalidate for assets
+  // Stale-while-revalidate strategy
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       const fetchPromise = fetch(event.request).then((networkResponse) => {
-        // Cache successful unpkg (PDF worker) and google fonts requests
-        if (
-          networkResponse && 
-          networkResponse.status === 200 && 
-          (event.request.url.includes('unpkg.com') || event.request.url.includes('fonts.gstatic.com'))
-        ) {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-        }
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, networkResponse.clone());
+        });
         return networkResponse;
-      }).catch(() => {
-        // Fallback for failed network requests
-        return cachedResponse;
       });
-
       return cachedResponse || fetchPromise;
+    })
+  );
+});
+
+// Handle notification tap
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      if (clientList.length > 0) {
+        return clientList[0].focus();
+      }
+      return clients.openWindow('/');
     })
   );
 });
