@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from 'react';
@@ -51,14 +50,6 @@ export default function ImportPage() {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&')
-      .replace(/Anki\s*ng\s*RMT/gi, '')
-      .replace(/@AnkiNgRMTOfficial/gi, '')
-      .replace(/Lelouch/gi, '')
-      .replace(/Auto\s*submit/gi, '')
-      .replace(/Shuffle\s*choices/gi, '')
-      .replace(/Made\s*by\s*[^🧪]*/gi, '')
-      .replace(/🧪\s*Answer:/gi, '')
-      .replace(/[A-Z0-9]{3,}\/&[A-Z0-9]{2,};/gi, '') // Random IDs like Qw1/&Fr;
       .replace(/\s\s+/g, ' ')
       .trim();
     
@@ -99,7 +90,7 @@ export default function ImportPage() {
     return 'General Titration';
   };
 
-  const processAnkiExport = async () => {
+  const processArchiveExport = async () => {
     if (!file) return;
     setImporting(true);
     try {
@@ -111,13 +102,9 @@ export default function ImportPage() {
         const parts = lines[idx].split('\t');
         if (parts.length < 5) continue;
 
-        // High-Fidelity Column Shift Detection
-        // If col 1 is very short (ID), move to col 2.
         const startIdx = parts[0].length < 10 ? 1 : 0;
-        
         const qText = scrub(parts[startIdx]);
         
-        // Choice Titration (Variable Lengths)
         const choicesRaw = [
           parts[startIdx + 1], 
           parts[startIdx + 2], 
@@ -133,10 +120,7 @@ export default function ImportPage() {
             text: text
           }));
 
-        // Answer is usually in the last columns
         const answerText = scrub(parts[11] || parts[12] || parts[parts.length - 1] || "");
-        
-        // Contextual Grouping
         const metaChapter = scrub(parts[startIdx + 1]);
         const chapter = (metaChapter.length < 5 || /^\d+$/.test(metaChapter)) 
           ? categorizeContextually(qText, importSubject) 
@@ -199,7 +183,7 @@ export default function ImportPage() {
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-red-500 font-black uppercase">TOTAL PURGE REQUIRED?</AlertDialogTitle>
                   <AlertDialogDescription className="text-muted-foreground italic text-sm">
-                    This will permanently delete ALL titrated questions, anki cards, and uploaded modules.
+                    This will permanently delete ALL titrated questions and uploaded modules from the local database.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -214,7 +198,7 @@ export default function ImportPage() {
             <div className="riot-card bg-white/[0.02] border border-white/5 p-8 space-y-8">
               <div className="flex items-center gap-4">
                 <Database className="text-primary" size={32} />
-                <h3 className="text-xl font-black italic uppercase">High-Fidelity Titration Protocol</h3>
+                <h3 className="text-xl font-black italic uppercase">External Protocol Titration</h3>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -233,17 +217,17 @@ export default function ImportPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Select TXT Archive</Label>
-                  <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="anki-upload-center" />
+                  <Label className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Select Tab-Delimited Archive</Label>
+                  <Input type="file" accept=".txt" onChange={(e) => setFile(e.target.files?.[0] || null)} className="hidden" id="archive-upload-center" />
                   <Button asChild variant="outline" className="w-full h-12 border-dashed border-white/20 text-white font-black text-[10px]">
-                    <label htmlFor="anki-upload-center" className="cursor-pointer flex items-center justify-center gap-2">
+                    <label htmlFor="archive-upload-center" className="cursor-pointer flex items-center justify-center gap-2">
                       {file ? file.name : 'CHOOSE .TXT FILE'}
                     </label>
                   </Button>
                 </div>
               </div>
 
-              <Button className="riot-button w-full h-14 bg-primary text-black font-black text-[10px]" disabled={!file || importing} onClick={processAnkiExport}>
+              <Button className="riot-button w-full h-14 bg-primary text-black font-black text-[10px]" disabled={!file || importing} onClick={processArchiveExport}>
                 {importing ? <Loader2 className="animate-spin" /> : 'TITRATE ARCHIVE'}
               </Button>
             </div>

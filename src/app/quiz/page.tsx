@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -36,7 +35,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-// Direct import of system archives for offline PWA reliability
 import systemArchives from '@/lib/archives.json';
 
 interface SubjectStats {
@@ -45,9 +43,6 @@ interface SubjectStats {
   unanswered: number;
 }
 
-/**
- * Fisher-Yates Shuffle for clinical data variety
- */
 function shuffleChoices<T>(array: T[]): T[] {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
@@ -76,7 +71,6 @@ export default function QuizPage() {
   useEffect(() => {
     loadGlobalStats();
     
-    // Online Status Monitoring
     if (typeof window !== 'undefined') {
       setIsOnline(navigator.onLine);
       const handleOnline = () => setIsOnline(true);
@@ -285,7 +279,6 @@ export default function QuizPage() {
     setImporting(true);
     try {
       const questionsToImport: Question[] = systemArchives.map((item: any) => {
-        // Randomize choice order to avoid "Always A" syndrome
         const shuffledRaw = shuffleChoices(item.choices);
         
         const filteredChoices = shuffledRaw.map((text: string, i: number) => ({
@@ -293,7 +286,6 @@ export default function QuizPage() {
           text: text
         }));
 
-        // Dynamically find the ID assigned to the correct answer text
         const answerId = filteredChoices.find(c => c.text.trim() === item.answer.trim())?.id || 'A';
 
         return {
@@ -307,7 +299,6 @@ export default function QuizPage() {
         };
       });
 
-      // Synchronize using static IDs to prevent duplicates and enable re-shuffling
       await db.bulkPut('questions', questionsToImport);
       await loadGlobalStats();
       

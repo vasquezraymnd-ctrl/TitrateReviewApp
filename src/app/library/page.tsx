@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, Suspense, useRef, useCallback } from 'react';
@@ -51,7 +50,6 @@ import { useToast } from '@/hooks/use-toast';
 import { PlaceHolderImages } from '@/app/lib/placeholder-images';
 import { cn } from '@/lib/utils';
 
-// Dynamically import the Workspace to handle client-side rendering requirements
 const Workspace = dynamic(() => import('@/components/dashboard/Workspace').then(mod => mod.Workspace), {
   ssr: false,
   loading: () => (
@@ -73,23 +71,19 @@ function LibraryContent() {
   const [search, setSearch] = useState('');
   const [profile, setProfile] = useState<UserProfile | null>(null);
   
-  // UI Modes
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [moduleToDelete, setModuleToDelete] = useState<LabModule | null>(null);
 
-  // Module Dialog State
   const [isAddModuleOpen, setIsAddModuleOpen] = useState(false);
   const [newModuleName, setNewModuleName] = useState('');
   const [selectedSubject, setSelectedSubject] = useState<string>(subjectFilter || 'Microbiology');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   
-  // Profile Dialog State
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [editName, setEditName] = useState('');
   const [editYear, setEditYear] = useState('');
   const [editExamDate, setEditExamDate] = useState('');
 
-  // Multi-tab Workspace State
   const [activeModules, setActiveModules] = useState<LabModule[]>([]);
   const [isWorkspaceOpen, setIsWorkspaceOpen] = useState(false);
   
@@ -117,7 +111,6 @@ function LibraryContent() {
     }
     setModules(storedModules.sort((a, b) => b.id.localeCompare(a.id)));
 
-    // Re-hydrate persistent tabs
     const savedIds = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     if (savedIds.length > 0) {
       const allModules = await db.getAll<LabModule>('modules');
@@ -186,7 +179,6 @@ function LibraryContent() {
     if (!moduleToDelete) return;
     await db.delete('modules', moduleToDelete.id);
     
-    // Cleanup active tabs
     setActiveModules(prev => {
       const next = prev.filter(m => m.id !== moduleToDelete.id);
       persistTabs(next);
@@ -272,15 +264,12 @@ function LibraryContent() {
         <DashboardHeader />
         
         <div className="px-6 md:px-10 lg:px-16 py-28 md:py-32 max-w-[1800px] mx-auto space-y-12">
-          {/* Simple Identification Card Section */}
           <section className="max-w-2xl">
             <div className="riot-card bg-[#111a24] border border-white/10 p-6 md:p-8 flex items-center gap-6 md:gap-10 relative shadow-2xl overflow-hidden">
-              {/* Avatar (Left) */}
               <div className="w-24 h-24 md:w-32 md:h-32 bg-primary/5 border-2 border-primary/20 flex items-center justify-center shrink-0">
                 <User size={60} className="text-primary/40" />
               </div>
 
-              {/* Info (Right) */}
               <div className="flex-1 min-w-0">
                 <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-white leading-tight truncate">
                   {profile?.name || 'Future RMT'}
@@ -290,7 +279,6 @@ function LibraryContent() {
                 </p>
               </div>
 
-              {/* Edit Button */}
               <button 
                 onClick={() => setIsEditProfileOpen(true)} 
                 className="absolute top-2 right-2 p-2 text-white/5 hover:text-primary transition-colors"
@@ -401,7 +389,6 @@ function LibraryContent() {
           )}
         </div>
 
-        {/* Workspace Integration */}
         {activeModules.length > 0 && isWorkspaceOpen && (
           <Workspace 
             modules={activeModules} 
