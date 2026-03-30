@@ -45,6 +45,18 @@ interface SubjectStats {
   unanswered: number;
 }
 
+/**
+ * Fisher-Yates Shuffle for clinical data variety
+ */
+function shuffleChoices<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
 export default function QuizPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -92,7 +104,6 @@ export default function QuizPage() {
 
     const stats: Record<string, SubjectStats> = {};
     
-    // Use CORE_SUBJECTS directly as it now includes all 6 sectors
     CORE_SUBJECTS.forEach(subject => {
       const subjectQs = allQuestions.filter(q => q.subject === subject);
       const masteredCount = allProgress.filter(p => {
@@ -274,11 +285,15 @@ export default function QuizPage() {
     setImporting(true);
     try {
       const questionsToImport: Question[] = systemArchives.map((item: any) => {
-        const filteredChoices = item.choices.map((text: string, i: number) => ({
+        // Randomize choice order to avoid "Always A" syndrome
+        const shuffledRaw = shuffleChoices(item.choices);
+        
+        const filteredChoices = shuffledRaw.map((text: string, i: number) => ({
           id: String.fromCharCode(65 + i),
           text: text
         }));
 
+        // Dynamically find the ID assigned to the correct answer text
         const answerId = filteredChoices.find(c => c.text.trim() === item.answer.trim())?.id || 'A';
 
         return {
@@ -292,7 +307,7 @@ export default function QuizPage() {
         };
       });
 
-      // Synchronize using static IDs to prevent duplicates
+      // Synchronize using static IDs to prevent duplicates and enable re-shuffling
       await db.bulkPut('questions', questionsToImport);
       await loadGlobalStats();
       
@@ -302,7 +317,7 @@ export default function QuizPage() {
       
       toast({ 
         title: "Sync Successful", 
-        description: `Synchronized ${questionsToImport.length} protocols into local storage.` 
+        description: `Synchronized ${questionsToImport.length} protocols. Answers have been titrated for variety.` 
       });
     } catch (err) {
       console.error(err);
@@ -351,7 +366,7 @@ export default function QuizPage() {
                     const stats = subjectStats[subject] || { mastered: 0, total: 0, unanswered: 0 };
                     return (
                       <button 
-                        key={subject} 
+                        key={`subject-sector-${subject}`} 
                         onClick={() => handleSubjectSelect(subject)}
                         className="riot-card p-8 xl:p-12 bg-white/[0.02] border border-white/5 hover:bg-primary hover:text-black transition-all group text-left flex flex-col justify-between"
                       >
