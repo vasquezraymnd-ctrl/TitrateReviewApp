@@ -926,7 +926,7 @@
   {"id":"L-124","category":"HTMLE","source":"Gregorio","chapter":"Microtomy","question":"The 'Cryostat' is used for:","choices":["Rapid frozen sections","Routine paraffin","Large organs","Bone"],"answer":"Rapid frozen sections"},
   {"id":"L-125","category":"HTMLE","source":"Gregorio","chapter":"Microtomy","question":"The temperature inside a cryostat is usually:","choices":["-20 C","0 C","-70 C","25 C"],"answer":"-20 C"},
   {"id":"L-126","category":"HTMLE","source":"Gregorio","chapter":"Microtomy","question":"Which microtome knife is used for cutting celloidin sections?","choices":["Plano-concave","Biconcave","Wedge-shaped","Chisel-shaped"],"answer":"Plano-concave"},
-  {"id":"L-127","category":"HTMLE","source":"Gregorio","chapter":"Staining","question":"Orcein stain is used for:","choices":["Elastic fibers","Collagen","DNA","Proteins"],"answer":"Elastic fibers"},
+  {"id":"L-127","category":"HTMLE","source":"Gregorio","chapter":"Staining","question":"Orcein stain is used for:","choices":["Elastic fibers","Collagen","DNA","Proteins"],"answer":"Orcein stain"},
   {"id":"L-128","category":"HTMLE","source":"Gregorio","chapter":"Staining","question":"Toluidine Blue is a:","choices":["Metachromatic stain","Routine stain","Acid-fast stain","None"],"answer":"Metachromatic stain"},
   {"id":"L-129","category":"HTMLE","source":"Gregorio","chapter":"Staining","question":"Metachromasia refers to:","choices":["Staining a different color than the dye","Overstaining","No staining","Nuclear staining only"],"answer":"Staining a different color than the dye"},
   {"id":"L-130","category":"HTMLE","source":"Gregorio","chapter":"Cytology","question":"The 'Maturation Index' in cytology reflects:","choices":["Hormonal balance","Infection","Cell death","Cancer stage"],"answer":"Hormonal balance"},
@@ -1201,4 +1201,3 @@
   {"id":"U-199","category":"Clinical Microscopy","source":"Strasinger","chapter":"Amniotic Fluid","question":"Amniotic fluid creatinine levels are used to estimate fetal:","choices":["Age / Gestational maturity","Lung maturity","Heart defects","Genetic disorders"],"answer":"Age / Gestational maturity"},
   {"id":"U-200","category":"Clinical Microscopy","source":"Strasinger","chapter":"Introduction","question":"What happens to bilirubin in urine if left exposed to light for too long?","choices":["Oxidizes to biliverdin (False negative)","Increases in concentration","Precipitates","Turns red"],"answer":"Oxidizes to biliverdin (False negative)"}
 ]
-    

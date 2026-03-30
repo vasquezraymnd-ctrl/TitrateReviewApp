@@ -12,16 +12,15 @@ import {
   Trophy, 
   Loader2, 
   Microscope, 
-  BookOpen, 
   Zap, 
   AlertCircle, 
   RefreshCw,
   Database,
   ChevronLeft,
-  Trash2,
   RotateCcw,
   Eraser,
-  WifiOff
+  WifiOff,
+  Trash2
 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
@@ -93,10 +92,8 @@ export default function QuizPage() {
 
     const stats: Record<string, SubjectStats> = {};
     
-    // Include Clinical Microscopy in CORE_SUBJECTS if not already there
-    const ALL_SUBJECTS = [...CORE_SUBJECTS, 'Clinical Microscopy'];
-    
-    ALL_SUBJECTS.forEach(subject => {
+    // Use CORE_SUBJECTS directly as it now includes all 6 sectors
+    CORE_SUBJECTS.forEach(subject => {
       const subjectQs = allQuestions.filter(q => q.subject === subject);
       const masteredCount = allProgress.filter(p => {
         const q = subjectQs.find(sq => sq.id === p.questionId);
@@ -285,7 +282,7 @@ export default function QuizPage() {
         const answerId = filteredChoices.find(c => c.text.trim() === item.answer.trim())?.id || 'A';
 
         return {
-          id: item.id, // Fixed IDs from archives.json
+          id: item.id, 
           subject: item.category,
           question: item.question,
           choices: filteredChoices,
@@ -295,8 +292,7 @@ export default function QuizPage() {
         };
       });
 
-      // High-Fidelity Bulk Sync Logic
-      // Using bulkPut to titrated the full 1,200 dataset efficiently
+      // Synchronize using static IDs to prevent duplicates
       await db.bulkPut('questions', questionsToImport);
       await loadGlobalStats();
       
@@ -351,7 +347,7 @@ export default function QuizPage() {
                     )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-                  {[...CORE_SUBJECTS, 'Clinical Microscopy'].map((subject) => {
+                  {CORE_SUBJECTS.map((subject) => {
                     const stats = subjectStats[subject] || { mastered: 0, total: 0, unanswered: 0 };
                     return (
                       <button 
@@ -535,4 +531,3 @@ export default function QuizPage() {
     </div>
   );
 }
-    
