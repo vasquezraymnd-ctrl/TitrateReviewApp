@@ -93,7 +93,10 @@ export default function QuizPage() {
 
     const stats: Record<string, SubjectStats> = {};
     
-    CORE_SUBJECTS.forEach(subject => {
+    // Include Clinical Microscopy in CORE_SUBJECTS if not already there
+    const ALL_SUBJECTS = [...CORE_SUBJECTS, 'Clinical Microscopy'];
+    
+    ALL_SUBJECTS.forEach(subject => {
       const subjectQs = allQuestions.filter(q => q.subject === subject);
       const masteredCount = allProgress.filter(p => {
         const q = subjectQs.find(sq => sq.id === p.questionId);
@@ -273,7 +276,7 @@ export default function QuizPage() {
   const syncSystemArchives = async () => {
     setImporting(true);
     try {
-      const questionsToImport: Question[] = systemArchives.map((item: any, idx: number) => {
+      const questionsToImport: Question[] = systemArchives.map((item: any) => {
         const filteredChoices = item.choices.map((text: string, i: number) => ({
           id: String.fromCharCode(65 + i),
           text: text
@@ -282,7 +285,7 @@ export default function QuizPage() {
         const answerId = filteredChoices.find(c => c.text.trim() === item.answer.trim())?.id || 'A';
 
         return {
-          id: item.id || `sys-${item.category.toLowerCase().substring(0,3)}-${idx}`,
+          id: item.id, // Fixed IDs from archives.json
           subject: item.category,
           question: item.question,
           choices: filteredChoices,
@@ -292,6 +295,8 @@ export default function QuizPage() {
         };
       });
 
+      // High-Fidelity Bulk Sync Logic
+      // Using bulkPut to titrated the full 1,200 dataset efficiently
       await db.bulkPut('questions', questionsToImport);
       await loadGlobalStats();
       
@@ -299,10 +304,13 @@ export default function QuizPage() {
         handleSubjectSelect(selectedSubject);
       }
       
-      toast({ title: "Sync Successful", description: `Synchronized ${questionsToImport.length} protocols into local storage.` });
+      toast({ 
+        title: "Sync Successful", 
+        description: `Synchronized ${questionsToImport.length} protocols into local storage.` 
+      });
     } catch (err) {
       console.error(err);
-      toast({ variant: "destructive", title: "Sync Failed", description: "Could not access system archives." });
+      toast({ variant: "destructive", title: "Sync Failed", description: "Could not titrate archives." });
     } finally {
       setImporting(false);
     }
@@ -343,7 +351,7 @@ export default function QuizPage() {
                     )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
-                  {CORE_SUBJECTS.map((subject) => {
+                  {[...CORE_SUBJECTS, 'Clinical Microscopy'].map((subject) => {
                     const stats = subjectStats[subject] || { mastered: 0, total: 0, unanswered: 0 };
                     return (
                       <button 
@@ -527,3 +535,4 @@ export default function QuizPage() {
     </div>
   );
 }
+    
