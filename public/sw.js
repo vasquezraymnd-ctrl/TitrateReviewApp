@@ -1,7 +1,3 @@
-/**
- * TITRATE Service Worker
- * Handles App Shell caching and system-level notification events.
- */
 
 const CACHE_NAME = 'titrate-v1';
 const ASSETS_TO_CACHE = [
@@ -11,9 +7,9 @@ const ASSETS_TO_CACHE = [
   '/focus',
   '/quiz',
   '/scheduler',
-  '/manifest.json',
+  '/instrumentation',
   '/icon',
-  'https://fonts.googleapis.com/css2?family=Alegreya:wght@400;700&family=Inter:wght@400;500;600;700&display=swap'
+  '/apple-icon'
 ];
 
 self.addEventListener('install', (event) => {
@@ -26,33 +22,48 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
-  // Stale-while-revalidate strategy
+  // Only cache GET requests
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, networkResponse.clone());
-        });
-        return networkResponse;
-      });
-      return cachedResponse || fetchPromise;
-    })
-  );
-});
-
-// Handle notification tap
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      if (clientList.length > 0) {
-        return clientList[0].focus();
+      if (cachedResponse) {
+        return cachedResponse;
       }
-      return clients.openWindow('/');
+
+      return fetch(event.request).then((response) => {
+        // Don't cache if not a success response or external image (too large)
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return response;
+      }).catch(() => {
+        // Fallback for navigation requests
+        if (event.request.mode === 'navigate') {
+          return caches.match('/');
+        }
+      });
     })
   );
 });
